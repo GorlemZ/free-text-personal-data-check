@@ -4,10 +4,9 @@ from free_text_personal_data_check.app import create_app
 
 
 def test_accepts_one_neutral_italian_description():
-    with TestClient(create_app(token="synthetic-test-token")) as client:
+    with TestClient(create_app()) as client:
         response = client.post(
             "/v1/analyze",
-            headers={"Authorization": "Bearer synthetic-test-token"},
             json={
                 "fields": [
                     {
@@ -27,14 +26,52 @@ def test_accepts_one_neutral_italian_description():
     assert "Servizio digitale" not in response.text
 
 
+def test_analyze_and_readiness_work_without_authentication():
+    with TestClient(create_app()) as client:
+        ready = client.get("/health/ready")
+        analyzed = client.post(
+            "/v1/analyze",
+            json={
+                "fields": [
+                    {
+                        "fieldId": "description",
+                        "text": "Servizio digitale.",
+                        "allowedEntityTypes": [],
+                    }
+                ]
+            },
+        )
+    assert ready.status_code == 200
+    assert ready.json() == {"status": "ready"}
+    assert analyzed.status_code == 200
+    assert analyzed.json()["verdict"] == "accepted"
+
+
+def test_server_starts_without_token_and_binds_to_loopback_by_default(monkeypatch):
+    import uvicorn
+
+    from free_text_personal_data_check import app
+
+    calls = []
+    monkeypatch.delenv("ANALYZER_SERVICE_TOKEN", raising=False)
+    monkeypatch.delenv("ANALYZER_BIND_HOST", raising=False)
+    monkeypatch.setattr(app, "get_analyzer", lambda: None)
+    monkeypatch.setattr(uvicorn, "run", lambda application, **kwargs: calls.append(kwargs))
+
+    app.serve()
+
+    assert len(calls) == 1
+    assert calls[0]["host"] == "127.0.0.1"
+    assert calls[0]["access_log"] is False
+
+
 def client():
-    return TestClient(create_app(token="synthetic-test-token"))
+    return TestClient(create_app())
 
 
 def request(fields):
     return client().post(
         "/v1/analyze",
-        headers={"Authorization": "Bearer synthetic-test-token"},
         json={"fields": fields},
     )
 
@@ -64,15 +101,6 @@ def test_rejects_builtin_italian_fiscal_code():
     assert "IT_FISCAL_CODE" in {x["entityType"] for x in response.json()["findings"]}
 
 
-def test_unauthorized_without_token_or_wrong_token():
-    for headers in ({}, {"Authorization": "Bearer incorrect"}):
-        response = client().post(
-            "/v1/analyze", headers=headers, json={"fields": [field("mario.rossi@example.com")]}
-        )
-        assert response.status_code == 401
-        assert "mario.rossi" not in response.text
-
-
 def test_invalid_payload_is_400_and_never_echoes_text():
     for payload in (
         {"fields": []},
@@ -80,9 +108,7 @@ def test_invalid_payload_is_400_and_never_echoes_text():
         {"fields": [field("SENTINELSECRET"), field("SENTINELSECRET")]},
         {"fields": [dict(field("SENTINELSECRET"), extraneous="SENTINELSECRET")]},
     ):
-        response = client().post(
-            "/v1/analyze", headers={"Authorization": "Bearer synthetic-test-token"}, json=payload
-        )
+        response = client().post("/v1/analyze", json=payload)
         assert response.status_code == 400
         assert response.json() == {"code": "INVALID_ANALYZE_REQUEST"}
         assert "SENTINELSECRET" not in response.text
@@ -101,24 +127,14 @@ def test_technical_failure_fails_closed(monkeypatch):
     assert "SENTINELSECRET" not in response.text
 
 
-def test_readiness_requires_authorization_and_loaded_model():
-    assert client().get("/health/ready").status_code == 401
-    response = client().get(
-        "/health/ready", headers={"Authorization": "Bearer synthetic-test-token"}
-    )
+def test_readiness_uses_loaded_model():
+    response = client().get("/health/ready")
     assert response.status_code == 200
     assert response.json() == {"status": "ready"}
 
 
-def test_fail_closed_without_technical_token():
-    import pytest
-
-    with pytest.raises(ValueError, match="Service token required"):
-        create_app(token="")
-
-
 def test_oversized_and_duplicate_json_properties_fail_without_echo():
-    headers = {"Authorization": "Bearer synthetic-test-token", "Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json"}
     for body in (
         (
             b'{"fields":[],"fields":[{"fieldId":"a","text":"SENTINELSECRET",'
@@ -160,9 +176,7 @@ def test_model_failure_makes_readiness_unavailable(monkeypatch):
         raise RuntimeError("SENTINELSECRET")
 
     monkeypatch.setattr(app, "get_analyzer", broken)
-    response = client().get(
-        "/health/ready", headers={"Authorization": "Bearer synthetic-test-token"}
-    )
+    response = client().get("/health/ready")
     assert response.status_code == 503
     assert response.json() == {"code": "ANALYZER_UNAVAILABLE"}
 

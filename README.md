@@ -8,15 +8,14 @@ Richiede Python 3.11, `uv` e accesso al wheel spaCy fissato in `uv.lock`.
 
 ```sh
 uv sync --frozen --extra dev
-export ANALYZER_SERVICE_TOKEN='scegliere-un-segreto-per-l-ambiente-locale'
 uv run --frozen free-text-check
 ```
 
-Di default ascolta **solo** `127.0.0.1:8000`. `ANALYZER_PORT` modifica la porta; `ANALYZER_BIND_HOST` consente un bind esplicito per una rete privata controllata. Il token non va scritto nel repository, nei log o passato come argomento sulla riga di comando. L'avvio fallisce se è assente. Per un ambiente distribuito occorrono rete privata, gestione del segreto, TLS/mTLS o equivalente, restrizioni d'ingresso e verifica di ingress/proxy/APM; il solo token del PoC non costituisce una configurazione produttiva.
+Di default ascolta **solo** `127.0.0.1:8000`, anche nel container. `ANALYZER_PORT` modifica la porta; `ANALYZER_BIND_HOST` consente un bind esplicito. **Questo PoC non autentica i chiamanti**: non impostare `ANALYZER_BIND_HOST=0.0.0.0` né pubblicare la porta senza una rete privata isolata e un controllo d'accesso esterno verificato. Non inviare dati personali reali. Un ambiente distribuito richiede una decisione esplicita su autenticazione, TLS/mTLS o equivalente, restrizioni d'ingresso e verifica di ingress/proxy/APM prima del deploy.
 
 ### Contratto interno
 
-`POST /v1/analyze` con `Authorization: Bearer <token>` e `Content-Type: application/json`:
+`POST /v1/analyze` con `Content-Type: application/json`, senza header di autenticazione:
 
 ```json
 {"fields":[{"fieldId":"description","text":"Servizio digitale.","allowedEntityTypes":[]}]}
@@ -24,7 +23,7 @@ Di default ascolta **solo** `127.0.0.1:8000`. `ANALYZER_PORT` modifica la porta;
 
 `200`: `{ "verdict":"accepted", "modelPolicyVersion":"it-spacy-sm-3.8.0-poc1", "findings":[] }`. In caso di rifiuto, `findings` contiene soltanto `{fieldId, entityType}` per categorie **non ammesse**, deduplicate e ordinate. Non include il testo, frammenti, offset o score. `allowedEntityTypes` è una policy di categorie applicata **dopo** il riconoscimento, non la `allow_list` di valori Presidio. Il process deve costruire una policy fidata; non inoltrare allowlist decise dal browser. Un `accepted` significa soltanto che la configurazione non ha rilevato categorie vietate sopra soglia.
 
-- `401 UNAUTHORIZED` se manca o è invalido il token, anche per `GET /health/ready`.
+- `GET /health/ready` e `POST /v1/analyze` non richiedono autenticazione; accesso limitato dal bind locale predefinito.
 - `400 INVALID_ANALYZE_REQUEST` per schema, JSON, duplicati o limiti invalidi; non ritentare lo stesso payload.
 - `503 ANALYZER_UNAVAILABLE` se modello o analisi falliscono; nessun risultato parziale. Il chiamante deve restare fail-closed e ritentare soltanto guasti tecnici transitori con limiti propri.
 - `200 rejected` è un esito di contenuto; non ritentarlo automaticamente.
@@ -45,4 +44,4 @@ Il report `latencyMs` misura soltanto la chiamata detector per campo (primo camp
 
 ## Container
 
-`docker build -t free-text-check:poc .` e avvio solo su rete interna controllata, passando `ANALYZER_SERVICE_TOKEN` mediante secret manager (mai nel Dockerfile). Il Dockerfile usa utente non privilegiato e immagine Python/uv fissata per tag; per produzione servono pin per digest, scansione immagine e verifica privacy dell'intera catena. Il server nel container ascolta su `0.0.0.0`; non pubblicare la porta su Internet. Nessun deploy è stato effettuato.
+`docker build -t free-text-check:poc .` per la build locale. Il server nel container ascolta su `127.0.0.1` per default: non è raggiungibile attraverso la porta pubblicata dal container. Un bind di rete va configurato esplicitamente solo in ambiente isolato con un controllo d'accesso esterno verificato; non pubblicare la porta su Internet. Il Dockerfile usa utente non privilegiato e immagine Python/uv fissata per tag; per produzione servono pin per digest, scansione immagine e verifica privacy dell'intera catena. Nessun deploy è stato effettuato.

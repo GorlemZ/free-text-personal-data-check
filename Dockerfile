@@ -4,8 +4,7 @@ COPY --from=uv /uv /uvx /bin/
 WORKDIR /app
 ENV UV_LINK_MODE=copy \
     UV_NO_DEV=1 \
-    UV_COMPILE_BYTECODE=1 \
-    ANALYZER_BIND_HOST=0.0.0.0
+    UV_COMPILE_BYTECODE=1
 COPY pyproject.toml uv.lock ./
 COPY src ./src
 COPY bench ./bench

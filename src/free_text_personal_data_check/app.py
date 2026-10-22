@@ -2,7 +2,6 @@
 
 import json
 import os
-import secrets
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -78,17 +77,8 @@ def _parse(body: bytes, categories: set[str]) -> list[dict]:
     return fields
 
 
-def create_app(*, token: str) -> FastAPI:
-    if not token:
-        raise ValueError("Service token required")
+def create_app() -> FastAPI:
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
-
-    @app.middleware("http")
-    async def authenticate(request: Request, call_next):
-        auth = request.headers.get("authorization", "")
-        if not secrets.compare_digest(auth, f"Bearer {token}"):
-            return JSONResponse(status_code=401, content={"code": "UNAUTHORIZED"})
-        return await call_next(request)
 
     @app.get("/health/ready")
     def ready() -> JSONResponse:
@@ -144,12 +134,9 @@ def create_app(*, token: str) -> FastAPI:
 def serve() -> None:
     import uvicorn
 
-    token = os.environ.get("ANALYZER_SERVICE_TOKEN", "")
-    if not token:
-        raise RuntimeError("ANALYZER_SERVICE_TOKEN must be configured")
     get_analyzer()  # Fail startup before accepting requests if model/registry fails.
     uvicorn.run(
-        create_app(token=token),
+        create_app(),
         host=os.environ.get("ANALYZER_BIND_HOST", "127.0.0.1"),
         port=int(os.environ.get("ANALYZER_PORT", "8000")),
         access_log=False,
