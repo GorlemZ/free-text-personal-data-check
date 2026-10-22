@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "free-text-personal-data-check"
+version = "0.1.0"
+description = "Internal Italian free-text PII analyzer proof of concept"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "presidio-analyzer>=2.2.0,<2.3",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "spacy>=3.8,<3.9",
+  "it-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "httpx>=0.27,<1", "ruff>=0.11,<1"]
+
+[project.scripts]
+free-text-check = "free_text_personal_data_check.app:serve"
+free-text-benchmark = "free_text_personal_data_check.benchmark:main"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/free_text_personal_data_check"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
