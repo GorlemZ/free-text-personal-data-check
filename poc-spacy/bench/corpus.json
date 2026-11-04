@@ -1,0 +1,12 @@
+[
+  {"fieldId":"contactName","split":"calibration","text":"Mario Rossi","allowedEntityTypes":["PERSON"],"expectedEntities":["PERSON"]},
+  {"fieldId":"serverUrls[].description","split":"evaluation","text":"Portale informativo.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"eserviceName","split":"calibration","text":"Servizio digitale.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"eserviceDescription","split":"evaluation","text":"Contattare mario.rossi@example.com","allowedEntityTypes":[],"expectedEntities":["EMAIL_ADDRESS"]},
+  {"fieldId":"intendedTarget","split":"calibration","text":"Utenti del portale.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"purposeDescription","split":"evaluation","text":"Supporto ai cittadini.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"freeOfChargeReason","split":"calibration","text":"Utilizzo senza corrispettivo.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"riskAnalysisAnswer","split":"evaluation","text":"RSSMRA80A01H501U","allowedEntityTypes":[],"expectedEntities":["IT_FISCAL_CODE"]},
+  {"fieldId":"consumerNotes","split":"calibration","text":"Nota di prova generica.","allowedEntityTypes":[],"expectedEntities":[]},
+  {"fieldId":"rejectAgreementReason","split":"evaluation","text":"Richiesta incompleta.","allowedEntityTypes":[],"expectedEntities":[]}
+]
