@@ -4,6 +4,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.egg-info/
+node_modules/
+poc-horizon/models/
+*.partial
 .env
 .env.*
 !*.example
