@@ -10,6 +10,8 @@ before(async () => {
     ready: async () => true,
     infer: async text => {
       if (text === 'THROW') throw Error('SENTINELSECRET');
+      if (text.includes('NATIVE')) return [{ entity_group: 'DRIVER_LICENSE', score: 0.9,
+        word: 'SENTINELSECRET' }];
       return text.includes('mario.rossi@example.com')
         ? [{ entity_group: 'EMAIL', score: 0.9, word: 'mario.rossi@example.com' }]
         : text.includes('Mario Rossi')
@@ -32,7 +34,40 @@ test('readiness and neutral response contract', async () => {
   const result = await post({ fields: [field('Servizio digitale.')] });
   assert.equal(result.status, 200);
   assert.deepEqual(await result.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc1', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc2', findings: [] });
+});
+test('recognizes a synthetic fiscal-code-shaped value through the HTTP API', async () => {
+  const response = await post({ fields: [field('ZZZQQQ99A01X000Z')] });
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  assert.deepEqual(JSON.parse(body).findings,
+    [{ fieldId: 'description', entityType: 'IT_FISCAL_CODE' }]);
+  assert.ok(!body.includes('ZZZQQQ'));
+});
+test('recognizes multiple occurrences once and accepts an allowlisted fiscal code', async () => {
+  const text = 'Codice fiscale: ZZZQQQ99A01X000Z; zzzqqq99a01x000a.';
+  const rejected = await post({ fields: [field(text)] });
+  assert.deepEqual((await rejected.json()).findings,
+    [{ fieldId: 'description', entityType: 'IT_FISCAL_CODE' }]);
+  const allowed = await post({ fields: [field(text, 'description', ['IT_FISCAL_CODE'])] });
+  assert.equal(allowed.status, 200);
+  assert.deepEqual(await allowed.json(), { verdict: 'accepted',
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc2', findings: [] });
+});
+test('allowlisting the fiscal code retains an independently emitted native category', async () => {
+  const response = await post({ fields: [field('NATIVE ZZZQQQ99A01X000Z',
+    'description', ['IT_FISCAL_CODE'])] });
+  assert.equal(response.status, 200);
+  assert.deepEqual((await response.json()).findings,
+    [{ fieldId: 'description', entityType: 'DRIVER_LICENSE' }]);
+});
+test('a later inference failure returns no partial fiscal-code finding', async () => {
+  const response = await post({ fields: [field('ZZZQQQ99A01X000Z'), field('THROW', 'contactName')] });
+  assert.equal(response.status, 503);
+  const body = await response.text();
+  assert.deepEqual(JSON.parse(body), { code: 'ANALYZER_UNAVAILABLE' });
+  assert.ok(!body.includes('ZZZQQQ'));
+  assert.ok(!body.includes('IT_FISCAL_CODE'));
 });
 test('rejects email without text; allowlist applies after recognition', async () => {
   const response = await post({ fields: [field('mario.rossi@example.com')] });
@@ -52,7 +87,7 @@ test('duplicate keys, fields, category, unknown ID, oversized body are 400', asy
     { fields: [field('SENTINELSECRET'), field('SENTINELSECRET')] },
     { fields: [field('SENTINELSECRET','description',['PERSON','PERSON'])] },
     { fields: [field('SENTINELSECRET','SENTINELSECRET')] },
-    { fields: [field('SENTINELSECRET','description',['IT_FISCAL_CODE'])] },
+    { fields: [field('SENTINELSECRET','description',['UNKNOWN_CATEGORY'])] },
     { fields: [field('SENTINELSECRET'.repeat(3000))] },
     ' '.repeat(33000),
   ]) {
@@ -89,7 +124,7 @@ test('findings sorted and deduplicated, no raw words', async () => {
 test('full label mapping and threshold, no false equivalence', () => {
   assert.equal(Object.keys(LABEL_MAP).length, 29);
   assert.ok(CATEGORIES.has('TAX_ID'));
-  assert.ok(!CATEGORIES.has('IT_FISCAL_CODE'));
+  assert.ok(CATEGORIES.has('IT_FISCAL_CODE'));
   assert.deepEqual([...categoriesOf([{entity_group:'TAX_ID',score:0.9},
     {entity_group:'PERSON',score:0.2}])], ['TAX_ID']);
   assert.throws(() => categoriesOf([{entity_group:'UNKNOWN',score:0.8}]));

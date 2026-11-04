@@ -1,5 +1,6 @@
 // Full mapping for all 29 Horizon BIO labels. An unmapped name remains native;
 // in particular TAX_ID is not an Italian codice fiscale and BANK_ACCOUNT is not IBAN_CODE.
+import { hasPlausibleFiscalCode } from './fiscal-code.mjs';
 export const LABEL_MAP = Object.freeze({
   ACCOUNT_ID: 'ACCOUNT_ID', AGE: 'AGE', BANK_ACCOUNT: 'BANK_ACCOUNT',
   COORDINATE: 'COORDINATE', CREDIT_CARD: 'CREDIT_CARD',
@@ -12,7 +13,7 @@ export const LABEL_MAP = Object.freeze({
   POSTCODE: 'POSTCODE', SECRET: 'SECRET', STREET_ADDRESS: 'STREET_ADDRESS',
   TAX_ID: 'TAX_ID', URL: 'URL', USERNAME: 'USERNAME', VEHICLE_ID: 'VEHICLE_ID',
 });
-export const CATEGORIES = new Set(Object.values(LABEL_MAP));
+export const CATEGORIES = new Set([...Object.values(LABEL_MAP), 'IT_FISCAL_CODE']);
 export const SCORE_THRESHOLD = 0.35; // PoC threshold, not a calibrated probability.
 export function categoriesOf(results, threshold = SCORE_THRESHOLD) {
   const found = new Set();
@@ -21,5 +22,10 @@ export function categoriesOf(results, threshold = SCORE_THRESHOLD) {
     if (!category) throw new Error('Unknown model label'); // fail closed on revision mismatch.
     if (result.score >= threshold) found.add(category);
   }
+  return found;
+}
+export function detectedCategories(text, results, threshold = SCORE_THRESHOLD) {
+  const found = categoriesOf(results, threshold);
+  if (hasPlausibleFiscalCode(text)) found.add('IT_FISCAL_CODE');
   return found;
 }

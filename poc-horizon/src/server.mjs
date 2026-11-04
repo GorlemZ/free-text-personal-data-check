@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
-import { CATEGORIES, categoriesOf } from './categories.mjs';
+import { CATEGORIES, detectedCategories } from './categories.mjs';
 import { detect, getDetector, MODEL_POLICY_VERSION } from './detector.mjs';
 import { strictParse } from './strict-json.mjs';
 
@@ -75,7 +75,8 @@ export function createHandler({ infer = detect, ready = getDetector } = {}) {
         const values = new Set();
         for (const field of fields) {
           const allowed = new Set(field.allowedEntityTypes);
-          for (const category of categoriesOf(await infer(field.text))) {
+          const detected = detectedCategories(field.text, await infer(field.text));
+          for (const category of detected) {
             if (!allowed.has(category)) values.add(JSON.stringify([field.fieldId, category]));
           }
         }
