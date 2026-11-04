@@ -7,6 +7,8 @@
 
 Entrambe espongono `GET /health/ready` e `POST /v1/analyze` con struttura di richiesta/risposta simile. **Le categorie e i risultati differiscono**: Horizon usa 29 label native, alcune mappate esplicitamente; la categoria `IT_FISCAL_CODE` è ora rilevata nel PoC Horizon da una regex sintattica locale, non da `TAX_ID` e senza controllo del checksum. La prima PoC non è stata alterata per migliorare artificialmente il confronto. Nessuna delle due implementazioni è integrata in un processo o qualificata per produzione.
 
+La suite condivisa con corpus sintetico, metriche per 18 categorie e prove HTTP è documentata in [`comparison/README.md`](comparison/README.md). Le 8 categorie senza equivalente Horizon restano fuori dalla sua matrice di detection, ma le label native extra continuano a incidere sul verdetto.
+
 ## Test locali
 
 ```sh

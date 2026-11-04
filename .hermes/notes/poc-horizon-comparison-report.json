@@ -1,0 +1,1100 @@
+{
+  "schemaVersion": 1,
+  "corpusSamples": 39,
+  "engines": [
+    {
+      "engine": "spacy",
+      "imageId": "sha256:e045fbf6ae76e1b6c84dfdea28d1a9a5c0189944e1b24e26b0fa4679dbe0ce78",
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "metrics": {
+        "samples": {
+          "attempted": 39,
+          "completed": 39,
+          "technicalErrors": 0
+        },
+        "byCategory": {
+          "CREDIT_CARD": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "CRYPTO": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "DATE_TIME": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "EMAIL_ADDRESS": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IBAN_CODE": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IP_ADDRESS": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_DRIVER_LICENSE": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_FISCAL_CODE": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 2,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_IDENTITY_CARD": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_PASSPORT": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 0,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_VAT_CODE": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "LOCATION": {
+            "tp": 1,
+            "fp": 10,
+            "fn": 0,
+            "tn": 28,
+            "attempted": 39,
+            "completed": 39
+          },
+          "MAC_ADDRESS": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "MEDICAL_LICENSE": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "ORGANIZATION": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 0,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "PERSON": {
+            "tp": 1,
+            "fp": 2,
+            "fn": 0,
+            "tn": 36,
+            "attempted": 39,
+            "completed": 39
+          },
+          "PHONE_NUMBER": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "URL": {
+            "tp": 1,
+            "fp": 3,
+            "fn": 0,
+            "tn": 35,
+            "attempted": 39,
+            "completed": 39
+          }
+        },
+        "unsupported": [],
+        "verdict": {
+          "tp": 16,
+          "fp": 10,
+          "fn": 2,
+          "tn": 11,
+          "attempted": 39,
+          "completed": 39
+        },
+        "diagnostics": [
+          {
+            "id": "neutral",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "person-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "person-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "organization-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "organization-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "location-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "location-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "email-positive",
+            "missed": [],
+            "unexpected": [
+              "URL"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "email-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "email-allowlisted",
+            "missed": [],
+            "unexpected": [
+              "URL"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "phone-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "phone-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "card-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "card-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "ip-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "ip-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "mac-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "mac-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "url-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "url-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION",
+              "URL"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "cf-positive",
+            "missed": [
+              "IT_FISCAL_CODE"
+            ],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "cf-negative",
+            "missed": [],
+            "unexpected": [
+              "PERSON"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "cf-allowlisted",
+            "missed": [
+              "IT_FISCAL_CODE"
+            ],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "license-positive",
+            "missed": [],
+            "unexpected": [
+              "PERSON"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "license-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "identity-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "identity-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "passport-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "passport-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "vat-positive",
+            "missed": [
+              "IT_VAT_CODE"
+            ],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "vat-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "iban-positive",
+            "missed": [
+              "IBAN_CODE"
+            ],
+            "unexpected": [
+              "ORGANIZATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "iban-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "crypto-positive",
+            "missed": [
+              "CRYPTO"
+            ],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "crypto-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "date-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "date-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "medical-positive",
+            "missed": [],
+            "unexpected": [
+              "IT_PASSPORT",
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "medical-negative",
+            "missed": [],
+            "unexpected": [
+              "LOCATION"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          }
+        ]
+      },
+      "latency": {
+        "cold": {
+          "n": 1,
+          "completed": 1,
+          "errors": 0,
+          "p50Ms": 137.47,
+          "p95Ms": 137.47
+        },
+        "warm": {
+          "n": 5,
+          "completed": 5,
+          "errors": 0,
+          "p50Ms": 5.87,
+          "p95Ms": 6.66
+        },
+        "corpusRequests": {
+          "n": 78,
+          "completed": 78,
+          "errors": 0,
+          "p50Ms": 5.31,
+          "p95Ms": 8.17
+        }
+      },
+      "checks": {
+        "duplicateField": 400,
+        "seventeenFieldsWithDuplicates": 400,
+        "oversizedBody": 400,
+        "invalidUtf8": 400,
+        "bulk": {
+          "nFields": 11,
+          "durationMs": 22.64,
+          "status": 200
+        },
+        "burst": {
+          "n": 8,
+          "completed": 8,
+          "errors": 0,
+          "p50Ms": 10.95,
+          "p95Ms": 18.98,
+          "statuses": {
+            "200": 8
+          }
+        }
+      }
+    },
+    {
+      "engine": "horizon",
+      "imageId": "sha256:b67e249e691d5f3d2f667cdd3032f91d3e2205a289ab5a1c7e9a9f8bfb4b333d",
+      "modelPolicyVersion": "horizon-pii-redactor-base-q8-ef0eff8e-poc2",
+      "metrics": {
+        "samples": {
+          "attempted": 39,
+          "completed": 39,
+          "technicalErrors": 0
+        },
+        "byCategory": {
+          "CREDIT_CARD": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "EMAIL_ADDRESS": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 0,
+            "tn": 36,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IP_ADDRESS": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "IT_FISCAL_CODE": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "LOCATION": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "MAC_ADDRESS": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "ORGANIZATION": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "PERSON": {
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          },
+          "PHONE_NUMBER": {
+            "tp": 1,
+            "fp": 1,
+            "fn": 0,
+            "tn": 37,
+            "attempted": 39,
+            "completed": 39
+          },
+          "URL": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 38,
+            "attempted": 39,
+            "completed": 39
+          }
+        },
+        "unsupported": [
+          "CRYPTO",
+          "DATE_TIME",
+          "IBAN_CODE",
+          "IT_DRIVER_LICENSE",
+          "IT_IDENTITY_CARD",
+          "IT_PASSPORT",
+          "IT_VAT_CODE",
+          "MEDICAL_LICENSE"
+        ],
+        "verdict": {
+          "tp": 16,
+          "fp": 11,
+          "fn": 2,
+          "tn": 10,
+          "attempted": 39,
+          "completed": 39
+        },
+        "diagnostics": [
+          {
+            "id": "neutral",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "person-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "person-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "organization-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "organization-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "location-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "location-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "email-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "email-negative",
+            "missed": [],
+            "unexpected": [
+              "EMAIL_ADDRESS"
+            ],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "email-allowlisted",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "phone-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "phone-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "card-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "card-negative",
+            "missed": [],
+            "unexpected": [
+              "PHONE_NUMBER"
+            ],
+            "extraLabels": [
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "ip-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "ip-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "mac-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DATE"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "mac-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DATE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "url-positive",
+            "missed": [
+              "URL"
+            ],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "url-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "cf-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DRIVER_LICENSE",
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "cf-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DRIVER_LICENSE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "cf-allowlisted",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DRIVER_LICENSE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "license-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "license-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "POSTCODE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "identity-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "NATIONAL_ID"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "identity-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "passport-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "PASSPORT"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "passport-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "POSTCODE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "vat-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "TAX_ID"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "vat-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "POSTCODE",
+              "TAX_ID"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "iban-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "BANK_ACCOUNT"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "iban-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "BANK_ACCOUNT",
+              "POSTCODE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "crypto-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "crypto-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "date-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DATE"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "date-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "accepted"
+          },
+          {
+            "id": "medical-positive",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "DRIVER_LICENSE",
+              "PASSPORT"
+            ],
+            "expectedVerdict": "rejected",
+            "observedVerdict": "rejected"
+          },
+          {
+            "id": "medical-negative",
+            "missed": [],
+            "unexpected": [],
+            "extraLabels": [
+              "POSTCODE"
+            ],
+            "expectedVerdict": "accepted",
+            "observedVerdict": "rejected"
+          }
+        ]
+      },
+      "latency": {
+        "cold": {
+          "n": 1,
+          "completed": 1,
+          "errors": 0,
+          "p50Ms": 31.87,
+          "p95Ms": 31.87
+        },
+        "warm": {
+          "n": 5,
+          "completed": 5,
+          "errors": 0,
+          "p50Ms": 74.37,
+          "p95Ms": 84.67
+        },
+        "corpusRequests": {
+          "n": 78,
+          "completed": 78,
+          "errors": 0,
+          "p50Ms": 90.21,
+          "p95Ms": 268.12
+        }
+      },
+      "checks": {
+        "duplicateField": 400,
+        "seventeenFieldsWithDuplicates": 400,
+        "oversizedBody": 400,
+        "invalidUtf8": 400,
+        "over512Tokens": 503,
+        "bulk": {
+          "nFields": 11,
+          "durationMs": 1004.11,
+          "status": 200
+        },
+        "burst": {
+          "n": 8,
+          "completed": 8,
+          "errors": 0,
+          "p50Ms": 389.63,
+          "p95Ms": 605.91,
+          "statuses": {
+            "200": 8
+          }
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "synthetic-only",
+    "no-production-claim",
+    "unsupported-horizon-categories-excluded-from-detection-matrix",
+    "container-concurrency-observational-not-an-sla"
+  ]
+}

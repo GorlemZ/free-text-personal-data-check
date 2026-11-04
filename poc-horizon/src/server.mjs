@@ -36,7 +36,7 @@ function reply(res, status, payload) {
   res.writeHead(status, { 'Content-Type': 'application/json', 'X-Content-Type-Options': 'nosniff' });
   res.end(JSON.stringify(payload));
 }
-export function createHandler({ infer = detect, ready = getDetector } = {}) {
+export function createHandler({ infer = detect, ready = getDetector, onQueued = () => {} } = {}) {
   let pending = 0;
   let tail = Promise.resolve();
   // A single inference at a time; up to four requests including the running one.
@@ -45,7 +45,10 @@ export function createHandler({ infer = detect, ready = getDetector } = {}) {
     pending++;
     const job = tail.then(task);
     tail = job.catch(() => {});
-    try { return await job; } finally { pending--; }
+    try {
+      onQueued(pending); // Test-only observer; no request content or result.
+      return await job;
+    } finally { pending--; }
   }
   return async (req, res) => {
     if (req.method === 'GET' && req.url === '/health/ready') {
