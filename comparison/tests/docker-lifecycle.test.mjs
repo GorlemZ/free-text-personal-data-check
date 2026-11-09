@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ContainerTracker } from './docker-lifecycle.mjs';
+import { ContainerTracker } from '../docker-lifecycle.mjs';
 
 test('tracks name before docker run returns and confirms disappearance after cleanup', () => {
   const calls = [];

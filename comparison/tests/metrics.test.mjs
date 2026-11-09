@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeResults, validateCorpus } from './metrics.mjs';
+import { analyzeResults, validateCorpus } from '../metrics.mjs';
 
 const sample = (overrides = {}) => ({ id: 'synthetic-01', fieldId: 'description',
   text: 'Testo sintetico.', allowedEntityTypes: [], expectedEntities: [],

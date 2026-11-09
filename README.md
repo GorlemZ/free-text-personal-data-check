@@ -1,39 +1,62 @@
-# Free-text personal-data check — due PoC comparabili
+# Controllo dei dati personali nei campi liberi
 
-| Implementazione | Cartella | Motore | Stato |
-|---|---|---|---|
-| Storica | [`poc-spacy/`](poc-spacy/) | Python, Presidio + spaCy italiano | Software originale spostato senza modifiche funzionali |
-| Candidata | [`poc-horizon/`](poc-horizon/) | Node.js, Transformers.js + Horizon ONNX q8 + regex CF | PoC sperimentale, non sostituto drop-in |
+**Scopo.** Valutare un controllo preventivo dei campi di testo libero: il servizio rileva categorie di dati personali, applica le categorie consentite per ciascun campo e restituisce un verdetto. Il confronto usa testi sintetici.
+Il PoC horizon dovrà essere integrato con funzioni statiche per essere funzionalmente completo (nel poc c'è solo una funzione di controllo regex del CF italiano) rispetto a Presidio, ch einvece è calato perfettamente nel dominio di "burocrazia" italiana.
 
-Entrambe espongono `GET /health/ready` e `POST /v1/analyze` con struttura di richiesta/risposta simile. **Le categorie e i risultati differiscono**: Horizon usa 29 label native, alcune mappate esplicitamente; la categoria `IT_FISCAL_CODE` è ora rilevata nel PoC Horizon da una regex sintattica locale, non da `TAX_ID` e senza controllo del checksum. La prima PoC non è stata alterata per migliorare artificialmente il confronto. Nessuna delle due implementazioni è integrata in un processo o qualificata per produzione.
+| PoC | Motore | Cartella |
+| --- | --- | --- |
+| Presidio | Python + spaCy italiano | [`poc-spacy/`](poc-spacy/) |
+| Horizon | Node.js + Transformers.js/ONNX q8 + regola per il codice fiscale | [`poc-horizon/`](poc-horizon/) |
 
-La suite condivisa con corpus sintetico, metriche per 18 categorie e prove HTTP è documentata in [`comparison/README.md`](comparison/README.md). Le 8 categorie senza equivalente Horizon restano fuori dalla sua matrice di detection, ma le label native extra continuano a incidere sul verdetto.
+## Cosa valutano i team
 
-## Test locali
+| Team | Valutazione | Materiale |
+| --- | --- | --- |
+| **Infra** | Memoria e dimensione delle immagini, readiness, latenza cold/warm, bulk e burst, errori e comportamento sotto carico | [Runner e metriche](comparison/README.md), [prove di memoria](poc-horizon/README.md#misure-di-memoria) |
+| **Business** | Categorie e verdetti attesi, falsi rifiuti e mancate rilevazioni, copertura e categorie consentite per campo | [Corpus annotato](comparison/corpus.json), [guida alla lettura](comparison/README.md#corpus-e-tassonomia) |
+
+`rejected` indica una categoria rilevata e vietata per il campo; `accepted` indica un esito conforme alle soglie e alle categorie consentite configurate nel PoC. I casi del corpus hanno attese esplicite per categoria e verdetto. La [guida al confronto](comparison/README.md) spiega come leggere le differenze tra motori.
+
+## Perché un'API HTTP
+
+L'**API** mantiene stabile l'integrazione del chiamante **se** il servizio, anche tramite un adattatore per il nuovo modello, preserva protocollo HTTP, schema e significato delle categorie. `modelPolicyVersion` identifica la versione in uso. Questo permette di valutare nuovi modelli con lo stesso client e lo stesso corpus. Una **libreria nel processo chiamante** riduce il costo di trasporto, integrando runtime e risorse del detector nell'applicazione. Le valutazioni di Infra e Business guideranno la scelta di integrazione.
+
+## Test e avvio
+
+| Percorso | Contenuto |
+| --- | --- |
+| [`poc-spacy/tests/`](poc-spacy/tests/) | Test del motore Python |
+| [`poc-horizon/tests/`](poc-horizon/tests/) | Test del motore Node.js |
+| [`comparison/tests/`](comparison/tests/README.md) | Test del corpus, del contratto e del runner |
+| [`comparison/corpus.json`](comparison/corpus.json) | Esempi sintetici e attese da esaminare con Business |
+| [`comparison/run.mjs`](comparison/run.mjs) | Prova HTTP sui due container per Infra e Business |
+
+Dalla root del repository (Python/`uv`, **Node.js ≥22**/`npm`):
 
 ```sh
-cd poc-spacy && uv sync --frozen --extra dev && uv run --frozen --extra dev pytest -q
-cd ../poc-horizon && npm ci && npm run prefetch && npm test && npm run smoke && npm run bench
+(cd poc-spacy && uv sync --frozen --extra dev && uv run --frozen --extra dev pytest -q)
+(cd poc-horizon && npm ci && npm test)
+node --test comparison/tests/*.test.mjs
 ```
 
-Il download del modello (circa 676 MB tra ONNX quantizzato e tokenizer) avviene durante `npm run prefetch`, mai per richiesta. `poc-horizon/models/` e `node_modules/` sono esclusi da Git. Il modello è fissato al commit `ef0eff8e63c1711ec0c997c5ca9ea3b78a068684`; il manifest controlla dimensione e SHA256 dei due artefatti grandi.
-
-## Container e memoria
+Per la prova end-to-end con Docker:
 
 ```sh
+(cd poc-horizon && npm ci && npm run prefetch)
 docker build -t free-text-check:spacy-poc ./poc-spacy
 docker build -t free-text-check:horizon-poc ./poc-horizon
-cd poc-horizon
-node bench/contract-http.mjs free-text-check:spacy-poc free-text-check:horizon-poc
-cd ..
-docker run --rm --network none --memory=4g --memory-swap=4g free-text-check:horizon-poc node scripts/smoke.mjs
-cd poc-horizon
-node bench/container-memory.mjs free-text-check:horizon-poc 2 1000
-node bench/container-memory.mjs free-text-check:spacy-poc 2 1000
+(umask 077; set -C; node comparison/run.mjs > "$HOME/poc-comparison-report.json")
 ```
 
-Il probe crea container nuovi, lega la porta HTTP **solo a 127.0.0.1**, genera testi soltanto sintetici con pseudo-parole inedite a ogni richiesta, fa warmup e registra checkpoint di RSS del PID 1, `memory.current`, `anon`, file-cache e `memory.peak` quando disponibile. Un watchdog arresta il carico all'80% del limite per evitare l'OOM ordinario; riporta errori/OOM e rimuove i container. Il limite di 4 GiB è **sperimentale**, non una scelta di produzione. Il confronto di memoria riguarda un solo processo per container; gli ultimi invii provano quattro client, ma il servizio Horizon serializza intenzionalmente l'inferenza. L'assenza di OOM in due serie bounded non costituisce una garanzia di crescita nulla a tempo indefinito.
+## Metodo e risultati osservati
 
-Per avviare l'API su una porta pubblicata occorre configurare `ANALYZER_BIND_HOST=0.0.0.0` **solo** in una rete di prova isolata e con `-p 127.0.0.1:8000:8000`; i servizi non autenticano i chiamanti. **Non inviare dati personali reali né esporre la porta pubblicamente.** Per le prove, **usa soltanto dati sintetici.** Dettagli e limiti: [`poc-horizon/README.md`](poc-horizon/README.md) e [`poc-spacy/README.md`](poc-spacy/README.md).
+Il runner usa **39 campioni sintetici**: 18 coppie positivo/negativo, un caso neutro e due casi con categorie consentite. Due richieste HTTP per campione distinguono rilevamento e applicazione della policy. Ogni container ha **4 GiB di RAM e una quota di 2 CPU** (`--cpus=2`); Horizon usa la configurazione ONNX predefinita. Nella [prova Docker del 9 novembre 2026](comparison/README.md#risultato-della-prova-locale-9-novembre-2026), entrambi hanno completato 39/39 campioni con zero errori tecnici.
 
-**Misure locali storiche (prima della regex CF; 2 × 1.000 richieste per motore, limite 4 GiB):** Horizon q8 ha concluso senza errori/OOM, RSS massima *campionata* 1602,5 MiB e 1556,9 MiB al termine della seconda serie; spaCy ha concluso senza errori/OOM, RSS 185,0 MiB al termine, con una salita monotona di circa 4,4 MiB fra 500 e 1.000 richieste. Horizon è sostanzialmente piatto tra 500 e 750 richieste a lunghezza media, ma cresce di ~23 MiB dopo il passaggio ai testi lunghi; non si può ancora garantire un limite della sua cache. Immagini Docker precedenti: Horizon ~1508,7 MiB, spaCy ~808,4 MiB. Serie complete e anomalie: [risultati PoC](.hermes/notes/poc-horizon-comparison-progress.md).
+| Motore | Verdetti corretti | Falsi rifiuti | Mancati rifiuti | Latenza warm p50/p95 |
+| --- | ---: | ---: | ---: | ---: |
+| Presidio/spaCy | 27/39 | 10 | 2 | 5,92 / 10,29 ms |
+| Horizon | 26/39 | 11 | 2 | 98,90 / 102,89 ms |
+
+**Verifiche del 9 novembre 2026:** test del confronto 17/17, Horizon 16/16 e spaCy 18/18; smoke con il modello Horizon reale riuscito. I percentili warm in tabella derivano da una singola misura locale su cinque richieste per motore.
+
+I verdetti corretti sono quelli attesi nel corpus annotato; la latenza warm riguarda cinque richieste successive alla prima richiesta HTTP dopo la readiness, misurata come cold. [Metodo, metriche e lettura dei risultati](comparison/README.md) approfondiscono il confronto. Il prefetch prepara il modello Horizon; conserva i report generati in un percorso privato e condividi soltanto aggregati autorizzati.

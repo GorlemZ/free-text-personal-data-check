@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { post } from './http-client.mjs';
+import { post } from '../http-client.mjs';
 
 const invoke = fetchFn => post('http://127.0.0.1:1/v1/analyze', '{}', {
   fetchFn, timeoutMs: 1000 });

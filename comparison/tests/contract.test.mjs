@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { createHandler } from '../poc-horizon/src/server.mjs';
-import { assertAnalyzeResponse, requestFor } from './contract.mjs';
-import { FIELD_IDS, HORIZON_SUPPORTED } from './catalog.mjs';
-import { CATEGORIES } from '../poc-horizon/src/categories.mjs';
+import { createHandler } from '../../poc-horizon/src/server.mjs';
+import { assertAnalyzeResponse, requestFor } from '../contract.mjs';
+import { FIELD_IDS, HORIZON_SUPPORTED } from '../catalog.mjs';
+import { CATEGORIES } from '../../poc-horizon/src/categories.mjs';
 
 const positive = { verdict: 'rejected', modelPolicyVersion: 'synthetic-policy',
   findings: [{ fieldId: 'description', entityType: 'PERSON' }] };

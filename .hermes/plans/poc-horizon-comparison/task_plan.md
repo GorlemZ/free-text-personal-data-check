@@ -6,10 +6,14 @@ Confrontare due servizi autonomi per il rilevamento di dati personali in testi l
 ## Stato prima della pubblicazione (2026-11-04)
 - **Fasi 1–7 completate localmente**; Phase 9 (indagine prestazionale read-only) completata come esplorazione. Al termine delle misure, `main` conteneva i commit locali `8c6542e` (CF) e `99e74cf` (confronto), due commit avanti a `origin/main`; non erano ancora stati pubblicati. Il fix finale del media type è stato committato senza quarta review indipendente, per scelta esplicita dell'utente. Non confondere le prove storiche con i check correnti.
 - **Decisione di integrazione: sospesa.** La regex emette `IT_FISCAL_CODE`, ma Horizon può ancora restituire categorie NER errate. Dopo il CF, due nuove serie di memoria per motore non attestano stabilità indefinita. La regolazione ONNX a 2 thread è stata provata solo in scratch/container temporanei: il detector nel repository usa ancora il default. Nessun servizio o container di prova residuo.
-- Le evidenze dettagliate e la cronologia sono in `.hermes/notes/poc-horizon-comparison-findings.md` e `.hermes/notes/poc-horizon-comparison-progress.md`.
+- Le evidenze dettagliate e la cronologia sono accessibili nel PWF: `.hermes/plans/poc-horizon-comparison/findings.md` e `.hermes/plans/poc-horizon-comparison/progress.md` (alias delle note storiche).
+
+## Stato di condivisione (2026-11-09)
+- La PR #2 è stata integrata in `main`. Il branch `docs/infra-business-evaluation-guide` parte dal nuovo `origin/main` e non modifica la logica dei detector.
+- La condivisione con Infra e Business richiede istruzioni distinte per valutazione tecnica e correttezza funzionale, motivazione API vs libreria e test navigabili. Non implica autorizzazione all'integrazione del PoC.
 
 ## Current Phase
-Phase 9 — indagine prestazionale completata, senza modifica al PoC; Phase 8 — decisioni di policy, risorse e integrazione ancora sospese.
+Phase 10 — guida Infra/Business e prova Docker a quota 2 CPU completate, review indipendente finale PASS; l'utente ha autorizzato la pubblicazione diretta su `main`. Phase 8 — decisioni di policy, risorse e integrazione ancora sospese.
 
 ## Phases
 ### Phase 1: Ricognizione
@@ -66,6 +70,17 @@ Phase 9 — indagine prestazionale completata, senza modifica al PoC; Phase 8 �
 - [x] Variato solo `session_options.intraOpNumThreads` in un detector scratch montato read-only nell'immagine q8 invariata, con quota 2 CPU/4 GiB; tre run locali per default e 2 thread, due coppie HTTP in ordine invertito. Verificati gli stessi verdetti/categorie/versione policy sulle 78 probe del corpus e 0 errori HTTP, inclusi i burst. L'uguaglianza delle uscite osservate non dimostra equivalenza su altri input né parità dei punteggi.
 - [x] Provato batching esplorativo su 11 testi identici e 11 variati: migliora solo i primi nei campioni misurati; non modificare il percorso bulk sulla sola base del microbenchmark. Documentati dispersione fra run, limite degli 8 campioni burst (p95 = massimo), possibili falsi positivi/negativi e necessità di benchmark su hardware rappresentativo prima di qualunque scelta produttiva.
 - **Status:** complete (indagine; 2 thread e batching non implementati nel PoC)
+
+### Phase 10: Condivisione Infra/Business, motivazione API e navigazione test
+- [x] README principale: motivazione del presidio, percorsi di valutazione per i due team, scelta HTTP come frontiera comparativa e trade-off in-process, sicurezza e limiti dei risultati.
+- [x] Test di confronto spostati in `comparison/tests/`, import corretti e guida ai cinque file; `comparison/corpus.json` e `comparison/run.mjs` restano visibili come dataset e runner distinti.
+- [x] Comandi e link aggiornati in `comparison/README.md` e `poc-horizon/README.md`; prerequisito prefetch Docker esplicito e descrizione swap corretta.
+- [x] Verifica: 17 test confronto, 16 Horizon, 18 spaCy; runner Docker 39/39 per motore e 0 errori tecnici; link relativi e assenza di input sintetici nel report verificati.
+- [x] Review avversariale del diff: corretta la cronologia della memoria dopo CF, esplicitato Node.js ≥22 e incluso l'intero set di file nell'indice Git, con import spostati e README dei test.
+- [x] Ripetuto il runner Docker con quota di 2 CPU per container dopo riavvio del daemon; verificati 39/39 campioni e 0 errori per motore, numeri del README aggiornati dal nuovo report locale.
+- [x] Prima review indipendente: tre rilievi medi corretti; seconda review: due rilievi medi su protezione del report generato e copia untracked, corretti con comandi a permessi riservati e regola locale `.git/info/exclude`. Terza review indipendente: PASS, nessun blocker/high/medium.
+- [x] Review dell'utente sulla preview locale del README e autorizzazione esplicita a pubblicare l'intero set documentale direttamente su `main`, senza PR.
+- **Status:** complete (documentazione, test spostati e confronto; nessuna integrazione autorizzata)
 
 ## Finding funzionale storico (prima della regex CF) e interpretazione
 - Durante una prova dell'utente con nome e identificativo fiscale **[REDACTED]**, il servizio ha rifiutato con `PERSON` e `DRIVER_LICENSE`, benché l'utente abbia confermato di non aver inserito dati di patente. La categoria `DRIVER_LICENSE` è errata rispetto al contenuto dichiarato; **non** è evidenza di una patente. Il rifiuto può essere coerente con la policy conservativa, ma non rende corretta la motivazione.
