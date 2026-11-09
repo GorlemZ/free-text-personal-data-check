@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
 import { detect, MODEL_POLICY_VERSION } from '../src/detector.mjs';
-import { categoriesOf, CATEGORIES, SCORE_THRESHOLD } from '../src/categories.mjs';
+import { detectedCategories, CATEGORIES, SCORE_THRESHOLD } from '../src/categories.mjs';
 
 const monitored = ['PERSON','EMAIL_ADDRESS','IT_FISCAL_CODE','PHONE_NUMBER',
   'IBAN_CODE','DATE_TIME','ORGANIZATION','LOCATION'];
@@ -38,8 +38,8 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD, infer = det
     let candidates, predicted, possible;
     try {
       candidates = await infer(sample.text);
-      predicted = categoriesOf(candidates, threshold);
-      possible = categoriesOf(candidates, 0);
+      predicted = detectedCategories(sample.text, candidates, threshold);
+      possible = detectedCategories(sample.text, candidates, 0);
     }
     catch { technicalErrors++; continue; }
     latency.push(performance.now()-start);
