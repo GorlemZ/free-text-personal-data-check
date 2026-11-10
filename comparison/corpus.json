@@ -30,7 +30,7 @@
   {"id":"passport-negative","fieldId":"description","text":"Passaporto incompleto: YA12.","allowedEntityTypes":[],"expectedEntities":[],"expectedVerdict":"accepted"},
   {"id":"vat-positive","fieldId":"description","text":"Partita IVA sintetica non attribuita: 00000000000.","allowedEntityTypes":[],"expectedEntities":["IT_VAT_CODE"],"expectedVerdict":"rejected"},
   {"id":"vat-negative","fieldId":"description","text":"Partita IVA troppo breve: 0000000.","allowedEntityTypes":[],"expectedEntities":[],"expectedVerdict":"accepted"},
-  {"id":"iban-positive","fieldId":"description","text":"IBAN di sola forma, checksum non verificato: IT00X0000000000000000000.","allowedEntityTypes":[],"expectedEntities":["IBAN_CODE"],"expectedVerdict":"rejected"},
+  {"id":"iban-positive","fieldId":"description","text":"IBAN di sola forma, checksum non verificato: IT00X0000000000000000000000.","allowedEntityTypes":[],"expectedEntities":["IBAN_CODE"],"expectedVerdict":"rejected"},
   {"id":"iban-negative","fieldId":"description","text":"IBAN incompleto: IT00X000.","allowedEntityTypes":[],"expectedEntities":[],"expectedVerdict":"accepted"},
   {"id":"crypto-positive","fieldId":"description","text":"Indirizzo crittografico di soli zeri, non attribuito: 0x0000000000000000000000000000000000000000.","allowedEntityTypes":[],"expectedEntities":["CRYPTO"],"expectedVerdict":"rejected"},
   {"id":"crypto-negative","fieldId":"description","text":"Indirizzo crittografico troncato: 0x0000000.","allowedEntityTypes":[],"expectedEntities":[],"expectedVerdict":"accepted"},

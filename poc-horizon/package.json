@@ -3,15 +3,23 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "prefetch": "node scripts/prefetch.mjs",
-    "smoke": "node scripts/smoke.mjs",
-    "start": "node src/server.mjs",
-    "test": "node --test tests/*.test.mjs",
-    "bench": "node bench/benchmark.mjs"
+    "smoke": "npm run build && node scripts/smoke.mjs",
+    "start": "npm run build && node src/server.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "bench": "npm run build && node bench/benchmark.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
   }
 }

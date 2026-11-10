@@ -7,6 +7,7 @@ export const TARGET_CATEGORIES = Object.freeze([
 export const HORIZON_SUPPORTED = new Set([
   'PERSON', 'ORGANIZATION', 'LOCATION', 'EMAIL_ADDRESS', 'PHONE_NUMBER',
   'CREDIT_CARD', 'IP_ADDRESS', 'MAC_ADDRESS', 'URL', 'IT_FISCAL_CODE',
+  'IT_VAT_CODE', 'IBAN_CODE',
 ]);
 export const FIELD_IDS = Object.freeze([
   'description', 'contactName', 'serverUrls[].description', 'eserviceName',

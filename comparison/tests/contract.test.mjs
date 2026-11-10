@@ -26,7 +26,7 @@ test('response contract accepts exact sorted deduplicated findings; rejects leak
   assert.deepEqual(assertAnalyzeResponse(400, { code: 'INVALID_ANALYZE_REQUEST' },
     CATEGORIES), { code: 'INVALID_ANALYZE_REQUEST' });
   assert.equal(FIELD_IDS.length, 11);
-  assert.equal(HORIZON_SUPPORTED.size, 10);
+  assert.equal(HORIZON_SUPPORTED.size, 12);
 });
 
 test('requestFor uses a single field and an explicit unfiltered detector probe', () => {
@@ -49,7 +49,8 @@ test('single-field response cannot attribute a finding to another field or a pol
 });
 
 async function withHandler(infer, action, onQueued = () => {}) {
-  const server = createServer(createHandler({ infer, ready: async () => ({}), onQueued }));
+  const server = createServer(createHandler({ infer, prepare: text => ({ text }),
+    ready: async () => ({}), onQueued }));
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   try {
     const port = server.address().port;

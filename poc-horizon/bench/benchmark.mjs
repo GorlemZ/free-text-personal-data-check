@@ -1,10 +1,12 @@
 import { readFile } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
-import { detect, MODEL_POLICY_VERSION } from '../src/detector.mjs';
-import { detectedCategories, CATEGORIES, SCORE_THRESHOLD } from '../src/categories.mjs';
+import { prepare, inferPrepared, MODEL_POLICY_VERSION } from '../src/detector.mjs';
+import { categoriesOf, CATEGORIES, SCORE_THRESHOLD } from '../src/categories.mjs';
+import { recognizeItalianIdentifiers } from '../dist/recognizers/registry.mjs';
+import { analyzeFields } from '../dist/analysis/analyze-fields.mjs';
 
 const monitored = ['PERSON','EMAIL_ADDRESS','IT_FISCAL_CODE','PHONE_NUMBER',
-  'IBAN_CODE','DATE_TIME','ORGANIZATION','LOCATION'];
+  'IBAN_CODE','IT_VAT_CODE','DATE_TIME','ORGANIZATION','LOCATION'];
 const empty = () => ({ tp: 0, fp: 0, fn: 0, tn: 0, denominator: 0 });
 function tally(count, actual, predicted, labels) {
   for (const label of labels) {
@@ -23,7 +25,9 @@ function percentile(values, n) {
   if (!values.length) return null;
   return +[...values].sort((a,b)=>a-b)[Math.ceil(n*values.length)-1].toFixed(3);
 }
-export async function evaluate(samples, threshold = SCORE_THRESHOLD, infer = detect) {
+export async function evaluate(samples, threshold = SCORE_THRESHOLD,
+                               infer = inferPrepared,
+                               { prepare: preflight = prepare, recognize = recognizeItalianIdentifiers } = {}) {
   const detector = empty(), policy = empty();
   const commonDetector = empty(), commonPolicy = empty();
   const common = monitored.filter(x=>CATEGORIES.has(x));
@@ -35,11 +39,14 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD, infer = det
   for (const sample of samples) {
     splits[sample.split]++;
     const start = performance.now();
-    let candidates, predicted, possible;
+    let predicted, possible;
     try {
-      candidates = await infer(sample.text);
-      predicted = detectedCategories(sample.text, candidates, threshold);
-      possible = detectedCategories(sample.text, candidates, 0);
+      const [analysis] = await analyzeFields([{
+        fieldId: sample.fieldId, text: sample.text, allowedEntityTypes: sample.allowedEntityTypes,
+      }], { prepare: preflight, infer: prepared => infer(prepared) },
+      recognize, categoriesOf, threshold);
+      predicted = analysis.detected;
+      possible = analysis.possible;
     }
     catch { technicalErrors++; continue; }
     latency.push(performance.now()-start);

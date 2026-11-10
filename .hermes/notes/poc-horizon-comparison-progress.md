@@ -1,5 +1,18 @@
 # Progress — PoC Horizon/spaCy
 
+## Slice implementativa sul branch dedicato (2026-11-10)
+Utente ha autorizzato l'avvio dell'implementazione, non commit/push. Branch `feat/horizon-italian-recognizers`. Avviati build TS `.mts` → `.mjs`, preflight globale, orchestratore comune HTTP/benchmark, recognizer CF e pattern plausibili P.IVA/IBAN IT, unione conservativa e allowlist per campo. Test Node: 22/22 superati; smoke Horizon reale offline riuscito, inclusi budget token e fail-closed CF. Tentativo `docker build --network none` bloccato: daemon Docker non disponibile; build container e relativo smoke non verificati. Review avversariale indipendente in corso. Le fonti/fixture dei documenti moderni e i test di collisione completi restano pendenti.
+
+## Decisione successiva — unione conservativa
+Policy approvata dall’utente e documentata nel piano operativo e nel README Horizon: unione categorie, filtro allowlist per campo, nessuna precedenza regex. Gate collisioni chiuso; implementazione pendente. Review documentale indipendente: PASS. Verificate semantica dell’unione, allowlist per campo e distinzione fra implementazione corrente e futura; nessun test runtime eseguito. Le indicazioni di gate aperto nelle sezioni storiche sono superate.
+
+Proposta implementativa Phase 11 completata e revisionata indipendentemente: due rilievi incorporati nel piano, nessuna modifica applicativa. Specificati componenti, contratti, build, slice e gate. Review non equivale a esecuzione dei test proposti.
+
+## Aggiornamento PWF — recognizer TS e candidato Rizzo
+- Consolidate decisioni dell’intervista in Phase 11, inclusi soli formati documentali più recenti, recognizer prima del modello, modello sempre e 503 senza parziali.
+- Ispezionato detector.mjs: preflight token oggi dentro detect(); worktree inizialmente pulito. Modificati soltanto i tre file PWF; nessuna implementazione o download.
+- Verifica di coerenza: nessuna selezione implicita OR, nessuna parità con Presidio dichiarata; dettaglio implementativo resta da revisionare prima del codice.
+
 ## Sessione 2026-11-04
 - Phase 1 complete: verificati checkout remoto/locale, sorgenti Python, metadata Horizon, versione pacchetto JS.
 - Phase 2 complete: due review rapide indipendenti; aggiunti smoke reale prima del servizio, manifest e boot offline, contratto e label map, budget token, metriche anon/file-cache e criterio bounded.
@@ -100,3 +113,160 @@ Dimensione immagine Docker: Horizon 1.582.037.336 byte (~1508,7 MiB), spaCy 847.
 - Seconda review indipendente: due rilievi medi, copia non tracciata ancora includibile da `git add -A` e comando dei README che con `umask 0022` genera file 0644 e descrizione imprecisa del report come solo aggregato. Aggiunta **soltanto localmente** la regola mirata `.git/info/exclude` per la copia (verificata con `git check-ignore -v`, senza rimuovere il file o aggirare il blocco sul delete). I README usano ora `umask 077; set -C` per file riservato e senza sovrascrittura; la guida descrive metriche e diagnostiche per ID/categoria/verdetto. Suite confronto 17/17, `git diff --check` passati. In attesa della terza e ultima review indipendente del nuovo slice; nessun commit/push.
 - Terza e ultima review indipendente della prova Docker/documentazione: PASS, nessun blocker/high/medium. Verificati `umask 077; set -C` in bash e sh, regola locale di esclusione e indice senza report, numeri nei report storico/nuovo, permessi e hash della copia privata, distinzione quota CPU/thread ONNX e percentili warm/corpus. Suite confronto 17/17. Rimangono review utente della preview e decisione sulla copia locale non tracciata prima di qualsiasi pubblicazione; nessun commit/push/PR.
 - L'utente ha approvato la preview e chiesto di pubblicare **tutto direttamente su `main`**. Prima della pubblicazione corretto il solo anchor obsoleto in `comparison/tests/README.md` che puntava a un heading rimosso del README principale; controllati 31 link relativi in quattro README, nessuno rotto. La copia diagnostica aggiuntiva nel repository rimane intatta ma ignorata **localmente** via `.git/info/exclude` e non è nell'indice; la copia privata fuori repository è conservata. Pubblicare soltanto file già staged (README, guida, test spostati, note PWF), poi verificare `origin/main`; nessuna integrazione applicativa.
+
+
+## Archivio del piano prima del consolidamento
+
+Contenuto storico integrale: istruzioni e autorizzazioni qui riportate sono superate dal task_plan.md corrente.
+
+```markdown
+# Piano implementativo — confronto PoC spaCy e Horizon
+
+## Goal
+Confrontare due servizi autonomi per il rilevamento di dati personali in testi liberi: preservare il PoC Presidio/spaCy in `poc-spacy/`, realizzare il PoC Transformers.js/Horizon in `poc-horizon/` e valutarne contratto, copertura, memoria e limiti con input sintetici. Nessuna integrazione nel monorepo applicativo è autorizzata da questo piano.
+
+## Stato prima della pubblicazione (2026-11-04)
+- **Fasi 1–7 completate localmente**; Phase 9 (indagine prestazionale read-only) completata come esplorazione. Al termine delle misure, `main` conteneva i commit locali `8c6542e` (CF) e `99e74cf` (confronto), due commit avanti a `origin/main`; non erano ancora stati pubblicati. Il fix finale del media type è stato committato senza quarta review indipendente, per scelta esplicita dell'utente. Non confondere le prove storiche con i check correnti.
+- **Decisione di integrazione: sospesa.** La regex emette `IT_FISCAL_CODE`, ma Horizon può ancora restituire categorie NER errate. Dopo il CF, due nuove serie di memoria per motore non attestano stabilità indefinita. La regolazione ONNX a 2 thread è stata provata solo in scratch/container temporanei: il detector nel repository usa ancora il default. Nessun servizio o container di prova residuo.
+- Le evidenze dettagliate e la cronologia sono accessibili nel PWF: `.hermes/plans/poc-horizon-comparison/findings.md` e `.hermes/plans/poc-horizon-comparison/progress.md` (alias delle note storiche).
+
+## Stato di condivisione (2026-11-09)
+- La PR #2 è stata integrata in `main`. Il branch `docs/infra-business-evaluation-guide` parte dal nuovo `origin/main` e non modifica la logica dei detector.
+- La condivisione con Infra e Business richiede istruzioni distinte per valutazione tecnica e correttezza funzionale, motivazione API vs libreria e test navigabili. Non implica autorizzazione all'integrazione del PoC.
+
+## Current Phase
+Phase 11 — progettazione dei recognizer TypeScript e valutazione di Rizzo come challenger di Horizon. Aggiornamento del piano autorizzato; implementazione, download modelli e pubblicazione non eseguiti in questo aggiornamento. Phase 8 — integrazione applicativa ancora sospesa. Phase 10 e le sue autorizzazioni di pubblicazione sono storiche.
+
+### Phase 11: Recognizer TypeScript e modello intercambiabile
+**Status:** in_progress
+
+Questo PWF consolida le decisioni della bozza esterna `../../../../.hermes/plans/2026-11-09_171000-horizon-recognizer-formati-italiani.md` (nel PWD PagoPa); per questa estensione prevale questa fase, senza cancellare la bozza o le evidenze storiche.
+
+- [x] Obiettivo: servizio senza Python nel runtime, correttezza confrontabile con Presidio su etichette indipendenti; Presidio è comparatore, non ground truth.
+- [x] Decisioni utente: forma plausibile sufficiente anche ambigua e senza contesto/checksum obbligatori; solo formati documentali più recenti nella prima tranche; documenti italiani, partita IVA e IBAN, preservando CF esistente. Telefono, date, targhe e CAP differiti a evidenze di gap. Estensioni CF da delimitare separatamente.
+- [x] Ordine concordato: validazione richiesta/limiti → preflight token → recognizer deterministici → inferenza sempre → fusione/policy → risposta. Il modello vede il testo originale completo, senza mascheramento dei match. Limiti superati: nessun troncamento silenzioso, nessuna analisi parziale. Conservare 400 per richiesta invalida e 503 per indisponibilità/limite tecnico modello come nel contratto attuale; errore anche su campo successivo annulla i risultati dell'intera richiesta.
+- [x] Rizzo candidato alternativo per detection, non anonimizzazione: valutare ONNX in Node, senza sostituire subito Horizon. Compatibilità, licenza/provenienza dell'artefatto, memoria, latenza e correttezza sono gate da verificare prima della scelta.
+- [ ] Definire un orchestratore condiviso HTTP/benchmark, separato dal modello: preflight tramite adapter del modello, recognizer TS puri indipendenti dal modello, inferenza, decisione finale. Eseguire il lavoro nella coda limitata esistente; niente secondo modello eseguito in produzione automaticamente.
+- [ ] Conservare candidati interni con categoria, origine e offset riferiti al testo originale (convenzione UTF-16 esplicita e test Unicode), opzionale esito strutturale; non includere testi/span/score nei log o nell'API. Le regex cercano autonomamente su tutto il testo, non solo sugli span trovati dal modello.
+- [ ] Auditare fonti/formati e correggere/versionare fixture; build TS ESM riproducibile e test dell'artefatto Docker. Introdurre una categoria per volta con test positivi, fuori formato, senza contesto, collisioni e allowlist.
+- [ ] Decisione ancora aperta: conflitti e categorie co-emesse, possibile OR rinviato dall'utente. Non implementare una precedenza implicita o un'unione definitiva; l'OR può aumentare FP e non elimina quelli del modello. Richiede scelta prima del benchmark del verdetto ibrido.
+- [ ] Confrontare Presidio fissato, Horizon attuale, Horizon+regole e Rizzo+stesse regole; diagnostiche solo-regole/solo-modello. Corpus sintetico rappresentativo dei campi, etichette indipendenti, sviluppo e heldout distinti, FP/FN per categoria e verdetto, copertura non supportata esplicita, RAM/latenza a 2 CPU/4 GiB. Nessuna parità dedotta dai 39 esempi storici o dalle metriche pubblicate dagli autori.
+- [ ] Verificare ordine con spy degli stadi, inferenza non saltata dopo match, niente chiamate recognizer/modello fuori budget, indipendenza dei match dal modello e fail-closed multi-campo. Review indipendente prima dell'implementazione del piano dettagliato.
+
+## Proposta implementativa — Phase 11
+
+Solo progettazione autorizzata da questa richiesta; nessuna modifica al runtime, download, commit o pubblicazione. I percorsi seguenti sono proposti, non file già implementati.
+
+### Componenti e dipendenze
+- `poc-horizon/src/analysis/contracts.mts`: tipi discriminati per candidati rule/model, categoria, origine, intervallo `[start,end)` UTF-16 del testo originale; score solo per modello, stato controllo esplicito `not_checked|passed|failed` per regole, senza proprietà nullable usate come stati impliciti. Nessun testo copiato nei DTO. Costruttori/boundary validation verificano intervalli e label; normalizzazioni devono mantenere una mappa verso il testo originale.
+- `src/recognizers/*.mts`: funzioni pure testo → candidati, senza import da Transformers, HTTP o adapter. Registry esplicito e versionato delle regole abilitate; regex limitate e test su input avversari entro i limiti API, niente pattern con backtracking incontrollato. Riutilizzare il CF attuale senza ampliarne implicitamente la copertura.
+- `src/models/horizon-adapter.mts`: incapsula caricamento offline/singleton e tokenizer oggi in `detector.mjs`; `prepare(text)` controlla budget senza troncamento e restituisce una richiesta preparata associata al modello; `infer(prepared)` usa il testo originale e converte le uscite in candidati tipizzati. Soglie specifiche del modello, nessun confronto diretto dei punteggi fra modelli. Il riuso degli encoded token è un'ottimizzazione da verificare, non un prerequisito: accettare ritokenizzazione se la pipeline la richiede, preservando lo stesso testo e gli stessi limiti.
+- `src/analysis/analyze-fields.mts`: orchestratore unico per API e benchmark, con adapter/registry/decision policy iniettati per test. Dentro la coda esistente: preflight di tutti i campi prima delle detection, poi per campo recognizer → inferenza sempre → candidati combinati. Conservare ordine seriale, coda limitata e un modello caricato per processo. Errore in qualsiasi stadio annulla l'intera risposta; nessun risultato parziale o fallback automatico a sole regex.
+- `src/analysis/decision-policy.mts`: applica soglie modello, deduplica e policy sulle categorie; conserva provenienza e offset fino alla risoluzione dei conflitti, poi produce soltanto `fieldId/entityType` ordinati/unici e verdict. La policy di collisione è ancora un gate utente: non equiparare categorie native/italiane per somiglianza di nome e non scegliere implicitamente OR o precedenza delle regex.
+- `src/server.mjs`: resta frontiera HTTP, parsing/limiti/schema e coda. Delega l'analisi al modulo condiviso; stesso contratto 200/400/503, readiness e nessun dato sensibile nei log. `bench/benchmark.mjs` usa il medesimo orchestratore e non ricostruisce la fusione. `categories.mjs` mantiene il catalogo pubblico separato dal mapping modello; eliminare la doppia esecuzione CF quando il registry lo assorbe.
+- Futuro `src/models/rizzo-adapter.mts`: stessa interfaccia, mapping e limiti propri. Solo dopo verifica artefatti/licenza e smoke Node offline; selezione esplicita a startup, nessuna inferenza contemporanea Horizon+Rizzo o fallback silenzioso. Aggiornare `modelPolicyVersion` includendo identità/revisione modello, regole e policy.
+
+### Correzioni incorporate dalla review indipendente
+- **Radice modelli stabile:** risolvere `models/` una sola volta nell'entrypoint/composition root rispetto alla radice del pacchetto e passarla esplicitamente all'adapter; non copiare il `../models/` relativo di `detector.mjs` nel modulo annidato compilato. Nessuna dipendenza dalla directory corrente. Il layout finale conserva `/app/models` in Docker. Verificare startup/readiness con adapter compilato sia localmente da una directory diversa sia nell'immagine finale, con accesso remoto disabilitato.
+- **Allowlist per campo:** la decision policy condivisa riceve `allowedEntityTypes` di ciascun campo. Dopo la risoluzione delle categorie filtra quelle consentite, poi costruisce findings e verdict: solo categorie consentite → accepted; combinazione consentite/vietate → findings delle sole vietate. API e benchmark usano la stessa funzione. Testare anche la separazione delle allowlist tra campi e l'assenza di risultati parziali.
+
+### Build proposta
+Nuovi moduli `.mts` compilati in `.mjs` sotto `poc-horizon/dist/` con typecheck strict e import ESM espliciti. Mantenere inizialmente gli entrypoint `.mjs`, che importano output compilato. Definire script build/test/start/bench affinché nessuno usi output vecchio; escludere dist dai sorgenti versionati. Docker multi-stage: dipendenze build nel builder, artefatti compilati e sole dipendenze runtime nell'immagine finale; modelli prefetchati e verificati, nessun download a richiesta. Verificare runtime interamente Node anche nel container; nessuna migrazione globale del repository a TS.
+
+### Slice e gate di accettazione
+1. **Contratti e build:** test artefatto compilato e import dagli entrypoint; decidere mappatura offset Transformers sul testo originale con casi emoji/accenti. Nessuna variazione di policy o modello.
+2. **Orchestratore con regola CF esistente:** separare preflight, spostare la regola prima dell'inferenza e mantenere la semantica storica del solo CF durante il refactor. Test spy per ordine e conteggio, modello chiamato dopo match, nessuna detection se un campo è fuori budget, errore secondo campo senza parziali, coda invariata. Prima delle nuove categorie chiudere il gate di collisione: preservare temporaneamente il comportamento esistente non approva OR per le nuove regole.
+3. **Recognizer italiani:** audit delle fonti e fixture prima dei pattern; patente, carta moderna, passaporto recente, P.IVA, IBAN IT in slice separate. Positivi sintetici senza contesto, negativi fuori forma, forme ambigue, confini Unicode, separatori ammessi e checksum non obbligatori. Estensioni CF/IBAN non IT separate. Aggiornare catalogo/API/test/matrice/versione solo per categorie realmente attivate.
+4. **Challenger Rizzo:** verificare licenza e provenienza, revisioni/hash, tokenizer/label/offset, carico offline e risorse nel container. Nessun presupposto che DOCID distingua i documenti italiani; riclassificazione solo con regole documentate. Conservare Horizon come baseline riproducibile.
+5. **Confronto e review:** stesso corpus heldout e policy esplicita, diagnostiche per origine e errori tecnici esclusi dalle metriche di detection ma conteggiati; report senza testi/span/score. Verificare HTTP, benchmark, build e smoke reale del modello scelto; review indipendente per slice. Parità con Presidio da misurare, non dichiarare anticipatamente.
+
+## Phases
+### Phase 1: Ricognizione
+- [x] Verificati software Presidio/spaCy, contratto HTTP, corpus sintetico e artefatti Horizon.
+- [x] Distinte dimensione immagine Docker, RSS e memoria cgroup.
+- **Status:** complete
+
+### Phase 2: Piano e review rapide
+- [x] Piano in `.hermes/plans/`, appunti in `.hermes/notes/`; review indipendenti su fattibilità/contratto e misurazioni Docker incorporate.
+- **Status:** complete
+
+### Phase 3: Due PoC autonomi
+- [x] Software Python storico spostato in `poc-spacy/` senza modificarne la logica.
+- [x] `poc-horizon/`: `@huggingface/transformers@4.3.2`, `Horizon-Labs/pii-redactor-base` al commit `ef0eff8e63c1711ec0c997c5ca9ea3b78a068684`, ONNX q8 preparato e verificato prima del build, incluso nell'immagine; inferenza offline, un solo caricamento per processo, nessun download o fallback fp32 durante le richieste.
+- [x] API comune verificata con 6 controlli HTTP su entrambe le immagini; input oltre 512 token respinti senza troncamento, errori tecnici fail-closed, categorie non equivalenti esplicitate. Horizon serializza l'inferenza e limita la coda; il contratto pubblico non include testo, span, offset o score.
+- [x] Smoke del modello su dati sintetici in host e container senza rete; 7 test Node e 18 test Python passati, Ruff check/format passati.
+- **Status:** complete
+
+### Phase 4: Benchmark e memoria
+- [x] Benchmark sulle stesse 10 voci sintetiche, separando categorie realmente comparabili da categorie native/non supportate. Campione insufficiente per stimare prestazioni in produzione.
+- [x] Due serie indipendenti per motore, 1.000 richieste sintetiche nuove per serie dopo warmup, container nuovo per serie, limite sperimentale 4 GiB senza swap, 4 client nel tratto finale (non equivalgono a 4 inferenze parallele). Zero errori e zero OOM nelle serie definitive.
+- [x] RSS massima **campionata**: Horizon 1.602,5 MiB; spaCy 185,0 MiB. Immagini Docker: Horizon ~1.508,7 MiB; spaCy ~808,4 MiB (dimensione su disco, non RAM). `memory.peak` non disponibile; heap V8 non misurata separatamente. Horizon ha mostrato circa +23–24 MiB di RSS fra 500 e 1.000 richieste con passaggio a testi lunghi; spaCy circa +4,3–4,4 MiB nello stesso intervallo. `indicativePlateau` è solo un indicatore sulle serie finite, non prova di un tetto permanente della memoria/cache né di sicurezza a 256 MiB.
+- [x] Ripetizione **dopo il CF**, con immagini ricostruite: 2×1.000 richieste sintetiche per motore, 20 warmup per serie, 0 errori e 0 OOM. RSS massima campionata spaCy 184,9 MiB in entrambe le serie; Horizon 1.598,4 / 1.602,8 MiB. I percentili dello script memoria includono erroneamente le 20 richieste warmup: non usarli come latenza post-avvio; i percentili warm/corpus del runner HTTP escludono la prima richiesta dopo readiness. Il primo tentativo lungo Horizon è scaduto nel tool ed è stato ripetuto da zero dopo rimozione del container residuo.
+- **Status:** complete (per il protocollo finito)
+
+### Phase 5: Review e documentazione del PoC
+- [x] Review avversariale dell'implementazione; corretti decoding UTF-8, rendicontazione delle interruzioni Docker e comparabilità dei benchmark. README, risultati e limiti documentati; nessuna integrazione applicativa.
+- [x] Prova manuale locale e diagnosi sintetica del nuovo rilievo funzionale registrate nelle note. Servizio locale fermato su richiesta.
+- **Status:** complete
+
+### Phase 6: Riconoscimento sintattico del codice fiscale nel PoC Horizon
+- [x] RED: test HTTP sintetico senza riconoscimento CF fallito come atteso; cambio versione policy fallito come atteso; test benchmark CF fallito come atteso. Aggiunti test mirati HTTP/unitari per casi validi/quasi-validi, confini, allowlist, categoria nativa co-emessa ed errore al secondo campo.
+- [x] GREEN: recognizer Node a regex sul formato canonico di 16 caratteri ASCII: 6 lettere, 2 cifre, mese `ABCDEHLMPRST`, giorno `01–31` o `41–71` (senza controllo del calendario/mese), lettera e 3 cifre per comune/stato, lettera finale. Maiuscole e minuscole ammesse; match solo se non adiacente a lettere, segni combinanti, numeri Unicode o `_` (niente sottostringhe in token più lunghi). Omocodia, checksum, dati anagrafici ed esistenza del codice catastale fuori scope. Il recognizer si unisce alle label dopo inferenza riuscita, senza sopprimere quelle native. Benchmark con stessa funzione di aggregazione.
+- [x] Versione policy `poc2` e README aggiornati; 16 test Node, smoke HTTP con modello reale su host e container, benchmark 10 esempi e contratto HTTP 6/6 per immagine passati. La prima review indipendente del diff ha individuato il confine Unicode incompleto; corretto con test RED e nuovi check GREEN. Seconda review indipendente: PASS, nessun blocker/high/medium residuo. Nessuna modifica al PoC spaCy, nessun commit/push.
+- **Status:** complete (implementazione CF locale; non implica gate funzionale/integrazione)
+
+### Phase 7: Confronto condiviso riproducibile, solo PoC
+- [x] Corpus `comparison/corpus.json`, una voce = un campo HTTP con `id` sintetico univoco, `fieldId` del catalogo, `text`, `allowedEntityTypes`, `expectedEntities` (tassonomia Presidio) e `expectedVerdict` annotato indipendentemente. Set chiuso di 18 categorie effettivamente caricate: `PERSON`, `ORGANIZATION`, `LOCATION`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `CREDIT_CARD`, `IP_ADDRESS`, `MAC_ADDRESS`, `URL`, `IT_FISCAL_CODE`, `IT_DRIVER_LICENSE`, `IT_IDENTITY_CARD`, `IT_PASSPORT`, `IT_VAT_CODE`, `IBAN_CODE`, `CRYPTO`, `DATE_TIME`, `MEDICAL_LICENSE`. Matrice di copertura nel README di confronto: positivo e negativo/quasi valido per ciascuna categoria oppure motivazione esplicita dell'assenza; esempi tutti sintetici e annotati indipendentemente dalle risposte. CF sintatticamente plausibile con checksum non verificato è positivo nel confronto di forma, ma la divergenza di Presidio con checksum è annotata, non occultata. Le fixture documento/DEA sono illustrative, non prove di validità ufficiale; overlap delle regex da diagnosticare.
+- [x] TDD `comparison/*.test.mjs` prima di implementare il modulo: schema corpus chiuso e report senza testo/span/score. Poiché l'API espone solo categorie **vietate**, ogni campione usa due chiamate: una detector probe con `allowedEntityTypes:[]` per TP/FP/FN/TN e una policy probe con l'allowlist annotata per il verdetto; nessuna categoria permessa viene dedotta come assente. TP/FP/FN/TN per coppia campione×categoria **supportata** (non su allowlist), verdetti corretti/FP/FN per campione sulla `expectedVerdict` indipendente. Le 8 categorie non equivalenti Horizon (`IT_DRIVER_LICENSE`, `IT_IDENTITY_CARD`, `IT_PASSPORT`, `IT_VAT_CODE`, `IBAN_CODE`, `CRYPTO`, `DATE_TIME`, `MEDICAL_LICENSE`) sono `unsupported`, **non FN**. Label native extra Horizon non contribuiscono alla confusion matrix a 18 ma restano nel verdetto e nella diagnosi `extraLabels`; una label extra può creare un falso rifiuto anche se la categoria attesa è rilevata. Errori tecnici/HTTP in una delle due probe escludono il campione da entrambi i denominatori; attempted/completed/errors per engine e categoria. I singoli FP/FN non bloccano il run; hard fail per schema, sicurezza, contratto e minimi neutro/e-mail/CF Horizon.
+- [x] Runner `node comparison/run.mjs` usa solo immagini `free-text-check:spacy-poc` e `free-text-check:horizon-poc` costruite da `./poc-spacy` e `./poc-horizon`, controllate con `docker image inspect`. Container nuovi, `--memory=4g --memory-swap=4g --cpus=2`, porta host casuale **127.0.0.1** (bridge Docker richiesto per pubblicare; modelli offline configurati nei servizi, nessun download in request), readiness entro 120s e timeout richiesta per-field 30s / bulk 120s, cleanup in `finally` e segnali gestibili `SIGINT`/`SIGTERM`. Non stampare body, testo, span, score né eccezioni grezze; solo codici e diagnostiche per ID/categoria. Nessun accesso a dati reali o credenziali. Versioni policy in output.
+- [x] Prove HTTP: `200` esattamente `verdict,modelPolicyVersion,findings`; `findings` ordinati/unici, solo `fieldId` nel catalogo e `entityType` noto, mai testo/span/score; `400`/`503` solo `{code}` generico, senza verdetto/parziali. Verificare 400 per ID duplicati e body oversized/UTF-8 malformato; il payload da 17 campi con duplicati è un rifiuto combinato, **non** prova isolata del limite 16 (catalogo di soli 11 ID). 503 nel secondo campo e label Horizon ignota con handler a inferenza iniettata (non simulare queste condizioni con i container reali). `>512` token 503 specifico Horizon. Bulk = **una** richiesta di 11 campi distinti, misurata a parte dal corpus a campo singolo; nessun massimo di 16 univoci possibile con l'attuale catalogo di 11. Cold latency: prima richiesta dopo readiness (startup escluso); warm: richieste successive con N/p50/p95 in ms; burst concorrente con N/completed/errori/p50/p95, senza SLA. Prova deterministica della coda a 4 slot con quattro inferenze iniettate e bloccate, quinta 503, poi rilascio e nessun parziale. Burst dei container reali solo osservazionale, non richiedere un conteggio prefissato di 503 per Horizon o inferenza parallela per spaCy.
+- [x] Baseline: `npm test` e `npm run smoke` Horizon, `uv run --frozen --extra dev pytest -q` e Ruff spaCy, runner Docker HTTP esistente, nuova suite e runner reale; review indipendente del diff limitata a tre iterazioni (terza CHANGES REQUESTED sul media type, fix successivo verificato localmente ma **non** revisionato indipendentemente per scelta esplicita dell'utente). Commit locali separati `8c6542e` (CF) e `99e74cf` (Phase 7) su `main`; nessun push. Nessuna modifica a `poc-spacy/` o integrazione nel monorepo applicativo.
+- **Status:** complete (localmente; eccezione esplicita alla quarta review del fix media type)
+
+### Phase 8: Decisioni successive, non autorizzate ora
+- [ ] Definire con gli stakeholder le categorie vietate, la semantica delle motivazioni e il criterio di accettazione; `accepted` significa soltanto nessuna categoria vietata rilevata sopra soglia, non assenza di dati personali.
+- [ ] Valutare i risultati FP/FN/etichette extra della Phase 7 prima di modificare altre categorie o stabilire eventuali regole di sovrapposizione; non attribuire una label `DRIVER_LICENSE`/`VEHICLE_ID` a un CF.
+- [ ] Se il PoC resta candidato, concordare budget RAM e protocollo aggiuntivo di durata/concorrenza, con RSS, cgroup anon/file, picchi e heap V8 su deployment rappresentativo. Le serie precedenti non dimostrano stabilità indefinita.
+- [ ] Solo dopo review dei risultati e autorizzazione esplicita, decidere se estendere il PoC o proporre l'integrazione; non integrare automaticamente.
+- **Status:** pending (gate aperto; nessuna integrazione autorizzata)
+
+### Phase 9: Indagine sulle latenze Horizon, senza modifiche al codice applicativo
+- [x] Profilati tokenizer/guard, inferenza, postprocessing e recognizer CF sul corpus sintetico: la chiamata al modello domina il percorso misurato; il CF non spiega la latenza. Distinguere un campo da una richiesta bulk con 11 campi inferiti in serie.
+- [x] Variato solo `session_options.intraOpNumThreads` in un detector scratch montato read-only nell'immagine q8 invariata, con quota 2 CPU/4 GiB; tre run locali per default e 2 thread, due coppie HTTP in ordine invertito. Verificati gli stessi verdetti/categorie/versione policy sulle 78 probe del corpus e 0 errori HTTP, inclusi i burst. L'uguaglianza delle uscite osservate non dimostra equivalenza su altri input né parità dei punteggi.
+- [x] Provato batching esplorativo su 11 testi identici e 11 variati: migliora solo i primi nei campioni misurati; non modificare il percorso bulk sulla sola base del microbenchmark. Documentati dispersione fra run, limite degli 8 campioni burst (p95 = massimo), possibili falsi positivi/negativi e necessità di benchmark su hardware rappresentativo prima di qualunque scelta produttiva.
+- **Status:** complete (indagine; 2 thread e batching non implementati nel PoC)
+
+### Phase 10: Condivisione Infra/Business, motivazione API e navigazione test
+- [x] README principale: motivazione del presidio, percorsi di valutazione per i due team, scelta HTTP come frontiera comparativa e trade-off in-process, sicurezza e limiti dei risultati.
+- [x] Test di confronto spostati in `comparison/tests/`, import corretti e guida ai cinque file; `comparison/corpus.json` e `comparison/run.mjs` restano visibili come dataset e runner distinti.
+- [x] Comandi e link aggiornati in `comparison/README.md` e `poc-horizon/README.md`; prerequisito prefetch Docker esplicito e descrizione swap corretta.
+- [x] Verifica: 17 test confronto, 16 Horizon, 18 spaCy; runner Docker 39/39 per motore e 0 errori tecnici; link relativi e assenza di input sintetici nel report verificati.
+- [x] Review avversariale del diff: corretta la cronologia della memoria dopo CF, esplicitato Node.js ≥22 e incluso l'intero set di file nell'indice Git, con import spostati e README dei test.
+- [x] Ripetuto il runner Docker con quota di 2 CPU per container dopo riavvio del daemon; verificati 39/39 campioni e 0 errori per motore, numeri del README aggiornati dal nuovo report locale.
+- [x] Prima review indipendente: tre rilievi medi corretti; seconda review: due rilievi medi su protezione del report generato e copia untracked, corretti con comandi a permessi riservati e regola locale `.git/info/exclude`. Terza review indipendente: PASS, nessun blocker/high/medium.
+- [x] Review dell'utente sulla preview locale del README e autorizzazione esplicita a pubblicare l'intero set documentale direttamente su `main`, senza PR.
+- **Status:** complete (documentazione, test spostati e confronto; nessuna integrazione autorizzata)
+
+## Finding funzionale storico (prima della regex CF) e interpretazione
+- Durante una prova dell'utente con nome e identificativo fiscale **[REDACTED]**, il servizio ha rifiutato con `PERSON` e `DRIVER_LICENSE`, benché l'utente abbia confermato di non aver inserito dati di patente. La categoria `DRIVER_LICENSE` è errata rispetto al contenuto dichiarato; **non** è evidenza di una patente. Il rifiuto può essere coerente con la policy conservativa, ma non rende corretta la motivazione.
+- Diagnosi distinta con soli dati sintetici già disponibili: codice fiscale isolato → `VEHICLE_ID`; insieme a nome → `DRIVER_LICENSE`, `PERSON`; con prefisso esplicito «codice fiscale» → `DRIVER_LICENSE`, `NATIONAL_ID`. Prima del recognizer il PoC non rilevava affidabilmente `IT_FISCAL_CODE`; oggi la regex riconosce i casi plausibili del corpus, mentre le etichette native errate possono ancora coesistere. Senza span nella risposta HTTP non si può attribuire con certezza una singola etichetta alla sottostringa che l'ha prodotta.
+- Horizon non è un sostituto drop-in di Presidio/spaCy: le etichette native e le soglie non coincidono. Il benchmark sintetico iniziale mostra 2 TP/0 FN Horizon nelle categorie comuni attese e una categoria attesa non supportata; spaCy 3 TP/2 FP nel set di 8 categorie. Sono numeri descrittivi di un corpus minuscolo, non una classifica di qualità.
+
+## Decisioni e sicurezza
+- Il motivo del PoC alternativo era verificare se una pipeline ONNX/JavaScript senza spaCy potesse cambiare il comportamento di crescita memoria osservato, non cercare un modello più piccolo. La memoria assoluta misurata di Horizon è maggiore; nessuna conclusione sulla crescita a tempo indefinito.
+- Nessun dato personale reale nei test ripetibili, nei log, nei corpus o nelle note; il rilievo dell'utente è riportato senza valori identificativi. **Non inviare dati personali reali né esporre la porta pubblicamente.** Per le prove, **usa soltanto dati sintetici.** Il servizio locale è privo di autenticazione e deve restare su `127.0.0.1`.
+- Fail-closed per errori tecnici, coda piena e input fuori budget; nessuna cache di testi o verdetti. Non restituire né registrare testo, span, offset o score nel contratto pubblico. La restrizione storica sui commit non è più vigente: l'utente ha autorizzato i commit locali del PoC e ora la pubblicazione su un branch dedicato; nessuna integrazione autorizzata.
+
+## Errors Encountered (storico)
+| Errore | Esito |
+|---|---|
+| Init PWF prima della creazione della directory | Creata `.hermes/plans/poc-horizon-comparison/`; note in `.hermes/notes/`. |
+| Docker Desktop non raggiungibile in un tentativo preliminare | Tentativo non classificato come OOM; serie definitive rieseguite. |
+| Input sperimentali oltre 512 token | Generatore corretto; massimo verificato 481 token nei testi lunghi definitivi. |
+| `rtk uv` in background non disponibile | Test Python rilanciati in foreground, 18 passati. |
+| Docker Desktop non raggiungibile durante la prima ricostruzione post-fix | Riavviato; daemon verificato e immagine ricostruita; smoke e contratto container ripetuti. |
+
+```
+
+## Consolidamento PWF
+- Piano operativo separato da cronologia; decisioni deduplicate, review incorporata nei vincoli, slice e gate unificati. Nessun codice o modello modificato. Revisione indipendente del consolidamento: PASS, nessuna decisione o vincolo sostanziale perso rispetto all’archivio. Nessun test di esecuzione svolto; git diff --check passato.

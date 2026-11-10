@@ -21,7 +21,10 @@ test('synthetic corpus covers each of the 18 Presidio categories with a positive
     }[category]}-negative` && !s.expectedEntities.includes(category)), `negative: ${category}`);
   }
   assert.ok(corpus.every(s => s.text.length > 0));
-  assert.equal(HORIZON_SUPPORTED.size, 10);
+  assert.equal(HORIZON_SUPPORTED.size, 12);
   assert.ok([...HORIZON_SUPPORTED].every(x => CATEGORIES.has(x)));
-  assert.ok(!CATEGORIES.has('IBAN_CODE'));
+  assert.ok(CATEGORIES.has('IBAN_CODE'));
+  assert.ok(HORIZON_SUPPORTED.has('IT_VAT_CODE'));
+  const iban = corpus.find(s => s.id === 'iban-positive');
+  assert.equal(iban.text.match(/IT[0-9A-Z]+/u)?.[0].length, 27);
 });

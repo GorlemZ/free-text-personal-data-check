@@ -1,5 +1,16 @@
 # Findings — PoC Horizon/spaCy
 
+## Evidenze implementazione TS (2026-11-10)
+Build TS e test Node (22/22) superati sul branch dedicato; smoke reale offline Horizon riuscito. Da verificare il container: daemon Docker non disponibile. Pattern P.IVA/IBAN IT sperimentali: forma plausibile senza autenticità; documenti moderni e fonti/fixture ufficiali pendenti. Review codice in corso; nessuna parità con Presidio dimostrata.
+
+Review architetturale indipendente: due gap recepiti, risoluzione stabile della radice modelli dopo compilazione e ownership esplicita della allowlist per campo. Dockerfile verificato: modelli in /app/models. Decisione successiva: collisioni risolte con unione conservativa, senza precedenze automatiche; l’apertura riportata nello storico è superata.
+
+## Evoluzione architetturale concordata
+- Rizzo rimane candidato da verificare localmente, non sostituto validato. Riferimenti discussi: rizzoaiacademy/rizzo-pii-0.3B e MORPHEUS-MDC/faberia-riservatezza-it su Hugging Face; dichiarazioni degli autori e compatibilità non equivalgono a benchmark locale.
+- Nel detector attuale il limite token è verificato dentro detect(), prima della pipeline; i recognizer sono oggi aggregati dopo inferenza. Separare il preflight consente ordine limite → regole → modello senza alterare il testo. Evitare promessa di riuso token: la pipeline può ritokenizzare; verificarlo prima di ottimizzare.
+- La posizione prima del modello non aumenta da sola la correttezza: conta che i recognizer cerchino autonomamente su tutto il testo e che la fusione non scarti le loro rilevazioni. Tenere fusione e policy dopo entrambi gli stadi.
+- Revisione critica della proposta: unione non corregge FP del modello; misurare collisioni con la policy OR ora approvata, preservare contratto errori e testare offset Unicode. Piano operativo corrente: Phase 11.
+
 ## Ricognizione iniziale (storico, prima dei commit locali)
 - Checkout locale `main` pulito e coincidente con `origin/main` (`3ead695fab0780fb035d8ee67c9cec5fb4a86bc1`).
 - Software corrente: FastAPI/Presidio/spaCy, endpoint `/health/ready`, `/v1/analyze`, benchmark, Dockerfile, 18 policy categories, test e corpus sintetico.

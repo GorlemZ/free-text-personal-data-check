@@ -1,8 +1,10 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
-import { CATEGORIES, detectedCategories } from './categories.mjs';
-import { detect, getDetector, MODEL_POLICY_VERSION } from './detector.mjs';
+import { CATEGORIES, categoriesOf, SCORE_THRESHOLD } from './categories.mjs';
+import { recognizeItalianIdentifiers } from '../dist/recognizers/registry.mjs';
+import { analyzeFields } from '../dist/analysis/analyze-fields.mjs';
+import { prepare, inferPrepared, getDetector, MODEL_POLICY_VERSION } from './detector.mjs';
 import { strictParse } from './strict-json.mjs';
 
 const MAX_BODY_BYTES = 32768;
@@ -36,7 +38,8 @@ function reply(res, status, payload) {
   res.writeHead(status, { 'Content-Type': 'application/json', 'X-Content-Type-Options': 'nosniff' });
   res.end(JSON.stringify(payload));
 }
-export function createHandler({ infer = detect, ready = getDetector, onQueued = () => {} } = {}) {
+export function createHandler({ infer = inferPrepared, prepare: preflight = prepare,
+  recognize = recognizeItalianIdentifiers, ready = getDetector, onQueued = () => {} } = {}) {
   let pending = 0;
   let tail = Promise.resolve();
   // A single inference at a time; up to four requests including the running one.
@@ -75,17 +78,14 @@ export function createHandler({ infer = detect, ready = getDetector, onQueued = 
     }
     try {
       const findings = await queued(async () => {
-        const values = new Set();
-        for (const field of fields) {
-          const allowed = new Set(field.allowedEntityTypes);
-          const detected = detectedCategories(field.text, await infer(field.text));
-          for (const category of detected) {
-            if (!allowed.has(category)) values.add(JSON.stringify([field.fieldId, category]));
-          }
-        }
-        return [...values].map(x => JSON.parse(x))
-          .sort((a, b) => a[0].localeCompare(b[0], 'en') || a[1].localeCompare(b[1], 'en'))
-          .map(([fieldId, entityType]) => ({ fieldId, entityType }));
+        const analyses = await analyzeFields(fields, {
+          prepare: preflight,
+          infer: prepared => infer(prepared),
+        }, recognize, categoriesOf, SCORE_THRESHOLD);
+        return analyses.flatMap(({ fieldId, denied }) => [...denied]
+          .map(entityType => ({ fieldId, entityType })))
+          .sort((a, b) => a.fieldId.localeCompare(b.fieldId, 'en') ||
+            a.entityType.localeCompare(b.entityType, 'en'));
       });
       reply(res, 200, {
         verdict: findings.length ? 'rejected' : 'accepted',

@@ -13,7 +13,8 @@ export const LABEL_MAP = Object.freeze({
   POSTCODE: 'POSTCODE', SECRET: 'SECRET', STREET_ADDRESS: 'STREET_ADDRESS',
   TAX_ID: 'TAX_ID', URL: 'URL', USERNAME: 'USERNAME', VEHICLE_ID: 'VEHICLE_ID',
 });
-export const CATEGORIES = new Set([...Object.values(LABEL_MAP), 'IT_FISCAL_CODE']);
+export const CATEGORIES = new Set([...Object.values(LABEL_MAP), 'IT_FISCAL_CODE',
+  'IT_VAT_CODE', 'IBAN_CODE']);
 export const SCORE_THRESHOLD = 0.35; // PoC threshold, not a calibrated probability.
 export function categoriesOf(results, threshold = SCORE_THRESHOLD) {
   const found = new Set();
