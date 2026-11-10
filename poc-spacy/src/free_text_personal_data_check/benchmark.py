@@ -8,20 +8,9 @@ from statistics import median
 from time import perf_counter
 
 from .analyzer import MODEL_POLICY_VERSION, SCORE_THRESHOLD, detect
-from .policy import forbidden_categories
+from .policy import CATEGORIES, forbidden_categories
+from .structured import validated_categories
 
-CATEGORIES = frozenset(
-    {
-        "PERSON",
-        "EMAIL_ADDRESS",
-        "IT_FISCAL_CODE",
-        "PHONE_NUMBER",
-        "IBAN_CODE",
-        "DATE_TIME",
-        "ORGANIZATION",
-        "LOCATION",
-    }
-)
 CORPUS = Path(__file__).resolve().parents[2] / "bench" / "corpus.json"
 
 
@@ -84,9 +73,11 @@ def evaluate(*, corpus: Path = CORPUS, threshold: float = SCORE_THRESHOLD) -> di
         except Exception:  # noqa: BLE001 - count technical failures without exporting input
             technical_errors += 1
             continue
+        predicted = validated_categories(
+            sample["text"], [r for r in candidates if r.score >= threshold]
+        )
+        candidate_types = validated_categories(sample["text"], candidates)
         latencies.append((perf_counter() - start) * 1000)
-        predicted = {r.entity_type for r in candidates if r.score >= threshold}
-        candidate_types = {r.entity_type for r in candidates}
         expected = set(sample["expectedEntities"])
         allowed = set(sample["allowedEntityTypes"])
         for missing in expected - predicted:

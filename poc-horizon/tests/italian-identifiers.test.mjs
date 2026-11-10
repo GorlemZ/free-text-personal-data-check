@@ -1,7 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vatCandidates } from '../dist/recognizers/vat.mjs';
+import { vatCandidates, validItalianVat } from '../dist/recognizers/vat.mjs';
 import { italianIbanCandidates } from '../dist/recognizers/italian-iban.mjs';
+
+test('all-zero VAT is an invalid placeholder despite matching the checksum', () => {
+  assert.equal(validItalianVat('00000000000'), false);
+  assert.equal(validItalianVat('IT00000000000'), false);
+});
 
 const vat = '12345678903'; // Synthetic string; shape only, no claim of assignment.
 const iban = 'IT60X0542811101000000123456'; // Synthetic, shape only.

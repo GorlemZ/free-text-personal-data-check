@@ -51,7 +51,7 @@ test('readiness and neutral response contract', async () => {
   const result = await post({ fields: [field('Servizio digitale.')] });
   assert.equal(result.status, 200);
   assert.deepEqual(await result.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc4-seven-it-checksum-union', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata', findings: [] });
 });
 test('recognizes a synthetic fiscal-code-shaped value through the HTTP API', async () => {
   const response = await post({ fields: [field('RSSMRA85M01H501Q')] });
@@ -69,7 +69,7 @@ test('recognizes multiple occurrences once and accepts an allowlisted fiscal cod
   const allowed = await post({ fields: [field(text, 'description', ['IT_FISCAL_CODE'])] });
   assert.equal(allowed.status, 200);
   assert.deepEqual(await allowed.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc4-seven-it-checksum-union', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata', findings: [] });
 });
 test('allowlisted fiscal code ignores a known native category outside the catalog', async () => {
   const response = await post({ fields: [field('NATIVE RSSMRA85M01H501Q',

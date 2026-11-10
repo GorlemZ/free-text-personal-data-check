@@ -26,7 +26,7 @@ test('response contract accepts exact sorted deduplicated findings; rejects leak
   assert.deepEqual(assertAnalyzeResponse(400, { code: 'INVALID_ANALYZE_REQUEST' },
     CATEGORIES), { code: 'INVALID_ANALYZE_REQUEST' });
   assert.equal(FIELD_IDS.length, 11);
-  assert.equal(HORIZON_SUPPORTED.size, 12);
+  assert.equal(HORIZON_SUPPORTED.size, 7);
 });
 
 test('requestFor uses a single field and an explicit unfiltered detector probe', () => {

@@ -230,6 +230,7 @@ source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "it-core-news-sm" },
+    { name = "phonenumbers" },
     { name = "presidio-analyzer" },
     { name = "spacy" },
     { name = "uvicorn" },
@@ -247,6 +248,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115,<1" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.27,<1" },
     { name = "it-core-news-sm", url = "https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl" },
+    { name = "phonenumbers", specifier = "==9.0.41" },
     { name = "presidio-analyzer", specifier = ">=2.2.0,<2.3" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8,<9" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11,<1" },

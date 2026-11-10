@@ -9,6 +9,7 @@ description = "Internal Italian free-text PII analyzer proof of concept"
 requires-python = ">=3.11,<3.13"
 dependencies = [
   "presidio-analyzer>=2.2.0,<2.3",
+  "phonenumbers==9.0.41",
   "fastapi>=0.115,<1",
   "uvicorn>=0.34,<1",
   "spacy>=3.8,<3.9",

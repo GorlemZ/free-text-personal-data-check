@@ -4,7 +4,7 @@ import type { RuleCandidate } from '../analysis/contracts.mjs';
 const VAT = /(?<![\p{L}\p{M}\p{N}_])(?:[Ii][Tt])?[0-9]{11}(?![\p{L}\p{M}\p{N}_])/gu;
 export function validItalianVat(value: string): boolean {
   const digits = value.replace(/^[Ii][Tt]/, '');
-  if (!/^[0-9]{11}$/.test(digits)) return false;
+  if (!/^[0-9]{11}$/.test(digits) || digits === '00000000000') return false;
   let sum = 0;
   for (let i = 0; i < 10; i++) {
     let digit = digits.charCodeAt(i) - 48;

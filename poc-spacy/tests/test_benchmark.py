@@ -13,7 +13,7 @@ def test_benchmark_has_ten_scenarios_and_no_individual_outputs(capsys):
     assert report["detector"]["denominator"] > 0
     assert report["policy"]["denominator"] == 10
     assert report["bySplit"]["calibration"]["policy"]["denominator"] == 5
-    assert report["bySplit"]["evaluation"]["detector"]["denominator"] == 40
+    assert report["bySplit"]["evaluation"]["detector"]["denominator"] == 35
     assert "mario.rossi@example.com" not in serialized
     assert "RSSMRA80A01H501U" not in serialized
     assert "text" not in report

@@ -7,7 +7,8 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from .analyzer import MODEL_POLICY_VERSION, detect, get_analyzer
-from .policy import forbidden_categories
+from .policy import CATEGORIES, forbidden_categories
+from .structured import validated_categories
 
 MAX_BODY_BYTES = 32_768
 MAX_FIELDS = 16
@@ -98,8 +99,8 @@ def create_app() -> FastAPI:
                 body.extend(chunk)
             if request.headers.get("content-type", "").split(";", 1)[0] != "application/json":
                 raise InvalidRequest()
-            engine = get_analyzer()
-            fields = _parse(bytes(body), set(engine.get_supported_entities(language="it")))
+            get_analyzer()  # Availability check; catalog is application-owned.
+            fields = _parse(bytes(body), set(CATEGORIES))
         except InvalidRequest:
             return JSONResponse(status_code=400, content={"code": "INVALID_ANALYZE_REQUEST"})
         except Exception:  # noqa: BLE001 - fail closed without exposing input or exception
@@ -110,7 +111,7 @@ def create_app() -> FastAPI:
         try:
             findings = set()
             for field in fields:
-                categories = {result.entity_type for result in detect(field["text"])}
+                categories = validated_categories(field["text"], detect(field["text"]))
                 for entity_type in forbidden_categories(
                     categories, set(field["allowedEntityTypes"])
                 ):

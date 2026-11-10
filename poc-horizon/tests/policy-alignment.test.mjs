@@ -13,7 +13,7 @@ const cf = 'RSSMRA85M01H501Q';
 const vat = '12345678903';
 const iban = 'IT60X0542811101000000123456';
 const card = '4111 1111 1111 1111'; // Synthetic Luhn test number; not a payment credential.
-const phone = '+393123456789'; // Synthetic format example; no assignment claim.
+const phone = '+390212345678'; // phonenumbers IT example metadata; no assignment claim.
 const field = (text, allowedEntityTypes = []) => ({ fieldId: 'description', text, allowedEntityTypes });
 const adapter = results => ({ prepare: text => ({ text }), infer: async () => results });
 const analyze = (text, results = [], allowed = [], recognize = recognizeItalianIdentifiers) =>
@@ -24,7 +24,7 @@ for (const [category, value, candidates, valid, invalid] of [
   ['IT_VAT_CODE', vat, vatCandidates, validItalianVat, vat.slice(0, -1) + '4'],
   ['IBAN_CODE', iban, italianIbanCandidates, validItalianIban, 'IT00' + iban.slice(4)],
   ['CREDIT_CARD', card, creditCardCandidates, validCreditCard, card.slice(0, -1) + '2'],
-  ['PHONE_NUMBER', phone, italianPhoneCandidates, validItalianPhone, '+443331234567'],
+  ['PHONE_NUMBER', phone, italianPhoneCandidates, validItalianPhone, '+999333123456'],
 ]) {
   test(`${category}: valid standalone rule, invalid near miss, and field allowlist`, async () => {
     assert.equal(valid(value), true);
@@ -60,7 +60,7 @@ test('model card and phone require valid original-text spans; unknown or bad spa
   const [badCard] = await analyze('4111 1111 1111 1112', [{ entity_group: 'CREDIT_CARD',
     score: 0.9, start: 0, end: card.length }], [], () => []);
   assert.deepEqual([...badCard.denied], []);
-  const [foreign] = await analyze('+443331234567', [{ entity_group: 'PHONE',
+  const [foreign] = await analyze('+999333123456', [{ entity_group: 'PHONE',
     score: 0.9, start: 0, end: 13 }], [], () => []);
   assert.deepEqual([...foreign.denied], []);
   await assert.rejects(analyze(card, [{ entity_group: 'CREDIT_CARD', score: 0.9,
@@ -89,7 +89,9 @@ test('standalone boundaries reject embedded Unicode tokens and card fragments', 
   const spaced = [...card.replace(/ /g, '')].join(' ');
   assert.equal(creditCardCandidates(spaced)[0].check, 'passed');
   for (const prefix of ['1 ', '1-']) {
-    assert.deepEqual(creditCardCandidates(`${prefix}${spaced}`), []);
+    const [candidate] = creditCardCandidates(`${prefix}${spaced}`);
+    assert.equal(candidate?.start, 0);
+    assert.equal(candidate?.check, 'failed');
   }
   assert.equal(fiscalCodeCandidates(`🙂${cf}`)[0].start, 2); // UTF-16 offsets
 });

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
 export const MODEL_ID = 'Horizon-Labs/pii-redactor-base';
-export const MODEL_POLICY_VERSION = 'horizon-pii-redactor-base-q8-ef0eff8e-poc4-seven-it-checksum-union';
+export const MODEL_POLICY_VERSION = 'horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata';
 const root = resolve(fileURLToPath(new URL('../models/', import.meta.url)));
 env.allowRemoteModels = false;
 env.allowLocalModels = true;

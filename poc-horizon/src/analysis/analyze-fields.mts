@@ -1,8 +1,8 @@
-import { validFiscalCode } from '../recognizers/fiscal-code.mjs';
-import { validItalianVat } from '../recognizers/vat.mjs';
-import { validItalianIban } from '../recognizers/italian-iban.mjs';
-import { validCreditCard } from '../recognizers/credit-card.mjs';
-import { validItalianPhone } from '../recognizers/italian-phone.mjs';
+import { fiscalCodeCandidates, validFiscalCode } from '../recognizers/fiscal-code.mjs';
+import { vatCandidates, validItalianVat } from '../recognizers/vat.mjs';
+import { italianIbanCandidates, validItalianIban } from '../recognizers/italian-iban.mjs';
+import { creditCardCandidates, validCreditCard } from '../recognizers/credit-card.mjs';
+import { italianPhoneCandidates, validItalianPhone } from '../recognizers/italian-phone.mjs';
 import { CATEGORIES } from './contracts.mjs';
 import type { Candidate, Field, RuleCandidate } from './contracts.mjs';
 
@@ -28,11 +28,20 @@ const structuredChecks: Readonly<Record<string, (value: string) => boolean>> = {
   CREDIT_CARD: validCreditCard,
   PHONE_NUMBER: validItalianPhone,
 };
+const structuredRecognizers: Readonly<Record<string, Recognizer>> = {
+  IT_FISCAL_CODE: fiscalCodeCandidates,
+  IT_VAT_CODE: vatCandidates,
+  IBAN_CODE: italianIbanCandidates,
+  CREDIT_CARD: creditCardCandidates,
+  PHONE_NUMBER: italianPhoneCandidates,
+};
 function modelSpanValid(category: string, result: ModelResult, text: string): boolean {
-  const check = structuredChecks[category];
-  // A spanless classification cannot substantiate a format-specific finding.
-  return !check || (result.start !== undefined && result.end !== undefined &&
-    check(text.slice(result.start, result.end)));
+  const recognize = structuredRecognizers[category];
+  // Validate the exact span in its original context, not an isolated substring:
+  // embedded tokens and grouped numeric fragments must obey rule boundaries.
+  return !recognize || (result.start !== undefined && result.end !== undefined &&
+    recognize(text).some(candidate => candidate.start === result.start &&
+      candidate.end === result.end && candidate.check === 'passed'));
 }
 
 export async function analyzeFields(fields: readonly Field[], adapter: Adapter,

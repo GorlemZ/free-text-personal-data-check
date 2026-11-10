@@ -16,7 +16,7 @@ tldextract.tldextract.TLD_EXTRACTOR = tldextract.TLDExtract(
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 from presidio_analyzer.nlp_engine import NlpEngineProvider
 
-MODEL_POLICY_VERSION = "it-spacy-sm-3.8.0-poc1"
+MODEL_POLICY_VERSION = "it-spacy-sm-3.8.0-poc3-international-phone-metadata"
 REQUIRED_ENTITIES = frozenset({"PERSON", "EMAIL_ADDRESS", "IT_FISCAL_CODE"})
 SCORE_THRESHOLD = 0.35
 

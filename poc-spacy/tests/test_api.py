@@ -20,7 +20,7 @@ def test_accepts_one_neutral_italian_description():
     assert response.status_code == 200
     assert response.json() == {
         "verdict": "accepted",
-        "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+        "modelPolicyVersion": "it-spacy-sm-3.8.0-poc3-international-phone-metadata",
         "findings": [],
     }
     assert "Servizio digitale" not in response.text

@@ -16,7 +16,8 @@
     "bench": "npm run build && node bench/benchmark.mjs"
   },
   "dependencies": {
-    "@huggingface/transformers": "4.3.2"
+    "@huggingface/transformers": "4.3.2",
+    "libphonenumber-js": "1.13.16"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
