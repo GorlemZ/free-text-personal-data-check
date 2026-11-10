@@ -5,8 +5,7 @@ import { categoriesOf, CATEGORIES, SCORE_THRESHOLD } from '../src/categories.mjs
 import { recognizeItalianIdentifiers } from '../dist/recognizers/registry.mjs';
 import { analyzeFields } from '../dist/analysis/analyze-fields.mjs';
 
-const monitored = ['PERSON','EMAIL_ADDRESS','IT_FISCAL_CODE','PHONE_NUMBER',
-  'IBAN_CODE','IT_VAT_CODE','DATE_TIME','ORGANIZATION','LOCATION'];
+const monitored = [...CATEGORIES];
 const empty = () => ({ tp: 0, fp: 0, fn: 0, tn: 0, denominator: 0 });
 function tally(count, actual, predicted, labels) {
   for (const label of labels) {
@@ -50,8 +49,9 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD,
     }
     catch { technicalErrors++; continue; }
     latency.push(performance.now()-start);
-    const expected = new Set(sample.expectedEntities), allowed = new Set(sample.allowedEntityTypes);
-    unsupportedExpected += [...expected].filter(x=>!CATEGORIES.has(x)).length;
+    const expected = new Set(sample.expectedEntities.filter(x=>CATEGORIES.has(x)));
+    const allowed = new Set(sample.allowedEntityTypes);
+    unsupportedExpected += sample.expectedEntities.filter(x=>!CATEGORIES.has(x)).length;
     for (const missing of expected) if (!predicted.has(missing))
       falseNegativeDiagnosis[possible.has(missing)?'belowThreshold':'noCandidate']++;
     for (const category of monitored) tally(byCategory[category],expected,predicted,[category]);

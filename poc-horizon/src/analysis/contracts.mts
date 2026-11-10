@@ -1,3 +1,6 @@
+export const CATEGORIES: ReadonlySet<string> = new Set(['PERSON', 'EMAIL_ADDRESS',
+  'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'PHONE_NUMBER']);
+
 export type RuleCandidate = Readonly<{
   source: 'rule'; category: string; start: number; end: number;
   check: 'not_checked' | 'passed' | 'failed';
@@ -41,7 +44,8 @@ export function deniedCategories(field: Field, rules: readonly RuleCandidate[],
   const found = new Set<string>();
   for (const candidate of [...rules, ...model]) {
     assertCandidate(candidate, field.text, categories);
-    if (candidate.source === 'rule' || candidate.score >= threshold) {
+    if ((candidate.source === 'rule' && candidate.check !== 'failed') ||
+        (candidate.source === 'model' && candidate.score >= threshold)) {
       if (!allowed.has(candidate.category)) found.add(candidate.category);
     }
   }

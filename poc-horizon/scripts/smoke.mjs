@@ -22,10 +22,10 @@ try {
     });
     return { status: response.status, body: await response.json() };
   };
-  const valid = await post('Codice fiscale sintetico: ZZZQQQ99A01X000Z.');
+  const valid = await post('Codice fiscale sintetico: RSSMRA85M01H501Q.');
   fiscalCodeDetected = valid.status === 200 &&
     valid.body.findings.some(x => x.entityType === 'IT_FISCAL_CODE');
-  const tooLong = await post('x '.repeat(600) + 'ZZZQQQ99A01X000Z');
+  const tooLong = await post('x '.repeat(600) + 'RSSMRA85M01H501Q');
   fiscalCodeFailClosed = tooLong.status === 503 &&
     tooLong.body.code === 'ANALYZER_UNAVAILABLE';
   if (!fiscalCodeDetected || !fiscalCodeFailClosed)

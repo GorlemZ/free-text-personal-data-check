@@ -51,39 +51,38 @@ test('readiness and neutral response contract', async () => {
   const result = await post({ fields: [field('Servizio digitale.')] });
   assert.equal(result.status, 200);
   assert.deepEqual(await result.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc3-it-cf-vat-iban-union', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc4-seven-it-checksum-union', findings: [] });
 });
 test('recognizes a synthetic fiscal-code-shaped value through the HTTP API', async () => {
-  const response = await post({ fields: [field('ZZZQQQ99A01X000Z')] });
+  const response = await post({ fields: [field('RSSMRA85M01H501Q')] });
   assert.equal(response.status, 200);
   const body = await response.text();
   assert.deepEqual(JSON.parse(body).findings,
     [{ fieldId: 'description', entityType: 'IT_FISCAL_CODE' }]);
-  assert.ok(!body.includes('ZZZQQQ'));
+  assert.ok(!body.includes('RSSMRA'));
 });
 test('recognizes multiple occurrences once and accepts an allowlisted fiscal code', async () => {
-  const text = 'Codice fiscale: ZZZQQQ99A01X000Z; zzzqqq99a01x000a.';
+  const text = 'Codice fiscale: RSSMRA85M01H501Q; rssmra85m01h501q.';
   const rejected = await post({ fields: [field(text)] });
   assert.deepEqual((await rejected.json()).findings,
     [{ fieldId: 'description', entityType: 'IT_FISCAL_CODE' }]);
   const allowed = await post({ fields: [field(text, 'description', ['IT_FISCAL_CODE'])] });
   assert.equal(allowed.status, 200);
   assert.deepEqual(await allowed.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc3-it-cf-vat-iban-union', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc4-seven-it-checksum-union', findings: [] });
 });
-test('allowlisting the fiscal code retains an independently emitted native category', async () => {
-  const response = await post({ fields: [field('NATIVE ZZZQQQ99A01X000Z',
+test('allowlisted fiscal code ignores a known native category outside the catalog', async () => {
+  const response = await post({ fields: [field('NATIVE RSSMRA85M01H501Q',
     'description', ['IT_FISCAL_CODE'])] });
   assert.equal(response.status, 200);
-  assert.deepEqual((await response.json()).findings,
-    [{ fieldId: 'description', entityType: 'DRIVER_LICENSE' }]);
+  assert.deepEqual((await response.json()).findings, []);
 });
 test('a later inference failure returns no partial fiscal-code finding', async () => {
-  const response = await post({ fields: [field('ZZZQQQ99A01X000Z'), field('THROW', 'contactName')] });
+  const response = await post({ fields: [field('RSSMRA85M01H501Q'), field('THROW', 'contactName')] });
   assert.equal(response.status, 503);
   const body = await response.text();
   assert.deepEqual(JSON.parse(body), { code: 'ANALYZER_UNAVAILABLE' });
-  assert.ok(!body.includes('ZZZQQQ'));
+  assert.ok(!body.includes('RSSMRA'));
   assert.ok(!body.includes('IT_FISCAL_CODE'));
 });
 test('rejects email without text; allowlist applies after recognition', async () => {
@@ -147,7 +146,7 @@ test('preflight every field before rules and inference, then run both and union 
       ? [{ category: 'IT_FISCAL_CODE', source: 'rule', start: 0, end: 5, check: 'not_checked' }]
       : []; },
     infer: async ({ text }) => { events.push(`infer:${text}`); return text === 'FIRST'
-      ? [{ entity_group: 'NATIONAL_ID', score: 0.9, start: 0, end: 5 }]
+      ? [{ entity_group: 'PERSON', score: 0.9, start: 0, end: 5 }]
       : []; },
   });
   const local = createServer(handler);
@@ -160,7 +159,7 @@ test('preflight every field before rules and inference, then run both and union 
     });
     assert.equal(response.status, 200);
     assert.deepEqual((await response.json()).findings,
-      [{ fieldId: 'description', entityType: 'NATIONAL_ID' }]);
+      [{ fieldId: 'description', entityType: 'PERSON' }]);
     assert.deepEqual(events, ['prepare:FIRST', 'prepare:SECOND',
       'rules:FIRST', 'infer:FIRST', 'rules:SECOND', 'infer:SECOND']);
   } finally { await new Promise(resolve => local.close(resolve)); }
@@ -189,9 +188,37 @@ test('preflight failure on later field executes neither rules nor inference', as
 
 test('full label mapping and threshold, no false equivalence', () => {
   assert.equal(Object.keys(LABEL_MAP).length, 29);
-  assert.ok(CATEGORIES.has('TAX_ID'));
+  assert.equal(CATEGORIES.size, 7);
+  assert.equal(CATEGORIES.has('TAX_ID'), false);
   assert.ok(CATEGORIES.has('IT_FISCAL_CODE'));
   assert.deepEqual([...categoriesOf([{entity_group:'TAX_ID',score:0.9},
-    {entity_group:'PERSON',score:0.2}])], ['TAX_ID']);
+    {entity_group:'PERSON',score:0.2}])], []);
   assert.throws(() => categoriesOf([{entity_group:'UNKNOWN',score:0.8}]));
+});
+
+test('HTTP ignores known native extras but fails closed for unknown labels and malformed candidates', async () => {
+  const local = createServer(createHandler({ ready: async () => true,
+    prepare: text => ({ text }),
+    infer: async ({ text }) => text === 'UNKNOWN'
+      ? [{ entity_group: 'NEW_LABEL', score: 0.01 }]
+      : text === 'BAD_SPAN'
+        ? [{ entity_group: 'PERSON', score: 0.9, start: 0, end: 99 }]
+        : [{ entity_group: 'BANK_ACCOUNT', score: 0.9 }],
+  }));
+  await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+  try {
+    for (const [text, status, body] of [
+      ['KNOWN', 200, 'accepted'], ['UNKNOWN', 503, 'ANALYZER_UNAVAILABLE'],
+      ['BAD_SPAN', 503, 'ANALYZER_UNAVAILABLE'],
+    ]) {
+      const response = await fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: [field(text)] }),
+      });
+      assert.equal(response.status, status);
+      const result = await response.json();
+      assert.equal(result.verdict ?? result.code, body);
+      assert.deepEqual(result.findings ?? [], []);
+    }
+  } finally { await new Promise(resolve => local.close(resolve)); }
 });
