@@ -1,32 +1,29 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { TARGET_CATEGORIES } from '../catalog.mjs';
-import { LABEL_MAP } from '../../poc-horizon/src/categories.mjs';
+import { nativeToGold } from './category-map.mjs';
 
 const fail = () => { throw new Error('INVALID_CAPABILITIES'); };
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const same = (a, b) => a.length === b.length && new Set(a).size === a.length &&
   a.every(x => b.includes(x));
-const rules = ['IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE'];
 export function validateCapabilities(data) {
   if (!object(data) || data.schemaVersion !== 1 ||
       !same(data.sampledCategories ?? [], TARGET_CATEGORIES) || data.unsampledCategories?.length !== 0 ||
       !object(data.engines) || !same(Object.keys(data.engines), ['presidio', 'horizon'])) fail();
-  const expected = { presidio: Object.fromEntries(TARGET_CATEGORIES.map(x => [x,x])),
-    horizon: { ...LABEL_MAP, ...Object.fromEntries(rules.map(x => [x,x])) } };
   for (const [name, engine] of Object.entries(data.engines)) {
     if (!object(engine) || typeof engine.version !== 'string' || !engine.version ||
         typeof engine.dependency !== 'string' || !engine.dependency ||
         typeof engine.configuration !== 'string' || !engine.configuration ||
-        !object(engine.mapping) || !same(Object.keys(engine.mapping), Object.keys(expected[name])) ||
-        Object.entries(expected[name]).some(([k,v]) => engine.mapping[k] !== v) ||
+        Object.hasOwn(engine, 'mapping') ||
         !object(engine.capabilities) || !same(Object.keys(engine.capabilities), TARGET_CATEGORIES)) fail();
     for (const cap of Object.values(engine.capabilities)) if (!object(cap) ||
       typeof cap.scope !== 'string' || !cap.scope || typeof cap.checksum !== 'string' || !cap.checksum ||
       !Array.isArray(cap.evidence) || !cap.evidence.length ||
       cap.evidence.some(x => typeof x !== 'string' || !x || x.includes('..'))) fail();
   }
-  return data;
+  return { ...data, engines: Object.fromEntries(Object.entries(data.engines).map(([name, engine]) =>
+    [name, { ...engine, mapping: { ...nativeToGold[name] } }])) };
 }
 export async function loadCapabilities(directory = new URL('./', import.meta.url)) {
   try {

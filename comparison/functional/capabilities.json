@@ -7,23 +7,16 @@
     "IT_FISCAL_CODE",
     "IT_VAT_CODE",
     "IBAN_CODE",
-    "CREDIT_CARD"
+    "CREDIT_CARD",
+    "IT_IDENTITY_CARD",
+    "IT_DRIVER_LICENSE"
   ],
   "unsampledCategories": [],
   "engines": {
     "presidio": {
-      "version": "it-spacy-sm-3.8.0-poc3-international-phone-metadata",
+      "version": "it-spacy-sm-3.8.0-poc4-native-italian-documents",
       "dependency": "presidio-analyzer 2.2.364; it_core_news_sm 3.8.0 (poc-spacy/uv.lock)",
-      "configuration": "Source-described Italian spaCy pipeline and structured recognizers; seven-category deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
-      "mapping": {
-        "PERSON": "PERSON",
-        "EMAIL_ADDRESS": "EMAIL_ADDRESS",
-        "PHONE_NUMBER": "PHONE_NUMBER",
-        "IT_FISCAL_CODE": "IT_FISCAL_CODE",
-        "IT_VAT_CODE": "IT_VAT_CODE",
-        "IBAN_CODE": "IBAN_CODE",
-        "CREDIT_CARD": "CREDIT_CARD"
-      },
+      "configuration": "Source-described Italian spaCy pipeline and structured recognizers; nine-category native deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
       "capabilities": {
         "PERSON": {
           "scope": "Contextual human names; not bare ambiguous words or organizations/places.",
@@ -70,6 +63,20 @@
         "CREDIT_CARD": {
           "scope": "13–19 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
           "checksum": "required by the category contract; see source evidence",
+          "evidence": [
+            "poc-spacy/src/free_text_personal_data_check/analyzer.py"
+          ]
+        },
+        "IT_IDENTITY_CARD": {
+          "scope": "Presidio predefined Italian-language IT_IDENTITY_CARD recognizer used as a proxy for Italian CIE candidates; not certified for CIE specificity or assignment.",
+          "checksum": "not applicable; assignment not verified",
+          "evidence": [
+            "poc-spacy/src/free_text_personal_data_check/analyzer.py"
+          ]
+        },
+        "IT_DRIVER_LICENSE": {
+          "scope": "Presidio predefined Italian-language IT_DRIVER_LICENSE recognizer used as a proxy for Italian driving-licence candidates; not certified for country-specific recall or assignment.",
+          "checksum": "not applicable; assignment not verified",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
@@ -77,43 +84,9 @@
       }
     },
     "horizon": {
-      "version": "horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata",
+      "version": "horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories",
       "dependency": "Horizon-Labs/pii-redactor-base q8 local model",
-      "configuration": "Source-described local Horizon model plus Italian identifier recognizers; seven-category deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
-      "mapping": {
-        "ACCOUNT_ID": "ACCOUNT_ID",
-        "AGE": "AGE",
-        "BANK_ACCOUNT": "BANK_ACCOUNT",
-        "COORDINATE": "COORDINATE",
-        "CREDIT_CARD": "CREDIT_CARD",
-        "CREDIT_CARD_CVV": "CREDIT_CARD_CVV",
-        "DATE": "DATE",
-        "DATE_OF_BIRTH": "DATE_OF_BIRTH",
-        "DEVICE_ID": "DEVICE_ID",
-        "DRIVER_LICENSE": "DRIVER_LICENSE",
-        "EMAIL": "EMAIL_ADDRESS",
-        "IP_ADDRESS": "IP_ADDRESS",
-        "LICENSE_NUMBER": "LICENSE_NUMBER",
-        "LOCATION": "LOCATION",
-        "MAC_ADDRESS": "MAC_ADDRESS",
-        "MEDICAL_ID": "MEDICAL_ID",
-        "NATIONAL_ID": "NATIONAL_ID",
-        "ORGANIZATION": "ORGANIZATION",
-        "PASSPORT": "PASSPORT",
-        "PASSWORD": "PASSWORD",
-        "PERSON": "PERSON",
-        "PHONE": "PHONE_NUMBER",
-        "POSTCODE": "POSTCODE",
-        "SECRET": "SECRET",
-        "STREET_ADDRESS": "STREET_ADDRESS",
-        "TAX_ID": "TAX_ID",
-        "URL": "URL",
-        "USERNAME": "USERNAME",
-        "VEHICLE_ID": "VEHICLE_ID",
-        "IT_FISCAL_CODE": "IT_FISCAL_CODE",
-        "IT_VAT_CODE": "IT_VAT_CODE",
-        "IBAN_CODE": "IBAN_CODE"
-      },
+      "configuration": "Source-described local Horizon model plus Italian identifier recognizers; nine-category native deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
       "capabilities": {
         "PERSON": {
           "scope": "Contextual human names; not bare ambiguous words or organizations/places.",
@@ -161,6 +134,22 @@
           "scope": "13–19 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
           "checksum": "required by the category contract; see source evidence",
           "evidence": [
+            "poc-horizon/src/analysis/analyze-fields.mts"
+          ]
+        },
+        "IT_IDENTITY_CARD": {
+          "scope": "Native NATIONAL_ID model label is an Italian CIE evaluation proxy; not a country-specific guarantee or certified recall.",
+          "checksum": "not applicable; assignment not verified",
+          "evidence": [
+            "poc-horizon/src/analysis/contracts.mts",
+            "poc-horizon/src/analysis/analyze-fields.mts"
+          ]
+        },
+        "IT_DRIVER_LICENSE": {
+          "scope": "Native DRIVER_LICENSE model label is an Italian driving-licence evaluation proxy; not a country-specific guarantee or certified recall.",
+          "checksum": "not applicable; assignment not verified",
+          "evidence": [
+            "poc-horizon/src/analysis/contracts.mts",
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         }

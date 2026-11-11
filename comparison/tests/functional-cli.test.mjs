@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadCorpus } from '../functional/load-corpus.mjs';
+import { expandAllowlist } from '../functional/category-map.mjs';
 
 const exec = promisify(execFile);
 const cli = fileURLToPath(new URL('../functional/run.mjs', import.meta.url));
@@ -112,7 +113,13 @@ for (const mode of ['complete', '503', '400', 'malformed', 'version', 'timeout',
       assert.equal(calls.horizon.length, plan.detection.length + plan.policy.length + 1);
       assert.deepEqual(calls.presidio.slice(1), [
         ...plan.detection.map(p => ({ fieldId: p.fieldId, text: p.text, allowedEntityTypes: [] })),
-        ...plan.policy.map(p => ({ fieldId: p.fieldId, text: p.text, allowedEntityTypes: p.allowedEntityTypes })),
+        ...plan.policy.map(p => ({ fieldId: p.fieldId, text: p.text,
+          allowedEntityTypes: expandAllowlist('presidio', p.allowedEntityTypes) })),
+      ]);
+      assert.deepEqual(calls.horizon.slice(1), [
+        ...plan.detection.map(p => ({ fieldId: p.fieldId, text: p.text, allowedEntityTypes: [] })),
+        ...plan.policy.map(p => ({ fieldId: p.fieldId, text: p.text,
+          allowedEntityTypes: expandAllowlist('horizon', p.allowedEntityTypes) })),
       ]);
       assert.equal(manifest.engines.horizon.modelPolicyVersion, versions.horizon);
     } else {

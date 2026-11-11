@@ -34,7 +34,11 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD,
   const bySplit = Object.fromEntries(['calibration','evaluation'].map(k=>[k,{detector:empty(),policy:empty()}]));
   const splits = {calibration:0,evaluation:0}, falseNegativeDiagnosis = {belowThreshold:0,noCandidate:0};
   const latency = [];
-  let technicalErrors = 0, unsupportedExpected = 0;
+  let technicalErrors = 0;
+  for (const sample of samples) {
+    const unsupported = sample.expectedEntities.find(x => !CATEGORIES.has(x));
+    if (unsupported !== undefined) throw new Error(`Unsupported expected entity label: ${unsupported}`);
+  }
   for (const sample of samples) {
     splits[sample.split]++;
     const start = performance.now();
@@ -49,9 +53,8 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD,
     }
     catch { technicalErrors++; continue; }
     latency.push(performance.now()-start);
-    const expected = new Set(sample.expectedEntities.filter(x=>CATEGORIES.has(x)));
+    const expected = new Set(sample.expectedEntities);
     const allowed = new Set(sample.allowedEntityTypes);
-    unsupportedExpected += sample.expectedEntities.filter(x=>!CATEGORIES.has(x)).length;
     for (const missing of expected) if (!predicted.has(missing))
       falseNegativeDiagnosis[possible.has(missing)?'belowThreshold':'noCandidate']++;
     for (const category of monitored) tally(byCategory[category],expected,predicted,[category]);
@@ -71,7 +74,7 @@ export async function evaluate(samples, threshold = SCORE_THRESHOLD,
   }
   return { modelPolicyVersion:MODEL_POLICY_VERSION, threshold, samples:samples.length, splits,
     technicalErrors, unsupportedMonitored:monitored.filter(x=>!CATEGORIES.has(x)),
-    unsupportedExpected, commonCategories:common, commonDetector:rates(commonDetector),
+    unsupportedExpected:0, commonCategories:common, commonDetector:rates(commonDetector),
     commonPolicy:rates(commonPolicy),
     detector:rates(detector), byCategory:Object.fromEntries(Object.entries(byCategory).map(([k,v])=>[k,rates(v)])),
     bySplit:Object.fromEntries(Object.entries(bySplit).map(([k,v])=>[k,{detector:rates(v.detector),policy:rates(v.policy)}])),

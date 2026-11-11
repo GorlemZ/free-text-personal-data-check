@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "review": {
-    "status": "independently-reviewed",
-    "reviewer": "independent-gold-review-subagent (deleg_c06697a7; agent, not human)",
-    "reviewedAt": "2026-11-11T09:35:50Z"
+    "status": "pending",
+    "reviewer": null,
+    "reviewedAt": null
   },
   "heldout": false,
   "sourceData": "synthetic",
@@ -14,38 +14,60 @@
     "IT_FISCAL_CODE",
     "IT_VAT_CODE",
     "IBAN_CODE",
-    "CREDIT_CARD"
+    "CREDIT_CARD",
+    "IT_IDENTITY_CARD",
+    "IT_DRIVER_LICENSE"
   ],
   "counts": {
-    "samples": 185,
-    "detectionSamples": 121,
-    "policyVariants": 64,
-    "categories": 7,
+    "samples": 329,
+    "detectionSamples": 290,
+    "policyVariants": 39,
+    "categories": 9,
     "fieldIds": 11,
-    "families": 37
+    "families": 83
   },
   "provenance": [
     {
+      "id": "faker-synthetic",
+      "kind": "faker-synthetic",
+      "description": "Synthetic values retained from the previous unreviewed generated draft: offline Faker 40.38.0 (MIT license), locale it_IT, seed 20261111 supplied name(), safe_email(), ssn() and cie() only. The surrounding contextual strings have now been individually rewritten as complete literal Italian texts rather than assembled at runtime; isolated values remain unchanged. This is not evidence of issued/assigned identities, delivery, ownership, or correspondence between name and CF. Independent review pending."
+    },
+    {
+      "id": "local-seeded",
+      "kind": "local-seeded",
+      "description": "Synthetic values retained from the previous unreviewed generated draft: locally seeded random.Random(20261111) supplied UCO U1 subtype, phone, VAT, Italian IBAN and payment-card-like numbers, including checksum-mutated full-shape negatives; not Faker values. Contextual prose is now individually authored as complete literal strings; isolated values remain unchanged. Phone metadata was checked with phonenumbers 9.0.41. Domestic CIN, bank, issuer, control-character validity and actual assignment remain unverified. Independent review pending."
+    },
+    {
+      "id": "mixed-synthetic",
+      "kind": "mixed-synthetic",
+      "description": "Synthetic tokens retained from the previous unreviewed generated draft: combinations of Faker name, safe_email, ssn and CIE with locally seeded UCO licence subtype, or a Faker CF mutated locally to fail its check letter. Each multi-category contextual text is now a separately authored full literal string, not a recombination of fields at runtime. Neither source alone accounts for the full text. Independent review pending."
+    },
+    {
       "id": "authored-synthetic",
       "kind": "authored-synthetic",
-      "description": "Authored templates, algorithmically generated checksums and documented example domains; phone plausibility checked with phonenumbers 9.0.41. No production data or assignment guarantee."
+      "description": "Absent, ambiguous or malformed negative candidates originate in the prior unreviewed draft; their surrounding sentences were subsequently rewritten individually as complete literals. No production or remote input sources are claimed. Independent review pending."
     }
   ],
   "limitations": [
-    "Independent human gold review pending; generated checks are not review.",
-    "Development corpus, not held-out and not representative of deployment prevalence.",
-    "Families conservatively group correlated values, formatting, mutations and reused mixture controls; family counts are not independent sample sizes.",
-    "Gold phone checks use phonenumbers 9.0.41, also pinned by Presidio; Horizon pins libphonenumber-js 1.13.16 with separately versioned metadata. Cross-runtime metadata equivalence is not asserted.",
-    "No identity, ownership, card issuer, bank account assignment or domestic CIN verification.",
-    "Omocodia is out of scope; contextual PERSON and email interpretation require review."
+    "Each contextual input is now a complete, individually written literal Italian string; synthetic tokens and gold annotations were retained from a prior unreviewed generated draft, while nine isolated token inputs remain intentionally unchanged. Structural tests and motif counts do not prove linguistic independence or realism; independent qualitative review is pending.",
+    "Independent annotation review pending; automated lexical checks are not human approval.",
+    "The evaluation split is selected but the draft gold is not frozen; heldout=false: model training exposure cannot be excluded and synthetic prevalence is not deployment prevalence.",
+    "Historical family IDs conservatively keep together formerly correlated generated situations and policy variants, even when the rewritten literal prose now differs across categories; family counts are not independent sample sizes.",
+    "fieldId is HTTP wrapper metadata rather than detector input text. These literal strings are not asserted to be representative of what users actually enter in each named form field; compare engines on paired inputs, not as field-specific deployment prevalence or UX examples.",
+    "Gold phone checks use phonenumbers 9.0.41, also pinned by Presidio; Horizon uses libphonenumber-js 1.13.16. Cross-runtime metadata equivalence is not asserted.",
+    "CIE lexical form has no checksum, issuance or assignment claim. U1 covers only the documented UCO duplicate subtype, not all current Italian licences; final control character and assignment are unverified.",
+    "CF morphology/check letter, VAT, IBAN mod97 and Luhn are syntactic/checksum checks; real identities, issuer, bank existence and domestic CIN unverified.",
+    "Gold is complete category presence per text/field, not span or entity count; no detector predictions informed annotations."
   ],
   "policy": {
-    "PERSON": "Full given name and surname, isolated or contextual; single given name or surname requires clear personal context. Bare ambiguous words, organizations and places are negative.",
-    "EMAIL_ADDRESS": "Syntactically valid email addresses, including generic/business mailboxes and single-label domains; no DNS or delivery check. Annotate overlaps even inside excluded-category distractors.",
-    "PHONE_NUMBER": "Any country with explicit + or 00 prefix; national numbers default to IT; metadata-valid whole envelope only, no valid substring salvaged from malformed, long or Unicode-adjacent envelopes.",
-    "IT_FISCAL_CODE": "Canonical 16-character Italian fiscal code with checksum and whole-token boundaries; lowercase accepted; omocodia out of scope, not asserted administratively invalid.",
-    "IT_VAT_CODE": "11 digits with checksum, compact optional IT prefix; all-zero is negative; whole-token boundaries.",
-    "IBAN_CODE": "Italian 27-character IBAN, mod97 valid; ASCII spaces allowed; whole-token boundaries; domestic CIN and assignment not verified.",
-    "CREDIT_CARD": "13–19 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim."
+    "PERSON": "Full name in personal context; single name only with unambiguous personal context; ambiguous words, organizations and places negative.",
+    "EMAIL_ADDRESS": "ASCII syntactic mailbox, including single-label domain; no DNS, delivery or ownership check; incidental mailboxes count.",
+    "PHONE_NUMBER": "Metadata-valid whole phone envelope, Italian default region or explicit international prefix; no malformed-envelope substring salvage; assignment unverified.",
+    "IT_FISCAL_CODE": "Canonical 16-character Italian CF with morphology and check letter, whole token; omocodia excluded by scope, not claimed invalid.",
+    "IT_VAT_CODE": "Nonzero 11-digit Italian VAT with check digit, optional compact IT prefix; whole token. Independent phone overlap also counts.",
+    "IBAN_CODE": "Italian 27-character IBAN with mod97 check, optional ASCII spaces; domestic CIN, bank and assignment unverified.",
+    "CREDIT_CARD": "13–19 ASCII digits passing Luhn, optional spaces or hyphens; issuer and assignment unverified.",
+    "IT_IDENTITY_CARD": "CIE lexical form: two ASCII letters, five digits, two ASCII letters, whole token; no checksum or issuance claim. Paper/foreign cards excluded.",
+    "IT_DRIVER_LICENSE": "Only documented UCO duplicate subtype U1 + permitted letter excluding A,I,O,Q + six digits + final ASCII letter, whole token. Not universal current licence form; final control character/assignment unverified."
   }
 }

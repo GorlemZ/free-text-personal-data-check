@@ -1,5 +1,6 @@
-export const CATEGORIES: ReadonlySet<string> = new Set(['PERSON', 'EMAIL_ADDRESS',
-  'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'PHONE_NUMBER']);
+export const CATEGORIES: ReadonlySet<string> = new Set(['PERSON', 'EMAIL',
+  'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'PHONE_NUMBER', 'PHONE',
+  'NATIONAL_ID', 'DRIVER_LICENSE']);
 
 export type RuleCandidate = Readonly<{
   source: 'rule'; category: string; start: number; end: number;

@@ -1,16 +1,13 @@
 // HTTP-only adapter: never persist request text or raw response bodies.
 import { TARGET_CATEGORIES, FIELD_IDS } from '../catalog.mjs';
-import { LABEL_MAP } from '../../poc-horizon/src/categories.mjs';
+import { nativeToGold, expandAllowlist, validateCategoryMap } from './category-map.mjs';
 import { requestFor, assertAnalyzeResponse } from '../contract.mjs';
 import { post } from '../http-client.mjs';
 
 const engines = ['presidio', 'horizon'];
 const probes = ['detection', 'policy'];
 const categories = new Set(TARGET_CATEGORIES);
-const applicationLabels = new Set([...TARGET_CATEGORIES, ...Object.values(LABEL_MAP),
-  'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'NRP']);
-const horizonMapping = { ...LABEL_MAP, IT_FISCAL_CODE: 'IT_FISCAL_CODE',
-  IT_VAT_CODE: 'IT_VAT_CODE', IBAN_CODE: 'IBAN_CODE' };
+
 const fields = new Set(FIELD_IDS);
 const safeId = x => typeof x === 'string' && /^[a-z][a-z0-9-]{0,63}$/.test(x);
 const safeFamily = x => typeof x === 'string' && /^[a-z][a-z0-9_-]{0,127}$/.test(x);
@@ -36,7 +33,7 @@ const safeMetadata = s => s !== null && typeof s === 'object' &&
   safeList(s.expectedEntities, x => categories.has(x)) &&
   optional(s.allowedEntityTypes, x => safeList(x, y => categories.has(y))) &&
   optional(s.expectedVerdict, x => ['accepted', 'rejected'].includes(x)) &&
-  optional(s.split, x => x === 'development') &&
+  optional(s.split, x => ['development', 'evaluation'].includes(x)) &&
   optional(s.familyId, safeFamily) && optional(s.scenario, safeId) &&
   optional(s.focusCategory, x => categories.has(x)) &&
   optional(s.focusPolarity, x => ['positive', 'negative'].includes(x)) &&
@@ -53,10 +50,8 @@ const safeStratum = s => s !== null && typeof s === 'object' && safeId(s.sourceI
 const safeCapabilities = c => c?.engines && engines.every(name => {
   const engine = c.engines[name];
   return engine?.mapping && engine?.capabilities &&
-    Object.entries(engine.mapping).every(([native, label]) =>
-      /^[A-Z][A-Z0-9_]{0,63}$/.test(native) &&
-      (name === 'presidio' ? (native === label && applicationLabels.has(label)) :
-        horizonMapping[native] === label)) &&
+    Object.keys(engine.mapping).length === Object.keys(nativeToGold[name]).length &&
+    Object.entries(nativeToGold[name]).every(([native, label]) => engine.mapping[native] === label) &&
     Object.keys(engine.capabilities).every(category => categories.has(category));
 });
 const validateConfig = (plan, capabilities, urls, policyVersions) => {
@@ -81,6 +76,7 @@ const fail = (message, bundle) => {
 };
 
 export function createBundle(plan, capabilities) {
+  validateCategoryMap(nativeToGold);
   const bySource = new Map();
   const detectionUnits = plan.detection.map(unit => {
     for (const id of unit.sourceIds) bySource.set(id, unit.detectionCaseId);
@@ -98,25 +94,27 @@ export function createBundle(plan, capabilities) {
   const policyUnits = plan.policy.map(unit => ({ id: unit.id,
     detectionCaseId: bySource.get(unit.id), fieldId: unit.fieldId,
     expectedEntities: [...unit.expectedEntities], allowedEntityTypes: [...unit.allowedEntityTypes],
+    nativeAllowedEntityTypes: Object.fromEntries(engines.map(name =>
+      [name, expandAllowlist(name, unit.allowedEntityTypes)])),
     expectedVerdict: unit.expectedVerdict, split: unit.split, familyId: unit.familyId,
     scenario: unit.scenario, focusCategory: unit.focusCategory,
     focusPolarity: unit.focusPolarity, provenanceId: unit.provenanceId,
     annotationStatus: unit.annotationStatus, tokenCount: unit.tokenCount,
     limitChallenge: unit.limitChallenge }));
-  return { schemaVersion: 1, runStatus: 'complete',
+  return { schemaVersion: 2, runStatus: 'complete',
     capabilities: { categories: [...TARGET_CATEGORIES], engines: Object.fromEntries(engines.map(name =>
       [name, { supportedCategories: Object.keys(capabilities.engines[name].capabilities),
-        mapping: { ...capabilities.engines[name].mapping } }])) },
+        mapping: { ...nativeToGold[name] } }])) },
     detectionUnits, policyUnits,
     observations: Object.fromEntries(engines.map(name => [name, { detection: {}, policy: {} }])) };
 }
 export async function collectEngine(name, endpoint, plan, bundle, version, signal, timeoutMs = 30000) {
-  const labels = new Set(Object.values(bundle.capabilities.engines[name].mapping));
+  const labels = new Set(Object.keys(bundle.capabilities.engines[name].mapping));
   for (const [probe, units] of [['detection', plan.detection], ['policy', plan.policy]]) {
     for (const unit of units) {
       if (signal?.aborted) fail('INTERRUPTED', bundle);
       const id = probe === 'detection' ? unit.detectionCaseId : unit.id;
-      const allowed = probe === 'detection' ? [] : unit.allowedEntityTypes;
+      const allowed = probe === 'detection' ? [] : expandAllowlist(name, unit.allowedEntityTypes);
       let response;
       try {
         response = await post(endpoint, JSON.stringify(requestFor(unit, allowed)), { signal, timeoutMs });
@@ -132,7 +130,7 @@ export async function collectEngine(name, endpoint, plan, bundle, version, signa
         bundle.observations[name][probe][id] = { status: response.status === 0 ? 'transport-error' : 503 };
         bundle.runStatus = 'incomplete';
       } else if (response.status === 400) {
-        bundle.observations[name][probe][id] = { status: 400 };
+        bundle.observations[name][probe][id] = { status: 'contract-error' };
         bundle.runStatus = 'incomplete';
         fail('INVALID_ANALYZE_REQUEST');
       } else {

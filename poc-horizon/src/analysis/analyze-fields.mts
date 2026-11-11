@@ -34,6 +34,7 @@ const structuredRecognizers: Readonly<Record<string, Recognizer>> = {
   IBAN_CODE: italianIbanCandidates,
   CREDIT_CARD: creditCardCandidates,
   PHONE_NUMBER: italianPhoneCandidates,
+  PHONE: italianPhoneCandidates,
 };
 function modelSpanValid(category: string, result: ModelResult, text: string): boolean {
   const recognize = structuredRecognizers[category];
@@ -83,7 +84,7 @@ export async function analyzeFields(fields: readonly Field[], adapter: Adapter,
          (!Number.isInteger(result.start) || !Number.isInteger(result.end) ||
           result.start < 0 || result.end <= result.start ||
           result.end > field.text.length))) throw new Error('INVALID_MODEL_CANDIDATE');
-      // Known native labels outside the seven-category application catalog are ignored.
+      // Known native labels outside the ten-label application catalog are ignored.
       if (!category) continue;
       const candidate: Candidate = { source: 'model', category, score: result.score,
         ...(result.start === undefined ? {} : { start: result.start, end: result.end }) };

@@ -13,6 +13,7 @@ import { renderReport } from './report.mjs';
 import { post } from '../http-client.mjs';
 import { assertAnalyzeResponse } from '../contract.mjs';
 import { createBundle, collectEngine } from './collect.mjs';
+import { nativeToGold } from './category-map.mjs';
 
 const engines = ['presidio', 'horizon'];
 const fail = message => { throw new Error(message); };
@@ -136,7 +137,7 @@ export async function runFunctional(args, overrides = {}) {
         manifest.engines[name] = { imageId: endpoint.imageId,
           network: endpoint.network, bind: endpoint.bind, modelPolicyVersion: null };
         await ready(endpoint.url, endpoint.signal);
-        const labels = new Set(Object.values(capabilities.engines[name].mapping));
+        const labels = new Set(Object.keys(nativeToGold[name]));
         const version = await smoke(endpoint.url, labels, endpoint.signal);
         manifest.engines[name].modelPolicyVersion = version;
         await collectEngine(name, endpoint.url, frozen, bundle, version, endpoint.signal);

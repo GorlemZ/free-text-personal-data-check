@@ -9,13 +9,15 @@ Il servizio rileva categorie di dati personali nei campi liberi, applica le cate
 
 ## Perimetro corrente
 
-`PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`. Policy, checksum e confini sono descritti in `comparison/README.md` e `comparison/manifest.json`.
+Gold semantico a nove categorie: `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD`, `IT_DRIVER_LICENSE`. La carta d'identità nel gold è la CIE corrente; la patente usa soltanto la morfologia documentata per un sottotipo di duplicati italiani, senza verifica di assegnazione o del carattere di controllo. Policy, checksum e confini sono descritti in `comparison/README.md` e `comparison/manifest.json`.
 
-Il gold unico è `comparison/corpus.json`; criteri e stato della review sono in `comparison/manifest.json`. Il confronto invia richieste HTTP ai servizi Docker e produce sensibilità/precisione per categoria e correttezza del verdetto. Nessun hash del gold, metrica prestazionale o secondo run obbligatorio. I risultati storici in `comparison/reports/historical/` mantengono il precedente contratto e non sono confrontabili automaticamente con il gold corrente.
+Le API mantengono etichette **native**: Presidio usa i nomi italiani del gold, mentre Horizon espone `EMAIL`, `PHONE` (modello), `PHONE_NUMBER` (regola), `NATIONAL_ID` e `DRIVER_LICENSE` per le rispettive categorie. Il solo mapping per il confronto è `comparison/functional/category-map.mjs`, applicato all'allowlist prima della richiesta e ai finding dopo la risposta. Le due label Horizon del telefono confluiscono nella medesima categoria del gold; nessuna API espone categorie armonizzate per il comparatore.
+
+Il corpus di bozza è `comparison/corpus.json`, un array di sole stringhe letterali complete; `comparison/gold.json` contiene le annotazioni separate, collegate tramite `textIndex`. Criteri e stato della review sono in `comparison/manifest.json`: **pending, non congelato**. Dopo revisione positiva e congelamento, il confronto potrà inviare richieste HTTP ai servizi Docker e produrre sensibilità/precisione per categoria e correttezza del verdetto. Nessun hash del gold, metrica prestazionale o secondo run obbligatorio. I risultati storici in `comparison/reports/historical/` e la baseline a sette categorie restano nel loro contratto originale e non sono confrontabili automaticamente con il nuovo gold.
 
 ## Perché un'API HTTP
 
-L'API mantiene stabile l'integrazione se il detector o adattatore preserva protocollo, schema e significato delle categorie. `modelPolicyVersion` identifica la policy effettiva; il runner registra quella osservata e ne verifica la coerenza nelle risposte dello stesso servizio. Una libreria nel processo chiamante ridurrebbe il trasporto, ma integrerebbe runtime e risorse del detector nel chiamante.
+L'API mantiene stabile l'integrazione finché protocollo, schema e significato delle **etichette native** restano invariati; il passaggio di Horizon da `EMAIL_ADDRESS`/`PHONE_NUMBER` armonizzati alle label native è un cambio di contratto da recepire nei client. `modelPolicyVersion` identifica la policy effettiva; il runner registra quella osservata e ne verifica la coerenza nelle risposte dello stesso servizio. Una libreria nel processo chiamante ridurrebbe il trasporto, ma integrerebbe runtime e risorse del detector nel chiamante.
 
 `rejected` indica almeno una categoria rilevata e vietata nel campo; `accepted` non prova l'assenza di dati personali.
 

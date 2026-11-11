@@ -39,13 +39,14 @@ for (const [category, value, candidates, valid, invalid] of [
   });
 }
 
-test('catalog is exactly seven; known native extras are ignored before policy, unknown native fails', async () => {
-  assert.deepEqual([...CATEGORIES], ['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE',
-    'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'PHONE_NUMBER']);
+test('catalog is exactly ten; known native extras are ignored before policy, unknown native fails', async () => {
+  assert.deepEqual([...CATEGORIES], ['PERSON', 'EMAIL', 'IT_FISCAL_CODE',
+    'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'PHONE_NUMBER', 'PHONE',
+    'NATIONAL_ID', 'DRIVER_LICENSE']);
   const [analysis] = await analyze('plain text', [
     { entity_group: 'TAX_ID', score: 0.99 },
     { entity_group: 'BANK_ACCOUNT', score: 0.99 },
-    { entity_group: 'NATIONAL_ID', score: 0.99 },
+    { entity_group: 'LICENSE_NUMBER', score: 0.99 },
   ]);
   assert.deepEqual([...analysis.denied], []);
   await assert.rejects(analyze('plain text', [{ entity_group: 'NEW_NATIVE', score: 0.01 }]));

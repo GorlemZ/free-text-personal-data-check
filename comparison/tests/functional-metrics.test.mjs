@@ -159,7 +159,7 @@ test('standalone render preserves the historical catalog without reading current
     !['IT_DRIVER_LICENSE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'].includes(c));
   b.observations.presidio.detection.d2.categories = ['LOCATION'];
   assert.equal(validateReleaseBundle(b), b);
-  assert.equal(analyzeBundle(b).historicalCatalog, true);
+  assert.equal(analyzeBundle(b).legacyHistorical, true);
   assert.throws(() => validateReleaseBundle(b, { detection: [], policy: [] }), /INVALID_BUNDLE/);
 });
 

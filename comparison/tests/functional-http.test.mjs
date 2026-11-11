@@ -1,12 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
 import { collectBundle } from '../functional/collect.mjs';
 import { analyzeBundle } from '../functional/metrics.mjs';
 import { renderReport } from '../functional/report.mjs';
 import { TARGET_CATEGORIES } from '../catalog.mjs';
 import { loadCapabilities } from '../functional/config.mjs';
 import { loadCorpus } from '../functional/load-corpus.mjs';
+import { nativeToGold } from '../functional/category-map.mjs';
 
 const secret = 'SENTINEL_PRIVATE_INPUT';
 const plan = () => ({ detection: [
@@ -25,10 +27,9 @@ const plan = () => ({ detection: [
   { id: 'p3', fieldId: 'contactName', text: 'NEUTRAL_PRIVATE_INPUT', expectedEntities: [],
     allowedEntityTypes: [], expectedVerdict: 'accepted' },
 ], corpusHashes: { gold: 'a'.repeat(64) } });
-const capabilities = { sampledCategories: ['PERSON'], unsampledCategories: TARGET_CATEGORIES.filter(c => c !== 'PERSON'),
+const capabilities = { sampledCategories: TARGET_CATEGORIES, unsampledCategories: [],
   engines: Object.fromEntries(['presidio', 'horizon'].map(e => [e, {
-    capabilities: { PERSON: { scope: 'test' } }, mapping: e === 'presidio' ?
-      { PERSON: 'PERSON', NRP: 'NRP' } : { PERSON: 'PERSON' },
+    capabilities: Object.fromEntries(TARGET_CATEGORIES.map(c => [c, { scope: 'test' }])), mapping: { ...nativeToGold[e] },
   }])) };
 const reply = (fieldId, category, version) => ({ verdict: category ? 'rejected' : 'accepted',
   modelPolicyVersion: version, findings: category ? [{ fieldId, entityType: category }] : [] });
@@ -70,10 +71,10 @@ const run = urls => collectBundle({ plan: plan(), capabilities, urls,
 test('collects two independent probes per engine, maps findings, and emits sanitized self-contained bundle', async () => {
   await withServers({ presidio: normal('p-v1'), horizon: normal('h-v1') }, async ({ urls, calls }) => {
     const bundle = await run(urls);
-    assert.equal(bundle.schemaVersion, 1);
+    assert.equal(bundle.schemaVersion, 2);
     assert.equal(bundle.runStatus, 'complete');
     assert.deepEqual(bundle.capabilities.categories, TARGET_CATEGORIES);
-    assert.deepEqual(bundle.capabilities.engines.horizon.supportedCategories, ['PERSON']);
+    assert.deepEqual(bundle.capabilities.engines.horizon.supportedCategories, TARGET_CATEGORIES);
     assert.deepEqual(bundle.capabilities.engines.horizon.mapping, capabilities.engines.horizon.mapping);
     assert.equal(bundle.detectionUnits.length, 2);
     assert.equal(bundle.policyUnits.length, 3);
@@ -98,19 +99,17 @@ test('collects two independent probes per engine, maps findings, and emits sanit
 
 test('wrong category can reject correctly while detection remains a false negative', async () => {
   const configured = structuredClone(capabilities);
-  configured.engines.horizon.mapping.EMAIL = 'EMAIL_ADDRESS';
-  configured.engines.horizon.capabilities.EMAIL_ADDRESS = { scope: 'test' };
   await withServers({ presidio: normal('p-v1'), horizon: payload => {
     const { fieldId, text, allowedEntityTypes } = payload.fields[0];
     return { body: reply(fieldId, text === secret && !allowedEntityTypes.includes('PERSON') ?
-      'EMAIL_ADDRESS' : null, 'h-v1') };
+      'EMAIL' : null, 'h-v1') };
   } }, async ({ urls }) => {
     const bundle = await collectBundle({ plan: plan(), capabilities: configured, urls,
       policyVersions: { presidio: 'p-v1', horizon: 'h-v1' } });
     const result = analyzeBundle(bundle);
     assert.equal(result.detection.paired.horizon.byCategory.PERSON.counts.fn, 1);
     assert.equal(result.policy.paired.horizon.counts.tp, 1);
-    assert.deepEqual(bundle.observations.horizon.detection.d1.categories, ['EMAIL_ADDRESS']);
+    assert.deepEqual(bundle.observations.horizon.detection.d1.categories, ['EMAIL']);
     assert.equal(result.detection.paired.horizon.byCategory.EMAIL_ADDRESS, undefined); // no gold focus for this axis
   });
 });
@@ -138,11 +137,10 @@ test('503, timeout, and transport errors preserve independent probe denominators
   });
 });
 
-test('rejects model-native labels that the application must map before HTTP emission', async () => {
+test('rejects an out-of-catalog native label before scoring', async () => {
   const nativeCapabilities = structuredClone(capabilities);
-  nativeCapabilities.engines.horizon.mapping.EMAIL = 'EMAIL_ADDRESS';
   await withServers({ presidio: normal('p-v1'), horizon: (payload, n) =>
-    n === 4 ? { body: reply('description', 'EMAIL', 'h-v1') } : normal('h-v1')(payload) },
+    n === 4 ? { body: reply('description', 'LICENSE_NUMBER', 'h-v1') } : normal('h-v1')(payload) },
   async ({ urls }) => {
     const error = await collectBundle({ plan: plan(), capabilities: nativeCapabilities, urls,
       policyVersions: { presidio: 'p-v1', horizon: 'h-v1' } }).catch(e => e);
@@ -157,7 +155,7 @@ test('rejects model-native labels that the application must map before HTTP emis
 
 test('HTTP contract failures stop immediately with sanitized partial evidence and unattempted units', async t => {
   const invalid = [
-    ['400 on validated corpus', { status: 400, body: { code: 'INVALID_ANALYZE_REQUEST' } }, 'INVALID_ANALYZE_REQUEST', 400],
+    ['400 on validated corpus', { status: 400, body: { code: 'INVALID_ANALYZE_REQUEST' } }, 'INVALID_ANALYZE_REQUEST', 'contract-error'],
     ['wrong media type', { type: 'text/plain', raw: secret }, 'INVALID_RESPONSE', 'contract-error'],
     ['malformed JSON', { raw: secret }, 'INVALID_RESPONSE', 'contract-error'],
     ['response field mismatch', { body: reply('description', 'PERSON', 'p-v1') }, 'INVALID_RESPONSE', 'contract-error'],
@@ -285,17 +283,18 @@ test('accepts Horizon application labels from the real frozen capability map', a
   const frozen = await loadCapabilities();
   await withServers({ presidio: normal('p-v1'), horizon: payload => {
     const { fieldId, text, allowedEntityTypes } = payload.fields[0];
-    return { body: reply(fieldId, text === secret && !allowedEntityTypes.includes('EMAIL_ADDRESS') ?
-      'EMAIL_ADDRESS' : null, 'h-v1') };
+    return { body: reply(fieldId, text === secret && !allowedEntityTypes.includes('EMAIL') ?
+      'EMAIL' : null, 'h-v1') };
   } }, async ({ urls }) => {
     const bundle = await collectBundle({ plan: plan(), capabilities: frozen, urls,
       policyVersions: { presidio: 'p-v1', horizon: 'h-v1' } });
-    assert.deepEqual(bundle.observations.horizon.detection.d1.categories, ['EMAIL_ADDRESS']);
-    assert.deepEqual(bundle.observations.horizon.policy.p1.categories, ['EMAIL_ADDRESS']);
+    assert.deepEqual(bundle.observations.horizon.detection.d1.categories, ['EMAIL']);
+    assert.deepEqual(bundle.observations.horizon.policy.p1.categories, ['EMAIL']);
   });
 });
 
 test('pending-review corpus plan traverses loopback without inference or raw evidence', async () => {
+  const texts = JSON.parse(await readFile(new URL('../corpus.json', import.meta.url)));
   const input = await loadCorpus();
   const frozen = await loadCapabilities();
   await withServers({ presidio: payload => ({ body: reply(payload.fields[0].fieldId, null, 'p-v1') }),
@@ -306,23 +305,28 @@ test('pending-review corpus plan traverses loopback without inference or raw evi
     assert.equal(bundle.runStatus, 'complete');
     assert.equal(bundle.detectionUnits.length, input.detection.length);
     assert.equal(bundle.policyUnits.length, input.policy.length);
-    assert.equal(bundle.policyUnits[0].split, 'development');
+    assert.equal(bundle.policyUnits[0].split, input.policy[0].split);
     assert.equal(bundle.policyUnits[0].familyId, input.policy[0].familyId);
     assert.equal(bundle.policyUnits[0].focusCategory, input.policy[0].focusCategory);
     assert.equal(calls.presidio.length, input.detection.length + input.policy.length);
     assert.equal(calls.horizon.length, input.detection.length + input.policy.length);
+    for (const engine of ['presidio', 'horizon']) {
+      const received = calls[engine].map(call => call.payload.fields[0].text);
+      assert.deepEqual(received.slice(0, texts.length), texts, `${engine}: detection literals`);
+      assert.deepEqual(received.slice(texts.length), input.policy.map(p => texts[p.textIndex]),
+        `${engine}: policy literals`);
+    }
     assert.equal(analyzeBundle(bundle).coverage.horizon.policy.successes, input.policy.length);
     assert.ok(!JSON.stringify(bundle).includes(input.detection[0].text));
   });
 });
 
-test('known native extra labels remain diagnostic rather than inventing support', async () => {
+test('native labels outside the evaluated catalog fail the contract', async () => {
   await withServers({ presidio: (payload, n) => n === 2 ?
     { body: reply('contactName', 'NRP', 'p-v1') } : normal('p-v1')(payload),
   horizon: normal('h-v1') }, async ({ urls }) => {
-    const bundle = await run(urls);
-    assert.deepEqual(bundle.observations.presidio.detection.d2.categories, ['NRP']);
-    assert.deepEqual(analyzeBundle(bundle).diagnostics.extraLabels.presidio.detection,
-      [{ id: 'd2', category: 'NRP' }]);
+    const error = await run(urls).catch(e=>e);
+    assert.equal(error.message, 'INVALID_RESPONSE');
+    assert.deepEqual(error.bundle.observations.presidio.detection.d2, { status: 'contract-error' });
   });
 });

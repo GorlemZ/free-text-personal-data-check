@@ -1,6 +1,6 @@
 // Pure, sanitized functional-suite aggregation; no corpus or detector imports.
 import { TARGET_CATEGORIES, FIELD_IDS } from '../catalog.mjs';
-import { LABEL_MAP } from '../../poc-horizon/src/categories.mjs';
+import { nativeToGold, projectFindings } from './category-map.mjs';
 
 const fail = () => { throw new Error('INVALID_BUNDLE'); };
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
@@ -15,10 +15,30 @@ const historicalCategories = ['PERSON', 'ORGANIZATION', 'LOCATION', 'EMAIL_ADDRE
   'IT_IDENTITY_CARD', 'IT_PASSPORT', 'IT_VAT_CODE', 'IBAN_CODE', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'];
 const historicalHorizon = historicalCategories.filter(c => ![
   'IT_DRIVER_LICENSE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'].includes(c));
+// Read-only v1 vocabulary. Never import the live service mapping for historical bundles.
+const legacyHorizon = Object.fromEntries(['ACCOUNT_ID','AGE','BANK_ACCOUNT','COORDINATE','CREDIT_CARD',
+  'CREDIT_CARD_CVV','DATE','DATE_OF_BIRTH','DEVICE_ID','DRIVER_LICENSE','IP_ADDRESS',
+  'LICENSE_NUMBER','LOCATION','MAC_ADDRESS','MEDICAL_ID','NATIONAL_ID','ORGANIZATION','PASSPORT',
+  'PASSWORD','PERSON','POSTCODE','SECRET','STREET_ADDRESS','TAX_ID','URL','USERNAME','VEHICLE_ID',
+  'IT_FISCAL_CODE','IT_VAT_CODE','IBAN_CODE'].map(c => [c,c]));
+legacyHorizon.EMAIL = 'EMAIL_ADDRESS'; legacyHorizon.PHONE = 'PHONE_NUMBER';
 const nativeCategories = {
   presidio: new Set([...historicalCategories, 'NRP']),
-  horizon: new Set([...Object.values(LABEL_MAP), 'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE']),
+  horizon: new Set([...Object.values(legacyHorizon), 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']),
 };
+// Frozen schema-2 *reader* contract, independent of the live collector map.
+// Snapshot values still drive projection, but may not redefine wire semantics.
+const v2ReadCategories = Object.freeze(['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER',
+  'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD',
+  'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']);
+const v2ReadMapping = Object.freeze({
+  presidio: Object.freeze(Object.fromEntries(v2ReadCategories.map(category => [category, category]))),
+  horizon: Object.freeze({ PERSON: 'PERSON', EMAIL: 'EMAIL_ADDRESS', PHONE: 'PHONE_NUMBER',
+    PHONE_NUMBER: 'PHONE_NUMBER', IT_FISCAL_CODE: 'IT_FISCAL_CODE', IT_VAT_CODE: 'IT_VAT_CODE',
+    IBAN_CODE: 'IBAN_CODE', CREDIT_CARD: 'CREDIT_CARD', NATIONAL_ID: 'IT_IDENTITY_CARD',
+    DRIVER_LICENSE: 'IT_DRIVER_LICENSE' }),
+});
+const projectedCatalogs = new WeakMap();
 const keys = (value, required, optional = []) => object(value) &&
   required.every(k => Object.hasOwn(value, k)) &&
   Object.keys(value).every(k => required.includes(k) || optional.includes(k));
@@ -27,7 +47,7 @@ const safeFamily = value => typeof value === 'string' && /^[a-z][a-z0-9_-]{0,127
 const metadataKeys = ['split', 'familyId', 'scenario', 'focusCategory', 'focusPolarity',
   'provenanceId', 'annotationStatus', 'tokenCount', 'limitChallenge'];
 const metadataValid = (unit, catalog) =>
-  optional(unit.split, x => x === 'development') && optional(unit.familyId, safeFamily) &&
+  optional(unit.split, x => ['development', 'evaluation'].includes(x)) && optional(unit.familyId, safeFamily) &&
   optional(unit.scenario, safeId) && optional(unit.focusCategory, x => catalog.has(x)) &&
   optional(unit.focusPolarity, x => ['positive', 'negative'].includes(x)) &&
   optional(unit.provenanceId, safeId) &&
@@ -54,7 +74,7 @@ function validateSafeShape(bundle) {
     if (!keys(cap, ['supportedCategories'], ['mapping']) || !keys(bundle.observations[engine], probes)) fail();
     if (cap.mapping !== undefined && (!object(cap.mapping) || Object.entries(cap.mapping).some(([native, label]) =>
       engine === 'presidio' ? native !== label || !nativeCategories.presidio.has(label) :
-        ({ ...LABEL_MAP, IT_FISCAL_CODE: 'IT_FISCAL_CODE', IT_VAT_CODE: 'IT_VAT_CODE', IBAN_CODE: 'IBAN_CODE' })[native] !== label))) fail();
+        legacyHorizon[native] !== label))) fail();
   }
   for (const unit of bundle.detectionUnits) {
     if (!keys(unit, ['id', 'sourceIds', 'fieldId', 'expectedEntities'], [...metadataKeys, 'strata']) ||
@@ -96,14 +116,85 @@ const statusKind = o => o === undefined || o?.status === 'unattempted' ? 'unatte
   o?.status === 200 ? 'success' : [400, 'contract-error'].includes(o?.status) ? 'contract' :
   [503, 'timeout', 'transport-error', 'crash'].includes(o?.status) ? 'technical' : fail();
 
+// V2 validates the native wire evidence before projecting it into the existing
+// category-presence scorer. A v1 bundle never enters this path.
+function projectV2(bundle) {
+  if (!keys(bundle, ['schemaVersion','runStatus','capabilities','detectionUnits','policyUnits','observations']) ||
+      !keys(bundle.capabilities, ['categories','engines']) ||
+      !uniqueStrings(bundle.capabilities.categories) || !same(bundle.capabilities.categories, v2ReadCategories) ||
+      bundle.capabilities.categories.some(c => !/^[A-Z][A-Z0-9_]{0,63}$/.test(c)) ||
+      !keys(bundle.capabilities.engines, engines) || !keys(bundle.observations, engines) ||
+      !Array.isArray(bundle.policyUnits) || !Array.isArray(bundle.detectionUnits)) fail();
+  const mapping = {};
+  for (const engine of engines) {
+    const cap = bundle.capabilities.engines[engine];
+    if (!keys(cap, ['supportedCategories','mapping']) || !uniqueStrings(cap.supportedCategories) ||
+        !same(cap.supportedCategories, bundle.capabilities.categories) || !object(cap.mapping) ||
+        Object.keys(cap.mapping).length === 0 ||
+        Object.entries(cap.mapping).some(([label, gold]) =>
+          !/^[A-Z][A-Z0-9_]{0,63}$/.test(label) || !bundle.capabilities.categories.includes(gold)) ||
+        !same([...new Set(Object.values(cap.mapping))], bundle.capabilities.categories) ||
+        !same(Object.keys(cap.mapping), Object.keys(v2ReadMapping[engine])) ||
+        Object.entries(v2ReadMapping[engine]).some(([label, gold]) => cap.mapping[label] !== gold) ||
+        !keys(bundle.observations[engine], probes)) fail();
+    mapping[engine] = cap.mapping;
+  }
+  for (const unit of bundle.policyUnits) {
+    if (!keys(unit, ['id','detectionCaseId','fieldId','expectedEntities','allowedEntityTypes',
+      'nativeAllowedEntityTypes','expectedVerdict'], metadataKeys) ||
+      !keys(unit.nativeAllowedEntityTypes, engines) ||
+      !uniqueStrings(unit.allowedEntityTypes) ||
+      unit.allowedEntityTypes.some(category => !bundle.capabilities.categories.includes(category))) fail();
+    for (const engine of engines) {
+      const native = unit.nativeAllowedEntityTypes[engine];
+      const expected = Object.entries(mapping[engine]).filter(([,gold]) =>
+        unit.allowedEntityTypes.includes(gold)).map(([label]) => label);
+      if (!uniqueStrings(native) || !same(native, expected)) fail();
+    }
+  }
+  for (const engine of engines) for (const probe of probes) {
+    const observations = bundle.observations[engine][probe];
+    if (!object(observations)) fail();
+    for (const [id, o] of Object.entries(observations)) {
+      const kind = statusKind(o);
+      if (!object(o) || !keys(o, kind === 'success' ? ['status','categories','verdict'] : ['status']) ||
+          (kind !== 'success' && Object.keys(o).length !== 1)) fail();
+      if (kind !== 'success') continue;
+      const unit = probe === 'policy' ? bundle.policyUnits.find(u => u.id === id) :
+        bundle.detectionUnits.find(u => u.id === id);
+      if (!unit || !uniqueStrings(o.categories) || o.categories.some(label =>
+        !Object.hasOwn(mapping[engine], label) ||
+        (probe === 'policy' && unit.nativeAllowedEntityTypes[engine].includes(label))) ||
+        (probe === 'policy' && !['accepted','rejected'].includes(o.verdict)) ||
+        o.verdict !== (o.categories.length ? 'rejected' : 'accepted')) fail();
+    }
+  }
+  const projected = { schemaVersion: 1, runStatus: bundle.runStatus,
+    capabilities: { categories: bundle.capabilities.categories, engines: Object.fromEntries(engines.map(e =>
+      [e, { supportedCategories: bundle.capabilities.engines[e].supportedCategories }])) },
+    detectionUnits: bundle.detectionUnits, policyUnits: bundle.policyUnits.map(({ nativeAllowedEntityTypes, ...unit }) => unit),
+    observations: Object.fromEntries(engines.map(e => [e, Object.fromEntries(probes.map(p =>
+      [p, Object.fromEntries(Object.entries(bundle.observations[e][p]).map(([id,o]) => [id,
+        o.status === 200 ? { ...o, categories: projectFindings(e, o.categories, mapping) } : o]))]) )])) };
+  projectedCatalogs.set(projected, new Set(bundle.capabilities.categories));
+  return projected;
+}
+
 /** Compare to the gold loaded for this run; standalone rendering checks schema and links only. */
 export function validateReleaseBundle(bundle, plan) {
   const summary = analyzeBundle(bundle);
   if (bundle.runStatus === 'complete' && summary.runStatus !== 'complete') fail();
+  if (bundle.schemaVersion === 2 && plan !== undefined && engines.some(e =>
+    !same(Object.keys(bundle.capabilities.engines[e].mapping), Object.keys(nativeToGold[e])) ||
+    Object.entries(nativeToGold[e]).some(([label,gold]) => bundle.capabilities.engines[e].mapping[label] !== gold))) fail();
   const legacy = plan === undefined && same(bundle.capabilities.categories, historicalCategories) &&
     same(bundle.capabilities.engines.presidio.supportedCategories, historicalCategories) &&
     same(bundle.capabilities.engines.horizon.supportedCategories, historicalHorizon);
-  if (!legacy && (!same(bundle.capabilities.categories, TARGET_CATEGORIES) ||
+  const seven = TARGET_CATEGORIES.filter(c => !['IT_IDENTITY_CARD','IT_DRIVER_LICENSE'].includes(c));
+  if (bundle.schemaVersion === 1) {
+    if (!legacy && !(plan === undefined && same(bundle.capabilities.categories, seven) &&
+      engines.every(e => same(bundle.capabilities.engines[e].supportedCategories, seven)))) fail();
+  } else if (plan !== undefined && (!same(bundle.capabilities.categories, TARGET_CATEGORIES) ||
       engines.some(e => !same(bundle.capabilities.engines[e].supportedCategories, TARGET_CATEGORIES)))) fail();
   if (plan === undefined) return bundle;
   if (!Array.isArray(plan.detection) || !Array.isArray(plan.policy) ||
@@ -113,12 +204,18 @@ export function validateReleaseBundle(bundle, plan) {
   for (const expected of plan.detection) {
     const actual = actualDetection.get(expected.detectionCaseId);
     if (!actual || actual.fieldId !== expected.fieldId ||
-      actual.focusCategory !== expected.focusCategory ||
+      metadataKeys.some(k => actual[k] !== expected[k]) ||
       !same(actual.sourceIds, expected.sourceIds) ||
       !same(actual.expectedEntities, expected.expectedEntities) ||
       !Array.isArray(actual.strata) || actual.strata.length !== expected.strata.length ||
       expected.strata.some(s => !actual.strata.some(t =>
-        t.sourceId === s.sourceId && t.focusCategory === s.focusCategory && t.scenario === s.scenario))) fail();
+        t.sourceId === s.sourceId && t.focusCategory === s.focusCategory && t.scenario === s.scenario &&
+        t.fieldId === s.fieldId && t.provenanceId === s.provenanceId &&
+        t.expectedVerdict === s.expectedVerdict && t.focusPolarity === s.focusPolarity &&
+        same(t.allowedEntityTypes ?? [], s.allowedEntityTypes ?? []) &&
+        JSON.stringify(t.annotation) === JSON.stringify(s.annotation ? Object.fromEntries(
+          ['target','form','checksum','assignment','domesticCin'].filter(k =>
+            Object.hasOwn(s.annotation,k)).map(k => [k,s.annotation[k]])) : undefined)))) fail();
   }
   const sourceToDetection = new Map(plan.detection.flatMap(d => d.sourceIds.map(id => [id, d.detectionCaseId])));
   for (const expected of plan.policy) {
@@ -126,7 +223,8 @@ export function validateReleaseBundle(bundle, plan) {
     if (!actual || actual.detectionCaseId !== sourceToDetection.get(expected.id) ||
       actual.fieldId !== expected.fieldId || !same(actual.expectedEntities, expected.expectedEntities) ||
       !same(actual.allowedEntityTypes, expected.allowedEntityTypes) ||
-      actual.expectedVerdict !== expected.expectedVerdict) fail();
+      actual.expectedVerdict !== expected.expectedVerdict ||
+      metadataKeys.some(k => actual[k] !== expected[k])) fail();
   }
   return bundle;
 }
@@ -137,6 +235,14 @@ export function validateReleaseBundle(bundle, plan) {
  * Successful observations use categories: string[] (native categories after mapping), not findings.
  */
 export function analyzeBundle(bundle) {
+  if (bundle?.schemaVersion === 2) {
+    const projected = projectV2(bundle);
+    const summary = analyzeBundle(projected);
+    summary.schemaVersion = 2;
+    summary.sampleSplit = [...new Set(bundle.detectionUnits.map(u => u.split).filter(Boolean))].join(',') || 'unspecified';
+    verifiedSummaries.set(summary, JSON.stringify(summary));
+    return summary;
+  }
   validateSafeShape(bundle);
   if (!object(bundle) || bundle.schemaVersion !== 1 ||
     !object(bundle.capabilities) || !uniqueStrings(bundle.capabilities.categories) ||
@@ -203,7 +309,8 @@ export function analyzeBundle(bundle) {
         counts.attempted++;
         if (kind === 'technical') { counts.technicalErrors++; continue; }
         if (kind === 'contract') { counts.contractErrors++; continue; }
-        if (!uniqueStrings(o.categories) || o.categories.some(c => !nativeCategories[engine].has(c)) ||
+        if (!uniqueStrings(o.categories) || o.categories.some(c =>
+          !(projectedCatalogs.get(bundle) ?? nativeCategories[engine]).has(c)) ||
           (probe === 'policy' && (!['accepted', 'rejected'].includes(o.verdict) ||
             o.categories.some(c => unit.allowedEntityTypes.includes(c)))) ||
           (probe === 'detection' && o.verdict !== undefined && !['accepted', 'rejected'].includes(o.verdict)) ||
@@ -306,6 +413,25 @@ export function analyzeBundle(bundle) {
       [...units[p]].filter(([id]) => statusKind(bundle.observations[e][p][id]) === 'success')
         .flatMap(([id]) => bundle.observations[e][p][id].categories
           .filter(c => !catalog.has(c)).map(category => ({ id, category }))) ]))])) } };
+  if (summary.historicalCatalog) {
+    // Frozen pre-seven-category summary layout; the old published artifacts
+    // predate exact-set and conditional policy-rate additions.
+    delete summary.historicalCatalog;
+    for (const cohort of ['own','paired']) for (const engine of engines) {
+      delete summary.detection[cohort][engine].exactSet;
+      delete summary.policy[cohort][engine].falseAcceptanceRate;
+      delete summary.policy[cohort][engine].falseRejectionRate;
+    }
+    Object.defineProperty(summary, 'legacyHistorical', { value: true });
+    const undue = bundle.policyUnits.filter(u => u.expectedVerdict === 'accepted' &&
+      bundle.observations.horizon.policy[u.id]?.verdict === 'rejected');
+    const extras = undue.filter(u => bundle.observations.horizon.policy[u.id].categories.some(c => !catalog.has(c)));
+    const extrasOnly = extras.filter(u => bundle.observations.horizon.policy[u.id].categories.every(c =>
+      !catalog.has(c) || u.allowedEntityTypes.includes(c)));
+    Object.defineProperty(summary, 'legacyAudit', { value: { undue: undue.length,
+      extras: extras.length, extrasOnly: extrasOnly.length,
+      categories: Object.keys(summary.detection.paired.presidio.byCategory).length } });
+  }
   verifiedSummaries.set(summary, JSON.stringify(summary));
   return summary;
 }

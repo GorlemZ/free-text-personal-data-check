@@ -57,13 +57,14 @@ for (const [category, value] of fixtures) {
       assert.ok(recognizeItalianIdentifiers(text).some(candidate => candidate.category === category &&
         candidate.start === start && candidate.end === end && candidate.check === 'passed'));
       const result = await modelAnalysis(category, text, start, end);
-      assert.deepEqual([...result.detected], [category]);
-      assert.deepEqual([...result.possible], [category]);
-      assert.deepEqual([...result.denied], [category]);
+      const nativeModelCategory = category === 'PHONE_NUMBER' ? 'PHONE' : category;
+      assert.deepEqual([...result.detected], [nativeModelCategory]);
+      assert.deepEqual([...result.possible], [nativeModelCategory]);
+      assert.deepEqual([...result.denied], [nativeModelCategory]);
       const low = await modelAnalysis(category, text, start, end, 0.1);
       assert.deepEqual([...low.detected], []);
-      assert.deepEqual([...low.possible], [category]);
-      const allowed = await modelAnalysis(category, text, start, end, 0.9, [category]);
+      assert.deepEqual([...low.possible], [nativeModelCategory]);
+      const allowed = await modelAnalysis(category, text, start, end, 0.9, [nativeModelCategory]);
       assert.deepEqual([...allowed.denied], []);
     }
   });
@@ -87,4 +88,20 @@ test('model phone spans cannot drop an adjacent country prefix', async () => {
     assert.deepEqual([...result.detected], []);
     assert.deepEqual([...result.possible], []);
   }
+});
+
+test('native model PHONE keeps the full-span metadata gate independent of rule PHONE_NUMBER', async () => {
+  const text = '0212345678'; // Metadata example; not an assignment claim.
+  const full = await modelAnalysis('PHONE_NUMBER', text, 0, text.length);
+  assert.deepEqual([...full.detected], ['PHONE']);
+  const missing = await modelAnalysis('PHONE_NUMBER', text);
+  assert.deepEqual([...missing.detected], []);
+  const partial = await modelAnalysis('PHONE_NUMBER', text, 1, text.length);
+  assert.deepEqual([...partial.detected], []);
+  const invalid = await modelAnalysis('PHONE_NUMBER', '+999 02 1234 5678', 5, 17);
+  assert.deepEqual([...invalid.detected], []);
+  const allowed = await modelAnalysis('PHONE_NUMBER', text, 0, text.length, 0.9, ['PHONE']);
+  assert.deepEqual([...allowed.denied], []);
+  const wrongAlias = await modelAnalysis('PHONE_NUMBER', text, 0, text.length, 0.9, ['PHONE_NUMBER']);
+  assert.deepEqual([...wrongAlias.denied], ['PHONE']);
 });

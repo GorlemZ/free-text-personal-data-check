@@ -13,7 +13,7 @@ before(async () => {
     prepare: text => ({ text }),
     infer: async ({ text }) => {
       if (text === 'THROW') throw Error('SENTINELSECRET');
-      if (text.includes('NATIVE')) return [{ entity_group: 'DRIVER_LICENSE', score: 0.9,
+      if (text.includes('NATIVE')) return [{ entity_group: 'LICENSE_NUMBER', score: 0.9,
         word: 'SENTINELSECRET' }];
       return text.includes('mario.rossi@example.com')
         ? [{ entity_group: 'EMAIL', score: 0.9, word: 'mario.rossi@example.com' }]
@@ -51,7 +51,7 @@ test('readiness and neutral response contract', async () => {
   const result = await post({ fields: [field('Servizio digitale.')] });
   assert.equal(result.status, 200);
   assert.deepEqual(await result.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories', findings: [] });
 });
 test('recognizes a synthetic fiscal-code-shaped value through the HTTP API', async () => {
   const response = await post({ fields: [field('RSSMRA85M01H501Q')] });
@@ -69,7 +69,7 @@ test('recognizes multiple occurrences once and accepts an allowlisted fiscal cod
   const allowed = await post({ fields: [field(text, 'description', ['IT_FISCAL_CODE'])] });
   assert.equal(allowed.status, 200);
   assert.deepEqual(await allowed.json(), { verdict: 'accepted',
-    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata', findings: [] });
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories', findings: [] });
 });
 test('allowlisted fiscal code ignores a known native category outside the catalog', async () => {
   const response = await post({ fields: [field('NATIVE RSSMRA85M01H501Q',
@@ -90,11 +90,125 @@ test('rejects email without text; allowlist applies after recognition', async ()
   assert.equal(response.status, 200);
   const body = await response.text();
   assert.deepEqual(JSON.parse(body).findings,
-    [{ fieldId: 'description', entityType: 'EMAIL_ADDRESS' }]);
+    [{ fieldId: 'description', entityType: 'EMAIL' }]);
   assert.ok(!body.includes('mario.rossi'));
+  const exempt = await post({ fields: [field('mario.rossi@example.com', 'description', ['EMAIL'])] });
+  assert.equal(exempt.status, 200);
+  assert.deepEqual((await exempt.json()).findings, []);
   const allowed = await post({ fields: [field('Mario Rossi', 'description', ['PERSON'])] });
   assert.equal((await allowed.json()).verdict, 'accepted');
 });
+test('native document labels survive the HTTP route and respect their own allowlists', async () => {
+  for (const label of ['NATIONAL_ID', 'DRIVER_LICENSE']) {
+    const local = createServer(createHandler({ ready: async () => true,
+      prepare: text => ({ text }), recognize: () => [],
+      infer: async () => [{ entity_group: label, score: 0.9 }],
+    }));
+    await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+    try {
+      const request = allowedEntityTypes => fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: [field('synthetic document marker', 'description', allowedEntityTypes)] }),
+      });
+      const denied = await request([]);
+      assert.equal(denied.status, 200);
+      assert.deepEqual((await denied.json()).findings, [{ fieldId: 'description', entityType: label }]);
+      const allowed = await request([label]);
+      assert.equal(allowed.status, 200);
+      assert.deepEqual(await allowed.json(), { verdict: 'accepted',
+        modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories', findings: [] });
+    } finally { await new Promise(resolve => local.close(resolve)); }
+  }
+});
+
+test('HTTP exposes both native phone producers and exact native allowlisting', async () => {
+  const text = '0212345678'; // Metadata example; not an assignment claim.
+  const local = createServer(createHandler({ ready: async () => true,
+    prepare: text => ({ text }),
+    infer: async ({ text: input }) => [{ entity_group: 'PHONE', score: 0.9,
+      start: 0, end: input.length }],
+  }));
+  await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+  try {
+    const request = allowedEntityTypes => fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: [field(text, 'description', allowedEntityTypes)] }),
+    });
+    for (const [allowed, expected] of [
+      [[], ['PHONE', 'PHONE_NUMBER']],
+      [['PHONE'], ['PHONE_NUMBER']],
+      [['PHONE_NUMBER'], ['PHONE']],
+      [['PHONE', 'PHONE_NUMBER'], []],
+    ]) {
+      const response = await request(allowed);
+      assert.equal(response.status, 200);
+      assert.deepEqual((await response.json()).findings.map(f => f.entityType), expected);
+    }
+  } finally { await new Promise(resolve => local.close(resolve)); }
+});
+
+test('malformed phone envelope cannot escape native model span gate over HTTP', async () => {
+  const text = '+999 02 1234 5678';
+  const local = createServer(createHandler({ ready: async () => true,
+    prepare: text => ({ text }), infer: async () => [{ entity_group: 'PHONE', score: 0.9,
+      start: text.indexOf('02'), end: text.length }],
+  }));
+  await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+  try {
+    const response = await fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: [field(text)] }),
+    });
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { verdict: 'accepted',
+      modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories', findings: [] });
+  } finally { await new Promise(resolve => local.close(resolve)); }
+});
+
+test('late model failure discards a prior native document finding', async () => {
+  const local = createServer(createHandler({ ready: async () => true,
+    prepare: text => ({ text }), recognize: () => [],
+    infer: async ({ text }) => { if (text === 'FAIL') throw Error('SENTINELSECRET');
+      return [{ entity_group: 'DRIVER_LICENSE', score: 0.9 }]; },
+  }));
+  await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+  try {
+    const response = await fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: [field('synthetic doc'), field('FAIL', 'contactName')] }),
+    });
+    assert.equal(response.status, 503);
+    assert.deepEqual(await response.json(), { code: 'ANALYZER_UNAVAILABLE' });
+  } finally { await new Promise(resolve => local.close(resolve)); }
+});
+
+test('all ten native labels form an accepted HTTP allowlist', async () => {
+  const allowed = [...CATEGORIES];
+  assert.equal(allowed.length, 10);
+  const response = await post({ fields: [field('mario.rossi@example.com', 'description', allowed)] });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { verdict: 'accepted',
+    modelPolicyVersion: 'horizon-pii-redactor-base-q8-ef0eff8e-poc6-native-categories', findings: [] });
+});
+
+test('PERSON and native document remain independently forbidden over the same span', async () => {
+  const local = createServer(createHandler({ ready: async () => true,
+    prepare: text => ({ text }), recognize: () => [],
+    infer: async () => [{ entity_group: 'PERSON', score: 0.9 },
+      { entity_group: 'NATIONAL_ID', score: 0.9 }],
+  }));
+  await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
+  try {
+    const response = await fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: [field('synthetic overlap', 'description', ['PERSON'])] }),
+    });
+    assert.equal(response.status, 200);
+    assert.deepEqual((await response.json()).findings,
+      [{ fieldId: 'description', entityType: 'NATIONAL_ID' }]);
+  } finally { await new Promise(resolve => local.close(resolve)); }
+});
+
 test('duplicate keys, fields, category, unknown ID, oversized body are 400', async () => {
   for (const body of [
     '{"fields":[],"fields":[{"fieldId":"description","text":"SENTINELSECRET","allowedEntityTypes":[] }]}',
@@ -104,6 +218,8 @@ test('duplicate keys, fields, category, unknown ID, oversized body are 400', asy
     { fields: [field('SENTINELSECRET','description',['PERSON','PERSON'])] },
     { fields: [field('SENTINELSECRET','SENTINELSECRET')] },
     { fields: [field('SENTINELSECRET','description',['UNKNOWN_CATEGORY'])] },
+    { fields: [field('SENTINELSECRET','description',['EMAIL_ADDRESS'])] },
+    { fields: [field('SENTINELSECRET','description',['LICENSE_NUMBER'])] },
     { fields: [field('SENTINELSECRET'.repeat(3000))] },
     ' '.repeat(33000),
   ]) {
@@ -188,7 +304,7 @@ test('preflight failure on later field executes neither rules nor inference', as
 
 test('full label mapping and threshold, no false equivalence', () => {
   assert.equal(Object.keys(LABEL_MAP).length, 29);
-  assert.equal(CATEGORIES.size, 7);
+  assert.equal(CATEGORIES.size, 10);
   assert.equal(CATEGORIES.has('TAX_ID'), false);
   assert.ok(CATEGORIES.has('IT_FISCAL_CODE'));
   assert.deepEqual([...categoriesOf([{entity_group:'TAX_ID',score:0.9},

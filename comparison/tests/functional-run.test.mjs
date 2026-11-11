@@ -79,6 +79,18 @@ const dependencies = (urls, events) => ({
 });
 const runArgs = output => ['--presidio-image', 'fake:p', '--horizon-image', 'fake:h', '--output-dir', output];
 
+test('CLI smoke accepts Horizon native EMAIL without interpreting it as Presidio vocabulary', async () => {
+  await fixture(async dir => fakeServices(async ({ urls }) => {
+    const result = await runFunctional(runArgs(join(dir, 'native-smoke')), {
+      ...dependencies(urls, []),
+    });
+    assert.equal(result.status, 'complete');
+  }, { horizon: (body,n) => n === 1 ? { status:200, body:JSON.stringify({
+    verdict:'rejected',modelPolicyVersion:versions.horizon,
+    findings:[{fieldId:'description',entityType:'EMAIL'}],
+  }) } : null }));
+});
+
 test('strict CLI arguments distinguish validate, render and live modes', () => {
   assert.deepEqual(parseArguments(['--validate-only']), { mode: 'validate' });
   assert.deepEqual(parseArguments(['--render', 'results.json', '--output-dir', 'report']),
@@ -192,7 +204,7 @@ for (const status of [400, 503]) test(`HTTP ${status} preserves successful detec
     const bundle = JSON.parse(await readFile(join(output, 'results.json')));
     const summary = JSON.parse(await readFile(join(output, 'summary.json')));
     assert.equal(bundle.observations.presidio.detection['detection-0001'].status, 200);
-    assert.equal(bundle.observations.presidio.policy['case-one'].status, status);
+    assert.equal(bundle.observations.presidio.policy['case-one'].status, status === 400 ? 'contract-error' : 503);
     assert.equal(summary.coverage.presidio.detection.successes, 1);
     if (status === 400) {
       assert.equal(summary.coverage.presidio.policy.unattempted, 1);

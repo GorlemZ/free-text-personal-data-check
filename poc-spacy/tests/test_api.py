@@ -1,6 +1,122 @@
+from types import SimpleNamespace
+
+import pytest
 from fastapi.testclient import TestClient
 
 from free_text_personal_data_check.app import create_app
+from free_text_personal_data_check.policy import CATEGORIES
+
+
+@pytest.mark.parametrize("document_type", ["IT_IDENTITY_CARD", "IT_DRIVER_LICENSE"])
+def test_native_document_route_rejects_then_allows_exact_category(monkeypatch, document_type):
+    from free_text_personal_data_check import app
+
+    text = "Documento campione"
+    monkeypatch.setattr(app, "get_analyzer", lambda: object())
+    monkeypatch.setattr(
+        app,
+        "detect",
+        lambda _: [
+            SimpleNamespace(entity_type=document_type, start=0, end=len(text)),
+        ],
+    )
+    with TestClient(create_app()) as client:
+        payload = {
+            "fields": [
+                {
+                    "fieldId": "description",
+                    "text": text,
+                    "allowedEntityTypes": [],
+                }
+            ]
+        }
+        denied = client.post("/v1/analyze", json=payload)
+        payload["fields"][0]["allowedEntityTypes"] = [document_type]
+        allowed = client.post("/v1/analyze", json=payload)
+
+    assert denied.status_code == 200
+    assert denied.json()["verdict"] == "rejected"
+    assert denied.json()["modelPolicyVersion"] == "it-spacy-sm-3.8.0-poc4-native-italian-documents"
+    assert denied.json()["findings"] == [
+        {"fieldId": "description", "entityType": document_type},
+    ]
+    assert allowed.status_code == 200
+    assert allowed.json()["verdict"] == "accepted"
+    assert allowed.json()["findings"] == []
+    assert text not in denied.text + allowed.text
+
+
+def test_full_nine_category_native_allowlist_is_accepted_at_http_route(monkeypatch):
+    from free_text_personal_data_check import app
+
+    monkeypatch.setattr(app, "get_analyzer", lambda: object())
+    monkeypatch.setattr(
+        app,
+        "detect",
+        lambda _: [SimpleNamespace(entity_type=entity, start=0, end=8) for entity in CATEGORIES],
+    )
+    response = request([field("Campione", sorted(CATEGORIES))])
+    assert len(CATEGORIES) == 9
+    assert response.status_code == 200
+    assert response.json()["verdict"] == "accepted"
+    assert response.json()["findings"] == []
+
+
+@pytest.mark.parametrize("document_type", ["IT_IDENTITY_CARD", "IT_DRIVER_LICENSE"])
+def test_person_and_document_coexist_under_partial_native_allowlist(monkeypatch, document_type):
+    from free_text_personal_data_check import app
+
+    text = "Documento campione"
+    monkeypatch.setattr(app, "get_analyzer", lambda: object())
+    monkeypatch.setattr(
+        app,
+        "detect",
+        lambda _: [
+            SimpleNamespace(entity_type=entity, start=0, end=len(text))
+            for entity in ("PERSON", document_type)
+        ],
+    )
+    person_allowed = request([field(text, ["PERSON"])])
+    document_allowed = request([field(text, [document_type])])
+    assert person_allowed.status_code == document_allowed.status_code == 200
+    assert person_allowed.json()["findings"] == [
+        {"fieldId": "contactName", "entityType": document_type},
+    ]
+    assert document_allowed.json()["findings"] == [
+        {"fieldId": "contactName", "entityType": "PERSON"},
+    ]
+    assert person_allowed.json()["verdict"] == document_allowed.json()["verdict"] == "rejected"
+
+
+@pytest.mark.parametrize("document_type", ["IT_IDENTITY_CARD", "IT_DRIVER_LICENSE"])
+def test_document_invalid_span_and_unknown_native_label_are_ignored(monkeypatch, document_type):
+    from free_text_personal_data_check import app
+
+    text = "Campione"
+    monkeypatch.setattr(app, "get_analyzer", lambda: object())
+    monkeypatch.setattr(
+        app,
+        "detect",
+        lambda _: [
+            SimpleNamespace(entity_type=document_type, start=-1, end=len(text)),
+            SimpleNamespace(entity_type="NATIONAL_ID", start=0, end=len(text)),
+        ],
+    )
+    response = request([field(text)])
+    assert response.status_code == 200
+    assert response.json()["verdict"] == "accepted"
+    assert response.json()["findings"] == []
+
+
+@pytest.mark.parametrize("unsupported", ["NATIONAL_ID", "DRIVER_LICENSE", "LOCATION"])
+def test_non_native_allowlist_label_is_rejected(monkeypatch, unsupported):
+    from free_text_personal_data_check import app
+
+    monkeypatch.setattr(app, "get_analyzer", lambda: object())
+    response = request([field("SENTINELSECRET", [unsupported])])
+    assert response.status_code == 400
+    assert response.json() == {"code": "INVALID_ANALYZE_REQUEST"}
+    assert "SENTINELSECRET" not in response.text
 
 
 def test_accepts_one_neutral_italian_description():
@@ -20,7 +136,7 @@ def test_accepts_one_neutral_italian_description():
     assert response.status_code == 200
     assert response.json() == {
         "verdict": "accepted",
-        "modelPolicyVersion": "it-spacy-sm-3.8.0-poc3-international-phone-metadata",
+        "modelPolicyVersion": "it-spacy-sm-3.8.0-poc4-native-italian-documents",
         "findings": [],
     }
     assert "Servizio digitale" not in response.text

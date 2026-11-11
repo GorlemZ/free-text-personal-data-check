@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
 import { validateCapabilities, loadCapabilities, freezeTokenLimits, countHorizonTokens } from '../functional/config.mjs';
 import { loadCorpus } from '../functional/load-corpus.mjs';
 import { TARGET_CATEGORIES } from '../catalog.mjs';
+import { nativeToGold } from '../functional/category-map.mjs';
 
 const dir = new URL('../functional/', import.meta.url);
 
@@ -23,11 +24,11 @@ test('descriptive capabilities load independently of gold, approvals and hashes'
     await writeFile(join(directory, 'capabilities.json'), JSON.stringify(data));
     // No manifest/corpus exists in this directory; descriptive config stands alone.
     const c = await loadCapabilities(pathToFileURL(directory + '/'));
-    assert.deepEqual(c, data);
+    assert.deepEqual(c.sampledCategories, data.sampledCategories);
     assert.deepEqual(c.sampledCategories, TARGET_CATEGORIES);
     assert.deepEqual(c.unsampledCategories, []);
-    assert.equal(c.engines.horizon.mapping.TAX_ID, 'TAX_ID');
-    assert.equal(c.engines.horizon.mapping.BANK_ACCOUNT, 'BANK_ACCOUNT');
+    assert.equal(c.engines.horizon.mapping.TAX_ID, undefined);
+    assert.equal(c.engines.horizon.mapping.BANK_ACCOUNT, undefined);
     for (const e of Object.values(c.engines)) {
       assert.ok(e.version);
       assert.deepEqual(Object.keys(e.capabilities), TARGET_CATEGORIES);
@@ -48,8 +49,8 @@ test('current capabilities contain no approval, registry or expected-image gates
 });
 
 test('rejects false mappings, missing evidence and incomplete support', async () => {
-  for (const mutate of [c => c.engines.horizon.mapping.TAX_ID = 'IT_FISCAL_CODE',
-    c => delete c.engines.horizon.mapping.EMAIL,
+  for (const mutate of [c => c.engines.horizon.mapping = { TAX_ID: 'IT_FISCAL_CODE' },
+    c => c.engines.horizon.mapping = {},
     c => c.engines.horizon.capabilities.IT_VAT_CODE.evidence = [],
     c => delete c.engines.presidio.capabilities.PERSON]) {
     const c = await loadCapabilities();
@@ -81,4 +82,27 @@ test('token preflight freezes normal/challenge for every unique text before pred
 test('preflight fails closed on missing or invalid tokenizer measurement', async () => {
   const plan = await loadCorpus();
   await assert.rejects(freezeTokenLimits(plan, async () => NaN), /INVALID_TOKEN_COUNT/);
+});
+test('descriptive capability file has no editable mapping; runtime derives all aliases', async () => {
+  const raw = JSON.parse(await readFile(new URL('capabilities.json', dir)));
+  for (const engine of Object.values(raw.engines)) assert.equal(Object.hasOwn(engine, 'mapping'), false);
+  const loaded = await loadCapabilities();
+  for (const name of ['presidio', 'horizon']) assert.deepEqual(loaded.engines[name].mapping, nativeToGold[name]);
+});
+test('descriptive policy versions equal live service constants and document scopes are proxies', async () => {
+  const cap = await loadCapabilities();
+  const versions = {
+    presidio: await readFile(new URL('../../poc-spacy/src/free_text_personal_data_check/analyzer.py', import.meta.url), 'utf8'),
+    horizon: await readFile(new URL('../../poc-horizon/src/detector.mjs', import.meta.url), 'utf8'),
+  };
+  for (const name of ['presidio','horizon']) {
+    assert.ok(versions[name].includes(cap.engines[name].version), `${name} descriptive version must equal the service policy constant`);
+    for (const category of ['IT_IDENTITY_CARD','IT_DRIVER_LICENSE']) {
+      const scope = cap.engines[name].capabilities[category].scope;
+      assert.match(scope, /proxy/i);
+      assert.match(scope, /not (?:certified|a country-specific guarantee|a recall guarantee)/i);
+      if (name === 'horizon') assert.ok(cap.engines[name].capabilities[category].evidence.includes(
+        'poc-horizon/src/analysis/contracts.mts'));
+    }
+  }
 });
