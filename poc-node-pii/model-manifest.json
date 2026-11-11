@@ -1,0 +1,12 @@
+{
+  "repository": "andrearuffini/local-privacy-runtime-pii-detector",
+  "revision": "c1ccfbb46b80b73865014e72dea47762934fa7f4",
+  "sourceModel": "rizzoaiacademy/rizzo-pii-0.3B",
+  "sourceRevision": "d4f989333bcda1fcb188785a12937b0f52b52580",
+  "license": "MIT", "communityExport": true,
+  "files": {
+    "config.json": "6b9d5bdd4a194d40fb40c53fdc302e225514cd7940d97f657c4082454ee7e91b",
+    "tokenizer.json": "a0ab5772a8c5450f45a66c95985d6df2205bf09449ba7ff7bb46de034eaa118a",
+    "model.onnx": "32e403d1607f05acc2e1c2582418dbeec464c50ce7362eeacc9ea9dadce1dd3c"
+  }
+}
