@@ -5,7 +5,8 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { analyzeBundle, validateReleaseBundle, sanitizedPlanSha256 } from '../functional/metrics.mjs';
+import { analyzeBundle, validateReleaseBundle } from '../functional/metrics.mjs';
+import { createBundle } from '../functional/collect.mjs';
 import { loadCorpus } from '../functional/load-corpus.mjs';
 import { loadCapabilities } from '../functional/config.mjs';
 
@@ -136,6 +137,32 @@ test('release validation rejects a self-consistent invented 1/1 complete run', (
   assert.throws(() => validateReleaseBundle(bundle()), /INVALID_BUNDLE/);
 });
 
+test('exact category sets and conditional policy errors use separate denominators', () => {
+  const s = analyzeBundle(bundle());
+  assert.deepEqual(s.detection.own.presidio.exactSet, { correct: 1, total: 2, accuracy: .5 });
+  assert.deepEqual(s.detection.paired.presidio.exactSet, { correct: 1, total: 1, accuracy: 1 });
+  assert.deepEqual(s.detection.own.horizon.exactSet, { correct: 0, total: 1, accuracy: 0 });
+  assert.equal(s.policy.own.presidio.falseAcceptanceRate, 0);
+  assert.equal(s.policy.own.presidio.falseRejectionRate, .5);
+  assert.equal(s.policy.paired.horizon.falseAcceptanceRate, null);
+});
+
+test('standalone render preserves the historical catalog without reading current gold', () => {
+  const b = bundle();
+  b.runStatus = 'incomplete';
+  const categories = ['PERSON', 'ORGANIZATION', 'LOCATION', 'EMAIL_ADDRESS', 'PHONE_NUMBER', 'CREDIT_CARD',
+    'IP_ADDRESS', 'MAC_ADDRESS', 'URL', 'IT_FISCAL_CODE', 'IT_DRIVER_LICENSE', 'IT_IDENTITY_CARD',
+    'IT_PASSPORT', 'IT_VAT_CODE', 'IBAN_CODE', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'];
+  b.capabilities.categories = categories;
+  b.capabilities.engines.presidio.supportedCategories = [...categories];
+  b.capabilities.engines.horizon.supportedCategories = categories.filter(c =>
+    !['IT_DRIVER_LICENSE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'].includes(c));
+  b.observations.presidio.detection.d2.categories = ['LOCATION'];
+  assert.equal(validateReleaseBundle(b), b);
+  assert.equal(analyzeBundle(b).historicalCatalog, true);
+  assert.throws(() => validateReleaseBundle(b, { detection: [], policy: [] }), /INVALID_BUNDLE/);
+});
+
 test('unknown observation labels and unsafe metadata cannot reach JSON diagnostics', () => {
   for (const mutate of [
     b => { b.observations.presidio.detection.d1.categories = ['PERSON', '=PRIVATE_NAME']; },
@@ -171,29 +198,18 @@ test('unattempted observations cannot smuggle contradictory response data', () =
 async function releaseFixture() {
   const plan = await loadCorpus();
   const capabilities = await loadCapabilities();
-  const b = {
-    schemaVersion: 1, runStatus: 'incomplete',
-    capabilities: { categories: Object.keys(capabilities.engines.presidio.capabilities),
-      engines: Object.fromEntries(['presidio', 'horizon'].map(engine =>
-        [engine, { supportedCategories: Object.keys(capabilities.engines[engine].capabilities) }])) },
-    detectionUnits: plan.detection.map(d => ({ id: d.detectionCaseId, sourceIds: d.sourceIds,
-      fieldId: d.fieldId, expectedEntities: d.expectedEntities, strata: d.strata })),
-    policyUnits: plan.policy.map(p => ({ id: p.id, detectionCaseId: plan.detection.find(d => d.sourceIds.includes(p.id)).detectionCaseId,
-      fieldId: p.fieldId, expectedEntities: p.expectedEntities,
-      allowedEntityTypes: p.allowedEntityTypes, expectedVerdict: p.expectedVerdict })),
-    observations: { presidio: { detection: {}, policy: {} }, horizon: { detection: {}, policy: {} } },
-  };
-  b.integrity = { corpusSha256: plan.corpusHashes.gold, manifestSha256: plan.manifestHashes.gold, reviewStatus: plan.review.status, planSha256: sanitizedPlanSha256(b) };
+  const b = createBundle(plan, capabilities);
+  b.runStatus = 'incomplete';
   return { b, plan };
 }
 
-test('standalone release gate accepts manifest-bound sanitized plan without corpus input', async () => {
+test('standalone release gate accepts sanitized results without hashes or corpus input', async () => {
   const { b } = await releaseFixture();
   assert.equal(validateReleaseBundle(b), b);
 });
 
-test('standalone gate rejects invented but internally consistent manifest-bound gold and links', async () => {
-  const { b } = await releaseFixture();
+test('live collection validates expected gold and links directly without hashes', async () => {
+  const { b, plan } = await releaseFixture();
   for (const mutate of [
     x => {
       const d = x.detectionUnits[0];
@@ -212,7 +228,7 @@ test('standalone gate rejects invented but internally consistent manifest-bound 
     const altered = structuredClone(b);
     mutate(altered);
     assert.doesNotThrow(() => analyzeBundle(altered));
-    assert.throws(() => validateReleaseBundle(altered), /INVALID_BUNDLE/);
+    assert.throws(() => validateReleaseBundle(altered, plan), /INVALID_BUNDLE/);
   }
 });
 
@@ -233,7 +249,7 @@ test('standalone gate reads only sanitized results.json from isolated working di
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('release gate accepts actual frozen manifest-bound plan and rejects drift', async () => {
+test('release gate accepts the loaded gold and rejects mismatched cases', async () => {
   const { b, plan } = await releaseFixture();
   assert.equal(validateReleaseBundle(b, plan), b);
   for (const mutate of [
@@ -250,11 +266,26 @@ test('release gate accepts actual frozen manifest-bound plan and rejects drift',
   }
 });
 
-test('release gate rejects raw payload keys and metadata drift, not just category edits',async()=>{
+test('loaded gold rejects a type-valid extra focus that would alter focal scoring', async () => {
+  const { b, plan } = await releaseFixture();
+  b.detectionUnits[0].focusCategory = 'EMAIL_ADDRESS';
+  assert.doesNotThrow(() => analyzeBundle(b));
+  assert.throws(() => validateReleaseBundle(b, plan), /INVALID_BUNDLE/);
+});
+
+test('catalog-exact matching excludes extra labels but keeps them diagnostic', () => {
+  const b = bundle();
+  b.observations.presidio.detection.d1.categories.push('NRP');
+  const s = analyzeBundle(b);
+  assert.deepEqual(s.detection.paired.presidio.exactSet, { correct: 1, total: 1, accuracy: 1 });
+  assert.deepEqual(s.diagnostics.extraLabels.presidio.detection, [{ id: 'd1', category: 'NRP' }]);
+});
+
+test('release gate rejects raw payload keys and malformed metadata without hashes',async()=>{
  const {b}=await releaseFixture();
  for(const mutate of [x=>x.text='PRIVATE', x=>x.detectionUnits[0].text='PRIVATE',
  x=>x.policyUnits[0].rawBody='PRIVATE', x=>x.detectionUnits[0].strata[0].annotation.rationale='PRIVATE',
- x=>x.detectionUnits[0].tokenCount=999]){
+ x=>x.detectionUnits[0].tokenCount=-1]){
   const changed=structuredClone(b);mutate(changed);assert.throws(()=>validateReleaseBundle(changed),/INVALID_BUNDLE/);
  }
 });

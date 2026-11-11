@@ -1,11 +1,9 @@
 // A received malformed response violates the contract; a transport timeout is a technical outcome.
 export async function post(url, payload, { timeoutMs = 30000, fetchFn = fetch,
   signal } = {}) {
-  const began = performance.now();
   const deadline = AbortSignal.timeout(timeoutMs);
   const combined = signal ? AbortSignal.any([signal, deadline]) : deadline;
-  const technical = () => ({ status: 0, body: null,
-    ms: Math.round((performance.now() - began) * 100) / 100 });
+  const technical = () => ({ status: 0, body: null });
   let response;
   try {
     response = await fetchFn(`${url}/v1/analyze`, { method: 'POST',
@@ -25,6 +23,5 @@ export async function post(url, payload, { timeoutMs = 30000, fetchFn = fetch,
     if (combined.aborted) return technical();
     throw new Error('INVALID_RESPONSE');
   }
-  return { status: response.status, body,
-    ms: Math.round((performance.now() - began) * 100) / 100 };
+  return { status: response.status, body };
 }

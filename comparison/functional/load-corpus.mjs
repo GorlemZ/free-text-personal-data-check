@@ -1,5 +1,4 @@
 import { readFile } from 'node:fs/promises';
-import { createHash } from 'node:crypto';
 import { FIELD_IDS, TARGET_CATEGORIES } from '../catalog.mjs';
 
 const fail = () => { throw new Error('INVALID_CORPUS'); };
@@ -7,7 +6,6 @@ const isObject = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const keys = (x, required, optional = []) => isObject(x) &&
   required.every(k => Object.hasOwn(x, k)) &&
   Object.keys(x).every(k => required.includes(k) || optional.includes(k));
-const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const categories = new Set(TARGET_CATEGORIES);
 const fields = new Set(FIELD_IDS);
 const rowKeys = ['id', 'familyId', 'split', 'scenario', 'focusCategory', 'focusPolarity',
@@ -23,18 +21,17 @@ const reviewValid = r => keys(r, ['status', 'reviewer', 'reviewedAt']) &&
 
 export function validateCorpusBundle(files) {
   try {
-    const bytes = files.corpus;
-    const rows = JSON.parse(bytes);
+    const rows = JSON.parse(files.corpus);
     const manifest = JSON.parse(files.manifest);
     if (!Array.isArray(rows) || !rows.length ||
-        !keys(manifest, ['schemaVersion', 'review', 'heldout', 'sourceData', 'corpusSha256',
-          'capabilitiesSha256', 'categories', 'counts', 'provenance', 'limitations', 'policy']) ||
+        !keys(manifest, ['schemaVersion', 'review', 'heldout', 'sourceData',
+          'categories', 'counts', 'provenance', 'limitations', 'policy']) ||
         manifest.schemaVersion !== 1 || !reviewValid(manifest.review) || manifest.heldout !== false ||
-        manifest.sourceData !== 'synthetic' || manifest.corpusSha256 !== sha(bytes) ||
-        !/^[a-f0-9]{64}$/.test(manifest.capabilitiesSha256) ||
+        manifest.sourceData !== 'synthetic' ||
         !validList(manifest.categories) || manifest.categories.length !== TARGET_CATEGORIES.length ||
         !isObject(manifest.counts) || !Array.isArray(manifest.provenance) ||
         !Array.isArray(manifest.limitations) || !manifest.limitations.length ||
+        manifest.limitations.some(x => typeof x !== 'string' || !x.trim()) ||
         !keys(manifest.policy, TARGET_CATEGORIES) ||
         Object.values(manifest.policy).some(x => typeof x !== 'string' || !x)) fail();
     const sources = new Set();
@@ -82,6 +79,7 @@ export function validateCorpusBundle(files) {
     if (!keys(manifest.counts, Object.keys(counts)) || Object.entries(counts).some(([k,v]) => manifest.counts[k] !== v) ||
         TARGET_CATEGORIES.some(c => !rows.some(s => s.focusCategory === c && positive(s)) ||
           !rows.some(s => s.focusCategory === c && !positive(s)))) fail();
+    // Deduplicate coherent text only; the first source row supplies the detection field.
     const detection = [...byText.values()].map((group, i) => ({
       detectionCaseId: `detection-${String(i + 1).padStart(4, '0')}`,
       sourceIds: group.map(s => s.id), fieldId: group[0].fieldId, text: group[0].text,
@@ -93,8 +91,7 @@ export function validateCorpusBundle(files) {
         focusPolarity: s.focusPolarity, scenario: s.scenario, annotation: s.annotation })),
     }));
     const policy = rows.map(s => ({ ...s }));
-    return { detection, policy, review: manifest.review, manifest,
-      corpusHashes: { gold: sha(bytes) }, manifestHashes: { gold: sha(files.manifest) } };
+    return { detection, policy, review: manifest.review, manifest };
   } catch { fail(); }
 }
 

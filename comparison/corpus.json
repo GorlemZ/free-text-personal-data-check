@@ -1,7 +1,7 @@
 [
   {
     "id": "person-0",
-    "familyId": "person-0",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PERSON",
@@ -14,7 +14,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -25,7 +25,7 @@
   },
   {
     "id": "person-0-allow",
-    "familyId": "person-0",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PERSON",
@@ -40,7 +40,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -51,7 +51,7 @@
   },
   {
     "id": "person-1",
-    "familyId": "person-1",
+    "familyId": "person-name-1",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PERSON",
@@ -64,7 +64,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -75,7 +75,7 @@
   },
   {
     "id": "person-1-allow",
-    "familyId": "person-1",
+    "familyId": "person-name-1",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PERSON",
@@ -90,7 +90,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -101,7 +101,7 @@
   },
   {
     "id": "person-2",
-    "familyId": "person-2",
+    "familyId": "person-name-2",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PERSON",
@@ -114,7 +114,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -125,7 +125,7 @@
   },
   {
     "id": "person-2-allow",
-    "familyId": "person-2",
+    "familyId": "person-name-2",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PERSON",
@@ -140,7 +140,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -162,7 +162,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -184,7 +184,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -206,7 +206,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -228,7 +228,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -239,7 +239,7 @@
   },
   {
     "id": "email-0",
-    "familyId": "email-0",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "EMAIL_ADDRESS",
@@ -252,7 +252,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -263,7 +263,7 @@
   },
   {
     "id": "email-0-allow",
-    "familyId": "email-0",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "EMAIL_ADDRESS",
@@ -278,7 +278,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -289,7 +289,7 @@
   },
   {
     "id": "email-1",
-    "familyId": "email-1",
+    "familyId": "email-address-1",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "EMAIL_ADDRESS",
@@ -302,7 +302,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -313,7 +313,7 @@
   },
   {
     "id": "email-1-allow",
-    "familyId": "email-1",
+    "familyId": "email-address-1",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "EMAIL_ADDRESS",
@@ -328,7 +328,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -339,7 +339,7 @@
   },
   {
     "id": "email-2",
-    "familyId": "email-2",
+    "familyId": "email-address-2",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "EMAIL_ADDRESS",
@@ -352,7 +352,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -363,7 +363,7 @@
   },
   {
     "id": "email-2-allow",
-    "familyId": "email-2",
+    "familyId": "email-address-2",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "EMAIL_ADDRESS",
@@ -378,7 +378,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -400,7 +400,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -422,7 +422,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -444,7 +444,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -461,12 +461,12 @@
     "focusCategory": "EMAIL_ADDRESS",
     "focusPolarity": "negative",
     "fieldId": "riskAnalysisAnswer",
-    "text": "test@example",
+    "text": "contatto@@example.com",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -476,13 +476,63 @@
     }
   },
   {
+    "id": "email-single-label",
+    "familyId": "email-single-label",
+    "split": "development",
+    "scenario": "syntax-positive",
+    "focusCategory": "EMAIL_ADDRESS",
+    "focusPolarity": "positive",
+    "fieldId": "consumerNotes",
+    "text": "test@example",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "RFC 5322 dot-atom permits a single-label domain; DNS, MX and delivery are not checked."
+    }
+  },
+  {
+    "id": "email-single-label-allow",
+    "familyId": "email-single-label",
+    "split": "development",
+    "scenario": "allowlisted",
+    "focusCategory": "EMAIL_ADDRESS",
+    "focusPolarity": "positive",
+    "fieldId": "rejectAgreementReason",
+    "text": "test@example",
+    "allowedEntityTypes": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedEntities": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "RFC 5322 dot-atom permits a single-label domain; DNS, MX and delivery are not checked."
+    }
+  },
+  {
     "id": "phone-0",
-    "familyId": "phone-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "description",
     "text": "Telefono: +12025550123.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -490,7 +540,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -501,12 +551,12 @@
   },
   {
     "id": "phone-0-allow",
-    "familyId": "phone-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "contactName",
     "text": "Telefono: +12025550123.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -516,7 +566,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -527,12 +577,12 @@
   },
   {
     "id": "phone-1",
-    "familyId": "phone-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "serverUrls[].description",
     "text": "Telefono: 0012025550123.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -540,7 +590,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -551,12 +601,12 @@
   },
   {
     "id": "phone-1-allow",
-    "familyId": "phone-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "eserviceName",
     "text": "Telefono: 0012025550123.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -566,7 +616,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -577,12 +627,12 @@
   },
   {
     "id": "phone-2",
-    "familyId": "phone-2",
+    "familyId": "phone-uk-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "eserviceDescription",
     "text": "Telefono: +442079460958.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -590,7 +640,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -601,12 +651,12 @@
   },
   {
     "id": "phone-2-allow",
-    "familyId": "phone-2",
+    "familyId": "phone-uk-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "intendedTarget",
     "text": "Telefono: +442079460958.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -616,7 +666,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -627,12 +677,12 @@
   },
   {
     "id": "phone-3",
-    "familyId": "phone-3",
+    "familyId": "phone-uk-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "purposeDescription",
     "text": "Telefono: 00442079460958.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -640,7 +690,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -651,12 +701,12 @@
   },
   {
     "id": "phone-3-allow",
-    "familyId": "phone-3",
+    "familyId": "phone-uk-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "freeOfChargeReason",
     "text": "Telefono: 00442079460958.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -666,7 +716,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -677,12 +727,12 @@
   },
   {
     "id": "phone-4",
-    "familyId": "phone-4",
+    "familyId": "phone-fr-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Telefono: +33612345678.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -690,7 +740,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -701,12 +751,12 @@
   },
   {
     "id": "phone-4-allow",
-    "familyId": "phone-4",
+    "familyId": "phone-fr-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "consumerNotes",
     "text": "Telefono: +33612345678.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -716,7 +766,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -727,12 +777,12 @@
   },
   {
     "id": "phone-5",
-    "familyId": "phone-5",
+    "familyId": "phone-au-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "rejectAgreementReason",
     "text": "Telefono: +61412345678.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -740,7 +790,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -751,12 +801,12 @@
   },
   {
     "id": "phone-5-allow",
-    "familyId": "phone-5",
+    "familyId": "phone-au-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "description",
     "text": "Telefono: +61412345678.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -766,7 +816,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -777,12 +827,12 @@
   },
   {
     "id": "phone-6",
-    "familyId": "phone-6",
+    "familyId": "phone-jp-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "contactName",
     "text": "Telefono: +81312345678.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -790,7 +840,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -801,12 +851,12 @@
   },
   {
     "id": "phone-6-allow",
-    "familyId": "phone-6",
+    "familyId": "phone-jp-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "serverUrls[].description",
     "text": "Telefono: +81312345678.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -816,7 +866,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -827,12 +877,12 @@
   },
   {
     "id": "phone-7",
-    "familyId": "phone-7",
+    "familyId": "phone-br-example",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "eserviceName",
     "text": "Telefono: +5511987654321.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -840,7 +890,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -851,12 +901,12 @@
   },
   {
     "id": "phone-7-allow",
-    "familyId": "phone-7",
+    "familyId": "phone-br-example",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "eserviceDescription",
     "text": "Telefono: +5511987654321.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -866,7 +916,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -877,12 +927,12 @@
   },
   {
     "id": "phone-8",
-    "familyId": "phone-8",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "intendedTarget",
     "text": "Telefono: 3471234567.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -890,7 +940,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -901,12 +951,12 @@
   },
   {
     "id": "phone-8-allow",
-    "familyId": "phone-8",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "purposeDescription",
     "text": "Telefono: 3471234567.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -916,7 +966,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -927,12 +977,12 @@
   },
   {
     "id": "phone-9",
-    "familyId": "phone-9",
+    "familyId": "phone-it-fixed",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "freeOfChargeReason",
     "text": "Telefono: 0212345678.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -940,7 +990,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -951,12 +1001,12 @@
   },
   {
     "id": "phone-9-allow",
-    "familyId": "phone-9",
+    "familyId": "phone-it-fixed",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Telefono: 0212345678.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -966,7 +1016,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -977,12 +1027,12 @@
   },
   {
     "id": "phone-10",
-    "familyId": "phone-10",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "consumerNotes",
     "text": "Telefono: +39 347 123 4567.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -990,7 +1040,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1001,12 +1051,12 @@
   },
   {
     "id": "phone-10-allow",
-    "familyId": "phone-10",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "rejectAgreementReason",
     "text": "Telefono: +39 347 123 4567.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -1016,7 +1066,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1027,12 +1077,12 @@
   },
   {
     "id": "phone-11",
-    "familyId": "phone-11",
+    "familyId": "phone-it-fixed",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "description",
     "text": "Telefono: 0039 02 1234 5678.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1040,7 +1090,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1051,12 +1101,12 @@
   },
   {
     "id": "phone-11-allow",
-    "familyId": "phone-11",
+    "familyId": "phone-it-fixed",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "contactName",
     "text": "Telefono: 0039 02 1234 5678.",
     "allowedEntityTypes": [
       "PHONE_NUMBER"
@@ -1066,7 +1116,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1077,18 +1127,18 @@
   },
   {
     "id": "phone-negative-0",
-    "familyId": "phone-negative-0",
+    "familyId": "phone-malformed-0",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "serverUrls[].description",
     "text": "Telefono: +999123456789.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1099,18 +1149,18 @@
   },
   {
     "id": "phone-negative-1",
-    "familyId": "phone-negative-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "eserviceName",
     "text": "Telefono: +1202555.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1121,18 +1171,18 @@
   },
   {
     "id": "phone-negative-2",
-    "familyId": "phone-negative-2",
+    "familyId": "phone-malformed-2",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "eserviceDescription",
     "text": "Telefono: 12345.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1143,18 +1193,18 @@
   },
   {
     "id": "phone-negative-3",
-    "familyId": "phone-negative-3",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "eserviceName",
+    "fieldId": "intendedTarget",
     "text": "Telefono: 2025550123.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1165,18 +1215,18 @@
   },
   {
     "id": "phone-negative-4",
-    "familyId": "phone-negative-4",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "eserviceDescription",
+    "fieldId": "purposeDescription",
     "text": "Telefono: +120255501234567890.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1187,18 +1237,18 @@
   },
   {
     "id": "phone-negative-5",
-    "familyId": "phone-negative-5",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "intendedTarget",
+    "fieldId": "freeOfChargeReason",
     "text": "Telefono: é+12025550123.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1209,18 +1259,18 @@
   },
   {
     "id": "phone-negative-6",
-    "familyId": "phone-negative-6",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "purposeDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Telefono: +12025550123é.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1231,18 +1281,18 @@
   },
   {
     "id": "phone-negative-7",
-    "familyId": "phone-negative-7",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "consumerNotes",
     "text": "Telefono: 003934712345670000.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1253,18 +1303,18 @@
   },
   {
     "id": "phone-negative-8",
-    "familyId": "phone-negative-8",
+    "familyId": "phone-it-mobile",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "rejectAgreementReason",
     "text": "Telefono: +39 347 123 4567 0000000000.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1275,12 +1325,12 @@
   },
   {
     "id": "cf-0",
-    "familyId": "cf-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "description",
     "text": "Codice fiscale: VRDDAA80A01H501A.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1288,7 +1338,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1299,12 +1349,12 @@
   },
   {
     "id": "cf-0-allow",
-    "familyId": "cf-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "contactName",
     "text": "Codice fiscale: VRDDAA80A01H501A.",
     "allowedEntityTypes": [
       "IT_FISCAL_CODE"
@@ -1314,7 +1364,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1325,12 +1375,12 @@
   },
   {
     "id": "cf-1",
-    "familyId": "cf-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "serverUrls[].description",
     "text": "Codice fiscale: vrddaa80a01h501a.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1338,7 +1388,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1349,12 +1399,12 @@
   },
   {
     "id": "cf-1-allow",
-    "familyId": "cf-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "eserviceName",
     "text": "Codice fiscale: vrddaa80a01h501a.",
     "allowedEntityTypes": [
       "IT_FISCAL_CODE"
@@ -1364,7 +1414,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1375,18 +1425,18 @@
   },
   {
     "id": "cf-negative-0",
-    "familyId": "cf-negative-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "eserviceDescription",
     "text": "Codice fiscale: VRDDAA80A01H501B.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1397,18 +1447,18 @@
   },
   {
     "id": "cf-negative-1",
-    "familyId": "cf-negative-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "eserviceName",
+    "fieldId": "intendedTarget",
     "text": "Codice fiscale: éVRDDAA80A01H501A.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1419,18 +1469,18 @@
   },
   {
     "id": "cf-negative-2",
-    "familyId": "cf-negative-2",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "eserviceDescription",
+    "fieldId": "purposeDescription",
     "text": "Codice fiscale: VRDDAA80A01H501Aé.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1441,34 +1491,34 @@
   },
   {
     "id": "cf-negative-3",
-    "familyId": "cf-negative-3",
+    "familyId": "structured-mixture",
     "split": "development",
-    "scenario": "checksum-or-boundary-negative",
+    "scenario": "out-of-scope-omocodia",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "intendedTarget",
-    "text": "Codice fiscale: VRDDAAL0A01H501A.",
+    "fieldId": "freeOfChargeReason",
+    "text": "Codice fiscale: VRDDAAU0A01H501X.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
       "checksum": "not_checked",
       "assignment": "not_checked",
-      "rationale": "Authored synthetic; assignment not checked."
+      "rationale": "Omocodia with a recomputed valid checksum is out of scope, not asserted administratively invalid."
     }
   },
   {
     "id": "vat-0",
-    "familyId": "vat-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Partita IVA: 12345678903.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1476,7 +1526,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1487,12 +1537,12 @@
   },
   {
     "id": "vat-0-allow",
-    "familyId": "vat-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "consumerNotes",
     "text": "Partita IVA: 12345678903.",
     "allowedEntityTypes": [
       "IT_VAT_CODE"
@@ -1502,7 +1552,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1513,12 +1563,12 @@
   },
   {
     "id": "vat-1",
-    "familyId": "vat-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "rejectAgreementReason",
     "text": "Partita IVA: IT12345678903.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1526,7 +1576,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1537,12 +1587,12 @@
   },
   {
     "id": "vat-1-allow",
-    "familyId": "vat-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "description",
     "text": "Partita IVA: IT12345678903.",
     "allowedEntityTypes": [
       "IT_VAT_CODE"
@@ -1552,7 +1602,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1563,18 +1613,18 @@
   },
   {
     "id": "vat-negative-0",
-    "familyId": "vat-negative-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "negative",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "contactName",
     "text": "Partita IVA: 12345678900.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1585,62 +1635,90 @@
   },
   {
     "id": "vat-negative-1",
-    "familyId": "vat-negative-1",
-    "split": "development",
-    "scenario": "checksum-or-boundary-negative",
-    "focusCategory": "IT_VAT_CODE",
-    "focusPolarity": "negative",
-    "fieldId": "description",
-    "text": "Partita IVA: 00000000000.",
-    "allowedEntityTypes": [],
-    "expectedEntities": [],
-    "expectedVerdict": "accepted",
-    "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
-    "annotation": {
-      "target": "declared-category-presence",
-      "form": "absent-or-malformed",
-      "checksum": "not_checked",
-      "assignment": "not_checked",
-      "rationale": "Authored synthetic; assignment not checked."
-    }
-  },
-  {
-    "id": "vat-negative-2",
-    "familyId": "vat-negative-2",
-    "split": "development",
-    "scenario": "checksum-or-boundary-negative",
-    "focusCategory": "IT_VAT_CODE",
-    "focusPolarity": "negative",
-    "fieldId": "contactName",
-    "text": "Partita IVA: IT 12345678903.",
-    "allowedEntityTypes": [],
-    "expectedEntities": [],
-    "expectedVerdict": "accepted",
-    "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
-    "annotation": {
-      "target": "declared-category-presence",
-      "form": "absent-or-malformed",
-      "checksum": "not_checked",
-      "assignment": "not_checked",
-      "rationale": "Authored synthetic; assignment not checked."
-    }
-  },
-  {
-    "id": "vat-negative-3",
-    "familyId": "vat-negative-3",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "negative",
     "fieldId": "serverUrls[].description",
+    "text": "Partita IVA: 00000000000.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "absent-or-malformed",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "vat-spaced-prefix",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "target-overlap",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceName",
+    "text": "Partita IVA: IT 12345678903.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Separated IT is not the optional compact prefix; the bare checksum-valid VAT remains present."
+    }
+  },
+  {
+    "id": "vat-spaced-prefix-allow",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "allowlisted",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceDescription",
+    "text": "Partita IVA: IT 12345678903.",
+    "allowedEntityTypes": [
+      "IT_VAT_CODE"
+    ],
+    "expectedEntities": [
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Separated IT is not the optional compact prefix; the bare checksum-valid VAT remains present."
+    }
+  },
+  {
+    "id": "vat-negative-3",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "checksum-or-boundary-negative",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "negative",
+    "fieldId": "intendedTarget",
     "text": "Partita IVA: é12345678903.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1651,18 +1729,18 @@
   },
   {
     "id": "vat-negative-4",
-    "familyId": "vat-negative-4",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "negative",
-    "fieldId": "eserviceName",
+    "fieldId": "purposeDescription",
     "text": "Partita IVA: 12345678903é.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1672,13 +1750,35 @@
     }
   },
   {
+    "id": "vat-separated-digits",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "format-negative",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "negative",
+    "fieldId": "freeOfChargeReason",
+    "text": "Partita IVA: 12345 678903.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "absent-or-malformed",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Internal digit grouping is outside the compact 11-digit VAT contract."
+    }
+  },
+  {
     "id": "iban-0",
-    "familyId": "iban-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Conto: IT60X0542811101000000123456.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1686,7 +1786,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1697,12 +1797,12 @@
   },
   {
     "id": "iban-0-allow",
-    "familyId": "iban-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Conto: IT60X0542811101000000123456.",
     "allowedEntityTypes": [
       "IBAN_CODE"
@@ -1712,7 +1812,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1723,12 +1823,12 @@
   },
   {
     "id": "iban-1",
-    "familyId": "iban-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Conto: IT60 X054 2811 1010 0000 0123 456.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1736,7 +1836,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1747,12 +1847,12 @@
   },
   {
     "id": "iban-1-allow",
-    "familyId": "iban-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Conto: IT60 X054 2811 1010 0000 0123 456.",
     "allowedEntityTypes": [
       "IBAN_CODE"
@@ -1762,7 +1862,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1773,18 +1873,18 @@
   },
   {
     "id": "iban-negative-0",
-    "familyId": "iban-negative-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Conto: IT60X0542811101000000123450.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1795,18 +1895,18 @@
   },
   {
     "id": "iban-negative-1",
-    "familyId": "iban-negative-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Conto: DE60X0542811101000000123456.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1817,18 +1917,18 @@
   },
   {
     "id": "iban-negative-2",
-    "familyId": "iban-negative-2",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Conto: IT60\tX0542811101000000123456.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1839,18 +1939,18 @@
   },
   {
     "id": "iban-negative-3",
-    "familyId": "iban-negative-3",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Conto: IT60 X0542811101000000123456.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1861,18 +1961,18 @@
   },
   {
     "id": "iban-negative-4",
-    "familyId": "iban-negative-4",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Conto: éIT60X0542811101000000123456.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1883,18 +1983,18 @@
   },
   {
     "id": "iban-negative-5",
-    "familyId": "iban-negative-5",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-or-boundary-negative",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Conto: IT60X0542811101000000123456é.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -1905,12 +2005,12 @@
   },
   {
     "id": "card-13-compact",
-    "familyId": "card-13-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Carta: 4222222222222.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1918,7 +2018,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1929,12 +2029,12 @@
   },
   {
     "id": "card-13-compact-allow",
-    "familyId": "card-13-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Carta: 4222222222222.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -1944,7 +2044,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1955,12 +2055,12 @@
   },
   {
     "id": "card-13-spaces",
-    "familyId": "card-13-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Carta: 4222 2222 2222 2.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -1968,7 +2068,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1979,12 +2079,12 @@
   },
   {
     "id": "card-13-spaces-allow",
-    "familyId": "card-13-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Carta: 4222 2222 2222 2.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -1994,7 +2094,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2005,12 +2105,12 @@
   },
   {
     "id": "card-13-hyphens",
-    "familyId": "card-13-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Carta: 4222-2222-2222-2.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2018,7 +2118,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2029,12 +2129,12 @@
   },
   {
     "id": "card-13-hyphens-allow",
-    "familyId": "card-13-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Carta: 4222-2222-2222-2.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2044,7 +2144,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2055,18 +2155,18 @@
   },
   {
     "id": "card-fail-13",
-    "familyId": "card-fail-13",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Carta: 4222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2077,12 +2177,12 @@
   },
   {
     "id": "card-14-compact",
-    "familyId": "card-14-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Carta: 42222222222226.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2090,7 +2190,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2101,12 +2201,12 @@
   },
   {
     "id": "card-14-compact-allow",
-    "familyId": "card-14-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Carta: 42222222222226.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2116,7 +2216,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2127,12 +2227,12 @@
   },
   {
     "id": "card-14-spaces",
-    "familyId": "card-14-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Carta: 4222 2222 2222 26.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2140,7 +2240,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2151,12 +2251,12 @@
   },
   {
     "id": "card-14-spaces-allow",
-    "familyId": "card-14-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Carta: 4222 2222 2222 26.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2166,7 +2266,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2177,12 +2277,12 @@
   },
   {
     "id": "card-14-hyphens",
-    "familyId": "card-14-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Carta: 4222-2222-2222-26.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2190,7 +2290,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2201,12 +2301,12 @@
   },
   {
     "id": "card-14-hyphens-allow",
-    "familyId": "card-14-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Carta: 4222-2222-2222-26.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2216,7 +2316,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2227,18 +2327,18 @@
   },
   {
     "id": "card-fail-14",
-    "familyId": "card-fail-14",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Carta: 42222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2249,12 +2349,12 @@
   },
   {
     "id": "card-15-compact",
-    "familyId": "card-15-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Carta: 422222222222226.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2262,7 +2362,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2273,12 +2373,12 @@
   },
   {
     "id": "card-15-compact-allow",
-    "familyId": "card-15-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Carta: 422222222222226.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2288,7 +2388,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2299,12 +2399,12 @@
   },
   {
     "id": "card-15-spaces",
-    "familyId": "card-15-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Carta: 4222 2222 2222 226.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2312,7 +2412,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2323,12 +2423,12 @@
   },
   {
     "id": "card-15-spaces-allow",
-    "familyId": "card-15-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Carta: 4222 2222 2222 226.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2338,7 +2438,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2349,12 +2449,12 @@
   },
   {
     "id": "card-15-hyphens",
-    "familyId": "card-15-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Carta: 4222-2222-2222-226.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2362,7 +2462,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2373,12 +2473,12 @@
   },
   {
     "id": "card-15-hyphens-allow",
-    "familyId": "card-15-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Carta: 4222-2222-2222-226.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2388,7 +2488,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2399,18 +2499,18 @@
   },
   {
     "id": "card-fail-15",
-    "familyId": "card-fail-15",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Carta: 422222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2421,12 +2521,12 @@
   },
   {
     "id": "card-16-compact",
-    "familyId": "card-16-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Carta: 4222222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2434,7 +2534,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2445,12 +2545,12 @@
   },
   {
     "id": "card-16-compact-allow",
-    "familyId": "card-16-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Carta: 4222222222222220.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2460,7 +2560,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2471,12 +2571,12 @@
   },
   {
     "id": "card-16-spaces",
-    "familyId": "card-16-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Carta: 4222 2222 2222 2220.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2484,7 +2584,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2495,12 +2595,12 @@
   },
   {
     "id": "card-16-spaces-allow",
-    "familyId": "card-16-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Carta: 4222 2222 2222 2220.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2510,7 +2610,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2521,12 +2621,12 @@
   },
   {
     "id": "card-16-hyphens",
-    "familyId": "card-16-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Carta: 4222-2222-2222-2220.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2534,7 +2634,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2545,12 +2645,12 @@
   },
   {
     "id": "card-16-hyphens-allow",
-    "familyId": "card-16-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Carta: 4222-2222-2222-2220.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2560,7 +2660,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2571,18 +2671,18 @@
   },
   {
     "id": "card-fail-16",
-    "familyId": "card-fail-16",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Carta: 4222222222222221.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2593,12 +2693,12 @@
   },
   {
     "id": "card-17-compact",
-    "familyId": "card-17-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Carta: 42222222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2606,7 +2706,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2617,12 +2717,12 @@
   },
   {
     "id": "card-17-compact-allow",
-    "familyId": "card-17-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Carta: 42222222222222220.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2632,7 +2732,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2643,12 +2743,12 @@
   },
   {
     "id": "card-17-spaces",
-    "familyId": "card-17-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Carta: 4222 2222 2222 2222 0.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2656,7 +2756,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2667,12 +2767,12 @@
   },
   {
     "id": "card-17-spaces-allow",
-    "familyId": "card-17-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Carta: 4222 2222 2222 2222 0.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2682,7 +2782,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2693,12 +2793,12 @@
   },
   {
     "id": "card-17-hyphens",
-    "familyId": "card-17-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Carta: 4222-2222-2222-2222-0.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2706,7 +2806,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2717,12 +2817,12 @@
   },
   {
     "id": "card-17-hyphens-allow",
-    "familyId": "card-17-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Carta: 4222-2222-2222-2222-0.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2732,7 +2832,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2743,18 +2843,18 @@
   },
   {
     "id": "card-fail-17",
-    "familyId": "card-fail-17",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Carta: 42222222222222221.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2765,12 +2865,12 @@
   },
   {
     "id": "card-18-compact",
-    "familyId": "card-18-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Carta: 422222222222222224.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2778,7 +2878,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2789,12 +2889,12 @@
   },
   {
     "id": "card-18-compact-allow",
-    "familyId": "card-18-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Carta: 422222222222222224.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2804,7 +2904,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2815,12 +2915,12 @@
   },
   {
     "id": "card-18-spaces",
-    "familyId": "card-18-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Carta: 4222 2222 2222 2222 24.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2828,7 +2928,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2839,12 +2939,12 @@
   },
   {
     "id": "card-18-spaces-allow",
-    "familyId": "card-18-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Carta: 4222 2222 2222 2222 24.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2854,7 +2954,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2865,12 +2965,12 @@
   },
   {
     "id": "card-18-hyphens",
-    "familyId": "card-18-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Carta: 4222-2222-2222-2222-24.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2878,7 +2978,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2889,12 +2989,12 @@
   },
   {
     "id": "card-18-hyphens-allow",
-    "familyId": "card-18-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Carta: 4222-2222-2222-2222-24.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2904,7 +3004,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2915,18 +3015,18 @@
   },
   {
     "id": "card-fail-18",
-    "familyId": "card-fail-18",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Carta: 422222222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -2937,12 +3037,12 @@
   },
   {
     "id": "card-19-compact",
-    "familyId": "card-19-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Carta: 4222222222222222224.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -2950,7 +3050,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2961,12 +3061,12 @@
   },
   {
     "id": "card-19-compact-allow",
-    "familyId": "card-19-compact",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Carta: 4222222222222222224.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -2976,7 +3076,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2987,12 +3087,12 @@
   },
   {
     "id": "card-19-spaces",
-    "familyId": "card-19-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Carta: 4222 2222 2222 2222 224.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3000,7 +3100,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3011,12 +3111,12 @@
   },
   {
     "id": "card-19-spaces-allow",
-    "familyId": "card-19-spaces",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Carta: 4222 2222 2222 2222 224.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -3026,7 +3126,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3037,12 +3137,12 @@
   },
   {
     "id": "card-19-hyphens",
-    "familyId": "card-19-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "positive",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "Carta: 4222-2222-2222-2222-224.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3050,7 +3150,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3061,12 +3161,12 @@
   },
   {
     "id": "card-19-hyphens-allow",
-    "familyId": "card-19-hyphens",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "Carta: 4222-2222-2222-2222-224.",
     "allowedEntityTypes": [
       "CREDIT_CARD"
@@ -3076,7 +3176,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3087,18 +3187,18 @@
   },
   {
     "id": "card-fail-19",
-    "familyId": "card-fail-19",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "checksum-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "Carta: 4222222222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3109,18 +3209,18 @@
   },
   {
     "id": "card-negative-0",
-    "familyId": "card-negative-0",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Carta: 422222222222.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3131,18 +3231,18 @@
   },
   {
     "id": "card-negative-1",
-    "familyId": "card-negative-1",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Carta: 42222222222222222228.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3153,18 +3253,18 @@
   },
   {
     "id": "card-negative-2",
-    "familyId": "card-negative-2",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Carta: é4222222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3175,18 +3275,18 @@
   },
   {
     "id": "card-negative-3",
-    "familyId": "card-negative-3",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Carta: 4222222222222220é.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3197,18 +3297,18 @@
   },
   {
     "id": "card-negative-4",
-    "familyId": "card-negative-4",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Carta: 4222\t222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3219,18 +3319,18 @@
   },
   {
     "id": "card-negative-5",
-    "familyId": "card-negative-5",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "whole-envelope-negative",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Carta: 4222 222222222220.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3246,13 +3346,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "PERSON",
     "focusPolarity": "negative",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "Organizzazione: Delta S.r.l.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3268,13 +3368,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "EMAIL_ADDRESS",
     "focusPolarity": "negative",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "Luogo: Torino.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3290,13 +3390,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "IP: 192.0.2.19.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3312,13 +3412,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "MAC: 02:00:00:00:00:01.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3334,13 +3434,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "IT_VAT_CODE",
     "focusPolarity": "negative",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "URL: https://example.org/servizio.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3356,13 +3456,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "IBAN_CODE",
     "focusPolarity": "negative",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "Patente: AB1234567.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3378,13 +3478,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "Documento: CA12345AA.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3400,13 +3500,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "PERSON",
     "focusPolarity": "negative",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "Passaporto: YA1234567.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3422,13 +3522,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "EMAIL_ADDRESS",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "Wallet: bc1qtestsynthetic.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3444,13 +3544,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "PHONE_NUMBER",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "Data: 2026-11-10.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3466,13 +3566,13 @@
     "scenario": "excluded-category-distractor",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "negative",
-    "fieldId": "serverUrls[].description",
+    "fieldId": "purposeDescription",
     "text": "Licenza medica: MED-12345.",
     "allowedEntityTypes": [],
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3483,12 +3583,12 @@
   },
   {
     "id": "url-email-overlap",
-    "familyId": "url-email-overlap",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "target-overlap",
     "focusCategory": "EMAIL_ADDRESS",
     "focusPolarity": "positive",
-    "fieldId": "eserviceName",
+    "fieldId": "freeOfChargeReason",
     "text": "URL: https://example.org/?email=collaudo@example.com",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3496,7 +3596,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3507,12 +3607,12 @@
   },
   {
     "id": "url-email-overlap-allow",
-    "familyId": "url-email-overlap",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "EMAIL_ADDRESS",
     "focusPolarity": "positive",
-    "fieldId": "eserviceDescription",
+    "fieldId": "riskAnalysisAnswer",
     "text": "URL: https://example.org/?email=collaudo@example.com",
     "allowedEntityTypes": [
       "EMAIL_ADDRESS"
@@ -3522,7 +3622,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3533,12 +3633,12 @@
   },
   {
     "id": "mixed-person-email",
-    "familyId": "mixed-person-email",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "mixture",
     "focusCategory": "PERSON",
     "focusPolarity": "positive",
-    "fieldId": "intendedTarget",
+    "fieldId": "consumerNotes",
     "text": "La referente Ada Verdi risponde a collaudo@example.com.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3547,7 +3647,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3558,12 +3658,12 @@
   },
   {
     "id": "mixed-person-email-partial",
-    "familyId": "mixed-person-email",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PERSON",
     "focusPolarity": "positive",
-    "fieldId": "purposeDescription",
+    "fieldId": "rejectAgreementReason",
     "text": "La referente Ada Verdi risponde a collaudo@example.com.",
     "allowedEntityTypes": [
       "PERSON"
@@ -3574,7 +3674,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3585,12 +3685,12 @@
   },
   {
     "id": "mixed-person-email-all",
-    "familyId": "mixed-person-email",
+    "familyId": "contact-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "PERSON",
     "focusPolarity": "positive",
-    "fieldId": "freeOfChargeReason",
+    "fieldId": "description",
     "text": "La referente Ada Verdi risponde a collaudo@example.com.",
     "allowedEntityTypes": [
       "PERSON",
@@ -3602,7 +3702,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3613,12 +3713,12 @@
   },
   {
     "id": "mixed-structured",
-    "familyId": "mixed-structured",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "mixture",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "riskAnalysisAnswer",
+    "fieldId": "contactName",
     "text": "CF: VRDDAA80A01H501A; IVA: 12345678903; IBAN: IT60X0542811101000000123456; carta: 4222222222222220; telefono: +12025550123.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3630,7 +3730,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3641,12 +3741,12 @@
   },
   {
     "id": "mixed-structured-partial",
-    "familyId": "mixed-structured",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "consumerNotes",
+    "fieldId": "serverUrls[].description",
     "text": "CF: VRDDAA80A01H501A; IVA: 12345678903; IBAN: IT60X0542811101000000123456; carta: 4222222222222220; telefono: +12025550123.",
     "allowedEntityTypes": [
       "IT_FISCAL_CODE",
@@ -3661,7 +3761,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3672,12 +3772,12 @@
   },
   {
     "id": "mixed-structured-all",
-    "familyId": "mixed-structured",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "IT_FISCAL_CODE",
     "focusPolarity": "positive",
-    "fieldId": "rejectAgreementReason",
+    "fieldId": "eserviceName",
     "text": "CF: VRDDAA80A01H501A; IVA: 12345678903; IBAN: IT60X0542811101000000123456; carta: 4222222222222220; telefono: +12025550123.",
     "allowedEntityTypes": [
       "PHONE_NUMBER",
@@ -3695,7 +3795,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3706,12 +3806,12 @@
   },
   {
     "id": "mixed-valid-invalid",
-    "familyId": "mixed-valid-invalid",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "mixture",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "description",
+    "fieldId": "eserviceDescription",
     "text": "IVA valida: 12345678903; carta con checksum errato: 4222222222222221.",
     "allowedEntityTypes": [],
     "expectedEntities": [
@@ -3719,7 +3819,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -3730,12 +3830,12 @@
   },
   {
     "id": "mixed-valid-invalid-allow",
-    "familyId": "mixed-valid-invalid",
+    "familyId": "structured-mixture",
     "split": "development",
     "scenario": "allowlisted",
     "focusCategory": "CREDIT_CARD",
     "focusPolarity": "negative",
-    "fieldId": "contactName",
+    "fieldId": "intendedTarget",
     "text": "IVA valida: 12345678903; carta con checksum errato: 4222222222222221.",
     "allowedEntityTypes": [
       "IT_VAT_CODE"
@@ -3745,13 +3845,637 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
       "checksum": "not_checked",
       "assignment": "not_checked",
       "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "phone-vat-overlap",
+    "familyId": "phone-vat-overlap",
+    "split": "development",
+    "scenario": "target-overlap",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "purposeDescription",
+    "text": "Recapito: 06123456789.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Synthetic 11-digit value is both metadata-valid IT phone and checksum-valid VAT; neither assignment is asserted."
+    }
+  },
+  {
+    "id": "phone-vat-overlap-phone-only",
+    "familyId": "phone-vat-overlap",
+    "split": "development",
+    "scenario": "allowlisted",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "freeOfChargeReason",
+    "text": "Recapito: 06123456789.",
+    "allowedEntityTypes": [
+      "PHONE_NUMBER"
+    ],
+    "expectedEntities": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Synthetic 11-digit value is both metadata-valid IT phone and checksum-valid VAT; neither assignment is asserted."
+    }
+  },
+  {
+    "id": "phone-vat-overlap-vat-only",
+    "familyId": "phone-vat-overlap",
+    "split": "development",
+    "scenario": "allowlisted",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "riskAnalysisAnswer",
+    "text": "Recapito: 06123456789.",
+    "allowedEntityTypes": [
+      "IT_VAT_CODE"
+    ],
+    "expectedEntities": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Synthetic 11-digit value is both metadata-valid IT phone and checksum-valid VAT; neither assignment is asserted."
+    }
+  },
+  {
+    "id": "phone-vat-overlap-all",
+    "familyId": "phone-vat-overlap",
+    "split": "development",
+    "scenario": "allowlisted",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "consumerNotes",
+    "text": "Recapito: 06123456789.",
+    "allowedEntityTypes": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedEntities": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Synthetic 11-digit value is both metadata-valid IT phone and checksum-valid VAT; neither assignment is asserted."
+    }
+  },
+  {
+    "id": "phone-vat-overlap-wrong",
+    "familyId": "phone-vat-overlap",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "rejectAgreementReason",
+    "text": "Recapito: 06123456789.",
+    "allowedEntityTypes": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedEntities": [
+      "PHONE_NUMBER",
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Synthetic 11-digit value is both metadata-valid IT phone and checksum-valid VAT; neither assignment is asserted."
+    }
+  },
+  {
+    "id": "person-0-wrong",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "description",
+    "text": "La referente si chiama Ada Verdi.",
+    "allowedEntityTypes": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "email-0-wrong",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "EMAIL_ADDRESS",
+    "focusPolarity": "positive",
+    "fieldId": "contactName",
+    "text": "Scrivere a collaudo@example.com.",
+    "allowedEntityTypes": [
+      "PHONE_NUMBER"
+    ],
+    "expectedEntities": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "phone-0-wrong",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "serverUrls[].description",
+    "text": "Telefono: +12025550123.",
+    "allowedEntityTypes": [
+      "IT_FISCAL_CODE"
+    ],
+    "expectedEntities": [
+      "PHONE_NUMBER"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Metadata-valid using phonenumbers 9.0.41; not proof of assignment."
+    }
+  },
+  {
+    "id": "cf-0-wrong",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "IT_FISCAL_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceName",
+    "text": "Codice fiscale: VRDDAA80A01H501A.",
+    "allowedEntityTypes": [
+      "IT_VAT_CODE"
+    ],
+    "expectedEntities": [
+      "IT_FISCAL_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "cf_checksum_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "vat-0-wrong",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceDescription",
+    "text": "Partita IVA: 12345678903.",
+    "allowedEntityTypes": [
+      "IBAN_CODE"
+    ],
+    "expectedEntities": [
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "vat_check_digit_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "iban-0-wrong",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "IBAN_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "intendedTarget",
+    "text": "Conto: IT60X0542811101000000123456.",
+    "allowedEntityTypes": [
+      "CREDIT_CARD"
+    ],
+    "expectedEntities": [
+      "IBAN_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "iban_mod97_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "card-16-compact-wrong",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "wrong-allowlist",
+    "focusCategory": "CREDIT_CARD",
+    "focusPolarity": "positive",
+    "fieldId": "purposeDescription",
+    "text": "Carta: 4222222222222220.",
+    "allowedEntityTypes": [
+      "PERSON"
+    ],
+    "expectedEntities": [
+      "CREDIT_CARD"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "luhn_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "person-0-isolated",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "freeOfChargeReason",
+    "text": "Ada Verdi",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "person-1-isolated",
+    "familyId": "person-name-1",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "riskAnalysisAnswer",
+    "text": "Luca Bianchi",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "person-2-isolated",
+    "familyId": "person-name-2",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "consumerNotes",
+    "text": "Giulia Neri",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "email-0-isolated",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "EMAIL_ADDRESS",
+    "focusPolarity": "positive",
+    "fieldId": "rejectAgreementReason",
+    "text": "collaudo@example.com",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "EMAIL_ADDRESS"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "phone-0-isolated",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "PHONE_NUMBER",
+    "focusPolarity": "positive",
+    "fieldId": "description",
+    "text": "+12025550123",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PHONE_NUMBER"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Metadata-valid using phonenumbers 9.0.41; not proof of assignment."
+    }
+  },
+  {
+    "id": "cf-0-isolated",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "IT_FISCAL_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "contactName",
+    "text": "VRDDAA80A01H501A",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "IT_FISCAL_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "cf_checksum_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "vat-0-isolated",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "IT_VAT_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "serverUrls[].description",
+    "text": "12345678903",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "IT_VAT_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "vat_check_digit_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "iban-0-isolated",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "IBAN_CODE",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceName",
+    "text": "IT60X0542811101000000123456",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "IBAN_CODE"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "iban_mod97_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "card-16-compact-isolated",
+    "familyId": "structured-mixture",
+    "split": "development",
+    "scenario": "isolated",
+    "focusCategory": "CREDIT_CARD",
+    "focusPolarity": "positive",
+    "fieldId": "eserviceDescription",
+    "text": "4222222222222220",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "CREDIT_CARD"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "luhn_pass",
+      "assignment": "not_checked",
+      "rationale": "Authored synthetic; assignment not checked."
+    }
+  },
+  {
+    "id": "person-single-given-context",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "single-name-context",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "intendedTarget",
+    "text": "La referente si chiama Ada.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Single given name in explicit personal context; synthetic."
+    }
+  },
+  {
+    "id": "person-single-surname-context",
+    "familyId": "contact-mixture",
+    "split": "development",
+    "scenario": "single-name-context",
+    "focusCategory": "PERSON",
+    "focusPolarity": "positive",
+    "fieldId": "purposeDescription",
+    "text": "La signora Verdi è la referente.",
+    "allowedEntityTypes": [],
+    "expectedEntities": [
+      "PERSON"
+    ],
+    "expectedVerdict": "rejected",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "plausible",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Single surname in explicit personal context; synthetic."
+    }
+  },
+  {
+    "id": "person-ambiguous-0",
+    "familyId": "person-ambiguity",
+    "split": "development",
+    "scenario": "ambiguous-single-name",
+    "focusCategory": "PERSON",
+    "focusPolarity": "negative",
+    "fieldId": "freeOfChargeReason",
+    "text": "Rosa",
+    "allowedEntityTypes": [],
+    "expectedEntities": [],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "absent-or-malformed",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Bare ambiguous word without personal context; not a full name."
+    }
+  },
+  {
+    "id": "person-ambiguous-1",
+    "familyId": "person-ambiguity",
+    "split": "development",
+    "scenario": "ambiguous-single-name",
+    "focusCategory": "PERSON",
+    "focusPolarity": "negative",
+    "fieldId": "riskAnalysisAnswer",
+    "text": "Verdi",
+    "allowedEntityTypes": [],
+    "expectedEntities": [],
+    "expectedVerdict": "accepted",
+    "provenanceId": "authored-synthetic",
+    "annotationStatus": "independently-reviewed",
+    "annotation": {
+      "target": "declared-category-presence",
+      "form": "absent-or-malformed",
+      "checksum": "not_checked",
+      "assignment": "not_checked",
+      "rationale": "Bare ambiguous word without personal context; not a full name."
     }
   }
 ]

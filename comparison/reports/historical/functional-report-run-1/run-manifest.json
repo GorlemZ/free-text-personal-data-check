@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "runStatus": "complete",
+  "git": {
+    "commit": "5bf1939267eb17cb1dad1d3a043abf02038ae6c4",
+    "dirty": true
+  },
+  "architecture": "arm64",
+  "corpusHashes": {
+    "pilot": "018c7c4cfea7510f26f473cac21c83662ad7db0bc96e1cc0bdf7c24f3ba4da38",
+    "corner": "b9421abf2305315f942b4ef3cb7b96f697eb86e8a1e9736980dabddd99d2bccf"
+  },
+  "manifestHashes": {
+    "pilot": "cc473431162d022e4c7d6c227d21e0cab57120328326527ee1a275bbfb15482c",
+    "corner": "c5c26c22e7afb7b7f786e5cf4100cf78f3c18af3a36dd8963c9464fd71df929e"
+  },
+  "capabilitiesSha256": "da4a758c057f46db2770b7ce2fb2a4c7993c44a0552aa8d679938b6a40464e1b",
+  "lockSha256": {
+    "presidio": "e507e00f629515497aabb6c02ad27f2fa8a8caba76978049cd81219e3544f833",
+    "horizon": "b1aa3c6d239ddc7271e0fc299256f23744e2ac4537e73904622c4d5ab2ddc8e5"
+  },
+  "resources": {
+    "cpus": 2,
+    "memory": "4g",
+    "swap": "disabled",
+    "network": "docker-default-bridge",
+    "bind": "127.0.0.1",
+    "networkEvidenceNote": "Corrected after run: local wrapper used Docker default bridge, not the CLI internal-network runner."
+  },
+  "planned": {
+    "detection": 186,
+    "policy": 210,
+    "totalRequests": 792
+  },
+  "startedAt": "2026-11-10T15:28:35.124Z",
+  "engines": {
+    "presidio": {
+      "imageId": "sha256:f66ff174de473699982886b3887b49a767c6b58b72068d93afbf4f6ce69bd0f2",
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "modelVersion": "it-spacy-sm-3.8.0-poc1",
+      "dependency": "presidio-analyzer 2.2.364; it_core_news_sm 3.8.0 (poc-spacy/uv.lock)",
+      "activeRegistry": [
+        "CREDIT_CARD",
+        "CRYPTO",
+        "DATE_TIME",
+        "EMAIL_ADDRESS",
+        "IBAN_CODE",
+        "IP_ADDRESS",
+        "IT_DRIVER_LICENSE",
+        "IT_FISCAL_CODE",
+        "IT_IDENTITY_CARD",
+        "IT_PASSPORT",
+        "IT_VAT_CODE",
+        "LOCATION",
+        "MAC_ADDRESS",
+        "MEDICAL_LICENSE",
+        "ORGANIZATION",
+        "PERSON",
+        "PHONE_NUMBER",
+        "URL"
+      ]
+    },
+    "horizon": {
+      "imageId": "sha256:7d82f7f7867fbde2a7451ce2e8b76df7e46f1ca072286ffacf7ca696673a3d7d",
+      "modelPolicyVersion": "horizon-pii-redactor-base-q8-ef0eff8e-poc3-it-cf-vat-iban-union",
+      "modelVersion": "horizon-pii-redactor-base-q8-ef0eff8e-poc3-it-cf-vat-iban-union",
+      "dependency": "Horizon-Labs/pii-redactor-base q8 local model; exact artifact digest is run metadata"
+    }
+  },
+  "endedAt": "2026-11-10T15:29:18.129Z",
+  "executionNote": "Local temporary wrapper invoked runFunctional with the real Docker images; standard CLI Docker runner not exercised. Wrapper source path: /Users/andreagorletta/.hermes/cache/scratch/functional-local-run.mjs; current source SHA-256 d0c428c820e656933fd68886f23993960d01947cae4fdac33f7592bf0762da85. Wrapper was edited during the runs: this hash is current source, not verified execution-time bytes."
+}

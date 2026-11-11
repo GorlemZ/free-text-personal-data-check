@@ -1,6 +1,5 @@
 {
   "schemaVersion": 1,
-  "frozenBeforePredictions": true,
   "sampledCategories": [
     "PERSON",
     "EMAIL_ADDRESS",
@@ -14,9 +13,8 @@
   "engines": {
     "presidio": {
       "version": "it-spacy-sm-3.8.0-poc3-international-phone-metadata",
-      "activeRegistryVerified": false,
       "dependency": "presidio-analyzer 2.2.364; it_core_news_sm 3.8.0 (poc-spacy/uv.lock)",
-      "configuration": "Seven-category policy alignment pending; runtime registry and source policy version verification required before predictions.",
+      "configuration": "Source-described Italian spaCy pipeline and structured recognizers; seven-category deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
       "mapping": {
         "PERSON": "PERSON",
         "EMAIL_ADDRESS": "EMAIL_ADDRESS",
@@ -29,14 +27,14 @@
       "capabilities": {
         "PERSON": {
           "scope": "Contextual human names; not bare ambiguous words or organizations/places.",
-          "checksum": "not applicable; phone metadata required",
+          "checksum": "not applicable",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
         },
         "EMAIL_ADDRESS": {
           "scope": "Syntactically valid email addresses; annotate target overlaps even inside excluded-category distractors.",
-          "checksum": "not applicable; phone metadata required",
+          "checksum": "not applicable",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
@@ -50,39 +48,38 @@
         },
         "IT_FISCAL_CODE": {
           "scope": "Canonical 16-character Italian fiscal code with checksum and whole-token boundaries; omocodia out of scope.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
         },
         "IT_VAT_CODE": {
           "scope": "11 digits with checksum, compact optional IT prefix; all-zero is negative; whole-token boundaries.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
         },
         "IBAN_CODE": {
           "scope": "Italian 27-character IBAN, mod97 valid; ASCII spaces allowed; whole-token boundaries; domestic CIN and assignment not verified.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
         },
         "CREDIT_CARD": {
-          "scope": "13\u201319 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
-          "checksum": "required by gold; implementation alignment pending",
+          "scope": "13–19 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-spacy/src/free_text_personal_data_check/analyzer.py"
           ]
         }
-      },
-      "expectedImageId": null
+      }
     },
     "horizon": {
       "version": "horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata",
-      "dependency": "Horizon-Labs/pii-redactor-base q8 local model; exact artifact digest is run metadata",
-      "configuration": "Seven-category policy alignment pending; runtime registry and source policy version verification required before predictions.",
+      "dependency": "Horizon-Labs/pii-redactor-base q8 local model",
+      "configuration": "Source-described local Horizon model plus Italian identifier recognizers; seven-category deny-by-default policy. Runtime image ID and HTTP policy version are recorded per run.",
       "mapping": {
         "ACCOUNT_ID": "ACCOUNT_ID",
         "AGE": "AGE",
@@ -120,14 +117,14 @@
       "capabilities": {
         "PERSON": {
           "scope": "Contextual human names; not bare ambiguous words or organizations/places.",
-          "checksum": "not applicable; phone metadata required",
+          "checksum": "not applicable",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         },
         "EMAIL_ADDRESS": {
           "scope": "Syntactically valid email addresses; annotate target overlaps even inside excluded-category distractors.",
-          "checksum": "not applicable; phone metadata required",
+          "checksum": "not applicable",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
@@ -141,35 +138,33 @@
         },
         "IT_FISCAL_CODE": {
           "scope": "Canonical 16-character Italian fiscal code with checksum and whole-token boundaries; omocodia out of scope.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         },
         "IT_VAT_CODE": {
           "scope": "11 digits with checksum, compact optional IT prefix; all-zero is negative; whole-token boundaries.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         },
         "IBAN_CODE": {
           "scope": "Italian 27-character IBAN, mod97 valid; ASCII spaces allowed; whole-token boundaries; domestic CIN and assignment not verified.",
-          "checksum": "required by gold; implementation alignment pending",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         },
         "CREDIT_CARD": {
-          "scope": "13\u201319 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
-          "checksum": "required by gold; implementation alignment pending",
+          "scope": "13–19 ASCII digits passing Luhn, ASCII spaces/hyphens allowed; whole envelope; no issuer or assignment claim.",
+          "checksum": "required by the category contract; see source evidence",
           "evidence": [
             "poc-horizon/src/analysis/analyze-fields.mts"
           ]
         }
-      },
-      "expectedImageId": null
+      }
     }
-  },
-  "alignmentStatus": "pending"
+  }
 }

@@ -123,9 +123,10 @@ export async function collectEngine(name, endpoint, plan, bundle, version, signa
         if (response.status) assertAnalyzeResponse(response.status, response.body, labels,
           { fieldId: unit.fieldId, allowedEntityTypes: allowed });
       } catch (error) {
-        bundle.observations[name][probe][id] = { status: 'contract-error' };
+        const interrupted = error.message === 'INTERRUPTED';
+        bundle.observations[name][probe][id] = { status: interrupted ? 'transport-error' : 'contract-error' };
         bundle.runStatus = 'incomplete';
-        fail(error.message === 'INTERRUPTED' ? 'INTERRUPTED' : 'INVALID_RESPONSE');
+        fail(interrupted ? 'INTERRUPTED' : 'INVALID_RESPONSE');
       }
       if (response.status === 0 || response.status === 503) {
         bundle.observations[name][probe][id] = { status: response.status === 0 ? 'transport-error' : 503 };

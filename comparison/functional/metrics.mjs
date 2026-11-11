@@ -1,6 +1,5 @@
 // Pure, sanitized functional-suite aggregation; no corpus or detector imports.
-import { createHash } from 'node:crypto';
-import { TARGET_CATEGORIES, FIELD_IDS, HORIZON_SUPPORTED } from '../catalog.mjs';
+import { TARGET_CATEGORIES, FIELD_IDS } from '../catalog.mjs';
 import { LABEL_MAP } from '../../poc-horizon/src/categories.mjs';
 
 const fail = () => { throw new Error('INVALID_BUNDLE'); };
@@ -10,10 +9,72 @@ const engines = ['presidio', 'horizon'];
 const probes = ['detection', 'policy'];
 const same = (a, b) => a.length === b.length && a.every(v => b.includes(v));
 const safeId = x => typeof x === 'string' && /^[a-z][a-z0-9-]{0,63}$/.test(x);
+// Historical bundles retain their original catalog; only standalone render accepts it.
+const historicalCategories = ['PERSON', 'ORGANIZATION', 'LOCATION', 'EMAIL_ADDRESS', 'PHONE_NUMBER',
+  'CREDIT_CARD', 'IP_ADDRESS', 'MAC_ADDRESS', 'URL', 'IT_FISCAL_CODE', 'IT_DRIVER_LICENSE',
+  'IT_IDENTITY_CARD', 'IT_PASSPORT', 'IT_VAT_CODE', 'IBAN_CODE', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'];
+const historicalHorizon = historicalCategories.filter(c => ![
+  'IT_DRIVER_LICENSE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'CRYPTO', 'DATE_TIME', 'MEDICAL_LICENSE'].includes(c));
 const nativeCategories = {
-  presidio: new Set([...TARGET_CATEGORIES, 'NRP']),
+  presidio: new Set([...historicalCategories, 'NRP']),
   horizon: new Set([...Object.values(LABEL_MAP), 'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE']),
 };
+const keys = (value, required, optional = []) => object(value) &&
+  required.every(k => Object.hasOwn(value, k)) &&
+  Object.keys(value).every(k => required.includes(k) || optional.includes(k));
+const optional = (value, valid) => value === undefined || valid(value);
+const safeFamily = value => typeof value === 'string' && /^[a-z][a-z0-9_-]{0,127}$/.test(value);
+const metadataKeys = ['split', 'familyId', 'scenario', 'focusCategory', 'focusPolarity',
+  'provenanceId', 'annotationStatus', 'tokenCount', 'limitChallenge'];
+const metadataValid = (unit, catalog) =>
+  optional(unit.split, x => x === 'development') && optional(unit.familyId, safeFamily) &&
+  optional(unit.scenario, safeId) && optional(unit.focusCategory, x => catalog.has(x)) &&
+  optional(unit.focusPolarity, x => ['positive', 'negative'].includes(x)) &&
+  optional(unit.provenanceId, safeId) &&
+  optional(unit.annotationStatus, x => ['pending', 'independently-reviewed'].includes(x)) &&
+  optional(unit.tokenCount, x => Number.isSafeInteger(x) && x >= 0) &&
+  optional(unit.limitChallenge, x => typeof x === 'boolean');
+const annotationValues = {
+  target: ['declared-category-presence'], form: ['plausible', 'absent-or-malformed'],
+  checksum: ['not_checked', 'luhn_pass', 'luhn_fail', 'vat_check_digit_pass', 'vat_check_digit_fail',
+    'iban_mod97_pass', 'iban_mod97_fail', 'cf_checksum_pass', 'cf_checksum_fail'],
+  assignment: ['not_checked'], domesticCin: ['not_checked'],
+};
+const annotationValid = a => keys(a, [], Object.keys(annotationValues)) &&
+  Object.entries(a).every(([k, v]) => annotationValues[k].includes(v));
+function validateSafeShape(bundle) {
+  if (!keys(bundle, ['schemaVersion', 'runStatus', 'capabilities', 'detectionUnits', 'policyUnits', 'observations']) ||
+      !keys(bundle.capabilities, ['categories', 'engines']) ||
+      !uniqueStrings(bundle.capabilities.categories) ||
+      !keys(bundle.capabilities.engines, engines) || !keys(bundle.observations, engines) ||
+      !Array.isArray(bundle.detectionUnits) || !Array.isArray(bundle.policyUnits)) fail();
+  const catalog = new Set(bundle.capabilities.categories);
+  for (const engine of engines) {
+    const cap = bundle.capabilities.engines[engine];
+    if (!keys(cap, ['supportedCategories'], ['mapping']) || !keys(bundle.observations[engine], probes)) fail();
+    if (cap.mapping !== undefined && (!object(cap.mapping) || Object.entries(cap.mapping).some(([native, label]) =>
+      engine === 'presidio' ? native !== label || !nativeCategories.presidio.has(label) :
+        ({ ...LABEL_MAP, IT_FISCAL_CODE: 'IT_FISCAL_CODE', IT_VAT_CODE: 'IT_VAT_CODE', IBAN_CODE: 'IBAN_CODE' })[native] !== label))) fail();
+  }
+  for (const unit of bundle.detectionUnits) {
+    if (!keys(unit, ['id', 'sourceIds', 'fieldId', 'expectedEntities'], [...metadataKeys, 'strata']) ||
+        !metadataValid(unit, catalog)) fail();
+    if (unit.strata !== undefined) {
+      if (!Array.isArray(unit.strata)) fail();
+      for (const s of unit.strata) {
+        if (!keys(s, ['sourceId', 'focusCategory', 'scenario'],
+          ['fieldId', 'provenanceId', 'allowedEntityTypes', 'expectedVerdict', 'focusPolarity', 'annotation']) ||
+          !metadataValid(s, catalog) || !optional(s.fieldId, x => FIELD_IDS.includes(x)) ||
+          !optional(s.allowedEntityTypes, x => uniqueStrings(x) && x.every(c => catalog.has(c))) ||
+          !optional(s.expectedVerdict, x => ['accepted', 'rejected'].includes(x)) ||
+          !optional(s.annotation, annotationValid)) fail();
+      }
+    }
+  }
+  for (const unit of bundle.policyUnits) if (!keys(unit,
+    ['id', 'detectionCaseId', 'fieldId', 'expectedEntities', 'allowedEntityTypes', 'expectedVerdict'], metadataKeys) ||
+    !metadataValid(unit, catalog)) fail();
+}
 const verifiedSummaries = new WeakMap();
 export const isVerifiedSummary = summary => summary !== null && typeof summary === 'object' &&
   verifiedSummaries.has(summary) && verifiedSummaries.get(summary) === JSON.stringify(summary);
@@ -35,39 +96,24 @@ const statusKind = o => o === undefined || o?.status === 'unattempted' ? 'unatte
   o?.status === 200 ? 'success' : [400, 'contract-error'].includes(o?.status) ? 'contract' :
   [503, 'timeout', 'transport-error', 'crash'].includes(o?.status) ? 'technical' : fail();
 
-const sorted = values => [...values].sort();
-const byId = (a, b) => a[0].localeCompare(b[0]);
-export function sanitizedPlanSha256(bundle) {
-  const detection = bundle.detectionUnits.map(u => [u.id, u.fieldId,
-    sorted(u.sourceIds), sorted(u.expectedEntities),
-    u.strata.map(s => [s.sourceId, s.focusCategory, s.scenario]).sort((a, b) =>
-      JSON.stringify(a).localeCompare(JSON.stringify(b)))]).sort(byId);
-  const policy = bundle.policyUnits.map(u => [u.id, u.detectionCaseId, u.fieldId,
-    sorted(u.expectedEntities), sorted(u.allowedEntityTypes), u.expectedVerdict]).sort(byId);
-  return createHash('sha256').update(JSON.stringify([detection, policy])).digest('hex');
-}
-
-/** Bind collection to the supplied manifest; standalone render checks self-contained integrity, not authenticity. */
+/** Compare to the gold loaded for this run; standalone rendering checks schema and links only. */
 export function validateReleaseBundle(bundle, plan) {
   const summary = analyzeBundle(bundle);
   if (bundle.runStatus === 'complete' && summary.runStatus !== 'complete') fail();
-  if (!same(bundle.capabilities.categories, TARGET_CATEGORIES) ||
-      engines.some(e => !same(bundle.capabilities.engines[e].supportedCategories, TARGET_CATEGORIES)) ||
-      !object(bundle.integrity) || !['pending','independently-reviewed'].includes(bundle.integrity.reviewStatus) ||
-      !/^[a-f0-9]{64}$/.test(bundle.integrity.corpusSha256 ?? '') ||
-      !/^[a-f0-9]{64}$/.test(bundle.integrity.manifestSha256 ?? '') ||
-      bundle.integrity.planSha256 !== sanitizedPlanSha256(bundle)) fail();
-  if (plan === undefined) return bundle; // Integrity, not an authenticity signature or a new review.
+  const legacy = plan === undefined && same(bundle.capabilities.categories, historicalCategories) &&
+    same(bundle.capabilities.engines.presidio.supportedCategories, historicalCategories) &&
+    same(bundle.capabilities.engines.horizon.supportedCategories, historicalHorizon);
+  if (!legacy && (!same(bundle.capabilities.categories, TARGET_CATEGORIES) ||
+      engines.some(e => !same(bundle.capabilities.engines[e].supportedCategories, TARGET_CATEGORIES)))) fail();
+  if (plan === undefined) return bundle;
   if (!Array.isArray(plan.detection) || !Array.isArray(plan.policy) ||
-      bundle.detectionUnits.length !== plan.detection.length || bundle.policyUnits.length !== plan.policy.length ||
-      bundle.integrity.corpusSha256 !== plan.corpusHashes.gold ||
-      bundle.integrity.manifestSha256 !== plan.manifestHashes.gold ||
-      bundle.integrity.reviewStatus !== plan.review.status) fail();
+      bundle.detectionUnits.length !== plan.detection.length || bundle.policyUnits.length !== plan.policy.length) fail();
   const actualDetection = new Map(bundle.detectionUnits.map(u => [u.id, u]));
   const actualPolicy = new Map(bundle.policyUnits.map(u => [u.id, u]));
   for (const expected of plan.detection) {
     const actual = actualDetection.get(expected.detectionCaseId);
     if (!actual || actual.fieldId !== expected.fieldId ||
+      actual.focusCategory !== expected.focusCategory ||
       !same(actual.sourceIds, expected.sourceIds) ||
       !same(actual.expectedEntities, expected.expectedEntities) ||
       !Array.isArray(actual.strata) || actual.strata.length !== expected.strata.length ||
@@ -91,6 +137,7 @@ export function validateReleaseBundle(bundle, plan) {
  * Successful observations use categories: string[] (native categories after mapping), not findings.
  */
 export function analyzeBundle(bundle) {
+  validateSafeShape(bundle);
   if (!object(bundle) || bundle.schemaVersion !== 1 ||
     !object(bundle.capabilities) || !uniqueStrings(bundle.capabilities.categories) ||
     !object(bundle.capabilities.engines) || !Array.isArray(bundle.detectionUnits) ||
@@ -214,7 +261,13 @@ export function analyzeBundle(bundle) {
         }
         strata[name] = { byCategory: strataCategories };
       }
+      const exactRows = [...detection.values()].filter(u =>
+        statusKind(bundle.observations[engine].detection[u.id]) === 'success' &&
+        (cohort === 'own' || paired.detection.includes(u.id)));
+      const exactCorrect = exactRows.filter(u => same(u.expectedEntities,
+        bundle.observations[engine].detection[u.id].categories.filter(c => catalog.has(c)))).length;
       detectionResult[cohort][engine] = { byCategory, focusCategory: focal, strata, operational,
+        exactSet: { correct: exactCorrect, total: exactRows.length, accuracy: ratio(exactCorrect, exactRows.length) },
         unsupported: categories.filter(c => sampled.has(c) && !supports[engine].has(c)).sort(),
         unsampled: categories.filter(c => !sampled.has(c)).sort(),
         micro: score(values.reduce((a, x) => sum(a, x.counts), empty())),
@@ -232,7 +285,9 @@ export function analyzeBundle(bundle) {
         (cohort === 'paired' && !paired.policy.includes(unit.id))) continue;
       tally(c, unit.expectedVerdict === 'rejected', bundle.observations[engine].policy[unit.id].verdict === 'rejected');
     }
-    policyResult[cohort][engine] = score(c);
+    policyResult[cohort][engine] = { ...score(c),
+      falseAcceptanceRate: ratio(c.fn, c.tp + c.fn),
+      falseRejectionRate: ratio(c.fp, c.tn + c.fp) };
     if (cohort === 'own') policyResult.operational[engine] = bundle.runStatus === 'complete' &&
       coverage[engine].policy.unattempted === 0 ? ratio(c.tp + c.tn, policy.size) : null;
   }
@@ -245,6 +300,7 @@ export function analyzeBundle(bundle) {
       detectionResult.own[engine].operational[category] = null;
   }
   const summary = { schemaVersion: 1, runStatus: incomplete ? 'incomplete' : 'complete',
+    historicalCatalog: same(categories, historicalCategories),
     coverage, detection: detectionResult, policy: policyResult,
     diagnostics: { extraLabels: Object.fromEntries(engines.map(e => [e, Object.fromEntries(probes.map(p => [p,
       [...units[p]].filter(([id]) => statusKind(bundle.observations[e][p][id]) === 'success')

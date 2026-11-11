@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "runId": "c84c76b5-d2fa-4812-90a0-6b4e6d4a972b",
+  "runStatus": "complete",
+  "reviewStatus": "independently-reviewed",
+  "git": {
+    "commit": "4883538890f220a88802b1661d53f5cd2411ef66",
+    "dirty": true
+  },
+  "planned": {
+    "detection": 121,
+    "policy": 185,
+    "totalRequests": 612
+  },
+  "startedAt": "2026-11-11T09:39:33.473Z",
+  "engines": {
+    "presidio": {
+      "imageId": "sha256:ca04e51c3bc5b74a91e0dfbd164323c9f70f3e122f4a21955dfe9f8153727e94",
+      "network": {
+        "mode": "default",
+        "names": [
+          "bridge"
+        ]
+      },
+      "bind": "127.0.0.1",
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc3-international-phone-metadata"
+    },
+    "horizon": {
+      "imageId": "sha256:95d2c44b752239f97934a1a1baf6d84060164e0a22be16e415d8f44953c248fa",
+      "network": {
+        "mode": "default",
+        "names": [
+          "bridge"
+        ]
+      },
+      "bind": "127.0.0.1",
+      "modelPolicyVersion": "horizon-pii-redactor-base-q8-ef0eff8e-poc5-international-phone-metadata"
+    }
+  },
+  "endedAt": "2026-11-11T09:39:55.471Z"
+}

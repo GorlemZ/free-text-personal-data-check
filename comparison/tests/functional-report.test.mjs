@@ -57,6 +57,17 @@ test('CSV parses into canonical cells with no injected formulas or line breaks',
     ['paired', 'presidio', 'PERSON', '1', '1', '1', '0', '0', '1']);
 });
 
+test('report includes both probe coverage, correct acceptances and conditional policy errors', () => {
+  const output = renderReport(analyzeBundle(bundle));
+  assert.match(output.markdown, /Accettazioni corrette/);
+  assert.match(output.markdown, /Accettazioni indebite \/ attesi rifiutati/);
+  assert.match(output.markdown, /Rifiuti indebiti \/ attesi accettati/);
+  assert.match(output.markdown, /Set categorie esatto nel catalogo/);
+  assert.match(output.markdown, /presidio \| detection \| 2 \| 2 \| 2 \| 0 \| 0 \| 0/);
+  assert.match(output.verdictCsv.split('\n')[0], /falseAcceptanceRate,falseRejectionRate/);
+  assert.doesNotMatch(output.markdown, /including extra labels outside the scored detection categories/);
+});
+
 test('report rejects untrusted and mutated summaries before serializing raw labels', () => {
   const summary = analyzeBundle(bundle);
   summary.diagnostics.extraLabels.presidio.detection.push({ id: 'd1', category: '=PRIVATE' });
