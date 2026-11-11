@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "review": {
-    "status": "pending",
-    "reviewer": null,
-    "reviewedAt": null
+    "status": "independently-reviewed",
+    "reviewer": "Independent agent review deleg_38c3e442 (290 texts/329 annotations), supplemented by deleg_9e7e2d99 (56 changed texts)",
+    "reviewedAt": "2026-11-11T15:43:41.447784+00:00"
   },
   "heldout": false,
   "sourceData": "synthetic",
@@ -30,28 +30,29 @@
     {
       "id": "faker-synthetic",
       "kind": "faker-synthetic",
-      "description": "Synthetic values retained from the previous unreviewed generated draft: offline Faker 40.38.0 (MIT license), locale it_IT, seed 20261111 supplied name(), safe_email(), ssn() and cie() only. The surrounding contextual strings have now been individually rewritten as complete literal Italian texts rather than assembled at runtime; isolated values remain unchanged. This is not evidence of issued/assigned identities, delivery, ownership, or correspondence between name and CF. Independent review pending."
+      "description": "Synthetic values retained from the previous unreviewed generated draft: offline Faker 40.38.0 (MIT license), locale it_IT, seed 20261111 supplied name(), safe_email(), ssn() and cie() only. The surrounding contextual strings have now been individually rewritten as complete literal Italian texts rather than assembled at runtime; isolated values remain unchanged. This is not evidence of issued/assigned identities, delivery, ownership, or correspondence between name and CF. Independent agent review completed before detector predictions."
     },
     {
       "id": "local-seeded",
       "kind": "local-seeded",
-      "description": "Synthetic values retained from the previous unreviewed generated draft: locally seeded random.Random(20261111) supplied UCO U1 subtype, phone, VAT, Italian IBAN and payment-card-like numbers, including checksum-mutated full-shape negatives; not Faker values. Contextual prose is now individually authored as complete literal strings; isolated values remain unchanged. Phone metadata was checked with phonenumbers 9.0.41. Domestic CIN, bank, issuer, control-character validity and actual assignment remain unverified. Independent review pending."
+      "description": "Synthetic values retained from the previous unreviewed generated draft: locally seeded random.Random(20261111) supplied UCO U1 subtype, phone, VAT, Italian IBAN and payment-card-like numbers, including checksum-mutated full-shape negatives; not Faker values. Contextual prose is now individually authored as complete literal strings; isolated values remain unchanged. Phone metadata was checked with phonenumbers 9.0.41. Domestic CIN, bank, issuer, control-character validity and actual assignment remain unverified. Independent agent review completed before detector predictions."
     },
     {
       "id": "mixed-synthetic",
       "kind": "mixed-synthetic",
-      "description": "Synthetic tokens retained from the previous unreviewed generated draft: combinations of Faker name, safe_email, ssn and CIE with locally seeded UCO licence subtype, or a Faker CF mutated locally to fail its check letter. Each multi-category contextual text is now a separately authored full literal string, not a recombination of fields at runtime. Neither source alone accounts for the full text. Independent review pending."
+      "description": "Synthetic tokens retained from the previous unreviewed generated draft: combinations of Faker name, safe_email, ssn and CIE with locally seeded UCO licence subtype, or a Faker CF mutated locally to fail its check letter. Each multi-category contextual text is now a separately authored full literal string, not a recombination of fields at runtime. Neither source alone accounts for the full text. Independent agent review completed before detector predictions."
     },
     {
       "id": "authored-synthetic",
       "kind": "authored-synthetic",
-      "description": "Absent, ambiguous or malformed negative candidates originate in the prior unreviewed draft; their surrounding sentences were subsequently rewritten individually as complete literals. No production or remote input sources are claimed. Independent review pending."
+      "description": "Absent, ambiguous or malformed negative candidates originate in the prior unreviewed draft; their surrounding sentences were subsequently rewritten individually as complete literals. No production or remote input sources are claimed. Independent agent review completed before detector predictions."
     }
   ],
   "limitations": [
-    "Each contextual input is now a complete, individually written literal Italian string; synthetic tokens and gold annotations were retained from a prior unreviewed generated draft, while nine isolated token inputs remain intentionally unchanged. Structural tests and motif counts do not prove linguistic independence or realism; independent qualitative review is pending.",
-    "Independent annotation review pending; automated lexical checks are not human approval.",
-    "The evaluation split is selected but the draft gold is not frozen; heldout=false: model training exposure cannot be excluded and synthetic prevalence is not deployment prevalence.",
+    "Input register was rebalanced using the user's qualitative description of expected service inputs: cf/CF, cc/conto corrente, compact Italian phone numbers without +39, and single surnames predominate over their extended/hyphenated alternatives. These are curation choices, not measured production frequencies. Selected compound synthetic surnames were shortened to their first surname; Italian phone formatting was normalized without changing the national number. Gold categories and verdicts were preserved and independently checked by the local validation suite; the focused independent review of all 56 changed texts approved these edits without substantive findings.",
+    "Each contextual input is now a complete, individually written literal Italian string; synthetic tokens and gold annotations were retained from a prior unreviewed generated draft, while nine isolated token inputs remain intentionally unchanged. Structural tests and motif counts do not prove linguistic independence or realism; independent qualitative review is complete; the targeted follow-up covers surname shortening and phone normalization.",
+    "Independent agent annotation review completed; user authorized consolidation and publication. This does not claim a manual human audit of every annotation.",
+    "The evaluation corpus and semantic gold are frozen for the next comparison run; do not tune after observing predictions. heldout=false: model training exposure cannot be excluded and synthetic prevalence is not deployment prevalence.",
     "Historical family IDs conservatively keep together formerly correlated generated situations and policy variants, even when the rewritten literal prose now differs across categories; family counts are not independent sample sizes.",
     "fieldId is HTTP wrapper metadata rather than detector input text. These literal strings are not asserted to be representative of what users actually enter in each named form field; compare engines on paired inputs, not as field-specific deployment prevalence or UX examples.",
     "Gold phone checks use phonenumbers 9.0.41, also pinned by Presidio; Horizon uses libphonenumber-js 1.13.16. Cross-runtime metadata equivalence is not asserted.",

@@ -14,7 +14,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -40,7 +40,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -66,7 +66,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -90,7 +90,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -116,7 +116,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -142,7 +142,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -166,7 +166,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -192,7 +192,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -218,7 +218,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -242,7 +242,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -268,7 +268,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -294,7 +294,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -318,7 +318,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -344,7 +344,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -370,7 +370,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -394,7 +394,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -420,7 +420,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -446,7 +446,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -470,7 +470,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -496,7 +496,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -522,7 +522,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -546,7 +546,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -572,7 +572,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -598,7 +598,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -622,7 +622,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -648,7 +648,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -674,7 +674,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -698,7 +698,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -732,7 +732,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -756,7 +756,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -790,7 +790,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -814,7 +814,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -848,7 +848,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -872,7 +872,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -906,7 +906,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -930,7 +930,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -964,7 +964,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -988,7 +988,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1022,7 +1022,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1046,7 +1046,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1080,7 +1080,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1104,7 +1104,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1138,7 +1138,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1162,7 +1162,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1196,7 +1196,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1220,7 +1220,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1244,7 +1244,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1268,7 +1268,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1292,7 +1292,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1316,7 +1316,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1340,7 +1340,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1364,7 +1364,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1388,7 +1388,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1412,7 +1412,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1436,7 +1436,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1460,7 +1460,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1484,7 +1484,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1508,7 +1508,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1532,7 +1532,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1556,7 +1556,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1580,7 +1580,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1604,7 +1604,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1628,7 +1628,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1652,7 +1652,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1676,7 +1676,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1700,7 +1700,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1724,7 +1724,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1748,7 +1748,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1772,7 +1772,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1796,7 +1796,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1820,7 +1820,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1844,7 +1844,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1868,7 +1868,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1892,7 +1892,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1916,7 +1916,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1940,7 +1940,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1964,7 +1964,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -1988,7 +1988,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2012,7 +2012,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2036,7 +2036,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2060,7 +2060,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2084,7 +2084,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2108,7 +2108,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2132,7 +2132,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2156,7 +2156,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2180,7 +2180,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2204,7 +2204,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2228,7 +2228,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2252,7 +2252,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2276,7 +2276,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2300,7 +2300,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2324,7 +2324,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2348,7 +2348,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2372,7 +2372,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2396,7 +2396,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2420,7 +2420,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2444,7 +2444,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2468,7 +2468,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2492,7 +2492,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2516,7 +2516,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2540,7 +2540,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2564,7 +2564,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2588,7 +2588,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2612,7 +2612,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2636,7 +2636,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2660,7 +2660,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2684,7 +2684,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2708,7 +2708,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2732,7 +2732,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2756,7 +2756,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2780,7 +2780,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2804,7 +2804,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2828,7 +2828,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2852,7 +2852,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2876,7 +2876,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2900,7 +2900,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2924,7 +2924,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2948,7 +2948,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2972,7 +2972,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -2996,7 +2996,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3020,7 +3020,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3044,7 +3044,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3068,7 +3068,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3092,7 +3092,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3116,7 +3116,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3140,7 +3140,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3164,7 +3164,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3188,7 +3188,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3212,7 +3212,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3236,7 +3236,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3260,7 +3260,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3284,7 +3284,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3308,7 +3308,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3332,7 +3332,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3356,7 +3356,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3380,7 +3380,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3404,7 +3404,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3428,7 +3428,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3452,7 +3452,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3476,7 +3476,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3500,7 +3500,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3524,7 +3524,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3548,7 +3548,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3572,7 +3572,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3596,7 +3596,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3620,7 +3620,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3644,7 +3644,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3668,7 +3668,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3692,7 +3692,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3716,7 +3716,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3740,7 +3740,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3764,7 +3764,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3788,7 +3788,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3812,7 +3812,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3836,7 +3836,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3860,7 +3860,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3884,7 +3884,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3908,7 +3908,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3932,7 +3932,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3956,7 +3956,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -3980,7 +3980,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4004,7 +4004,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4028,7 +4028,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4052,7 +4052,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4076,7 +4076,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4100,7 +4100,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4124,7 +4124,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4148,7 +4148,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4172,7 +4172,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4196,7 +4196,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4220,7 +4220,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4244,7 +4244,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4268,7 +4268,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4292,7 +4292,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4316,7 +4316,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4340,7 +4340,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4364,7 +4364,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4388,7 +4388,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4412,7 +4412,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4436,7 +4436,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4460,7 +4460,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4484,7 +4484,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4508,7 +4508,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4532,7 +4532,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4556,7 +4556,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4580,7 +4580,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4604,7 +4604,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4628,7 +4628,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4652,7 +4652,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4676,7 +4676,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4700,7 +4700,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4724,7 +4724,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4748,7 +4748,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4772,7 +4772,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4796,7 +4796,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4820,7 +4820,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4844,7 +4844,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4868,7 +4868,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4892,7 +4892,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4916,7 +4916,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4940,7 +4940,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4964,7 +4964,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -4988,7 +4988,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5012,7 +5012,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5036,7 +5036,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5060,7 +5060,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5084,7 +5084,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5108,7 +5108,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5132,7 +5132,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5156,7 +5156,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5180,7 +5180,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5204,7 +5204,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5228,7 +5228,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5252,7 +5252,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5276,7 +5276,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5300,7 +5300,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5324,7 +5324,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5348,7 +5348,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5372,7 +5372,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5396,7 +5396,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5420,7 +5420,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5444,7 +5444,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5468,7 +5468,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5492,7 +5492,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5516,7 +5516,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5540,7 +5540,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5564,7 +5564,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5588,7 +5588,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5612,7 +5612,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5636,7 +5636,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5660,7 +5660,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5684,7 +5684,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5708,7 +5708,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5732,7 +5732,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5756,7 +5756,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5780,7 +5780,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5804,7 +5804,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5828,7 +5828,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5852,7 +5852,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5876,7 +5876,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5900,7 +5900,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5924,7 +5924,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5948,7 +5948,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5972,7 +5972,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -5996,7 +5996,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6020,7 +6020,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6044,7 +6044,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6068,7 +6068,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6092,7 +6092,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6116,7 +6116,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6140,7 +6140,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6164,7 +6164,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6188,7 +6188,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6212,7 +6212,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6236,7 +6236,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6260,7 +6260,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6284,7 +6284,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -6306,7 +6306,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6328,7 +6328,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6350,7 +6350,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6372,7 +6372,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6394,7 +6394,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6416,7 +6416,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6438,7 +6438,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6460,7 +6460,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6482,7 +6482,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6504,7 +6504,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6526,7 +6526,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6548,7 +6548,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6570,7 +6570,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6592,7 +6592,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6614,7 +6614,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6636,7 +6636,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6658,7 +6658,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6680,7 +6680,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6702,7 +6702,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6724,7 +6724,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6746,7 +6746,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6768,7 +6768,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6790,7 +6790,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6812,7 +6812,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6834,7 +6834,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6856,7 +6856,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6878,7 +6878,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6900,7 +6900,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6922,7 +6922,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6944,7 +6944,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6966,7 +6966,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -6988,7 +6988,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7010,7 +7010,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7032,7 +7032,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7054,7 +7054,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7076,7 +7076,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7098,7 +7098,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7120,7 +7120,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7142,7 +7142,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7164,7 +7164,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7186,7 +7186,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7208,7 +7208,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7230,7 +7230,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7252,7 +7252,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7274,7 +7274,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7296,7 +7296,7 @@
     "expectedEntities": [],
     "expectedVerdict": "accepted",
     "provenanceId": "authored-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "absent-or-malformed",
@@ -7320,7 +7320,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7344,7 +7344,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7368,7 +7368,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7392,7 +7392,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7416,7 +7416,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7440,7 +7440,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7464,7 +7464,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7488,7 +7488,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "faker-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7512,7 +7512,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7540,7 +7540,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7570,7 +7570,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7608,7 +7608,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7636,7 +7636,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7666,7 +7666,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7704,7 +7704,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7732,7 +7732,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7762,7 +7762,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7800,7 +7800,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7828,7 +7828,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7858,7 +7858,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7896,7 +7896,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "mixed-synthetic",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7921,7 +7921,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7948,7 +7948,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -7975,7 +7975,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -8003,7 +8003,7 @@
     ],
     "expectedVerdict": "accepted",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",
@@ -8030,7 +8030,7 @@
     ],
     "expectedVerdict": "rejected",
     "provenanceId": "local-seeded",
-    "annotationStatus": "pending",
+    "annotationStatus": "independently-reviewed",
     "annotation": {
       "target": "declared-category-presence",
       "form": "plausible",

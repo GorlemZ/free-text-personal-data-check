@@ -162,7 +162,7 @@ for (const [name, mutate] of Object.entries({
   duplicateScenario: a => { const [first, peer] = peers(a); Object.assign(peer, { ...structuredClone(first), id: peer.id }); },
   verdict: a => a[0].expectedVerdict = a[0].expectedVerdict === 'accepted' ? 'rejected' : 'accepted',
   category: a => a[0].expectedEntities = ['URL'],
-  review: a => a[0].annotationStatus = 'independently-reviewed',
+  review: a => a[0].annotationStatus = a[0].annotationStatus === 'pending' ? 'independently-reviewed' : 'pending',
   family: a => { const [first, peer] = peers(a); peer.familyId = 'unrelated-family'; },
   provenance: a => a[0].provenanceId = 'unknown', field: a => a[0].fieldId = 'unknown',
   extra: a => a[0].secret = 'unapproved', checksum: a => a[0].annotation.checksum = 'unknown',
@@ -174,7 +174,7 @@ for (const [name, mutate] of Object.entries({
 })) test('gold rejects ' + name, () => invalid(edited('gold', mutate)));
 for (const [name, mutate] of Object.entries({
   count: m => m.counts.samples++, category: m => m.counts.categories++,
-  review: m => m.review.status = 'independently-reviewed', provenance: m => m.provenance[0].kind = '',
+  review: m => m.review.status = m.review.status === 'pending' ? 'independently-reviewed' : 'pending', provenance: m => m.provenance[0].kind = '',
   extra: m => m.unexpected = true, catalog: m => m.categories.pop(),
   policy: m => delete m.policy.PERSON,
   limitationObject: m => m.limitations = [{ unapproved: 'nested metadata' }],
