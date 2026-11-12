@@ -22,7 +22,7 @@ python3 tests/run.py rizzo contract
 | Suite | Percorso | Che cosa verifica |
 |---|---|---|
 | `layout` | `test_layout.py` | Quattro cartelle operative e suite centralizzate |
-| `rizzo` | `rizzo/` | API, modello con sessioni finte, regole e dipendenze native |
+| `rizzo` | `rizzo/` | API, pipeline standard con inferenza sintetica, mapping, regole e dipendenze native |
 | `horizon` | `horizon/` | Build, pipeline, adapter e riconoscitori |
 | `presidio` | `presidio/` | API, adapter, routing reale e smoke locale |
 | `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering |
@@ -34,6 +34,18 @@ Controlli statici aggiuntivi, dopo l'installazione:
 npm --prefix poc-horizon run typecheck
 uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pyproject.toml poc-presidio/src tests/presidio tests/contract/serve-presidio.py
 ```
+
+## Suite Node senza pesi
+
+Per lavorare soltanto su Rizzo e Horizon, senza invocare il runner Python:
+
+```sh
+npm --prefix poc-rizzo test
+npm --prefix poc-horizon test
+npm --prefix poc-horizon run typecheck
+```
+
+Le regressioni Rizzo esercitano la pipeline Transformers.js installata con tensori sintetici e i controlli sulle entità pubbliche. Non certificano caricamento degli artefatti reali, equivalenza con il decoder precedente o rispetto del limite di memoria; questi richiedono prove separate con il modello reale.
 
 ## Inferenza e confronto reali
 

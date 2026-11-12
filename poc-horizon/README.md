@@ -28,6 +28,8 @@ docker run --rm --network none free-text-check:horizon-uniform node scripts/smok
 
 ## Detection e adapter
 
+Come [Rizzo](../poc-rizzo/README.md#pipeline-nlp-comune), Horizon usa `TokenClassificationPipeline` standard di Transformers.js, senza decoder applicativo. Le entità ricevute vengono validate e mappate nel servizio: non è un controllo dei logits dei token filtrati dalla libreria. Modelli, soglie e regole restano distinti; l'API comune non implica detection equivalente.
+
 Soglia sperimentale `0.35`, aggregazione `simple`. La pipeline valida tutti i campi e il budget token, applica regole e modello al testo originale, converte i candidati nel catalogo comune e applica la policy per campo.
 
 - `EMAIL` diventa `EMAIL_ADDRESS`; `PHONE` e il riconoscitore `PHONE_NUMBER` condividono la categoria business. Entrambi passano il filtro geografico italiano sull'intero candidato.
