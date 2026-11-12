@@ -7,7 +7,12 @@ export function strictParse(text) {
     const start = at++;
     while (at < text.length) {
       if (text[at] === '\\') { at += 2; continue; }
-      if (text[at++] === '"') return JSON.parse(text.slice(start, at));
+      if (text[at++] === '"') {
+        const value = JSON.parse(text.slice(start, at));
+        // Check every decoded string, including keys, before schema projection.
+        if (!value.isWellFormed()) throw new SyntaxError('Invalid Unicode string');
+        return value;
+      }
     }
     throw new SyntaxError('Unterminated JSON string');
   }

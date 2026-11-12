@@ -1,0 +1,120 @@
+{
+  "runId": "c4620e14c5",
+  "startedAt": "2026-11-12T11:35:01.277261+00:00",
+  "goldSha256": "26e937f42f5c7feba16b7c61c5083f5500a1b31c6bf5bb3289bc05e98bc9b0a1",
+  "goldVersion": "uniform-pilot-2",
+  "sourceBaseCommit": "831b16db02ada3400e2ad8d94a305f8d2d2c3e9f",
+  "horizonImportedSourceCommit": "38360c8d7f776c075457e319bd957502a03c963b",
+  "sourceFileSha256": {
+    "poc-rizzo/Dockerfile": "6ff59c9f28e3d13d92e5788f9536f3cebf659f83234579f4b88fc14e121d3949",
+    "poc-rizzo/MODEL_LICENSE": "3508115b8ed6ed68ec8fb55425afd544f37654389c357ec3a9ce257ae85beeaf",
+    "poc-rizzo/model-manifest.json": "bf3fcc81dfca3970384fad14ce363d71688e0eb9579d66cc2f48853ec12fbd22",
+    "poc-rizzo/package-lock.json": "0b86135397f583c328007892c2be887773b0463826e5602e7b84073aa76b70fb",
+    "poc-rizzo/package.json": "0c4022690705d1f5094f658e543146e01be23436d76f29856307706747940ed0",
+    "poc-rizzo/scripts/prefetch.mjs": "e9e327c381e8a9d04aff56e2c9b6adfaeb4cc4c3c8fe9a6d2eecec75856126e0",
+    "poc-rizzo/scripts/smoke.mjs": "fd6d0804c24e72776f2af9c9366f7d7d9bf1f7842e8cf7cfc0cadf306733df89",
+    "poc-rizzo/src/app.mjs": "ef1e681394096efe390f4085e983585121ba54b67c633ee81f094806b16ad4a8",
+    "poc-rizzo/src/categories.mjs": "2c37f70b1c370d490af2238096ad7957f94141505ad0b3c8b13820a8a2246f15",
+    "poc-rizzo/src/detector.mjs": "b92f605fe392637f66c42bc65eaa86bf7fef90de03a0971f65d2395862b171a7",
+    "poc-rizzo/src/model.mjs": "356c74478ec51b4879650919c19c199865db048d3c61ac337a5d53ffd9a407b9",
+    "poc-rizzo/src/rules.ts": "d51efeb47421b27714f095016ede58586b25cf3911568475b29e474bf88fe2dc",
+    "poc-rizzo/src/server.mjs": "159f2d8ba9ee707c01dd553f6a52ece3a523e343c290a315d2340bf75d678038",
+    "poc-horizon/Dockerfile": "cb107937ccb8ba6ade441ee2a746f139a042ef18b7037108fd20e151d283ce56",
+    "poc-horizon/model-manifest.json": "2b5895a6a6156ebe030ea1b9e6a5c9f220f76f76f0fb7672ece799d68aed360c",
+    "poc-horizon/package-lock.json": "1f077f2ed21e2dae0da2b6385584147ce50dc34303ad60cd42d7a27ef1d607b6",
+    "poc-horizon/package.json": "c40efd6d96d2f8f4b81c9265dce22d49945d603e049ee6693e015a8c0a867f0f",
+    "poc-horizon/scripts/prefetch.mjs": "7d44667d574d97ffe04b701cad91e13b26f8da2795d2adaea24c62c13c871e7b",
+    "poc-horizon/scripts/smoke.mjs": "87e9910c3eec3ae94a2174742a9c570d4ab65b2e71932d0cf1339cd3f8618b77",
+    "poc-horizon/src/analysis/analyze-fields.mts": "e32ee050665aedfbb174aebc5b226fac5af5311501a4d319569c8d35afd8bdd5",
+    "poc-horizon/src/analysis/contracts.mts": "659acd3f1a7ce9e4dcd17e7fbb54fe0317135ab6b11b6ab905bd17d56367a53a",
+    "poc-horizon/src/analysis/semantics.mts": "698c2f871eb2608b68c5bb0ef746171c79e57bfb81cf6a9d4c64ae577d197056",
+    "poc-horizon/src/categories.mjs": "1abbf1af45b209bdbf20b4d58d98d9f2bd57517dddd01ab0a70dbd8d426859ae",
+    "poc-horizon/src/detector.mjs": "1526944709fe97115a14dec5dcdb9e6677c1afcf1ce8f197011e49c0091cfff2",
+    "poc-horizon/src/fiscal-code.mjs": "475a0adecc996257ef1df374bc4270b7576b46ecfb0864c3382cb8ce28a24c74",
+    "poc-horizon/src/recognizers/credit-card.mts": "6e10c2b47f4c2f8e2d7646d55e6826bc2ec2c0a1ceb00563093c00ead413d946",
+    "poc-horizon/src/recognizers/fiscal-code.mts": "f206420ee40f0911ee28615ac3856b7cb41a8dac92f0b8c17c11e3b326bd2477",
+    "poc-horizon/src/recognizers/italian-iban.mts": "1c38741744680951606e44a0e588e6c536ca274113a2c27e9433673822b96b0b",
+    "poc-horizon/src/recognizers/italian-phone.mts": "9b29b694fc811f2fa9e4edc9610eb9936d9cd33e3017acdbda25ba281634947b",
+    "poc-horizon/src/recognizers/phone.mts": "5bd2f7d7252ee0dd3c8aeed788541f600ea23300f6e7d8052a79789bb2733713",
+    "poc-horizon/src/recognizers/registry.mts": "06f98e02270c799455bce94544718ff73980f111fecc97c5bf7827b5b8e7e824",
+    "poc-horizon/src/recognizers/vat.mts": "ff2d6c040983f0b5ff5fbc1ecb2e277f8369a5f6b7592780ed0583ddca6bce59",
+    "poc-horizon/src/server.mjs": "319deb6ce79b902a8734ac223e7ca74b8e4d500050a4e416b8809344b364a381",
+    "poc-horizon/src/strict-json.mjs": "8692026de2dfa782657dd157929134ff35c3fd3126691b8a71656ef6fb1b83e0",
+    "poc-horizon/tsconfig.json": "2809a8441e6b499c512c7e55c1d05ac5bdc5b9579e451cb54f5a5141a660b7dc",
+    "poc-presidio/Dockerfile": "92db9d50d91826454cbf8d52463d052a8bcb3adad3b4f2234278e01269e02271",
+    "poc-presidio/pyproject.toml": "0dceaa5bc8228a70f694747b3521917384f6075a833becc3c46839fca053407f",
+    "poc-presidio/src/free_text_personal_data_check/analyzer.py": "10eea5e4d4a0bc2bf1178c6986c3bd72d083781b8276a0f7aba616aadd41d86c",
+    "poc-presidio/src/free_text_personal_data_check/app.py": "9b7fa8a88538e4b480b2f6af2c13f1d710c599fe465dff7476372316c6ae393a",
+    "poc-presidio/src/free_text_personal_data_check/http_protocol.py": "a48586d8ea51ff0488a9d732c686fdb86b742b45c71749f854c15bdee446104b",
+    "poc-presidio/src/free_text_personal_data_check/policy.py": "299c99788c424c008460ea6781073d8f51bdaab5ac1043befea9ea39e8266be7",
+    "poc-presidio/uv.lock": "e507e00f629515497aabb6c02ad27f2fa8a8caba76978049cd81219e3544f833"
+  },
+  "runnerSha256": "9c7be151fc369a022c3f602f6dbb5dbe1aa2baf3d77495012fbf5db946d9701f",
+  "plannedRequests": 546,
+  "images": {
+    "rizzo": {
+      "tag": "free-text-check:rizzo-uniform",
+      "id": "sha256:fcc0b0ee5111598abff76bb6ad34fc2c319f74fb7bf000a21387d79c60f160c8",
+      "platform": "linux/arm64"
+    },
+    "horizon": {
+      "tag": "free-text-check:horizon-uniform",
+      "id": "sha256:876da9ac500d69bd84aef6e1d15c4fc8232e7f5de4c443729d9d11dfba007211",
+      "platform": "linux/arm64"
+    },
+    "presidio": {
+      "tag": "free-text-check:presidio-uniform",
+      "id": "sha256:46cc27b97bb7b7698d78b8680983243bb70faba5b0f79df9c2374a7bab3fe0c9",
+      "platform": "linux/arm64"
+    }
+  },
+  "runtimeVersions": {
+    "rizzo": {
+      "node": "24.22.3"
+    },
+    "horizon": {
+      "node": "24.22.3"
+    },
+    "presidio": {
+      "python": "3.11.18",
+      "presidio-analyzer": "2.2.364",
+      "spacy": "3.8.16",
+      "it-core-news-sm": "3.8.0"
+    }
+  },
+  "endpoints": {
+    "rizzo": "http://127.0.0.1:51110",
+    "horizon": "http://127.0.0.1:51111",
+    "presidio": "http://127.0.0.1:51113"
+  },
+  "transport": "HTTP on loopback; local containers, no remote inference",
+  "performanceEvaluated": false,
+  "notes": [
+    "Same nine-category service-side policy; collector does not filter native extras.",
+    "Frozen synthetic pilot; previously evaluated original inputs, not heldout.",
+    "Source tree had uncommitted migration at execution; per-runtime-source hashes bind the exact inputs.",
+    "No model/rule/threshold tuning after this run."
+  ],
+  "runnerExitCode": 0,
+  "goldUnchanged": true,
+  "observations": {
+    "success": 546
+  },
+  "containersRemovedAndVerified": [
+    "rizzo",
+    "horizon",
+    "presidio"
+  ],
+  "finishedAt": "2026-11-12T11:35:51.014337+00:00",
+  "offlineRenderByteIdentical": true,
+  "artifactsSha256": {
+    "results.json": "23cf04e63518745d6ec9acfe8f18391f730835e24729cc071e2f34ab4ed5976b",
+    "detection.csv": "bf73f8671ddb76057c4f449788c5f06b49e302ddbbd5ccf9c55052232d1289d8",
+    "verdict.csv": "66958d99d1db51f44348c978d5f60873b90175d1f8dbbde357c14f5d51465513",
+    "coverage.csv": "61106e3b7f48c860d4b8b068bfd2d8de0154e5e77f1e5ad08eebf2426d46b0ec",
+    "observations.csv": "e93746a5fba2dfabd971aa9f1cdfbab563ff92908d1cecfb69d100a86aea3c3a",
+    "report.md": "e6cabb6bd0d49589e8e82633c98cdc38d66bf76750910338c7b8da9c0ad8fd59"
+  },
+  "runtimeSourcesUnchanged": true,
+  "expectedKnownDecisionsPerEngine": 815
+}
