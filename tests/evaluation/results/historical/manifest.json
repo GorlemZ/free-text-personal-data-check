@@ -1,0 +1,20 @@
+{
+  "status": "historical",
+  "artifactDirectory": "first-http",
+  "comparisonScope": "Original two-engine, 53-case / 54-text pilot before common API and policy alignment",
+  "comparableWithCurrentPilot": false,
+  "readByCurrentRunner": false,
+  "originalResultSchemaVersion": 1,
+  "currentResultSchemaVersion": 2,
+  "preservation": "All seven original files moved byte-for-byte; no observations, gold projection, metrics or reports rewritten",
+  "originalFiles": [
+    "coverage.csv",
+    "detection.csv",
+    "observations.csv",
+    "report.md",
+    "results.json",
+    "run-context.json",
+    "verdict.csv"
+  ],
+  "reason": "The historical baseline returned additional native categories and a different policy. Its observations must not be rescored against the merged gold or presented as a new three-engine run."
+}

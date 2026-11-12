@@ -1,0 +1,2458 @@
+{
+  "description": "Common HTTP fixtures; synthetic native output only in test servers, before production adapters. realSmoke selects inference-independent checks for real containers.",
+  "cases": [
+    {
+      "name": "native-extra",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:extra"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-extra-allowed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:extra",
+            "allowedCategories": [
+              "PERSON",
+              "PERSON"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-person",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "x",
+            "category": "PERSON"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:person"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-person-allowed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:person",
+            "allowedCategories": [
+              "PERSON",
+              "PERSON"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-extra-person",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "x",
+            "category": "PERSON"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:extra-person"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-extra-person-allowed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:extra-person",
+            "allowedCategories": [
+              "PERSON",
+              "PERSON"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-person-aliases",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "x",
+            "category": "PERSON"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:person-aliases"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-person-aliases-allowed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:person-aliases",
+            "allowedCategories": [
+              "PERSON",
+              "PERSON"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-unknown",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:unknown"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-malformed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:malformed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "native-throw",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:throw"
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone-producers-allowed",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:phone 3331234567",
+            "allowedCategories": [
+              "PHONE_NUMBER"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "phone-producers-denied",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "x",
+            "category": "PHONE_NUMBER"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:phone 3331234567"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UTF16-order",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "\ud83d\ude00",
+            "category": "PERSON"
+          },
+          {
+            "fieldId": "\ue000",
+            "category": "PERSON"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "\ue000",
+            "text": "fixture:person"
+          },
+          {
+            "fieldId": "\ud83d\ude00",
+            "text": "fixture:person"
+          }
+        ]
+      }
+    },
+    {
+      "name": "field-policy-isolation",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "rejected",
+        "findings": [
+          {
+            "fieldId": "a",
+            "category": "PERSON"
+          }
+        ]
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "z",
+            "text": "fixture:person",
+            "allowedCategories": [
+              "PERSON"
+            ]
+          },
+          {
+            "fieldId": "a",
+            "text": "fixture:person"
+          }
+        ]
+      }
+    },
+    {
+      "name": "no-partial-findings",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "a",
+            "text": "fixture:person"
+          },
+          {
+            "fieldId": "b",
+            "text": "fixture:throw"
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty-text",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty-allowlist",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "",
+            "allowedCategories": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "contenttype-parameters",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "Application/JSON ; charset=utf-8"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "ten-fields",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "0",
+            "text": ""
+          },
+          {
+            "fieldId": "1",
+            "text": ""
+          },
+          {
+            "fieldId": "2",
+            "text": ""
+          },
+          {
+            "fieldId": "3",
+            "text": ""
+          },
+          {
+            "fieldId": "4",
+            "text": ""
+          },
+          {
+            "fieldId": "5",
+            "text": ""
+          },
+          {
+            "fieldId": "6",
+            "text": ""
+          },
+          {
+            "fieldId": "7",
+            "text": ""
+          },
+          {
+            "fieldId": "8",
+            "text": ""
+          },
+          {
+            "fieldId": "9",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "UTF16-id-128",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-9-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\t"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-9-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\tword\t"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-10-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-10-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\nword\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-11-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000b"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-11-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000bword\u000b"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-12-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-12-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\fword\f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-13-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\r"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-13-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\rword\r"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-32-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word "
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-32-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word "
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-133-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-133-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085word\u0085"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-160-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-160-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0word\u00a0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-5760-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-5760-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680word\u1680"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8192-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8192-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000word\u2000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8193-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8193-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001word\u2001"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8194-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8194-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002word\u2002"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8195-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8195-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003word\u2003"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8196-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8196-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004word\u2004"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8197-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8197-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005word\u2005"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8198-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8198-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006word\u2006"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8199-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8199-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007word\u2007"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8200-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8200-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008word\u2008"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8201-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8201-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009word\u2009"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8202-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200a"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8202-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200aword\u200a"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8232-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8232-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028word\u2028"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8233-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8233-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029word\u2029"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8239-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8239-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202fword\u202f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8287-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-8287-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205fword\u205f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-12288-50",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "whitespace-12288-51",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000word\u3000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "not-whitespace-U001C",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "verdict": "accepted",
+        "findings": []
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "word\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001cword\u001c"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-0",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {}
+    },
+    {
+      "name": "invalid-schema-1",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": []
+      }
+    },
+    {
+      "name": "invalid-schema-2",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "0",
+            "text": ""
+          },
+          {
+            "fieldId": "1",
+            "text": ""
+          },
+          {
+            "fieldId": "2",
+            "text": ""
+          },
+          {
+            "fieldId": "3",
+            "text": ""
+          },
+          {
+            "fieldId": "4",
+            "text": ""
+          },
+          {
+            "fieldId": "5",
+            "text": ""
+          },
+          {
+            "fieldId": "6",
+            "text": ""
+          },
+          {
+            "fieldId": "7",
+            "text": ""
+          },
+          {
+            "fieldId": "8",
+            "text": ""
+          },
+          {
+            "fieldId": "9",
+            "text": ""
+          },
+          {
+            "fieldId": "10",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-3",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-4",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-5",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:empty"
+          },
+          "other"
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-6",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:empty"
+          },
+          {
+            "fieldId": "x",
+            "text": "fixture:empty"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-7",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": 12
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-8",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "",
+            "allowedCategories": [
+              "UNKNOWN"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-9",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": ""
+          }
+        ],
+        "extra": true
+      }
+    },
+    {
+      "name": "invalid-schema-10",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:empty",
+            "allowedCategories": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-11",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "fixture:empty",
+            "extra": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-12",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-13",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": "\ud800"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-schema-14",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "realSmoke": true,
+      "json": {
+        "fields": [
+          {
+            "fieldId": "\udfff",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-json-0",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{\"fields\":[],\"fields\":[{\"fieldId\":\"x\",\"text\":\"\"}]}",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-1",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{\"fields\":[{\"fieldId\":\"x\",\"text\":\"secret\",\"te\\u0078t\":\"\"}]}",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-2",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{\"fields\":[{\"fieldId\":\"x\",\"text\":\"\",\"allowedCategories\":[],\"allowedCategories\":[\"PERSON\"]}]}",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-3",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "null",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-4",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "[]",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-5",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{\"fields\":NaN}",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-6",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-json-7",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "\ufeff{\"fields\":[]}",
+      "realSmoke": true
+    },
+    {
+      "name": "invalid-utf8",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_hex": "7b226669656c6473223a5b7b226669656c644964223a2278222c2274657874223a22ff227d5d7d",
+      "realSmoke": true
+    },
+    {
+      "name": "body-limit-exceeded",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 413,
+      "expected": {
+        "code": "body_too_large"
+      },
+      "repeat_bytes": 1048577,
+      "realSmoke": true
+    },
+    {
+      "name": "contenttype-before-size",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "text/plain"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "repeat_bytes": 1048577,
+      "realSmoke": true
+    },
+    {
+      "name": "missing-contenttype",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {},
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "body_text": "{}",
+      "realSmoke": true
+    },
+    {
+      "name": "route-GET-/v1/analyze",
+      "mode": "ready",
+      "method": "GET",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-OPTIONS-/v1/analyze",
+      "mode": "ready",
+      "method": "OPTIONS",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-PUT-/v1/analyze",
+      "mode": "ready",
+      "method": "PUT",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-POST-/v1/analyze/",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze/",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-POST-/v1/analyze?x=1",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/analyze?x=1",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-POST-/v1/%61nalyze",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/v1/%61nalyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-POST-/health/ready",
+      "mode": "ready",
+      "method": "POST",
+      "path": "/health/ready",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-GET-/health/ready/",
+      "mode": "ready",
+      "method": "GET",
+      "path": "/health/ready/",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-GET-/health/ready?x=1",
+      "mode": "ready",
+      "method": "GET",
+      "path": "/health/ready?x=1",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "route-GET-/not-found",
+      "mode": "ready",
+      "method": "GET",
+      "path": "/not-found",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "ready",
+      "mode": "ready",
+      "method": "GET",
+      "path": "/health/ready",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200,
+      "expected": {
+        "status": "ready"
+      },
+      "realSmoke": true
+    },
+    {
+      "name": "unavailable-ready",
+      "mode": "unavailable",
+      "method": "GET",
+      "path": "/health/ready",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      }
+    },
+    {
+      "name": "unavailable-valid",
+      "mode": "unavailable",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 503,
+      "expected": {
+        "code": "detector_unavailable"
+      },
+      "json": {
+        "fields": [
+          {
+            "fieldId": "x",
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "unavailable-invalid",
+      "mode": "unavailable",
+      "method": "POST",
+      "path": "/v1/analyze",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 400,
+      "expected": {
+        "code": "invalid_request"
+      },
+      "json": {
+        "fields": []
+      }
+    },
+    {
+      "name": "unavailable-route",
+      "mode": "unavailable",
+      "method": "GET",
+      "path": "/elsewhere",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 404,
+      "expected": {
+        "code": "not_found"
+      }
+    }
+  ]
+}

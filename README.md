@@ -1,62 +1,99 @@
 # Controllo dei dati personali nei campi liberi
 
-**Scopo.** Valutare un controllo preventivo dei campi di testo libero: il servizio rileva categorie di dati personali, applica le categorie consentite per ciascun campo e restituisce un verdetto. Il confronto usa testi sintetici.
-Il PoC horizon dovrà essere integrato con funzioni statiche per essere funzionalmente completo (nel poc c'è solo una funzione di controllo regex del CF italiano) rispetto a Presidio, ch einvece è calato perfettamente nel dominio di "burocrazia" italiana.
+Tre PoC locali per confrontare il riconoscimento di dati personali e la policy per campo attraverso **la stessa API HTTP e lo stesso catalogo di nove categorie**. La valutazione usa testi sintetici. È uno spike funzionale: prestazioni, memoria, latenza e concorrenza sono rinviate.
 
-| PoC | Motore | Cartella |
-| --- | --- | --- |
-| Presidio | Python + spaCy italiano | [`poc-spacy/`](poc-spacy/) |
-| Horizon | Node.js + Transformers.js/ONNX q8 + regola per il codice fiscale | [`poc-horizon/`](poc-horizon/) |
+| Cartella | Contenuto |
+|---|---|
+| [`tests/`](tests/) | Suite automatiche, contratto HTTP condiviso, unico pilot annotato e runner comparativo |
+| [`poc-horizon/`](poc-horizon/) | Node.js, modello Horizon ONNX e riconoscitori strutturati |
+| [`poc-rizzo/`](poc-rizzo/) | Node.js, modello Rizzo ONNX e regole TypeScript |
+| [`poc-presidio/`](poc-presidio/) | Python, Presidio e spaCy italiano |
 
-## Cosa valutano i team
+I container Horizon e Rizzo eseguono la detection nel processo Node e non richiedono Python. Presidio rimane un servizio Python separato. Pesi e cache locali non vengono versionati.
 
-| Team | Valutazione | Materiale |
-| --- | --- | --- |
-| **Infra** | Memoria e dimensione delle immagini, readiness, latenza cold/warm, bulk e burst, errori e comportamento sotto carico | [Runner e metriche](comparison/README.md), [prove di memoria](poc-horizon/README.md#misure-di-memoria) |
-| **Business** | Categorie e verdetti attesi, falsi rifiuti e mancate rilevazioni, copertura e categorie consentite per campo | [Corpus annotato](comparison/corpus.json), [guida alla lettura](comparison/README.md#corpus-e-tassonomia) |
+## Contratto comune
 
-`rejected` indica una categoria rilevata e vietata per il campo; `accepted` indica un esito conforme alle soglie e alle categorie consentite configurate nel PoC. I casi del corpus hanno attese esplicite per categoria e verdetto. La [guida al confronto](comparison/README.md) spiega come leggere le differenze tra motori.
+[Specifica HTTP e fixture condivise](tests/contract/README.md).
 
-## Perché un'API HTTP
-
-L'**API** mantiene stabile l'integrazione del chiamante **se** il servizio, anche tramite un adattatore per il nuovo modello, preserva protocollo HTTP, schema e significato delle categorie. `modelPolicyVersion` identifica la versione in uso. Questo permette di valutare nuovi modelli con lo stesso client e lo stesso corpus. Una **libreria nel processo chiamante** riduce il costo di trasporto, integrando runtime e risorse del detector nell'applicazione. Le valutazioni di Infra e Business guideranno la scelta di integrazione.
-
-## Test e avvio
-
-| Percorso | Contenuto |
-| --- | --- |
-| [`poc-spacy/tests/`](poc-spacy/tests/) | Test del motore Python |
-| [`poc-horizon/tests/`](poc-horizon/tests/) | Test del motore Node.js |
-| [`comparison/tests/`](comparison/tests/README.md) | Test del corpus, del contratto e del runner |
-| [`comparison/corpus.json`](comparison/corpus.json) | Esempi sintetici e attese da esaminare con Business |
-| [`comparison/run.mjs`](comparison/run.mjs) | Prova HTTP sui due container per Infra e Business |
-
-Dalla root del repository (Python/`uv`, **Node.js ≥22**/`npm`):
-
-```sh
-(cd poc-spacy && uv sync --frozen --extra dev && uv run --frozen --extra dev pytest -q)
-(cd poc-horizon && npm ci && npm test)
-node --test comparison/tests/*.test.mjs
+```http
+POST /v1/analyze
+Content-Type: application/json
 ```
 
-Per la prova end-to-end con Docker:
-
-```sh
-(cd poc-horizon && npm ci && npm run prefetch)
-docker build -t free-text-check:spacy-poc ./poc-spacy
-docker build -t free-text-check:horizon-poc ./poc-horizon
-(umask 077; set -C; node comparison/run.mjs > "$HOME/poc-comparison-report.json")
+```json
+{"fields":[{"fieldId":"descrizione","text":"Vorrei informazioni.","allowedCategories":[]}]}
 ```
 
-## Metodo e risultati osservati
+```json
+{"verdict":"accepted","findings":[]}
+```
 
-Il runner usa **39 campioni sintetici**: 18 coppie positivo/negativo, un caso neutro e due casi con categorie consentite. Due richieste HTTP per campione distinguono rilevamento e applicazione della policy. Ogni container ha **4 GiB di RAM e una quota di 2 CPU** (`--cpus=2`); Horizon usa la configurazione ONNX predefinita. Nella [prova Docker del 9 novembre 2026](comparison/README.md#risultato-della-prova-locale-9-novembre-2026), entrambi hanno completato 39/39 campioni con zero errori tecnici.
+In caso di rifiuto, `findings` contiene soltanto coppie `fieldId`/`category`. Mai testo, dati estratti, span, score o metadati del motore.
 
-| Motore | Verdetti corretti | Falsi rifiuti | Mancati rifiuti | Latenza warm p50/p95 |
-| --- | ---: | ---: | ---: | ---: |
-| Presidio/spaCy | 27/39 | 10 | 2 | 5,92 / 10,29 ms |
-| Horizon | 26/39 | 11 | 2 | 98,90 / 102,89 ms |
+- Da 1 a 10 campi, massimo 50 unità separate da Unicode `White_Space` per campo.
+- Categorie: `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD`, `IT_DRIVER_LICENSE`.
+- `allowedCategories` omessa o vuota: tutte le categorie sono vietate.
+- I servizi proiettano le categorie native nel catalogo comune **prima della policy**: luoghi, date e altri extra conosciuti non provocano rifiuti.
+- Errori di input e tecnici sono distinti dai verdetti; un'analisi incompleta non diventa `accepted`.
 
-**Verifiche del 9 novembre 2026:** test del confronto 17/17, Horizon 16/16 e spaCy 18/18; smoke con il modello Horizon reale riuscito. I percentili warm in tabella derivano da una singola misura locale su cinque richieste per motore.
+API e policy uguali consentono di confrontare i servizi. Modelli, soglie e riconoscitori restano differenti. Il gold considera riconoscibili anche gli identificativi con checksum errato; eventuali filtri di validità del motore possono quindi produrre falsi negativi misurati. `accepted` non certifica l'assenza di dati personali.
 
-I verdetti corretti sono quelli attesi nel corpus annotato; la latenza warm riguarda cinque richieste successive alla prima richiesta HTTP dopo la readiness, misurata come cold. [Metodo, metriche e lettura dei risultati](comparison/README.md) approfondiscono il confronto. Il prefetch prepara il modello Horizon; conserva i report generati in un percorso privato e condividi soltanto aggregati autorizzati.
+## Installazione e test
+
+Dalla root, con Node.js 24, npm, Python e `uv`:
+
+```sh
+npm --prefix poc-rizzo ci
+npm --prefix poc-horizon ci
+uv sync --project poc-presidio --frozen --extra dev
+python3 tests/run.py
+```
+
+Le suite sono centralizzate in `tests/rizzo`, `tests/horizon`, `tests/presidio`, `tests/evaluation/tests` e `tests/contract`. È possibile eseguirle singolarmente, ad esempio `python3 tests/run.py rizzo`. I test unitari e del protocollo non richiedono i pesi dei modelli. Le fixture di protocollo sostituiscono l'output nativo prima del vero adapter: non sono misure della qualità di detection.
+
+## Modelli e container
+
+```sh
+npm --prefix poc-rizzo run prefetch
+npm --prefix poc-horizon run prefetch
+
+docker build -t free-text-check:rizzo-uniform ./poc-rizzo
+docker build -t free-text-check:horizon-uniform ./poc-horizon
+docker build -t free-text-check:presidio-uniform ./poc-presidio
+```
+
+Ogni build usa il proprio contesto, senza il worktree fratello o i vecchi percorsi. I manifest fissano gli artefatti ONNX; il PoC Presidio documenta le dipendenze e il modello spaCy.
+
+Esempio di avvio locale, senza autenticazione:
+
+```sh
+docker run --rm -p 127.0.0.1:18081:8000 free-text-check:rizzo-uniform
+docker run --rm -e ANALYZER_BIND_HOST=0.0.0.0 -p 127.0.0.1:18082:8000 free-text-check:horizon-uniform
+docker run --rm -e ANALYZER_BIND_HOST=0.0.0.0 -p 127.0.0.1:18083:8000 free-text-check:presidio-uniform
+```
+
+Usare terminali separati; attendere `GET /health/ready` su ciascun servizio. Pubblicare solo su loopback. I dettagli operativi dei singoli PoC sono nei rispettivi README.
+
+## Risultato del pilot del 12 novembre 2026
+
+**546/546 richieste riuscite**, senza errori tecnici o contrattuali: 91 casi, 82 testi distinti, stesso catalogo e policy interna per tutti e tre i servizi. Positivo = richiesta da rifiutare; FN = falsa accettazione, FP = falso rifiuto.
+
+| Motore | TP / TN / FP / FN | Sensibilità | Precisione | Accuracy | Balanced accuracy |
+|---|---:|---:|---:|---:|---:|
+| Rizzo | 61 / 22 / 3 / 5 | 92,42% | 95,31% | 91,21% | 90,21% |
+| Horizon | 54 / 24 / 1 / 12 | 81,82% | 98,18% | 85,71% | 88,91% |
+| Presidio | 51 / 20 / 5 / 15 | 77,27% | 91,07% | 78,02% | 78,64% |
+
+Il gold prevedeva 66 rifiuti e 25 accettazioni. Questi sono verdetti osservati via HTTP, non ricostruiti dal runner. Il campione è piccolo, correlato e non heldout: la tabella descrive questo pilot, senza dimostrare superiorità generale. Nessun tuning dopo le predizioni.
+
+[Report per categoria, fonte e copertura](tests/evaluation/results/uniform-http/report.md) · [Contesto di esecuzione e hash](tests/evaluation/results/uniform-http/run-context.json) · [Audit indipendente: PASS](tests/evaluation/results/uniform-http/audit.md).
+
+## Valutazione funzionale
+
+[Metodo, comandi, provenance e risultati](tests/evaluation/README.md).
+
+Il pilot unico conserva i testi Rizzo/Gretel e i casi mirati precedenti, integrati con una selezione del vecchio gold italiano. Gli import sono riannotati secondo il goal corrente: le vecchie etichette non sono assunte corrette. La cartella `comparison/` e i runner precedenti sono rimossi; il contenuto storico non selezionato resta recuperabile da Git.
+
+Per ogni caso e motore il runner esegue due vere richieste HTTP: una deny-all per misurare la presenza delle categorie e una con la policy prevista. Le metriche sono separate per categoria, verdetto e origine. Unknown, errori tecnici e copertura sono dichiarati; i confronti appaiati usano gli stessi casi completati da tutti e tre i servizi.
+
+Il campione è piccolo e parte dei testi è già stata valutata; i dati Rizzo condividono provenienza con il modello. I risultati sono descrittivi, non un test indipendente rappresentativo della produzione. Gli snapshot storici a cataloghi diversi restano esplicitamente separati dal nuovo confronto.

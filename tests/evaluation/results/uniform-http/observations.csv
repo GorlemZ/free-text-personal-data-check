@@ -1,0 +1,547 @@
+caseId,engine,probe,response,status
+rizzo-2266,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2266,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2266,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2266,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2266,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2266,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-2335,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-14989,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15085,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15127,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15224,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15261,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,horizon,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,horizon,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15265,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-15285,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+rizzo-26377,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-38,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-50,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-60,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-60,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-60,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-60,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-60,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-60,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-96,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-96,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-96,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-96,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-96,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-96,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-114,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-128,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-128,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-128,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-128,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-128,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-128,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-146,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-256,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-282,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-282,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-282,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-282,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-282,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-282,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-311,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-311,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-311,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-311,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-311,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-311,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-313,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-313,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-313,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-313,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-313,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-313,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-321,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-321,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-321,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-321,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-321,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-321,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-328,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-328,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-328,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-328,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-328,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-328,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-364,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-364,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-364,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-364,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-364,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-364,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-382,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-382,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-382,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-382,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-382,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-382,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-421,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-431,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-431,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-431,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-431,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-431,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-431,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+gretel-443,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-443,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-443,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-443,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-443,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+gretel-443,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-00,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-00,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-00,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-00,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-00,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-00,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-01,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-01,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-01,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-01,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-01,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-01,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-02,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-02,horizon,detection,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-02,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-02,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-02,horizon,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-02,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-03,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-03,horizon,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-03,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-03,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-03,horizon,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-03,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,horizon,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-04,presidio,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,horizon,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,horizon,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-05,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-06,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-07,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-07,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-07,presidio,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-07,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-07,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-07,presidio,policy,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-08,rizzo,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-08,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-08,presidio,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-08,rizzo,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-08,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-08,presidio,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-09,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-09,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-09,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-09,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-09,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-09,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-10,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-10,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-10,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-10,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-10,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-10,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-11,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-11,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-11,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-11,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-11,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-11,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-12,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-12,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-12,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-12,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-12,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-12,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-13,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-14,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-15,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-16,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-17,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-18,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-18,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-18,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-18,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-18,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-18,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-19,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-19,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-19,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-19,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-19,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-19,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-20,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-21,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-21,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-21,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-21,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-21,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-21,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-22,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-22,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-22,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-22,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-22,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+targeted-22,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-23,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+targeted-24,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""contactName""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+targeted-24,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""contactName""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+targeted-24,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""contactName""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+targeted-24,rizzo,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+targeted-24,horizon,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+targeted-24,presidio,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,horizon,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,horizon,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01-allow,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01-allow,horizon,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01-allow,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s01-allow,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-fiscal-code-s01-allow,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-fiscal-code-s01-allow,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-s01,rizzo,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01,horizon,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01,presidio,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01,rizzo,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01,horizon,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01,presidio,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01-allow,rizzo,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01-allow,horizon,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01-allow,presidio,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-s01-allow,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-s01-allow,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-s01-allow,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,horizon,detection,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,presidio,detection,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,horizon,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s01,presidio,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,horizon,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-s01,presidio,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,horizon,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,horizon,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,horizon,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}, {""category"": ""PERSON"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,horizon,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s01-wrong,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,horizon,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,horizon,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-s02,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,rizzo,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,horizon,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,presidio,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,rizzo,policy,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,horizon,policy,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02,presidio,policy,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02-all,rizzo,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02-all,horizon,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02-all,presidio,detection,"{""findings"": [{""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-s02-all,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-s02-all,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-s02-all,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-s02,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s02,horizon,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s02,presidio,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}, {""category"": ""PERSON"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s02,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s02,horizon,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-s02,presidio,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""eserviceDescription""}, {""category"": ""PERSON"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,presidio,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-s03,presidio,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s04,rizzo,detection,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s04,horizon,detection,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s04,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-s04,rizzo,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s04,horizon,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-phone-number-s04,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-email-address-s05,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-email-address-s05,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-email-address-s05,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}, {""category"": ""PERSON"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-email-address-s05,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-email-address-s05,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-email-address-s05,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""consumerNotes""}, {""category"": ""PERSON"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,rizzo,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,horizon,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,rizzo,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,horizon,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-s06,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""intendedTarget""}], ""verdict"": ""rejected""}",success
+legacy-person-negative-01,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-01,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-01,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""eserviceName""}], ""verdict"": ""rejected""}",success
+legacy-person-negative-01,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-01,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-01,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""eserviceName""}], ""verdict"": ""rejected""}",success
+legacy-person-negative-02,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-02,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-02,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-02,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-02,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-02,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-person-negative-03,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-email-address-negative-04,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-email-address-negative-04,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-email-address-negative-04,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-email-address-negative-04,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-email-address-negative-04,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""eserviceDescription""}], ""verdict"": ""rejected""}",success
+legacy-email-address-negative-04,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-fiscal-code-negative-02,rizzo,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-negative-02,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-fiscal-code-negative-02,presidio,detection,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-negative-02,rizzo,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-fiscal-code-negative-02,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-fiscal-code-negative-02,presidio,policy,"{""findings"": [{""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-identity-card-negative-03,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-negative-03,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-negative-03,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-negative-03,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-negative-03,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-identity-card-negative-03,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-negative-05,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-number-negative-04,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-vat-code-negative-03,rizzo,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-negative-03,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-vat-code-negative-03,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-vat-code-negative-03,rizzo,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-it-vat-code-negative-03,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-vat-code-negative-03,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-02,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-02,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-02,presidio,detection,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-02,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-02,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-02,presidio,policy,"{""findings"": [{""category"": ""PERSON"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-04,rizzo,detection,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-04,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-04,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-04,rizzo,policy,"{""findings"": [{""category"": ""IBAN_CODE"", ""fieldId"": ""purposeDescription""}], ""verdict"": ""rejected""}",success
+legacy-iban-code-negative-04,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-iban-code-negative-04,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-negative-03,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-negative-03,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-negative-03,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-negative-03,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-negative-03,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-negative-03,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-isolated,rizzo,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-isolated,horizon,detection,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-isolated,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-credit-card-isolated,rizzo,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-isolated,horizon,policy,"{""findings"": [{""category"": ""CREDIT_CARD"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-credit-card-isolated,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-isolated,rizzo,detection,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-isolated,horizon,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-isolated,presidio,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-isolated,rizzo,policy,"{""findings"": [{""category"": ""IT_DRIVER_LICENSE"", ""fieldId"": ""description""}], ""verdict"": ""rejected""}",success
+legacy-it-driver-license-isolated,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-it-driver-license-isolated,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-mixture-01,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,rizzo,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,horizon,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-partial,presidio,policy,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-full,rizzo,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-full,horizon,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-full,presidio,detection,"{""findings"": [{""category"": ""EMAIL_ADDRESS"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_FISCAL_CODE"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""IT_IDENTITY_CARD"", ""fieldId"": ""riskAnalysisAnswer""}, {""category"": ""PERSON"", ""fieldId"": ""riskAnalysisAnswer""}], ""verdict"": ""rejected""}",success
+legacy-mixture-01-full,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-mixture-01-full,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-mixture-01-full,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap,horizon,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap,presidio,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-phone-only,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-phone-only,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-phone-only,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-phone-only,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-phone-only,horizon,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-phone-only,presidio,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-vat-only,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-vat-only,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-vat-only,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-vat-only,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-vat-only,horizon,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-vat-only,presidio,policy,"{""findings"": [{""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-all,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-all,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-all,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-all,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-all,horizon,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-all,presidio,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-wrong,rizzo,detection,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-wrong,horizon,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-wrong,presidio,detection,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-wrong,rizzo,policy,"{""findings"": [], ""verdict"": ""accepted""}",success
+legacy-phone-vat-overlap-wrong,horizon,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success
+legacy-phone-vat-overlap-wrong,presidio,policy,"{""findings"": [{""category"": ""IT_VAT_CODE"", ""fieldId"": ""consumerNotes""}, {""category"": ""PHONE_NUMBER"", ""fieldId"": ""consumerNotes""}], ""verdict"": ""rejected""}",success

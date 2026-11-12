@@ -6,6 +6,7 @@ __pycache__/
 *.egg-info/
 node_modules/
 poc-horizon/models/
+poc-horizon/dist/
 *.partial
 .env
 .env.*

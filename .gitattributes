@@ -1,0 +1,4 @@
+# Evaluation receipts are byte-verified artifacts (CSV writers use CRLF).
+# Do not normalize line endings on add/checkout, including historical snapshots.
+tests/evaluation/results/** -text
+tests/evaluation/results/**/*.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
