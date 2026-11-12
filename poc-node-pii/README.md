@@ -1,15 +1,41 @@
-# Node Rizzo PII — functional spike
+# Node Rizzo PII — spike funzionale
 
-**In progress.** The first checkpoint contains the pinned model manifest, download integrity checks, and BIO decoding/mapping tests. It does not yet establish a working HTTP service or detector quality.
+Servizio HTTP e detection locale nel processo Node. Il container finale usa Node e librerie native ONNX, senza Python. Contratto minimale in `CONTRATTO.md`; valutazione separata in `../evaluation-external/`. Performance, memoria e concorrenza sono rinviate alla fase conclusiva futura.
 
-The target is a Node HTTP service with in-process local detection and no Python dependencies in the final container. Business responses contain only `verdict` and forbidden `fieldId`/`category` pairs. Resource performance and memory are explicitly outside this functional spike.
+## Avvio
 
-Model candidate: `rizzoaiacademy/rizzo-pii-0.3B`, community ONNX export `andrearuffini/local-privacy-runtime-pii-detector`. `model-manifest.json` pins the export and its author-published file digests. Export parity is the author's claim until independently checked; tests here currently prove only our decoder and semantic mapping.
+Da questa directory, con Node 24:
 
 ```sh
 npm ci
 npm run prefetch
-node --test tests/model.test.mjs
+npm test
+npm run smoke
+npm start
 ```
 
-Model files and dependencies are ignored by Git. No inference requests are made to remote services; prefetch downloads public artifacts. Runtime compatibility and the first comparative HTTP run are pending. Only synthetic inputs are used in this experiment.
+`prefetch` scarica artefatti pubblici fissati per revisione/hash. I pesi non sono versionati. `smoke` esegue inferenza reale, controlla PERSON, email in coda e overflow token esplicito, senza stampare i testi. Nessuna inferenza remota.
+
+```sh
+docker build -t free-text-check:node-rizzo-spike .
+docker run --rm -p 127.0.0.1:18081:8000 free-text-check:node-rizzo-spike
+```
+
+I download delle dipendenze avvengono nella build; il servizio usa artefatti locali verificati all'avvio. La pubblicazione su loopback non isola l'egress del container. Lo smoke può essere eseguito separatamente con `docker run --rm --network none free-text-check:node-rizzo-spike node scripts/smoke.mjs`.
+
+## Motore e limiti
+
+Modello sorgente `rizzoaiacademy/rizzo-pii-0.3B`, export ONNX community `andrearuffini/local-privacy-runtime-pii-detector`. Revisioni e hash in `model-manifest.json`; licenza dell'export in `MODEL_LICENSE`. La parità PyTorch/ONNX è dichiarata dall'autore, non verificata da questo spike. I dati Rizzo condividono provenienza col modello: non sono un test indipendente.
+
+Il tokenizer vede l'intero input. BIO produce internamente entità, proiettate nel catalogo applicativo; valori e span non escono dall'API. `ID_DOC` e `CONTO` generici non diventano automaticamente documento italiano o IBAN. Regole TypeScript aggiungono CF/omocodia, P.IVA, IBAN secondo le lunghezze del registro `ibantools`, carte, telefoni italiani, CIE e patenti. I checksum non sono filtri di esclusione.
+
+Le regole sono euristiche: alcune richiedono un contesto precedente ravvicinato o un valore isolato. Sono coperti formati di CIE elettronica e patente, non ogni documento storico. Per i telefoni sono riconosciuti cellulari nazionali e fissi con contesto, con eventuale +39/0039. Email, carte e IBAN hanno copertura internazionale per forma; nessuna promessa di riconoscimento universale. Nomi e altri label dipendono anche dal modello. Accepted non prova assenza di dati personali.
+
+## Evidenza corrente — PARTIAL
+
+- Suite API/regole/modello/ABI: 17 test passati; sessioni finte per i test unitari, socket HTTP reali per il contratto.
+- Inferenza reale verificata sia su macOS sia nel container Linux ARM64; smoke con rete disabilitata riuscito.
+- Smoke HTTP nel container: testo neutro accepted; email vietata rejected; stessa categoria consentita accepted; input invalido 400.
+- Primo confronto descrittivo con Presidio e review indipendente ancora in completamento.
+
+Il primo avvio Linux ha esposto due versioni native ONNX incompatibili. Il pin unico `onnxruntime-node@1.30.0`, condiviso con Transformers.js, risolve il caricamento; un test del lockfile previene la reintroduzione di ABI duplicate. La prova resta uno spike, non un servizio pronto per produzione.
