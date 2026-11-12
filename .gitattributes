@@ -2,3 +2,6 @@
 # Do not normalize line endings on add/checkout, including historical snapshots.
 tests/evaluation/results/** -text
 tests/evaluation/results/**/*.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Resource receipts have the same byte-preservation contract.
+tests/resources/results/** -text
+tests/resources/results/**/*.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

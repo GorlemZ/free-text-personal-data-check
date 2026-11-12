@@ -26,6 +26,7 @@ python3 tests/run.py rizzo contract
 | `horizon` | `horizon/` | Build, pipeline, adapter e riconoscitori |
 | `presidio` | `presidio/` | API, adapter, routing reale e smoke locale |
 | `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering |
+| `resources` | `resources/tests/` | Contabilità risorse, lifecycle Docker iniettato e HTTP loopback finto; nessun benchmark automatico |
 | `contract` | `contract/` | Stesse fixture HTTP contro i tre handler, con inferenza sostituita |
 
 Controlli statici aggiuntivi, dopo l'installazione:
@@ -38,5 +39,7 @@ uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pypro
 ## Inferenza e confronto reali
 
 Gli smoke dei README [Rizzo](../poc-rizzo/README.md) e [Horizon](../poc-horizon/README.md) richiedono il prefetch dei modelli. Le [fixture del contratto](contract/README.md#verifiche-ripetibili) possono essere applicate anche ai container già avviati tramite `--base`.
+
+Il [mini stress test delle risorse](resources/README.md) è un esperimento Docker opt-in, sequenziale e limitato nel tempo. Richiede immagini già costruite con provenienza verificata e una nuova directory risultati; supporta anche un gold esterno. La suite `resources` esegue soltanto test unitari e server HTTP finti, mai inferenza o container reali.
 
 Il [pilot comparativo](evaluation/README.md) invia due POST per caso e motore: detection deny-all e policy prevista. Le misure di qualità provengono da questa esecuzione con i detector reali, separata dai test del collector con server finti.
