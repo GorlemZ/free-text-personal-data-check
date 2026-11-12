@@ -29,13 +29,14 @@ Modello sorgente `rizzoaiacademy/rizzo-pii-0.3B`, export ONNX community `andrear
 
 Il tokenizer vede l'intero input. BIO produce internamente entità, proiettate nel catalogo applicativo; valori e span non escono dall'API. `ID_DOC` e `CONTO` generici non diventano automaticamente documento italiano o IBAN. Regole TypeScript aggiungono CF/omocodia, P.IVA, IBAN secondo le lunghezze del registro `ibantools`, carte, telefoni italiani, CIE e patenti. I checksum non sono filtri di esclusione.
 
-Le regole sono euristiche: alcune richiedono un contesto precedente ravvicinato o un valore isolato. Sono coperti formati di CIE elettronica e patente, non ogni documento storico. Per i telefoni sono riconosciuti cellulari nazionali e fissi con contesto, con eventuale +39/0039. Email, carte e IBAN hanno copertura internazionale per forma; nessuna promessa di riconoscimento universale. Nomi e altri label dipendono anche dal modello. Accepted non prova assenza di dati personali.
+Le regole sono euristiche: alcune richiedono un contesto precedente ravvicinato o un valore isolato. Sono coperti formati di CIE elettronica e patente, non ogni documento storico. La categoria telefono è decisa esclusivamente dalle regole sul testo originale: un frammento NER può omettere un prefisso estero e non deve aggirare il filtro geografico. Sono riconosciuti cellulari nazionali e fissi con contesto, con eventuale +39/0039; sequenze di più numeri contigui possono essere perse dal matcher greedy. Email, carte e IBAN hanno copertura internazionale per forma; nessuna promessa di riconoscimento universale. Nomi e altri label dipendono anche dal modello. Accepted non prova assenza di dati personali.
 
 ## Evidenza corrente — PARTIAL
 
-- Suite API/regole/modello/ABI: 17 test passati; sessioni finte per i test unitari, socket HTTP reali per il contratto.
+- Suite API/regole/modello/ABI: 19 test passati; sessioni finte per i test unitari, socket HTTP reali per il contratto.
 - Inferenza reale verificata sia su macOS sia nel container Linux ARM64; smoke con rete disabilitata riuscito.
 - Smoke HTTP nel container: testo neutro accepted; email vietata rejected; stessa categoria consentita accepted; input invalido 400.
-- Primo confronto descrittivo con Presidio e review indipendente ancora in completamento.
+- Review indipendente finale del servizio: PASS, chiusi i difetti su prefissi telefonici esteri, punto e whitespace Unicode. Regressioni unit e HTTP reale nel container verificate.
+- Primo confronto descrittivo con Presidio ancora da eseguire dopo la review del gold.
 
 Il primo avvio Linux ha esposto due versioni native ONNX incompatibili. Il pin unico `onnxruntime-node@1.30.0`, condiviso con Transformers.js, risolve il caricamento; un test del lockfile previene la reintroduzione di ABI duplicate. La prova resta uno spike, non un servizio pronto per produzione.

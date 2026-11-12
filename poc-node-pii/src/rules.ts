@@ -21,8 +21,8 @@ export function recognize(text: string): Set<string> {
   for (const value of matches(text, String.raw`\d(?:[ -]?\d){12,18}`)) {
     if (hasContext(text, value, /\b(?:carta|credito|debito|card|pan)\b/iu)) found.add('CREDIT_CARD');
   }
-  for (const value of matches(text, String.raw`(?:\+|00)?\d[\d ()-]{4,}\d`)) {
-    const compact = value[0].replace(/[ ()-]/g, '');
+  for (const value of matches(text, String.raw`(?:\+|00)?\d[\d\p{White_Space}().-]{4,}\d`)) {
+    const compact = value[0].replace(/[\p{White_Space}().-]/gu, '');
     // Consume the complete numeric envelope; no retry from a foreign-prefix suffix.
     if ((compact.startsWith('+') && !compact.startsWith('+39')) || (compact.startsWith('00') && !compact.startsWith('0039'))) continue;
     const national = compact.replace(/^(?:\+39|0039)/, '');

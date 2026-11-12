@@ -68,12 +68,8 @@ export function semanticCategories(entities) {
   for (const entity of entities) {
     if (!Number.isFinite(entity.score) || entity.score < 0.5 || !entity.text) continue;
     if (MODEL_MAP[entity.label]) categories.add(MODEL_MAP[entity.label]);
-    if (entity.label === 'TELEPHONENUM') {
-      // Only national forms; do not reinterpret an explicit foreign prefix.
-      const value = entity.text.replace(/[\s().-]/gu, '');
-      const national = value.startsWith('+39') ? value.slice(3) : value.startsWith('0039') ? value.slice(4) : value;
-      if (/^(?:3\d{8,9}|0[1-9]\d{4,9})$/.test(national)) categories.add('PHONE_NUMBER');
-    }
+    // TELEPHONENUM may omit a foreign prefix. Phone detection is exclusively
+    // owned by rules over the original text, never by decoded model fragments.
     // ID_DOC conflates passport/identity/license. Only the explicit local rules distinguish these.
   }
   return categories;
