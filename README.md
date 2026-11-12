@@ -29,4 +29,3 @@ Il pilot del **12 novembre 2026** ha completato **546/546 richieste**, senza err
 - [Metriche per motore, categoria e fonte](tests/evaluation/results/uniform-http/report.md)
 - [Immagini, versioni e contesto del run](tests/evaluation/results/uniform-http/run-context.json)
 - [Audit indipendente](tests/evaluation/results/uniform-http/audit.md)
-- [Archivio dei confronti precedenti](tests/evaluation/results/historical/README.md)

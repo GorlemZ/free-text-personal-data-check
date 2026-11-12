@@ -74,4 +74,4 @@ Gli artefatti descrivono lo snapshot funzionale pubblicato in `8dab3a9`; la succ
 
 Il campione è **non heldout**: gli input originali erano già stati valutati e Rizzo condivide provenienza con il modello. Varianti policy e famiglie sono correlate; le ripetizioni della prova detection per scenario pesano nelle matrici. La famiglia maggiore è Gretel CSV, con 11 testi; sette testi Rizzo sono thread correlati. Le percentuali descrivono questo campione. `accepted` resta un esito euristico; nessun tuning è stato effettuato sulle predizioni. Performance e memoria richiedono misure separate.
 
-Gli [snapshot storici](results/historical/README.md) restano separati: hanno due motori e cataloghi differenti. Il renderer corrente rifiuta lo schema 1; i vecchi dati restano consultabili nell'archivio.
+Il renderer corrente supporta soltanto lo schema 2 e rifiuta i bundle schema 1.
