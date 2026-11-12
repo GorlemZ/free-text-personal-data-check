@@ -16,5 +16,8 @@ class LayoutTests(unittest.TestCase):
         self.assertTrue((ROOT / 'tests' / 'evaluation' / 'runner.py').is_file())
         self.assertFalse((ROOT / 'tests' / 'evaluation' / 'prepare_gold.py').exists())
 
+    def test_legacy_benchmarks_are_removed(self):
+        self.assertFalse((ROOT / 'tests' / 'bench').exists())
+
 if __name__ == '__main__':
     unittest.main()

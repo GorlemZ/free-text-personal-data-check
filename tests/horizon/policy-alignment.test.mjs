@@ -97,6 +97,17 @@ test('standalone boundaries reject embedded Unicode tokens and card fragments', 
   assert.equal(fiscalCodeCandidates(`🙂${cf}`)[0].start, 2); // UTF-16 offsets
 });
 
+test('internal analysis retains rule/model origin and original offsets without raw words', async () => {
+  const [analysis] = await analyze(cf, [{ entity_group: 'PERSON', score: 0.9,
+    start: 0, end: cf.length, word: 'DO_NOT_EXPOSE' }], ['IT_FISCAL_CODE'], fiscalCodeCandidates);
+  assert.deepEqual(analysis.candidates, [
+    { source: 'rule', category: 'IT_FISCAL_CODE', start: 0, end: cf.length, check: 'passed' },
+    { source: 'model', category: 'PERSON', start: 0, end: cf.length, score: 0.9 },
+  ]);
+  assert.deepEqual([...analysis.denied], ['PERSON']);
+  assert.ok(!JSON.stringify(analysis).includes('DO_NOT_EXPOSE'));
+});
+
 test('model and rules both execute; malformed candidate errors do not return partial analysis', async () => {
   const events = [];
   const fields = [field(cf), { ...field('plain text'), fieldId: 'contactName' }];

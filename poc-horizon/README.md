@@ -42,7 +42,7 @@ Soglia sperimentale `0.35`, aggregazione `simple`. La pipeline valida tutti i ca
 - CF canonico con checksum, senza omocodia; P.IVA con checksum e placeholder tutto-zero escluso; IBAN **solo IT** con modulo 97; carte di 13–19 cifre con Luhn. Il gold include checksum errati riconoscibili e IBAN esteri: queste differenze possono produrre falsi negativi.
 - Carte e telefoni del modello richiedono span validi, senza ricostruzione da `word`; PERSON ed email non li richiedono. Le categorie sovrapposte restano indipendenti nella policy.
 
-L'helper storico [fiscal-code.mjs](src/fiscal-code.mjs) verifica soltanto la forma plausibile ed è coperto da regressioni; la pipeline HTTP usa il riconoscitore strutturato. Le [utility benchmark](../tests/README.md#utility-diagnostiche) restano separate dal pilot.
+L'helper storico [fiscal-code.mjs](src/fiscal-code.mjs) verifica soltanto la forma plausibile ed è coperto da regressioni; la pipeline HTTP usa il riconoscitore strutturato.
 
 ## Modello e attribuzioni
 

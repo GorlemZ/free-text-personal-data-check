@@ -12,8 +12,7 @@
     "prefetch": "node scripts/prefetch.mjs",
     "smoke": "npm run build && node scripts/smoke.mjs",
     "start": "npm run build && node src/server.mjs",
-    "test": "npm run build && node --test ../tests/horizon/*.test.mjs",
-    "bench": "npm run build && node ../tests/bench/horizon/benchmark.mjs"
+    "test": "npm run build && node --test ../tests/horizon/*.test.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2",
