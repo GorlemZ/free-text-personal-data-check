@@ -12,6 +12,7 @@ SUITES = {
     'horizon': ['npm', '--prefix', 'poc-horizon', 'test'],
     'presidio': ['uv', 'run', '--project', 'poc-presidio', '--extra', 'dev', 'pytest', 'tests/presidio'],
     'evaluation': [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests/evaluation/tests', '-v'],
+    'resources': [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests/resources/tests', '-v'],
     'contract': [sys.executable, 'tests/contract/run.py'],
 }
 
