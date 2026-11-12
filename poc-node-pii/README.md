@@ -37,6 +37,9 @@ Le regole sono euristiche: alcune richiedono un contesto precedente ravvicinato 
 - Inferenza reale verificata sia su macOS sia nel container Linux ARM64; smoke con rete disabilitata riuscito.
 - Smoke HTTP nel container: testo neutro accepted; email vietata rejected; stessa categoria consentita accepted; input invalido 400.
 - Review indipendente finale del servizio: PASS, chiusi i difetti su prefissi telefonici esteri, punto e whitespace Unicode. Regressioni unit e HTTP reale nel container verificate.
-- Primo confronto descrittivo con Presidio ancora da eseguire dopo la review del gold.
+- Primo confronto HTTP completo in `../evaluation-external/results/first-http/`: 212/212 richieste riuscite, zero errori tecnici/contrattuali; 53 casi e 54 testi, gold invariato.
+- Raw verdict Node: TP40/TN10/FP2/FN1, accuracy94,34%; Presidio: TP36/TN4/FP8/FN5, accuracy75,47%. Il confronto raw non è equal-policy: Presidio conserva categorie extra. Pilot piccolo/correlato; non basta per scegliere un vincitore.
+- Limiti osservati Node: carta d'identità mancata nel caso `targeted-07`; falsi positivi di telefono(1), P.IVA(4), IBAN(3) nella detection. Nessun tuning dopo le predizioni.
+- Pacchetti Python nel container Node: nessuno nell'inventario dpkg. Container del run rimossi; report rigenerati offline byte-identici. Audit indipendente delle matrici PASS: tutte le 72 matrici detection, 8 policy e 212 osservazioni ricontate senza usare lo scorer di produzione; JSON/CSV/Markdown coerenti.
 
 Il primo avvio Linux ha esposto due versioni native ONNX incompatibili. Il pin unico `onnxruntime-node@1.30.0`, condiviso con Transformers.js, risolve il caricamento; un test del lockfile previene la reintroduzione di ABI duplicate. La prova resta uno spike, non un servizio pronto per produzione.

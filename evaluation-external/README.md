@@ -3,9 +3,7 @@
 `gold.json` → due POST distinti a `/v1/analyze` per caso e motore →
 `results.json`, `detection.csv`, `verdict.csv`, `coverage.csv`, `observations.csv`, `report.md`.
 Python è solo harness: non importa detector, non avvia container, non modifica servizi.
-**Il completamento di questo harness non ha eseguito inferenza sul gold.** I test HTTP
-usano server finti su loopback e fixture separate, non i detector. Il primo run dei
-servizi reali è lasciato al parent. Gold e testi non sono stati modificati in questa ripresa.
+**Primo run reale completato:** `results/first-http/`, 212/212 POST riusciti sui due container, zero errori tecnici/contrattuali o richieste non tentate. Gold byte-identico prima/dopo; nessun tuning su predizioni. Le 20 prove della suite restano test dell'harness con server finti, distinte da questa esecuzione. I container di prova sono stati rimossi. Audit indipendente finale `deleg_26e7c1ee`: PASS. Ricontate senza scorer di produzione tutte le 72 matrici detection, 8 policy, 16 righe coverage e 212 osservazioni; corrispondenza completa JSON/CSV/Markdown. Nessun blocker/high/medium.
 
 ## Esecuzione
 

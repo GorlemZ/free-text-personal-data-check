@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "098d54213e8e38547b02c93a9a16699e085e8ffa",
+  "goldSha256BeforeAndAfter": "704a9d2f93da424d6478fe0c39976c52dbc32b314414dc36b116ef199d694d6b",
+  "nodeImage": "sha256:3989cb6e7071ece93313db1ddefc825c757fea0a4d58ac9c4b9e1b6eff30d46b",
+  "baselineImage": "sha256:85be2ed8958850719476dc1811cb38be59b29915a4f7b54bf9e61b9e367f425c",
+  "nodeRuntime": "v24.22.3",
+  "nodePythonDpkgPackages": [],
+  "networkMode": "default",
+  "hostBinding": "127.0.0.1",
+  "networkEgressIsolationClaimed": false,
+  "runtimeInference": "local in-process Node with ONNX Runtime; Python only in harness and Presidio comparator",
+  "goldReview": "deleg_1f14a5a6 PASS 54/54 texts before inference",
+  "serviceReview": "deleg_25d750df PASS final iteration 3/3",
+  "plannedRequests": 212,
+  "successfulRequests": 212,
+  "technicalFailures": 0,
+  "contractFailures": 0,
+  "unattemptedRequests": 0,
+  "ownedContainersRemoved": true,
+  "standaloneRender": "six original generated report files reproduced byte-identically",
+  "postPredictionTuning": false
+}

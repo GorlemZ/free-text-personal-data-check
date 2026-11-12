@@ -1,0 +1,6607 @@
+{
+  "schemaVersion": 1,
+  "catalog": [
+    "PERSON",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER",
+    "IT_FISCAL_CODE",
+    "IT_VAT_CODE",
+    "IBAN_CODE",
+    "CREDIT_CARD",
+    "IT_IDENTITY_CARD",
+    "IT_DRIVER_LICENSE"
+  ],
+  "engines": [
+    "new",
+    "baseline"
+  ],
+  "baselineCapabilities": {
+    "schemaVersion": 1,
+    "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+    "supportedEntities": [
+      "CREDIT_CARD",
+      "CRYPTO",
+      "DATE_TIME",
+      "EMAIL_ADDRESS",
+      "IBAN_CODE",
+      "IP_ADDRESS",
+      "IT_DRIVER_LICENSE",
+      "IT_FISCAL_CODE",
+      "IT_IDENTITY_CARD",
+      "IT_PASSPORT",
+      "IT_VAT_CODE",
+      "LOCATION",
+      "MAC_ADDRESS",
+      "MEDICAL_LICENSE",
+      "ORGANIZATION",
+      "PERSON",
+      "PHONE_NUMBER",
+      "URL"
+    ],
+    "nativeToCategory": {
+      "PERSON": "PERSON",
+      "EMAIL_ADDRESS": "EMAIL_ADDRESS",
+      "PHONE_NUMBER": "PHONE_NUMBER",
+      "IT_FISCAL_CODE": "IT_FISCAL_CODE",
+      "IT_VAT_CODE": "IT_VAT_CODE",
+      "IBAN_CODE": "IBAN_CODE",
+      "CREDIT_CARD": "CREDIT_CARD",
+      "IT_IDENTITY_CARD": "IT_IDENTITY_CARD",
+      "IT_DRIVER_LICENSE": "IT_DRIVER_LICENSE"
+    },
+    "evidence": {
+      "kind": "parent-provided-runtime",
+      "method": "Parent reports registry capabilities verified via docker run; no gold inference",
+      "scope": "Registry availability only, not effective detection or accuracy"
+    }
+  },
+  "cases": [
+    {
+      "id": "rizzo-2266",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-2335",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-14989",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "CREDIT_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15085",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "CREDIT_CARD"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15127",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "CREDIT_CARD"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15224",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "CREDIT_CARD"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15261",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "CREDIT_CARD"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15265",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-15285",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "CREDIT_CARD"
+          ],
+          "unknown": [
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "rizzo-26377",
+      "source": "rizzo",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-38",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "CREDIT_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-50",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-60",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-96",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [
+            "IT_DRIVER_LICENSE"
+          ],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-114",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-128",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-146",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-256",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-282",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-311",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-313",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-321",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-328",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "IBAN_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-364",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-382",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-421",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-431",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "gretel-443",
+      "source": "gretel",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-00",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-01",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "EMAIL_ADDRESS"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-02",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PHONE_NUMBER"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-03",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_FISCAL_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-04",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_VAT_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-05",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IBAN_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-06",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "CREDIT_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-07",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_IDENTITY_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-08",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_DRIVER_LICENSE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-09",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_FISCAL_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-10",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IT_VAT_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-11",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IBAN_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-12",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "CREDIT_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-13",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-14",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-15",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-16",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-17",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-18",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": [
+            "PERSON"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "targeted-19",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "EMAIL_ADDRESS"
+          ],
+          "unknown": [],
+          "allowedCategories": [
+            "PERSON"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "targeted-20",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS"
+          ],
+          "unknown": [],
+          "allowedCategories": [
+            "PERSON"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "targeted-21",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "PERSON",
+            "EMAIL_ADDRESS"
+          ],
+          "unknown": [],
+          "allowedCategories": [
+            "PERSON",
+            "EMAIL_ADDRESS",
+            "PHONE_NUMBER",
+            "IT_FISCAL_CODE",
+            "IT_VAT_CODE",
+            "IBAN_CODE",
+            "CREDIT_CARD",
+            "IT_IDENTITY_CARD",
+            "IT_DRIVER_LICENSE"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "targeted-22",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "IBAN_CODE"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-23",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "description",
+          "expected": [
+            "CREDIT_CARD"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    },
+    {
+      "id": "targeted-24",
+      "source": "targeted",
+      "fields": [
+        {
+          "fieldId": "contactName",
+          "expected": [
+            "PERSON"
+          ],
+          "unknown": [],
+          "allowedCategories": [
+            "PERSON"
+          ]
+        },
+        {
+          "fieldId": "eserviceDescription",
+          "expected": [
+            "PHONE_NUMBER"
+          ],
+          "unknown": [],
+          "allowedCategories": []
+        }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "caseId": "rizzo-2266",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2266",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2266",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2266",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2335",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2335",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2335",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-2335",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-14989",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-14989",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-14989",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-14989",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15085",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15085",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15085",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15085",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15127",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15127",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15127",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15127",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15224",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15224",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15224",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15224",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15261",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15261",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15261",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15261",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15265",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15265",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15265",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15265",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15285",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15285",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15285",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-15285",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-26377",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-26377",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-26377",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "rizzo-26377",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-38",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-38",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "IP_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-38",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-38",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "IP_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-50",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-50",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-50",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-50",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-60",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-60",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-60",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-60",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-96",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-96",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-96",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-96",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-114",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-114",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-114",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-114",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-128",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-128",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-128",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-128",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-146",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-146",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-146",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-146",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-256",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-256",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-256",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-256",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-282",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-282",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-282",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-282",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-311",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-311",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-311",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-311",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-313",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-313",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-313",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-313",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-321",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-321",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-321",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-321",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-328",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-328",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-328",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-328",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-364",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-364",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-364",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-364",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-382",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-382",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "IP_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-382",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-382",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "IP_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-421",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-421",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-421",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-421",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-431",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-431",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-431",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-431",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-443",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-443",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-443",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "gretel-443",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "DATE_TIME"
+        },
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-00",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-00",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-00",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-00",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-01",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-01",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-01",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-01",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-02",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-02",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-02",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-02",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-03",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-03",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-03",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-03",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-04",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-04",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-04",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-04",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        },
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-05",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-05",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-05",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-05",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-06",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-06",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-06",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-06",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-07",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-07",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-07",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-07",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_IDENTITY_CARD"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "ORGANIZATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-08",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-08",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-08",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-08",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_DRIVER_LICENSE"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-09",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-09",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-09",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-09",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_FISCAL_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-10",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-10",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-10",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IT_VAT_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-10",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-11",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-11",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-11",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-11",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-12",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-12",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-12",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-12",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-13",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-13",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-13",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-13",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-14",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-14",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-14",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-14",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-15",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-15",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-15",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-15",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-16",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-16",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-16",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-16",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-17",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-17",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-17",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-17",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-18",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-18",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-18",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-18",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-19",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-19",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-19",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-19",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-20",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-20",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-20",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-20",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "LOCATION"
+        },
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-21",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        },
+        {
+          "fieldId": "description",
+          "category": "PERSON"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-21",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "EMAIL_ADDRESS"
+        }
+      ],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-21",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "accepted",
+      "findings": [],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-21",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [],
+      "extras": [
+        {
+          "fieldId": "description",
+          "label": "URL"
+        }
+      ],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-22",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-22",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-22",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-22",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "IBAN_CODE"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-23",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-23",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-23",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-23",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "description",
+          "category": "CREDIT_CARD"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-24",
+      "engine": "new",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "contactName",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "eserviceDescription",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-24",
+      "engine": "baseline",
+      "probe": "detection",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "contactName",
+          "category": "PERSON"
+        },
+        {
+          "fieldId": "eserviceDescription",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-24",
+      "engine": "new",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "eserviceDescription",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": null,
+      "status": "success"
+    },
+    {
+      "caseId": "targeted-24",
+      "engine": "baseline",
+      "probe": "policy",
+      "rawVerdict": "rejected",
+      "findings": [
+        {
+          "fieldId": "eserviceDescription",
+          "category": "PHONE_NUMBER"
+        }
+      ],
+      "extras": [],
+      "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+      "status": "success"
+    }
+  ],
+  "metrics": {
+    "detection": {
+      "gretel": {
+        "new": {
+          "PERSON": {
+            "n": 18,
+            "positive": 13,
+            "negative": 5,
+            "tp": 13,
+            "fp": 0,
+            "fn": 0,
+            "tn": 5,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 1,
+            "fn": 0,
+            "tn": 17,
+            "recall": null,
+            "precision": 0.0,
+            "specificity": 0.9444444444444444,
+            "accuracy": 0.9444444444444444,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.05555555555555555,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 18,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 4,
+            "fn": 0,
+            "tn": 14,
+            "recall": null,
+            "precision": 0.0,
+            "specificity": 0.7777777777777778,
+            "accuracy": 0.7777777777777778,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.2222222222222222,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 1,
+            "fp": 2,
+            "fn": 0,
+            "tn": 15,
+            "recall": 1.0,
+            "precision": 0.3333333333333333,
+            "specificity": 0.8823529411764706,
+            "accuracy": 0.8888888888888888,
+            "balancedAccuracy": 0.9411764705882353,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.11764705882352941,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 18,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 17,
+            "positive": 0,
+            "negative": 17,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 1
+          }
+        },
+        "baseline": {
+          "PERSON": {
+            "n": 18,
+            "positive": 13,
+            "negative": 5,
+            "tp": 8,
+            "fp": 3,
+            "fn": 5,
+            "tn": 2,
+            "recall": 0.6153846153846154,
+            "precision": 0.7272727272727273,
+            "specificity": 0.4,
+            "accuracy": 0.5555555555555556,
+            "balancedAccuracy": 0.5076923076923077,
+            "falseAcceptanceRate": 0.38461538461538464,
+            "falseRejectionRate": 0.6,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 3,
+            "fn": 0,
+            "tn": 15,
+            "recall": null,
+            "precision": 0.0,
+            "specificity": 0.8333333333333334,
+            "accuracy": 0.8333333333333334,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.16666666666666666,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 18,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 18,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 18,
+            "positive": 1,
+            "negative": 17,
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 17,
+            "recall": 0.0,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 0.9444444444444444,
+            "balancedAccuracy": 0.5,
+            "falseAcceptanceRate": 1.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 18,
+            "positive": 0,
+            "negative": 18,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 18,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 17,
+            "positive": 0,
+            "negative": 17,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 17,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 1
+          }
+        }
+      },
+      "rizzo": {
+        "new": {
+          "PERSON": {
+            "n": 10,
+            "positive": 10,
+            "negative": 0,
+            "tp": 10,
+            "fp": 0,
+            "fn": 0,
+            "tn": 0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": null,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": null,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 10,
+            "positive": 7,
+            "negative": 3,
+            "tp": 7,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 10,
+            "positive": 8,
+            "negative": 2,
+            "tp": 8,
+            "fp": 0,
+            "fn": 0,
+            "tn": 2,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 10,
+            "positive": 6,
+            "negative": 4,
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "tn": 4,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 10,
+            "positive": 0,
+            "negative": 10,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 10,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 10,
+            "positive": 0,
+            "negative": 10,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 10,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 10,
+            "positive": 6,
+            "negative": 4,
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "tn": 4,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 4,
+            "positive": 1,
+            "negative": 3,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 4,
+            "positive": 1,
+            "negative": 3,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          }
+        },
+        "baseline": {
+          "PERSON": {
+            "n": 10,
+            "positive": 10,
+            "negative": 0,
+            "tp": 10,
+            "fp": 0,
+            "fn": 0,
+            "tn": 0,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": null,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": null,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 10,
+            "positive": 7,
+            "negative": 3,
+            "tp": 7,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 10,
+            "positive": 8,
+            "negative": 2,
+            "tp": 8,
+            "fp": 0,
+            "fn": 0,
+            "tn": 2,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 10,
+            "positive": 6,
+            "negative": 4,
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "tn": 4,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 10,
+            "positive": 0,
+            "negative": 10,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 10,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 10,
+            "positive": 0,
+            "negative": 10,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 10,
+            "recall": null,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": null,
+            "falseAcceptanceRate": null,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 10,
+            "positive": 6,
+            "negative": 4,
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "tn": 4,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 4,
+            "positive": 1,
+            "negative": 3,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 4,
+            "positive": 1,
+            "negative": 3,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 3,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          }
+        }
+      },
+      "targeted": {
+        "new": {
+          "PERSON": {
+            "n": 26,
+            "positive": 5,
+            "negative": 21,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0,
+            "tn": 21,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 26,
+            "positive": 4,
+            "negative": 22,
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "tn": 22,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 24,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 24,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 24,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 26,
+            "positive": 3,
+            "negative": 23,
+            "tp": 3,
+            "fp": 1,
+            "fn": 0,
+            "tn": 22,
+            "recall": 1.0,
+            "precision": 0.75,
+            "specificity": 0.9565217391304348,
+            "accuracy": 0.9615384615384616,
+            "balancedAccuracy": 0.9782608695652174,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.043478260869565216,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 26,
+            "positive": 3,
+            "negative": 23,
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "tn": 23,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 26,
+            "positive": 1,
+            "negative": 25,
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "tn": 25,
+            "recall": 0.0,
+            "precision": null,
+            "specificity": 1.0,
+            "accuracy": 0.9615384615384616,
+            "balancedAccuracy": 0.5,
+            "falseAcceptanceRate": 1.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 26,
+            "positive": 1,
+            "negative": 25,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 25,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          }
+        },
+        "baseline": {
+          "PERSON": {
+            "n": 26,
+            "positive": 5,
+            "negative": 21,
+            "tp": 3,
+            "fp": 0,
+            "fn": 2,
+            "tn": 21,
+            "recall": 0.6,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9230769230769231,
+            "balancedAccuracy": 0.8,
+            "falseAcceptanceRate": 0.4,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 26,
+            "positive": 4,
+            "negative": 22,
+            "tp": 4,
+            "fp": 0,
+            "fn": 0,
+            "tn": 22,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 1,
+            "fp": 2,
+            "fn": 1,
+            "tn": 22,
+            "recall": 0.5,
+            "precision": 0.3333333333333333,
+            "specificity": 0.9166666666666666,
+            "accuracy": 0.8846153846153846,
+            "balancedAccuracy": 0.7083333333333333,
+            "falseAcceptanceRate": 0.5,
+            "falseRejectionRate": 0.08333333333333333,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 24,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 26,
+            "positive": 2,
+            "negative": 24,
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "tn": 24,
+            "recall": 0.5,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9615384615384616,
+            "balancedAccuracy": 0.75,
+            "falseAcceptanceRate": 0.5,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 26,
+            "positive": 3,
+            "negative": 23,
+            "tp": 2,
+            "fp": 0,
+            "fn": 1,
+            "tn": 23,
+            "recall": 0.6666666666666666,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9615384615384616,
+            "balancedAccuracy": 0.8333333333333333,
+            "falseAcceptanceRate": 0.3333333333333333,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 26,
+            "positive": 3,
+            "negative": 23,
+            "tp": 2,
+            "fp": 0,
+            "fn": 1,
+            "tn": 23,
+            "recall": 0.6666666666666666,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9615384615384616,
+            "balancedAccuracy": 0.8333333333333333,
+            "falseAcceptanceRate": 0.3333333333333333,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 26,
+            "positive": 1,
+            "negative": 25,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 25,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 26,
+            "positive": 1,
+            "negative": 25,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "tn": 25,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          }
+        }
+      },
+      "ALL": {
+        "new": {
+          "PERSON": {
+            "n": 54,
+            "positive": 28,
+            "negative": 26,
+            "tp": 28,
+            "fp": 0,
+            "fn": 0,
+            "tn": 26,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 54,
+            "positive": 12,
+            "negative": 42,
+            "tp": 12,
+            "fp": 0,
+            "fn": 0,
+            "tn": 42,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 54,
+            "positive": 10,
+            "negative": 44,
+            "tp": 10,
+            "fp": 1,
+            "fn": 0,
+            "tn": 43,
+            "recall": 1.0,
+            "precision": 0.9090909090909091,
+            "specificity": 0.9772727272727273,
+            "accuracy": 0.9814814814814815,
+            "balancedAccuracy": 0.9886363636363636,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.022727272727272728,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 54,
+            "positive": 8,
+            "negative": 46,
+            "tp": 8,
+            "fp": 0,
+            "fn": 0,
+            "tn": 46,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 54,
+            "positive": 2,
+            "negative": 52,
+            "tp": 2,
+            "fp": 4,
+            "fn": 0,
+            "tn": 48,
+            "recall": 1.0,
+            "precision": 0.3333333333333333,
+            "specificity": 0.9230769230769231,
+            "accuracy": 0.9259259259259259,
+            "balancedAccuracy": 0.9615384615384616,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.07692307692307693,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 54,
+            "positive": 4,
+            "negative": 50,
+            "tp": 4,
+            "fp": 3,
+            "fn": 0,
+            "tn": 47,
+            "recall": 1.0,
+            "precision": 0.5714285714285714,
+            "specificity": 0.94,
+            "accuracy": 0.9444444444444444,
+            "balancedAccuracy": 0.97,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.06,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 54,
+            "positive": 10,
+            "negative": 44,
+            "tp": 10,
+            "fp": 0,
+            "fn": 0,
+            "tn": 44,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 48,
+            "positive": 2,
+            "negative": 46,
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "tn": 46,
+            "recall": 0.5,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9791666666666666,
+            "balancedAccuracy": 0.75,
+            "falseAcceptanceRate": 0.5,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 47,
+            "positive": 2,
+            "negative": 45,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 45,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 7
+          }
+        },
+        "baseline": {
+          "PERSON": {
+            "n": 54,
+            "positive": 28,
+            "negative": 26,
+            "tp": 21,
+            "fp": 3,
+            "fn": 7,
+            "tn": 23,
+            "recall": 0.75,
+            "precision": 0.875,
+            "specificity": 0.8846153846153846,
+            "accuracy": 0.8148148148148148,
+            "balancedAccuracy": 0.8173076923076923,
+            "falseAcceptanceRate": 0.25,
+            "falseRejectionRate": 0.11538461538461539,
+            "unknownExcluded": 0
+          },
+          "EMAIL_ADDRESS": {
+            "n": 54,
+            "positive": 12,
+            "negative": 42,
+            "tp": 12,
+            "fp": 0,
+            "fn": 0,
+            "tn": 42,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "PHONE_NUMBER": {
+            "n": 54,
+            "positive": 10,
+            "negative": 44,
+            "tp": 9,
+            "fp": 5,
+            "fn": 1,
+            "tn": 39,
+            "recall": 0.9,
+            "precision": 0.6428571428571429,
+            "specificity": 0.8863636363636364,
+            "accuracy": 0.8888888888888888,
+            "balancedAccuracy": 0.8931818181818182,
+            "falseAcceptanceRate": 0.1,
+            "falseRejectionRate": 0.11363636363636363,
+            "unknownExcluded": 0
+          },
+          "IT_FISCAL_CODE": {
+            "n": 54,
+            "positive": 8,
+            "negative": 46,
+            "tp": 8,
+            "fp": 0,
+            "fn": 0,
+            "tn": 46,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_VAT_CODE": {
+            "n": 54,
+            "positive": 2,
+            "negative": 52,
+            "tp": 1,
+            "fp": 0,
+            "fn": 1,
+            "tn": 52,
+            "recall": 0.5,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9814814814814815,
+            "balancedAccuracy": 0.75,
+            "falseAcceptanceRate": 0.5,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IBAN_CODE": {
+            "n": 54,
+            "positive": 4,
+            "negative": 50,
+            "tp": 3,
+            "fp": 0,
+            "fn": 1,
+            "tn": 50,
+            "recall": 0.75,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9814814814814815,
+            "balancedAccuracy": 0.875,
+            "falseAcceptanceRate": 0.25,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "CREDIT_CARD": {
+            "n": 54,
+            "positive": 10,
+            "negative": 44,
+            "tp": 8,
+            "fp": 0,
+            "fn": 2,
+            "tn": 44,
+            "recall": 0.8,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 0.9629629629629629,
+            "balancedAccuracy": 0.9,
+            "falseAcceptanceRate": 0.2,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 0
+          },
+          "IT_IDENTITY_CARD": {
+            "n": 48,
+            "positive": 2,
+            "negative": 46,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 46,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 6
+          },
+          "IT_DRIVER_LICENSE": {
+            "n": 47,
+            "positive": 2,
+            "negative": 45,
+            "tp": 2,
+            "fp": 0,
+            "fn": 0,
+            "tn": 45,
+            "recall": 1.0,
+            "precision": 1.0,
+            "specificity": 1.0,
+            "accuracy": 1.0,
+            "balancedAccuracy": 1.0,
+            "falseAcceptanceRate": 0.0,
+            "falseRejectionRate": 0.0,
+            "unknownExcluded": 7
+          }
+        }
+      }
+    },
+    "verdict": {
+      "gretel": {
+        "new": {
+          "n": 18,
+          "positive": 13,
+          "negative": 5,
+          "tp": 13,
+          "fp": 2,
+          "fn": 0,
+          "tn": 3,
+          "recall": 1.0,
+          "precision": 0.8666666666666667,
+          "specificity": 0.6,
+          "accuracy": 0.8888888888888888,
+          "balancedAccuracy": 0.8,
+          "falseAcceptanceRate": 0.0,
+          "falseRejectionRate": 0.4,
+          "unknownExcluded": 0
+        },
+        "baseline": {
+          "n": 18,
+          "positive": 13,
+          "negative": 5,
+          "tp": 11,
+          "fp": 5,
+          "fn": 2,
+          "tn": 0,
+          "recall": 0.8461538461538461,
+          "precision": 0.6875,
+          "specificity": 0.0,
+          "accuracy": 0.6111111111111112,
+          "balancedAccuracy": 0.4230769230769231,
+          "falseAcceptanceRate": 0.15384615384615385,
+          "falseRejectionRate": 1.0,
+          "unknownExcluded": 0
+        }
+      },
+      "rizzo": {
+        "new": {
+          "n": 10,
+          "positive": 10,
+          "negative": 0,
+          "tp": 10,
+          "fp": 0,
+          "fn": 0,
+          "tn": 0,
+          "recall": 1.0,
+          "precision": 1.0,
+          "specificity": null,
+          "accuracy": 1.0,
+          "balancedAccuracy": null,
+          "falseAcceptanceRate": 0.0,
+          "falseRejectionRate": null,
+          "unknownExcluded": 0
+        },
+        "baseline": {
+          "n": 10,
+          "positive": 10,
+          "negative": 0,
+          "tp": 10,
+          "fp": 0,
+          "fn": 0,
+          "tn": 0,
+          "recall": 1.0,
+          "precision": 1.0,
+          "specificity": null,
+          "accuracy": 1.0,
+          "balancedAccuracy": null,
+          "falseAcceptanceRate": 0.0,
+          "falseRejectionRate": null,
+          "unknownExcluded": 0
+        }
+      },
+      "targeted": {
+        "new": {
+          "n": 25,
+          "positive": 18,
+          "negative": 7,
+          "tp": 17,
+          "fp": 0,
+          "fn": 1,
+          "tn": 7,
+          "recall": 0.9444444444444444,
+          "precision": 1.0,
+          "specificity": 1.0,
+          "accuracy": 0.96,
+          "balancedAccuracy": 0.9722222222222222,
+          "falseAcceptanceRate": 0.05555555555555555,
+          "falseRejectionRate": 0.0,
+          "unknownExcluded": 0
+        },
+        "baseline": {
+          "n": 25,
+          "positive": 18,
+          "negative": 7,
+          "tp": 15,
+          "fp": 3,
+          "fn": 3,
+          "tn": 4,
+          "recall": 0.8333333333333334,
+          "precision": 0.8333333333333334,
+          "specificity": 0.5714285714285714,
+          "accuracy": 0.76,
+          "balancedAccuracy": 0.7023809523809523,
+          "falseAcceptanceRate": 0.16666666666666666,
+          "falseRejectionRate": 0.42857142857142855,
+          "unknownExcluded": 0
+        }
+      },
+      "ALL": {
+        "new": {
+          "n": 53,
+          "positive": 41,
+          "negative": 12,
+          "tp": 40,
+          "fp": 2,
+          "fn": 1,
+          "tn": 10,
+          "recall": 0.975609756097561,
+          "precision": 0.9523809523809523,
+          "specificity": 0.8333333333333334,
+          "accuracy": 0.9433962264150944,
+          "balancedAccuracy": 0.9044715447154472,
+          "falseAcceptanceRate": 0.024390243902439025,
+          "falseRejectionRate": 0.16666666666666666,
+          "unknownExcluded": 0
+        },
+        "baseline": {
+          "n": 53,
+          "positive": 41,
+          "negative": 12,
+          "tp": 36,
+          "fp": 8,
+          "fn": 5,
+          "tn": 4,
+          "recall": 0.8780487804878049,
+          "precision": 0.8181818181818182,
+          "specificity": 0.3333333333333333,
+          "accuracy": 0.7547169811320755,
+          "balancedAccuracy": 0.6056910569105691,
+          "falseAcceptanceRate": 0.12195121951219512,
+          "falseRejectionRate": 0.6666666666666666,
+          "unknownExcluded": 0
+        }
+      }
+    },
+    "coverage": {
+      "gretel": {
+        "new/detection": {
+          "planned": 18,
+          "attempted": 18,
+          "success": 18,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/detection": {
+          "planned": 18,
+          "attempted": 18,
+          "success": 18,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "new/policy": {
+          "planned": 18,
+          "attempted": 18,
+          "success": 18,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/policy": {
+          "planned": 18,
+          "attempted": 18,
+          "success": 18,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        }
+      },
+      "rizzo": {
+        "new/detection": {
+          "planned": 10,
+          "attempted": 10,
+          "success": 10,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/detection": {
+          "planned": 10,
+          "attempted": 10,
+          "success": 10,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "new/policy": {
+          "planned": 10,
+          "attempted": 10,
+          "success": 10,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/policy": {
+          "planned": 10,
+          "attempted": 10,
+          "success": 10,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        }
+      },
+      "targeted": {
+        "new/detection": {
+          "planned": 25,
+          "attempted": 25,
+          "success": 25,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/detection": {
+          "planned": 25,
+          "attempted": 25,
+          "success": 25,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "new/policy": {
+          "planned": 25,
+          "attempted": 25,
+          "success": 25,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/policy": {
+          "planned": 25,
+          "attempted": 25,
+          "success": 25,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        }
+      },
+      "ALL": {
+        "new/detection": {
+          "planned": 53,
+          "attempted": 53,
+          "success": 53,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/detection": {
+          "planned": 53,
+          "attempted": 53,
+          "success": 53,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "new/policy": {
+          "planned": 53,
+          "attempted": 53,
+          "success": 53,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        },
+        "baseline/policy": {
+          "planned": 53,
+          "attempted": 53,
+          "success": 53,
+          "technical_failure": 0,
+          "contract_failure": 0,
+          "unattempted": 0
+        }
+      }
+    },
+    "pairedSuccesses": {
+      "gretel": {
+        "detection": 18,
+        "policy": 18
+      },
+      "rizzo": {
+        "detection": 10,
+        "policy": 10
+      },
+      "targeted": {
+        "detection": 25,
+        "policy": 25
+      },
+      "ALL": {
+        "detection": 53,
+        "policy": 53
+      }
+    }
+  },
+  "complete": true
+}
