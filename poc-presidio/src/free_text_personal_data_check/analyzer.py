@@ -7,7 +7,7 @@ import os
 # Presidio's EmailRecognizer uses tldextract; force bundled PSL and no runtime fetch.
 # Must be set before importing Presidio (which imports tldextract's singleton).
 os.environ["TLDEXTRACT_PUBLIC_SUFFIX_LIST_URLS"] = ""
-import tldextract  # Configure the singleton before Presidio imports it.
+import tldextract
 
 tldextract.tldextract.TLD_EXTRACTOR = tldextract.TLDExtract(
     suffix_list_urls=(), cache_dir=None, fallback_to_snapshot=True

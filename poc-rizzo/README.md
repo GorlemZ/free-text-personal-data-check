@@ -1,47 +1,41 @@
-# Node Rizzo PII — spike funzionale
+# PoC Rizzo
 
-Servizio HTTP e detection locale nel processo Node. Il container finale usa Node e librerie native ONNX, senza Python. Contratto minimale in `CONTRATTO.md`; valutazione separata in `../tests/evaluation/`. Performance, memoria e concorrenza sono rinviate alla fase conclusiva futura.
+Servizio Node.js 24: modello Rizzo ONNX, decoder BIO e regole TypeScript. [Contratto HTTP comune](../tests/contract/README.md) · [Test](../tests/README.md) · [Valutazione](../tests/evaluation/README.md).
 
-## Avvio
-
-Da questa directory, con Node 24:
+## Avvio dalla root
 
 ```sh
-npm ci
-npm run prefetch
-npm test # suite centralizzata in ../tests/rizzo/
-npm run smoke
-npm start
+npm --prefix poc-rizzo ci
+npm --prefix poc-rizzo run prefetch
+npm --prefix poc-rizzo run smoke
+npm --prefix poc-rizzo start
 ```
 
-`prefetch` scarica artefatti pubblici fissati per revisione/hash. I pesi non sono versionati. `smoke` esegue inferenza reale, controlla PERSON, email in coda e overflow token esplicito, senza stampare i testi. Nessuna inferenza remota.
+`prefetch` scarica gli artefatti fissati in [model-manifest.json](model-manifest.json); `smoke` esegue inferenza reale e verifica PERSON, email in coda e gestione dell'overflow token. Il servizio usa solo modelli locali. Bind predefinito `127.0.0.1:8000`, configurabile con `BIND_HOST` e `PORT`.
+
+Dopo il prefetch:
 
 ```sh
-docker build -t free-text-check:node-rizzo-spike .
-docker run --rm -p 127.0.0.1:18081:8000 free-text-check:node-rizzo-spike
+docker build -t free-text-check:rizzo-uniform ./poc-rizzo
+docker run --rm -p 127.0.0.1:18081:8000 free-text-check:rizzo-uniform
 ```
 
-I download delle dipendenze avvengono nella build; il servizio usa artefatti locali verificati all'avvio. La pubblicazione su loopback non isola l'egress del container. Lo smoke può essere eseguito separatamente con `docker run --rm --network none free-text-check:node-rizzo-spike node scripts/smoke.mjs`.
+Attendere `GET /health/ready`. Il container finale non contiene Python. Per uno smoke reale senza rete, sull'immagine già costruita:
 
-## Motore e limiti
+```sh
+docker run --rm --network none free-text-check:rizzo-uniform node scripts/smoke.mjs
+```
 
-Modello sorgente `rizzoaiacademy/rizzo-pii-0.3B`, export ONNX community `andrearuffini/local-privacy-runtime-pii-detector`. Revisioni e hash in `model-manifest.json`; licenza dell'export in `MODEL_LICENSE`. La parità PyTorch/ONNX è dichiarata dall'autore, non verificata da questo spike. I dati Rizzo condividono provenienza col modello: non sono un test indipendente.
+## Detection e limiti
 
-Il tokenizer vede l'intero input. BIO produce internamente entità, proiettate nel catalogo applicativo; valori e span non escono dall'API. `ID_DOC` generico non diventa automaticamente documento italiano. Le etichette native note fuori catalogo sono ignorate; etichette sconosciute o output malformati causano un errore tecnico. Regole TypeScript aggiungono CF/omocodia, P.IVA, IBAN secondo le lunghezze del registro `ibantools`, carte, telefoni italiani, CIE e patenti. I checksum non sono filtri di esclusione.
+- Il tokenizer riceve l'intero testo; l'overflow produce un errore tecnico invece di troncare l'input.
+- Il decoder BIO proietta le entità nel catalogo comune. `ID_DOC` generico resta escluso dai documenti italiani; etichette note fuori catalogo sono ignorate, output malformati o etichette sconosciute falliscono.
+- Le regole aggiungono CF anche con omocodia, P.IVA, IBAN secondo le lunghezze di `ibantools`, carte, telefoni italiani, CIE e patenti. I checksum non sono filtri di esclusione.
+- Telefoni decisi esclusivamente dalle regole sul testo originale: mobile nazionale, fisso con contesto, eventuali prefissi `+39`/`0039`. Il matcher può perdere numeri contigui; i frammenti NER non aggirano il filtro geografico.
+- Alcuni identificativi richiedono contesto ravvicinato o valore isolato. La copertura dei documenti riguarda i formati implementati, mentre email, carte e IBAN hanno portata internazionale per forma.
 
-Le regole sono euristiche: alcune richiedono un contesto precedente ravvicinato o un valore isolato. Sono coperti formati di CIE elettronica e patente, non ogni documento storico. La categoria telefono è decisa esclusivamente dalle regole sul testo originale: un frammento NER può omettere un prefisso estero e non deve aggirare il filtro geografico. Sono riconosciuti cellulari nazionali e fissi con contesto, con eventuale +39/0039; sequenze di più numeri contigui possono essere perse dal matcher greedy. Email, carte e IBAN hanno copertura internazionale per forma; nessuna promessa di riconoscimento universale. Nomi e altri label dipendono anche dal modello. Accepted non prova assenza di dati personali.
+Il pin `onnxruntime-node@1.30.0`, condiviso con Transformers.js, evita ABI native incompatibili. Una regressione sul lockfile ne verifica l'unicità.
 
-## Evidenza storica del primo pilot — PARTIAL
+## Modello e licenza
 
-Questa sezione descrive il checkpoint precedente alla riorganizzazione e al catalogo comune. I risultati del pilot consolidato sono documentati in `../tests/evaluation/README.md`; i punteggi storici non ne rappresentano il risultato.
-
-- Suite API/regole/modello/ABI: 19 test passati; sessioni finte per i test unitari, socket HTTP reali per il contratto.
-- Inferenza reale verificata sia su macOS sia nel container Linux ARM64; smoke con rete disabilitata riuscito.
-- Smoke HTTP nel container: testo neutro accepted; email vietata rejected; stessa categoria consentita accepted; input invalido 400.
-- Review indipendente finale del servizio: PASS, chiusi i difetti su prefissi telefonici esteri, punto e whitespace Unicode. Regressioni unit e HTTP reale nel container verificate.
-- Primo confronto HTTP completo archiviato sotto `../tests/evaluation/results/`: 212/212 richieste riuscite, zero errori tecnici/contrattuali; 53 casi e 54 testi, gold invariato.
-- Raw verdict Node: TP40/TN10/FP2/FN1, accuracy94,34%; Presidio: TP36/TN4/FP8/FN5, accuracy75,47%. Il confronto raw non è equal-policy: Presidio conserva categorie extra. Pilot piccolo/correlato; non basta per scegliere un vincitore.
-- Limiti osservati Node: carta d'identità mancata nel caso `targeted-07`; falsi positivi di telefono(1), P.IVA(4), IBAN(3) nella detection. Nessun tuning dopo le predizioni.
-- Pacchetti Python nel container Node: nessuno nell'inventario dpkg. Container del run rimossi; report rigenerati offline byte-identici. Audit indipendente delle matrici PASS: tutte le 72 matrici detection, 8 policy e 212 osservazioni ricontate senza usare lo scorer di produzione; JSON/CSV/Markdown coerenti.
-
-Il primo avvio Linux ha esposto due versioni native ONNX incompatibili. Il pin unico `onnxruntime-node@1.30.0`, condiviso con Transformers.js, risolve il caricamento; un test del lockfile previene la reintroduzione di ABI duplicate. La prova resta uno spike, non un servizio pronto per produzione.
+Sorgente `rizzoaiacademy/rizzo-pii-0.3B`; export community `andrearuffini/local-privacy-runtime-pii-detector`. Revisioni e hash sono nel manifest, licenza dell'export in [MODEL_LICENSE](MODEL_LICENSE). La parità PyTorch/ONNX è dichiarata dall'autore. I testi Rizzo del pilot condividono provenienza con il modello: considerare questa dipendenza nell'interpretazione delle metriche.

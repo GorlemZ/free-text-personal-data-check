@@ -63,7 +63,7 @@ async function run(series) {
       } catch { failures++; }
       latencies.push(performance.now()-start);
     };
-    for (let i=0;i<20;i++) await send(synthetic(i,count)); // warmup not counted
+    for (let i=0;i<20;i++) await send(synthetic(i,count)); // Excluded from completed; included in failures and latency percentiles.
     checkpoint.push(snapshot(id,0));
     console.error(JSON.stringify({series,checkpoint:checkpoint.at(-1)}));
     const marks = new Set([Math.round(count*.25),Math.round(count*.5),Math.round(count*.75),count]);

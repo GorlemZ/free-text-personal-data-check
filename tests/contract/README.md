@@ -12,6 +12,8 @@
 
 Da 1 a 10 campi; `fieldId` univoco e lungo 1–128 unità UTF-16. `text` può essere vuoto e contiene al massimo 50 unità separate dalla proprietà Unicode `White_Space`. ID e testo devono essere stringhe Unicode ben formate, senza surrogate isolate. Non si tronca l'input. Body massimo 1 MiB UTF-8. Lo schema è chiuso; tipi errati, membri ignoti e chiavi JSON duplicate, anche con escape differenti, sono invalidi.
 
+`fieldId` viene restituito nella risposta: usare identificatori tecnici, senza dati personali. La policy `allowedCategories` deve provenire da un chiamante fidato; validare i nomi delle categorie non autorizza un utente finale a scegliere le eccezioni.
+
 `allowedCategories` è facoltativo: omesso o vuoto vieta tutte le categorie. I duplicati non cambiano la policy. Catalogo chiuso:
 
 `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD`, `IT_DRIVER_LICENSE`.
@@ -50,7 +52,7 @@ Il gold considera telefoni italiani e documenti italiani; email, carte e IBAN ha
 
 ## Verifiche ripetibili
 
-Dalla root:
+Dalla root, dopo l’[installazione delle dipendenze di test](../README.md#installazione-ed-esecuzione):
 
 ```sh
 python3 tests/contract/run.py

@@ -7,6 +7,10 @@ __pycache__/
 node_modules/
 poc-horizon/models/
 poc-horizon/dist/
+poc-rizzo/**/models/
+poc-rizzo/**/*.log
+tests/evaluation/**/.downloads/
+tests/evaluation/**/.test-output/
 *.partial
 .env
 .env.*
