@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "modelPolicyVersion": "it-spacy-sm-3.8.0-poc1",
+  "supportedEntities": [
+    "CREDIT_CARD", "CRYPTO", "DATE_TIME", "EMAIL_ADDRESS", "IBAN_CODE",
+    "IP_ADDRESS", "IT_DRIVER_LICENSE", "IT_FISCAL_CODE", "IT_IDENTITY_CARD",
+    "IT_PASSPORT", "IT_VAT_CODE", "LOCATION", "MAC_ADDRESS", "MEDICAL_LICENSE",
+    "ORGANIZATION", "PERSON", "PHONE_NUMBER", "URL"
+  ],
+  "nativeToCategory": {
+    "PERSON": "PERSON",
+    "EMAIL_ADDRESS": "EMAIL_ADDRESS",
+    "PHONE_NUMBER": "PHONE_NUMBER",
+    "IT_FISCAL_CODE": "IT_FISCAL_CODE",
+    "IT_VAT_CODE": "IT_VAT_CODE",
+    "IBAN_CODE": "IBAN_CODE",
+    "CREDIT_CARD": "CREDIT_CARD",
+    "IT_IDENTITY_CARD": "IT_IDENTITY_CARD",
+    "IT_DRIVER_LICENSE": "IT_DRIVER_LICENSE"
+  },
+  "evidence": {
+    "kind": "parent-provided-runtime",
+    "method": "Parent reports registry capabilities verified via docker run; no gold inference",
+    "scope": "Registry availability only, not effective detection or accuracy"
+  }
+}
