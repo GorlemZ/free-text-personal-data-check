@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { TokenClassificationPipeline } from '../../poc-horizon/node_modules/@huggingface/transformers/src/pipelines/token-classification.js';
 import { Tensor } from '../../poc-horizon/node_modules/@huggingface/transformers/src/utils/tensor.js';
-import { createHandler } from '../../poc-horizon/src/server.mjs';
-import { categoriesOf } from '../../poc-horizon/src/categories.mjs';
-import { analyzeFields } from '../../poc-horizon/dist/analysis/analyze-fields.mjs';
+import { createHandler } from './create-test-app.mjs';
+import { categoriesOf } from '../../poc-horizon/dist/model/categories.js';
+import { analyzeFields } from './analyze-fields.mjs';
 
 const documents = [
   ['NATIONAL_ID', 'IT_IDENTITY_CARD', 'CA12345AA', 'carta di identità: '],

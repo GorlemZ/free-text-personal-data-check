@@ -1,4 +1,4 @@
-import type { RuleCandidate } from '../analysis/contracts.mjs';
+import type { RuleCandidate } from '../model/contracts.js';
 
 // Canonical CF only: omocodia, registry assignment and calendar validity are out of scope.
 const FISCAL_CODE = /(?<![\p{L}\p{M}\p{N}_])[A-Za-z]{6}[0-9]{2}[ABCDEHLMPRSTabcdehlmprst](?:0[1-9]|[12][0-9]|3[01]|4[1-9]|[56][0-9]|7[01])[A-Za-z][0-9]{3}[A-Za-z](?![\p{L}\p{M}\p{N}_])/gu;

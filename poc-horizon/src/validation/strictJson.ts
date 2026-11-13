@@ -1,6 +1,6 @@
 // JSON.parse silently accepts duplicate object keys; reject them before parsing.
-export function strictParse(text) {
-  const value = JSON.parse(text);
+export function strictParse(text: string): unknown {
+  const value: unknown = JSON.parse(text);
   let at = 0;
   const skip = () => { while (/\s/.test(text[at] ?? '') && at < text.length) at++; };
   function string() {
@@ -8,7 +8,7 @@ export function strictParse(text) {
     while (at < text.length) {
       if (text[at] === '\\') { at += 2; continue; }
       if (text[at++] === '"') {
-        const value = JSON.parse(text.slice(start, at));
+        const value: string = JSON.parse(text.slice(start, at));
         // Check every decoded string, including keys, before schema projection.
         if (!value.isWellFormed()) throw new SyntaxError('Invalid Unicode string');
         return value;

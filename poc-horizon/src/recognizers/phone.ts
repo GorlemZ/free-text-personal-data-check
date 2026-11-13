@@ -1,5 +1,5 @@
 import { parsePhoneNumberWithError } from 'libphonenumber-js/max';
-import type { RuleCandidate } from '../analysis/contracts.mjs';
+import type { RuleCandidate } from '../model/contracts.js';
 
 // Consume the entire numeric envelope before checking boundaries or validity.
 // Never search again inside a malformed international number for a valid suffix.

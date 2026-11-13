@@ -15,10 +15,8 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund
 COPY --from=build /app/dist ./dist
 COPY model-manifest.json ./
-COPY scripts ./scripts
 COPY models ./models
-COPY src ./src
-RUN node scripts/prefetch.mjs --verify-only
+RUN node dist/scripts/prefetch.js --verify-only
 USER node
 EXPOSE 8000
-CMD ["node", "src/server.mjs"]
+CMD ["node", "dist/index.js"]

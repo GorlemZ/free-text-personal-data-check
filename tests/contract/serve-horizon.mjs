@@ -1,6 +1,6 @@
 // Contract-only fixture entrypoint; production never imports these native stubs.
 import { createServer } from 'node:http';
-import { createHandler } from '../../poc-horizon/src/server.mjs';
+import { createHandler } from '../horizon/create-test-app.mjs';
 
 const unavailable = process.env.CONTRACT_UNAVAILABLE === '1';
 const native = entity_group => ({ entity_group, score: 0.9 });

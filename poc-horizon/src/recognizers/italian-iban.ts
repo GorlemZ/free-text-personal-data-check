@@ -1,4 +1,4 @@
-import type { RuleCandidate } from '../analysis/contracts.mjs';
+import type { RuleCandidate } from '../model/contracts.js';
 
 // IT + check digits + CIN + ABI(5) + CAB(5) + account(12); ASCII spaces only.
 const IBAN = /(?<![\p{L}\p{M}\p{N}_])[Ii][Tt](?: ?[0-9]){2}(?: ?[A-Za-z])(?: ?[0-9]){10}(?: ?[A-Za-z0-9]){12}(?![\p{L}\p{M}\p{N}_])/gu;

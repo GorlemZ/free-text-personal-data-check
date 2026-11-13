@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { hasPlausibleFiscalCode } from '../../poc-horizon/src/fiscal-code.mjs';
+import { hasPlausibleFiscalCode } from '../../poc-horizon/dist/fiscal-code.js';
 
 // All examples are fabricated for this suite; no real taxpayer identifiers.
 const sample = 'ZZZQQQ99A01X000Z';

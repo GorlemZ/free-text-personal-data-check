@@ -1,4 +1,4 @@
-import type { RuleCandidate } from '../analysis/contracts.mjs';
+import type { RuleCandidate } from '../model/contracts.js';
 
 // Eleven Italian digits, optionally preceded by IT. No registry/assignment lookup.
 const VAT = /(?<![\p{L}\p{M}\p{N}_])(?:[Ii][Tt])?[0-9]{11}(?![\p{L}\p{M}\p{N}_])/gu;

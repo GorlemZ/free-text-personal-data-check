@@ -6,10 +6,12 @@
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
-    "allowJs": true,
+    "allowJs": false,
+    "lib": ["ES2024"],
     "types": ["node"]
   },
-  "include": ["src/**/*.mts"]
+  "include": ["src/**/*.ts"]
 }

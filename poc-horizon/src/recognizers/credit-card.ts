@@ -1,4 +1,4 @@
-import type { RuleCandidate } from '../analysis/contracts.mjs';
+import type { RuleCandidate } from '../model/contracts.js';
 
 // 13–19 ASCII digits; spaces or hyphens between groups (not at ends).
 // Match the same 13–19 digits as the validator, even when every pair has a separator.

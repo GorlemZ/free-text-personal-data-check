@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeFields } from '../../poc-horizon/dist/analysis/analyze-fields.mjs';
-import { recognizeItalianIdentifiers } from '../../poc-horizon/dist/recognizers/registry.mjs';
-import { categoriesOf } from '../../poc-horizon/src/categories.mjs';
+import { analyzeFields } from './analyze-fields.mjs';
+import { recognizeItalianIdentifiers } from '../../poc-horizon/dist/recognizers/registry.js';
+import { categoriesOf } from '../../poc-horizon/dist/model/categories.js';
 
 const card = '4111 1111 1111 1111'; // Synthetic Luhn fixture.
 const phone = '0212345678'; // libphonenumber Italian example metadata; no assignment claim.

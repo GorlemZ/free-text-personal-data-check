@@ -1,10 +1,10 @@
 import { after, before, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { createHandler } from '../../poc-horizon/src/server.mjs';
-import { categoriesOf, CATEGORIES, LABEL_MAP } from '../../poc-horizon/src/categories.mjs';
-import { vatCandidates } from '../../poc-horizon/dist/recognizers/vat.mjs';
-import { italianIbanCandidates } from '../../poc-horizon/dist/recognizers/italian-iban.mjs';
+import { createHandler } from './create-test-app.mjs';
+import { categoriesOf, CATEGORIES, LABEL_MAP } from '../../poc-horizon/dist/model/categories.js';
+import { vatCandidates } from '../../poc-horizon/dist/recognizers/vat.js';
+import { italianIbanCandidates } from '../../poc-horizon/dist/recognizers/italian-iban.js';
 
 let server, url;
 before(async () => {

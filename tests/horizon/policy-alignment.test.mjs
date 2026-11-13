@@ -1,13 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeFields } from '../../poc-horizon/dist/analysis/analyze-fields.mjs';
-import { recognizeItalianIdentifiers } from '../../poc-horizon/dist/recognizers/registry.mjs';
-import { fiscalCodeCandidates, validFiscalCode } from '../../poc-horizon/dist/recognizers/fiscal-code.mjs';
-import { vatCandidates, validItalianVat } from '../../poc-horizon/dist/recognizers/vat.mjs';
-import { italianIbanCandidates, validItalianIban } from '../../poc-horizon/dist/recognizers/italian-iban.mjs';
-import { creditCardCandidates, validCreditCard } from '../../poc-horizon/dist/recognizers/credit-card.mjs';
-import { italianPhoneCandidates, validItalianPhone } from '../../poc-horizon/dist/recognizers/italian-phone.mjs';
-import { categoriesOf, CATEGORIES } from '../../poc-horizon/src/categories.mjs';
+import { analyzeFields } from './analyze-fields.mjs';
+import { recognizeItalianIdentifiers } from '../../poc-horizon/dist/recognizers/registry.js';
+import { fiscalCodeCandidates, validFiscalCode } from '../../poc-horizon/dist/recognizers/fiscal-code.js';
+import { vatCandidates, validItalianVat } from '../../poc-horizon/dist/recognizers/vat.js';
+import { italianIbanCandidates, validItalianIban } from '../../poc-horizon/dist/recognizers/italian-iban.js';
+import { creditCardCandidates, validCreditCard } from '../../poc-horizon/dist/recognizers/credit-card.js';
+import { italianPhoneCandidates, validItalianPhone } from '../../poc-horizon/dist/recognizers/italian-phone.js';
+import { categoriesOf, CATEGORIES } from '../../poc-horizon/dist/model/categories.js';
 
 const cf = 'RSSMRA85M01H501Q';
 const vat = '12345678903';

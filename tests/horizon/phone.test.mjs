@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validItalianPhone, italianPhoneCandidates } from '../../poc-horizon/dist/recognizers/italian-phone.mjs';
+import { validItalianPhone, italianPhoneCandidates } from '../../poc-horizon/dist/recognizers/italian-phone.js';
 
-import { analyzeFields } from '../../poc-horizon/dist/analysis/analyze-fields.mjs';
-import { categoriesOf } from '../../poc-horizon/src/categories.mjs';
+import { analyzeFields } from './analyze-fields.mjs';
+import { categoriesOf } from '../../poc-horizon/dist/model/categories.js';
 
 // UK fixture from python-phonenumbers README; US fixture from libphonenumber-js README.
 // Metadata validity only: these tests do not assert assignment or reachability.

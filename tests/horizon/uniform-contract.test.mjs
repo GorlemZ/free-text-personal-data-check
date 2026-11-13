@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { createHandler } from '../../poc-horizon/src/server.mjs';
+import { createHandler } from './create-test-app.mjs';
 
 async function withService(options, run) {
   const server = createServer(createHandler({ ready: async () => true,

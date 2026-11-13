@@ -1,4 +1,36 @@
 import { parsePhoneNumberWithError } from 'libphonenumber-js/max';
+import { fiscalCodeCandidates, validFiscalCode } from '../recognizers/fiscal-code.js';
+import { vatCandidates, validItalianVat } from '../recognizers/vat.js';
+import { italianIbanCandidates, validItalianIban } from '../recognizers/italian-iban.js';
+import { creditCardCandidates, validCreditCard } from '../recognizers/credit-card.js';
+import { italianPhoneCandidates, validItalianPhone } from '../recognizers/italian-phone.js';
+import type { Category, ModelPrediction, RuleCandidate } from './contracts.js';
+
+const structuredChecks: Readonly<Partial<Record<Category, (value: string) => boolean>>> = {
+  IT_FISCAL_CODE: validFiscalCode,
+  IT_VAT_CODE: validItalianVat,
+  IBAN_CODE: validItalianIban,
+  CREDIT_CARD: validCreditCard,
+  PHONE_NUMBER: value => validItalianPhone(value) && isItalianPhone(value),
+};
+const structuredRecognizers: Readonly<Partial<Record<Category, (text: string) => readonly RuleCandidate[]>>> = {
+  IT_FISCAL_CODE: fiscalCodeCandidates,
+  IT_VAT_CODE: vatCandidates,
+  IBAN_CODE: italianIbanCandidates,
+  CREDIT_CARD: creditCardCandidates,
+  PHONE_NUMBER: italianPhoneCandidates,
+};
+export function ruleCategoryValid(category: Category, value: string): boolean {
+  return structuredChecks[category]?.(value) ?? true;
+}
+export function modelSpanValid(category: Category, result: ModelPrediction, text: string): boolean {
+  const recognize = structuredRecognizers[category];
+  // Keep original-text boundaries/checksums; never validate an isolated token instead.
+  if (category === 'PHONE_NUMBER' && !isItalianPhone(text.slice(result.start, result.end))) return false;
+  return !recognize || (result.start !== undefined && result.end !== undefined &&
+    recognize(text).some(candidate => candidate.start === result.start &&
+      candidate.end === result.end && candidate.check === 'passed'));
+}
 
 // Geography is a business projection, not a change to recognizer validity.
 export function isItalianPhone(value: string): boolean {

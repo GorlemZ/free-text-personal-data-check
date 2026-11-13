@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { vatCandidates, validItalianVat } from '../../poc-horizon/dist/recognizers/vat.mjs';
-import { italianIbanCandidates } from '../../poc-horizon/dist/recognizers/italian-iban.mjs';
+import { vatCandidates, validItalianVat } from '../../poc-horizon/dist/recognizers/vat.js';
+import { italianIbanCandidates } from '../../poc-horizon/dist/recognizers/italian-iban.js';
 
 test('all-zero VAT is an invalid placeholder despite matching the checksum', () => {
   assert.equal(validItalianVat('00000000000'), false);
