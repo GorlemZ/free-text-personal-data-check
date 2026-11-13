@@ -1,53 +1,56 @@
 # Controllo dei dati personali nei campi liberi
 
-Tre PoC locali confrontano il riconoscimento di dati personali attraverso **la stessa API e la stessa policy per campo**. Il flusso è: validazione dell'input → detection → conversione nel catalogo comune → applicazione delle categorie consentite → verdetto.
+Stato al 12 novembre 2026.
 
-| Cartella | Stack e responsabilità |
+## Stato attuale
+
+Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi liberi. Usano la stessa interfaccia e le stesse regole: per ogni campo si indicano i dati consentiti; se il sistema rileva altri dati personali, li segnala e rifiuta la richiesta.
+
+| PoC | Come riconosce i dati |
 |---|---|
-| [poc-rizzo](poc-rizzo/README.md) | Node HTTP, Rizzo ONNX con Transformers.js/ONNX Runtime e regole TypeScript |
-| [poc-horizon](poc-horizon/README.md) | Node HTTP, Horizon ONNX q8 con Transformers.js e riconoscitori TypeScript |
-| [poc-presidio](poc-presidio/README.md) | FastAPI/Uvicorn, Presidio Analyzer e spaCy italiano |
-| [tests](tests/README.md) | Suite dei motori, contratto condiviso, pilot annotato e runner comparativo |
+| Rizzo | Modello addestrato sui dati personali, con regole aggiuntive |
+| Horizon | Un altro modello, più compatto, con regole aggiuntive |
+| Presidio | Libreria di riconoscimento con un modello per la lingua italiana |
 
-I container Rizzo e Horizon eseguono la detection nel processo Node, senza Python. Presidio usa un runtime Python separato. Modelli e cache restano locali e fuori da Git.
+L'elaborazione avviene localmente. Rizzo e Horizon usano JavaScript; Presidio usa Python.
 
-## Da dove arriva ogni categoria
+## Come siamo arrivati qui
 
-Il catalogo comune comprende nove categorie. Il confronto riguarda **pipeline complete**, non soltanto i modelli neurali: ogni PoC combina riconoscimento, traduzione delle etichette e filtri prima di applicare la stessa policy per campo.
+Abbiamo reso confrontabili tre implementazioni diverse, uniformando interfaccia, categorie considerate e regole per campo. Rizzo e Horizon ora eseguono i modelli con la stessa libreria, Transformers.js, conservando i rispettivi modelli e criteri di riconoscimento.
 
-**Modello** indica il riconoscimento neurale; **regola/recognizer nostro** indica codice del PoC; **recognizer nativo** indica un componente predefinito di Presidio.
+Abbiamo poi verificato le risposte su esempi con risposta attesa nota e misurato la memoria in ambienti separati.
 
-| Categoria comune | Rizzo | Horizon | Presidio |
-|---|---|---|---|
-| `PERSON` | Modello: `FULLNAME` | Modello: `PERSON` | spaCy italiano: `PER` → `PERSON` |
-| `EMAIL_ADDRESS` | Modello `EMAIL` + regola nostra | Modello: `EMAIL` | Recognizer nativo |
-| `PHONE_NUMBER` | Solo regole nostre | Modello `PHONE` + recognizer nostro, con validazione | Recognizer nativo + nostro filtro Italia |
-| `IT_FISCAL_CODE` | Modello `CF` + regola nostra | Recognizer nostro | Recognizer nativo |
-| `IT_VAT_CODE` | Modello `PIVA` + regola nostra | Recognizer nostro | Recognizer nativo |
-| `IBAN_CODE` | Modello `IBAN` + regola nostra | Recognizer nostro, limitato agli IBAN italiani | Recognizer nativo |
-| `CREDIT_CARD` | Modello `CREDITCARDNUMBER` + regola nostra | Modello `CREDIT_CARD` + recognizer nostro, con validazione | Recognizer nativo |
-| `IT_IDENTITY_CARD` | Solo regole nostre | Modello `NATIONAL_ID`, filtrato per forma italiana | Recognizer nativo |
-| `IT_DRIVER_LICENSE` | Solo regole nostre | Modello `DRIVER_LICENSE`, filtrato per forma italiana | Recognizer nativo |
+## Accuratezza
 
-Le categorie indicano i percorsi di riconoscimento implementati, non una garanzia di rilevamento. In Horizon i candidati strutturati del modello devono superare anche i controlli sullo span originale; i documenti richiedono forma italiana e contesto appropriato oppure un valore isolato. In Rizzo `TELEPHONENUM` e il generico `ID_DOC` non alimentano direttamente le categorie comuni. In Horizon `TAX_ID` non viene equiparato a codice fiscale e `BANK_ACCOUNT` non viene equiparato a IBAN.
+Sul campione esteso di **151 casi, con 142 testi distinti**, 98 richieste dovevano essere rifiutate e 53 accettate. Misuriamo la decisione finale di accettare o rifiutare.
 
-Categorie, API e policy sono uniformate; regole di formato, checksum e modelli restano differenti. Gli extra conosciuti fuori catalogo vengono esclusi prima della policy.
+| PoC | Decisioni corrette | Accettate per errore (su 98) | Rifiutate per errore (su 53) |
+|---|---:|---:|---:|
+| Rizzo | 88,7% | 6 | 11 |
+| Horizon | 87,4% | 14 | 5 |
+| Presidio | 78,8% | 20 | 12 |
 
-## Uso
+Rizzo lascia passare meno casi da bloccare; Horizon riduce i falsi allarmi.
 
-- **Avviare un servizio:** seguire il README del relativo PoC; tutti i comandi partono dalla root.
-- **Eseguire le verifiche:** [installazione e suite](tests/README.md).
-- **Integrare l'API:** [contratto HTTP](tests/contract/README.md), fonte unica per schema, categorie, limiti ed errori.
-- **Confrontare i motori:** [metodo e comandi del pilot](tests/evaluation/README.md).
+Abbiamo ricontrollato Rizzo e Horizon dopo l'allineamento; per Presidio riportiamo il test precedente sullo stesso campione. Il campione è di sviluppo e contiene casi simili: servono prove su testi rappresentativi del servizio.
 
-`POST /v1/analyze` riceve campi con testo e categorie consentite. Restituisce `accepted` oppure `rejected`, con sole coppie `fieldId`/`category` vietate. Gli extra conosciuti del motore sono esclusi **prima** della policy. Modelli e riconoscitori mantengono le proprie differenze di detection.
+## Memoria
 
-**Uso locale con dati sintetici:** pubblicare le porte su loopback. I PoC non autenticano il chiamante; la policy deve provenire da una fonte fidata. `accepted` è un esito euristico. Una futura integrazione richiede controllo degli accessi e protezione di rete.
+Rizzo e Horizon hanno completato il test aggiornato con **4 GB disponibili e 30 richieste ciascuno**. Per Presidio riportiamo la misura precedente, con un carico diverso.
 
-## Risultati disponibili
+| PoC | Massimo di RAM osservato | Esito |
+|---|---:|---|
+| Rizzo | Circa 4,00 GB | Vicino al limite; nella prova a 2 GB l'avvio non è stato completato |
+| Horizon | Circa 2,36 GB | Test a 4 GB completato |
+| Presidio | Circa 0,16 GB | Molto più leggero nella misura precedente |
 
-Il pilot del **12 novembre 2026** ha completato **546/546 richieste**, senza errori tecnici o contrattuali: 91 casi su 82 testi distinti. Il campione è correlato e già parzialmente utilizzato; i risultati descrivono questi casi. Performance e memoria restano una valutazione separata.
+I valori includono l'intero ambiente isolato (container) e sono massimi campionati in prove brevi e con carichi diversi. **Il requisito di 2 GB per container resta da dimostrare.** Per l'uso continuativo servono verifiche più lunghe.
 
-- [Metriche per motore, categoria e fonte](tests/evaluation/results/uniform-http/report.md)
-- [Immagini, versioni e contesto del run](tests/evaluation/results/uniform-http/run-context.json)
-- [Audit indipendente](tests/evaluation/results/uniform-http/audit.md)
+## Guide e utilizzo
+
+- PoC: [Rizzo](poc-rizzo/README.md), [Horizon](poc-horizon/README.md), [Presidio](poc-presidio/README.md).
+- [Installazione e test](tests/README.md).
+- [Interfaccia comune](tests/contract/README.md).
+- [Metodo e limiti dei test sulle risorse](tests/resources/README.md).
+
+I PoC sono per prove locali con dati di test. Prima dell'integrazione servono accessi controllati, rete protetta e regole sui dati consentiti definite da una fonte fidata. Alcuni dati personali possono sfuggire anche con un esito di accettazione.
