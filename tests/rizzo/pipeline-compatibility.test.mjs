@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { createInference, semanticCategories } from '../../poc-rizzo/src/model.mjs';
+import { createInference, semanticCategories } from './support/model.mjs';
 import { decodeBIO } from './fixtures/legacy-decoder.mjs';
 
 const require = createRequire(new URL('../../poc-rizzo/package.json', import.meta.url));

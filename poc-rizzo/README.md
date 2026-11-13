@@ -6,10 +6,15 @@ Servizio Node.js 24: modello Rizzo ONNX, pipeline standard Transformers.js `toke
 
 ```sh
 npm --prefix poc-rizzo ci
+npm --prefix poc-rizzo run typecheck
+npm --prefix poc-rizzo run build
+npm --prefix poc-rizzo test
 npm --prefix poc-rizzo run prefetch
 npm --prefix poc-rizzo run smoke
 npm --prefix poc-rizzo start
 ```
+
+`build` elimina prima l'intera directory `dist` e compila tutti i sorgenti e CLI con TypeScript strict (NodeNext). Il runtime usa soltanto `dist/index.js`; i test importano il codice compilato e `npm test` esegue il build prima della suite, anche quando invocato dall'harness centralizzato. L'import dei moduli e delle CLI non avvia server, caricamento del modello o download. Dopo modifiche ai sorgenti, ripetere typecheck e build.
 
 `prefetch` scarica gli artefatti fissati in [model-manifest.json](model-manifest.json); `smoke` esegue inferenza reale e verifica PERSON, email in coda e gestione dell'overflow token. Il servizio usa solo modelli locali. Bind predefinito `127.0.0.1:8000`, configurabile con `BIND_HOST` e `PORT`.
 
@@ -23,7 +28,7 @@ docker run --rm -p 127.0.0.1:18081:8000 free-text-check:rizzo-uniform
 Attendere `GET /health/ready`. Il container finale non contiene Python. Per uno smoke reale senza rete, sull'immagine già costruita:
 
 ```sh
-docker run --rm --network none free-text-check:rizzo-uniform node scripts/smoke.mjs
+docker run --rm --network none free-text-check:rizzo-uniform node dist/scripts/smoke.js
 ```
 
 ## Pipeline NLP comune

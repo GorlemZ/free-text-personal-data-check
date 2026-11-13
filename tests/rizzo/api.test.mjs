@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import test from 'node:test';
-import { createServer } from '../../poc-rizzo/src/app.mjs';
+import { createServer } from './support/http.mjs';
 
 async function withServer(detect, run) {
   const server = createServer({ detect });

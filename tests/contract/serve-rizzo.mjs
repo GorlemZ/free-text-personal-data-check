@@ -1,7 +1,9 @@
 // Test-only native-output replacement, before the production semantic adapter.
-import { createServer } from '../../poc-rizzo/src/app.mjs';
-import { createDetector } from '../../poc-rizzo/src/detector.mjs';
-import { semanticCategories } from '../../poc-rizzo/src/model.mjs';
+import { createServer } from 'node:http';
+import { createApp } from '../../poc-rizzo/dist/app.js';
+import { analysisServiceBuilder } from '../../poc-rizzo/dist/services/analysisService.js';
+import { modelDetectionServiceBuilder } from '../../poc-rizzo/dist/services/modelDetectionService.js';
+import { ruleDetectionServiceBuilder } from '../../poc-rizzo/dist/services/ruleDetectionService.js';
 
 const unavailable = process.env.CONTRACT_UNAVAILABLE === '1';
 const entity = label => ({label, text:'synthetic fixture', score:.99});
@@ -20,7 +22,8 @@ function nativeOutput(text) {
     default: return [];
   }
 }
-const detect = await createDetector({modelFactory: async () => async text => semanticCategories(nativeOutput(text))});
-const server = createServer({detect, ready: () => !unavailable});
+const modelDetectionService = modelDetectionServiceBuilder({ infer: async text => ({ output: nativeOutput(text).map(({ label, text: word, score }) => ({ entity_group: label, word, score })) }) });
+const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService: ruleDetectionServiceBuilder() });
+const server = createServer(createApp({ analysisService, ready: () => !unavailable }));
 server.listen(Number(process.env.PORT), '127.0.0.1');
 for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => server.close(() => process.exit(0)));

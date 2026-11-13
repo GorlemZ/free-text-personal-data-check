@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {recognize} from '../../poc-rizzo/src/rules.ts';
+import {recognize} from '../../poc-rizzo/dist/recognizers/rules.js';
 test('Italian phones and document formats; foreign prefix and practice codes excluded',()=>{
  for(const text of ['chiamami al 3331234567','telefono +39 333 123 4567','telefono +39.3331234567','telefono 0039 06 1234567']) assert.ok(recognize(text).has('PHONE_NUMBER'),text);
  for(const text of ['telefono +1 3331234567','telefono +1.3331234567','telefono +33.3331234567','telefono 0033 3331234567']) assert.equal(recognize(text).has('PHONE_NUMBER'),false);

@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { createInference, semanticCategories } from '../../poc-rizzo/src/model.mjs';
+import { createInference, semanticCategories } from './support/model.mjs';
 
 const require = createRequire(new URL('../../poc-rizzo/package.json', import.meta.url));
 // Match production's ESM build; require() has a separate global env singleton.
@@ -34,7 +34,7 @@ async function fixture(t) {
   await Promise.all(Object.entries(files).map(([name, content]) => writeFile(join(path, name), content)));
   const manifest = { files: Object.fromEntries(Object.entries(files).map(([name, content]) => [name, createHash('sha256').update(content).digest('hex')])) };
   await writeFile(join(path, 'manifest.json'), JSON.stringify(manifest));
-  const { createModel } = await import(`../../poc-rizzo/src/model.mjs?fixture=${encodeURIComponent(path)}`);
+  const { createModel } = await import(`./support/model.mjs?fixture=${encodeURIComponent(path)}`);
   return { createModel, path, directory: pathToFileURL(`${path}/`), manifestPath: pathToFileURL(join(path, 'manifest.json')) };
 }
 

@@ -1,3 +1,4 @@
+import type { Category } from '../model/contracts.js';
 import { getCountrySpecifications } from 'ibantools';
 const ibanLengths = Object.entries(getCountrySpecifications()).filter(([, value]) => value.IBANRegistry && value.chars).map(([country, value]) => [country, value.chars] as const);
 const boundary = String.raw`\p{L}\p{N}\p{M}_`;
@@ -8,8 +9,8 @@ function hasContext(text: string, match: RegExpExecArray, context: RegExp): bool
   const before = text.slice(Math.max(0, match.index - 50), match.index);
   return context.test(before) || text.trim() === match[0];
 }
-export function recognize(text: string): Set<string> {
-  const found = new Set<string>();
+export function recognize(text: string): Set<Category> {
+  const found = new Set<Category>();
   if ([...matches(text, '[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]')].length) found.add('IT_FISCAL_CODE');
   if ([...matches(text, String.raw`[A-Z0-9.!#$%&'*+/=?^_\x60{|}~-]+@[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?)+`)].length) found.add('EMAIL_ADDRESS');
   for (const value of matches(text, String.raw`(?:IT[ \t]*)?\d{11}`)) {
