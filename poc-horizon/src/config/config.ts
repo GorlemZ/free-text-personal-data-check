@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { parsePort } from "@pagopa/detector-http";
 
 // Stable local assets, independent of cwd and source/dist directory layout.
 export const MODEL_CONFIG = Object.freeze({
@@ -61,7 +62,7 @@ export function loadConfig(
   if (tokenBudget > MODEL_CONFIG.tokenBudget)
     throw new TypeError("INVALID_TOKEN_BUDGET");
   return {
-    port: Number(environment.ANALYZER_PORT ?? 8000),
+    port: parsePort(environment.ANALYZER_PORT),
     bindHost: environment.ANALYZER_BIND_HOST ?? "127.0.0.1",
     concurrency: positiveInteger(
       environment.ANALYZER_CONCURRENCY,

@@ -65,6 +65,39 @@ async function responseIs(response, status, body) {
 const unavailable = { code: "detector_unavailable" };
 const accepted = { verdict: "accepted", findings: [] };
 
+test("Horizon readiness requires an explicitly ready value", async (t) => {
+  for (const ready of [() => false, () => 0, () => ""]) {
+    const url = await serve(t, {
+      ready,
+      analysisService: { analyze: async () => [] },
+    });
+    await responseIs(await fetch(url + "/health/ready"), 503, unavailable);
+  }
+});
+
+test("HEAD does not inherit the GET readiness route", async (t) => {
+  let readyCalls = 0;
+  const url = await serve(t, {
+    ready: () => {
+      readyCalls += 1;
+      return true;
+    },
+    analysisService: { analyze: async () => [] },
+  });
+  const response = await fetch(url + "/health/ready", { method: "HEAD" });
+  assert.equal(response.status, 404);
+  assert.equal(await response.text(), "");
+  assert.equal(readyCalls, 0);
+});
+
+test("Horizon HTTP config rejects invalid ports", () => {
+  for (const port of ["not-a-number", "-1", "65536", "1.5"])
+    assert.throws(() => loadConfig({ ANALYZER_PORT: port }), {
+      name: "TypeError",
+      message: "INVALID_PORT",
+    });
+});
+
 test("two createApp instances do not share capacity", async (t) => {
   const gate = deferred(),
     entered = deferred();
@@ -395,7 +428,7 @@ test("compiled HTTP import graph cannot load SDK/analysis, read env, listen or f
   assert.match(result.stdout, /HTTP import isolation verified/);
 });
 
-test("config reads only when called, preserves Number conversion, zero port and host bytes", () => {
+test("config reads only when called, validates the port and preserves host bytes", () => {
   assert.deepEqual(loadConfig({}), {
     port: 8000,
     bindHost: "127.0.0.1",
@@ -409,7 +442,6 @@ test("config reads only when called, preserves Number conversion, zero port and 
     ["0x10", 16],
   ])
     assert.equal(loadConfig({ ANALYZER_PORT: value }).port, expected);
-  assert.ok(Number.isNaN(loadConfig({ ANALYZER_PORT: "bad" }).port));
   assert.equal(
     loadConfig({ ANALYZER_BIND_HOST: " LOCALHOST " }).bindHost,
     " LOCALHOST ",

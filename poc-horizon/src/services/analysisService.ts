@@ -5,7 +5,8 @@ import type {
   ModelAdapter,
   Recognizer,
 } from "../model/contracts.js";
-import { categoriesOf, SCORE_THRESHOLD } from "../model/categories.js";
+import { SCORE_THRESHOLD } from "../model/categories.js";
+import { categoriesOf } from "../model/modelInterpretation.js";
 import { detectRuleCategories } from "./ruleDetectionService.js";
 import { recognizeItalianIdentifiers } from "../recognizers/registry.js";
 

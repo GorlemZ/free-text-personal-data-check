@@ -18,6 +18,13 @@ pnpm --filter node-rizzo-pii-spike start
 
 `prefetch` scarica gli artefatti fissati in [model-manifest.json](model-manifest.json); `smoke` esegue inferenza reale e verifica PERSON, email in coda e gestione dell'overflow token. Il servizio usa solo modelli locali. Bind predefinito `127.0.0.1:8000`, configurabile con `BIND_HOST` e `PORT`.
 
+## Confine HTTP e composizione
+
+- `src/index.ts` legge la configurazione, attende l'adapter, costruisce model detection service, analysis service e app, quindi delega listen, segnali e shutdown bounded a `@pagopa/detector-http`.
+- `src/app.ts` monta health, analysis e fallback tramite il router Express condiviso. Non installa parser JSON: il body reader Rizzo conserva limite sui byte effettivi, UTF-8 fatal, drain e validazione prima di readiness/inferenza.
+- Router, service, interprete del modello e adapter restano separati. Dopo `model/modelInterpretation.ts`, il dominio lavora con `ReadonlySet<Category>`; formato SDK e label native non entrano nella policy.
+- Il package standalone non simula autenticazione o middleware di audit/context del monorepo: questi dipendono dal contratto service-to-service del package Interop finale.
+
 Dopo il prefetch:
 
 ```sh

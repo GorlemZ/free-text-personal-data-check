@@ -2,12 +2,16 @@ FROM node:24-bookworm-slim AS build
 WORKDIR /workspace
 RUN corepack enable && corepack prepare pnpm@10.29.3 --activate
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages/detector-http/package.json ./packages/detector-http/package.json
 COPY poc-horizon/package.json ./poc-horizon/package.json
 COPY poc-rizzo/package.json ./poc-rizzo/package.json
 RUN pnpm install --frozen-lockfile --filter node-rizzo-pii-spike...
 COPY poc-rizzo/tsconfig.json ./poc-rizzo/tsconfig.json
+COPY packages/detector-http/tsconfig.json ./packages/detector-http/tsconfig.json
+COPY packages/detector-http/src ./packages/detector-http/src
 COPY poc-rizzo/src ./poc-rizzo/src
-RUN pnpm --filter node-rizzo-pii-spike build && \
+RUN pnpm --filter @pagopa/detector-http build && \
+    pnpm --filter node-rizzo-pii-spike build && \
     pnpm --filter node-rizzo-pii-spike deploy --prod --legacy /opt/app
 
 FROM node:24-bookworm-slim

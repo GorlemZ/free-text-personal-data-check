@@ -8,6 +8,7 @@
   },
   "packageManager": "pnpm@10.29.3",
   "scripts": {
+    "prebuild": "pnpm --filter @pagopa/detector-http build",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck",
     "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\" && tsc",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2",
+    "@pagopa/detector-http": "workspace:*",
     "onnxruntime-node": "1.30.0",
     "p-limit": "6.2.0",
     "raw-body": "2.5.2"

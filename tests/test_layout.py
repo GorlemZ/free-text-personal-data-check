@@ -6,12 +6,12 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 class LayoutTests(unittest.TestCase):
-    def test_four_operational_directories(self):
+    def test_operational_and_shared_package_directories(self):
         actual = {
             p.name for p in ROOT.iterdir()
             if p.is_dir() and not p.name.startswith('.') and p.name != 'node_modules'
         }
-        self.assertEqual(actual, {'tests', 'poc-horizon', 'poc-rizzo', 'poc-presidio'})
+        self.assertEqual(actual, {'tests', 'packages', 'poc-horizon', 'poc-rizzo', 'poc-presidio'})
 
     def test_test_suites_are_centralized(self):
         for name in ('horizon', 'rizzo', 'presidio'):
@@ -27,7 +27,8 @@ class LayoutTests(unittest.TestCase):
         package = json.loads((ROOT / 'package.json').read_text())
         self.assertEqual(package['packageManager'], 'pnpm@10.29.3')
         self.assertEqual((ROOT / 'pnpm-workspace.yaml').read_text(),
-                         'packages:\n  - poc-horizon\n  - poc-rizzo\n')
+                         'packages:\n  - packages/*\n  - poc-horizon\n  - poc-rizzo\n')
+        self.assertTrue((ROOT / 'packages' / 'detector-http' / 'package.json').is_file())
         self.assertTrue((ROOT / 'pnpm-lock.yaml').is_file())
         self.assertFalse((ROOT / 'poc-horizon' / 'package-lock.json').exists())
         self.assertFalse((ROOT / 'poc-rizzo' / 'package-lock.json').exists())

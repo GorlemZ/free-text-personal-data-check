@@ -9,6 +9,7 @@ const server = createServer(
     prepare: (text) => ({ text }),
     ready: async () => {
       if (unavailable) throw Error("fixture unavailable");
+      return true;
     },
     infer: async ({ text }) => {
       if (unavailable || text === "fixture:throw")

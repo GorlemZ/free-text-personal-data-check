@@ -12,7 +12,7 @@ Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi li
 | Horizon  | Modello più compatto, con regole integrative per categorie non coperte         |
 | Presidio | Libreria di riconoscimento con un modello per la lingua italiana               |
 
-L'elaborazione avviene localmente. Rizzo e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python.
+L'elaborazione avviene localmente. Rizzo e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python. I due servizi Node condividono `@pagopa/detector-http`, il package infrastrutturale che monta routing Express senza parser JSON implicito, valida la porta e gestisce listen/segnali/shutdown; body reader, service, adapter e dominio restano nei rispettivi PoC.
 
 Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token e il limite delle analisi contemporanee sono configurabili; le richieste eccedenti la capacità vengono respinte senza attesa. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
 

@@ -21,7 +21,7 @@ test("composition root is an executable, not a test API", async () => {
     /export\s+(?:async\s+)?function\s+(?:main|startup|composeRuntime)/,
   );
   assert.match(source, /await transformersAdapterBuilder\(/);
-  assert.match(source, /server\.listen\(config\.port, config\.host\)/);
+  assert.match(source, /await startServer\(/);
 });
 
 test("resolved HTTP config has explicit concurrency and token budget", () => {
@@ -34,6 +34,14 @@ test("resolved HTTP config has explicit concurrency and token budget", () => {
     }),
     { port: 0, host: "localhost", concurrency: 2, tokenBudget: 64 },
   );
+});
+
+test("Rizzo HTTP config rejects invalid ports", () => {
+  for (const port of ["not-a-number", "-1", "65536", "1.5"])
+    assert.throws(() => readHttpConfig({ PORT: port }), {
+      name: "TypeError",
+      message: "INVALID_PORT",
+    });
 });
 
 async function socket(t, dependencies) {
@@ -315,23 +323,14 @@ test("API converter projects only category pairs and sorts UTF16 without exposin
   );
 });
 
-test("HTTP environment config preserves Number coercions, defaults, empty values and access order", () => {
+test("HTTP environment config validates ports and preserves defaults, empty host and access order", () => {
   assert.deepEqual(readHttpConfig({}), {
     port: 8000,
     host: "127.0.0.1",
     concurrency: 1,
     tokenBudget: 512,
   });
-  for (const raw of [
-    "0",
-    "",
-    " 0 ",
-    "0x10",
-    "1e2",
-    "-1",
-    "NaN",
-    "not-a-port",
-  ]) {
+  for (const raw of ["0", "", " 0 ", "0x10", "1e2"]) {
     const actual = readHttpConfig({ PORT: raw, BIND_HOST: "" });
     assert.ok(Object.is(actual.port, Number(raw)));
     assert.equal(actual.host, "");

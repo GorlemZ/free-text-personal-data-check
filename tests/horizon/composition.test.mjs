@@ -13,19 +13,11 @@ test("linear composition root warms up, registers lifecycle handlers, then liste
       return { ready: () => true, prepare() { throw Error('unexpected'); }, infer() { throw Error('unexpected'); } };
     }
   `;
-  const http = `
-    import { EventEmitter } from 'node:events';
-    export function createServer(handler) {
+  const infrastructure = `
+    export async function startServer(handler, config, lifecycle) {
       if (typeof handler !== 'function') throw Error('missing RequestListener');
-      globalThis.probe.events.push('createServer');
-      const server = new EventEmitter();
-      Object.defineProperty(server, 'requestTimeout', { set(value) { globalThis.probe.events.push(['timeout', value]); } });
-      server.listen = (port, host) => {
-        globalThis.probe.events.push(['listen', port, host]);
-        queueMicrotask(() => server.emit('listening'));
-      };
-      server.close = done => done();
-      return server;
+      if (typeof lifecycle.onError !== 'function' || typeof lifecycle.onShutdownComplete !== 'function' || typeof lifecycle.onShutdownTimeout !== 'function') throw Error('missing lifecycle');
+      globalThis.probe.events.push(['startServer', config]);
     }
   `;
   const code = `
@@ -39,16 +31,14 @@ test("linear composition root warms up, registers lifecycle handlers, then liste
     registerHooks({ resolve(specifier, context, next) {
       if (context.parentURL === indexUrl && specifier === './adapters/transformersAdapter.js')
         return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(detector))}, shortCircuit: true };
-      if (context.parentURL === indexUrl && specifier === 'node:http')
-        return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(http))}, shortCircuit: true };
+      if (context.parentURL === indexUrl && specifier === '@pagopa/detector-http')
+        return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(infrastructure))}, shortCircuit: true };
       return next(specifier, context);
     } });
-    const originalOnce = process.once.bind(process);
-    process.once = (event, handler) => { probe.events.push(['signal', event]); return originalOnce(event, handler); };
     await import(indexUrl);
     assert.deepEqual(probe.events, [
-      ['warmup', { tokenBudget: 8 }], 'warmed', 'createServer', ['timeout', 10000],
-      ['signal', 'SIGTERM'], ['signal', 'SIGINT'], ['listen', 0, '127.0.0.1']
+      ['warmup', { tokenBudget: 8 }], 'warmed',
+      ['startServer', { port: 0, host: '127.0.0.1', requestTimeout: 10000 }]
     ]);
     console.log('composition verified');
   `;
@@ -75,8 +65,8 @@ test("warmup failure is redacted and never creates a server", () => {
     registerHooks({ resolve(specifier, context, next) {
       if (context.parentURL === indexUrl && specifier === './adapters/transformersAdapter.js')
         return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(detector))}, shortCircuit: true };
-      if (context.parentURL === indexUrl && specifier === 'node:http')
-        return { url: 'data:text/javascript,export function createServer(){throw Error("MUST_NOT_CREATE")}', shortCircuit: true };
+      if (context.parentURL === indexUrl && specifier === '@pagopa/detector-http')
+        return { url: 'data:text/javascript,export function startServer(){throw Error("MUST_NOT_START")}', shortCircuit: true };
       return next(specifier, context);
     } });
     await import(indexUrl);
@@ -91,5 +81,5 @@ test("warmup failure is redacted and never creates a server", () => {
   );
   assert.equal(result.status, 1);
   assert.equal(result.stderr, "detector_unavailable\n");
-  assert.doesNotMatch(result.stderr, /SENSITIVE|MUST_NOT_CREATE/);
+  assert.doesNotMatch(result.stderr, /SENSITIVE|MUST_NOT_START/);
 });

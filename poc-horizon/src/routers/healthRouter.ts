@@ -7,7 +7,7 @@ import { toHttpError } from "../utilities/errorMappers.js";
 export function createHealthRouter(ready: Readiness): RequestListener {
   return async (_req, res) => {
     try {
-      await ready();
+      if (!(await ready())) throw new DetectorUnavailable();
       reply(res, 200, { status: "ready" });
     } catch {
       const mapped = toHttpError(new DetectorUnavailable());

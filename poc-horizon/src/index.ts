@@ -1,4 +1,4 @@
-import { createServer } from "node:http";
+import { startServer } from "@pagopa/detector-http";
 import { createApp } from "./app.js";
 import { transformersAdapterBuilder } from "./adapters/transformersAdapter.js";
 import { loadConfig, HTTP_LIMITS } from "./config/config.js";
@@ -10,34 +10,31 @@ try {
     tokenBudget: config.tokenBudget,
   });
   const analysisService = analysisServiceBuilder({ adapter });
-  const server = createServer(
+  await startServer(
     createApp({
       analysisService,
       ready: adapter.ready,
       concurrency: config.concurrency,
     }),
+    {
+      port: config.port,
+      host: config.bindHost,
+      requestTimeout: HTTP_LIMITS.requestTimeout,
+    },
+    {
+      onError: () => {
+        process.stderr.write("detector_unavailable\n");
+        process.exitCode = 1;
+      },
+      onShutdownComplete: () => {
+        process.exitCode = 0;
+      },
+      onShutdownTimeout: () => {
+        process.stderr.write("detector_unavailable\n");
+        process.exitCode = 1;
+      },
+    },
   );
-  server.requestTimeout = HTTP_LIMITS.requestTimeout;
-  server.on("error", () => {
-    process.stderr.write("detector_unavailable\n");
-    process.exitCode = 1;
-  });
-  const shutdown = (): void => {
-    server.close(() => {
-      process.exitCode = 0;
-    });
-  };
-  process.once("SIGTERM", shutdown);
-  process.once("SIGINT", shutdown);
-  await new Promise<void>((resolve, reject) => {
-    const startupError = (error: Error): void => reject(error);
-    server.once("error", startupError);
-    server.once("listening", () => {
-      server.off("error", startupError);
-      resolve();
-    });
-    server.listen(config.port, config.bindHost);
-  });
 } catch {
   process.stderr.write("detector_unavailable\n");
   process.exitCode = 1;

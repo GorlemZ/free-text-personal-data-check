@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import { parsePort } from "@pagopa/detector-http";
 
 export interface HttpConfig {
   readonly port: number;
@@ -16,7 +17,7 @@ export function readHttpConfig(
   environment: NodeJS.ProcessEnv = process.env,
 ): HttpConfig {
   return {
-    port: Number(environment.PORT ?? 8000),
+    port: parsePort(environment.PORT),
     host: environment.BIND_HOST ?? "127.0.0.1",
     concurrency: positiveInteger(
       environment.ANALYZER_CONCURRENCY ?? "1",

@@ -1,3 +1,4 @@
+import { createDetectorApp } from "@pagopa/detector-http";
 import type { RequestListener } from "node:http";
 import type { AnalysisService } from "./services/analysisService.js";
 import type { Readiness } from "./model/contracts.js";
@@ -24,11 +25,9 @@ export function createApp(deps: AppDependencies): RequestListener {
     createAdmission(deps.concurrency),
   );
   const health = createHealthRouter(deps.ready);
-  return (req, res) => {
-    if (req.method === "GET" && req.url === "/health/ready")
-      return health(req, res);
-    if (req.method === "POST" && req.url === "/v1/analyze")
-      return analysis(req, res);
-    reply(res, 404, { code: "not_found" });
-  };
+  return createDetectorApp({
+    health,
+    analyze: analysis,
+    notFound: (_req, res) => reply(res, 404, { code: "not_found" }),
+  });
 }

@@ -60,14 +60,15 @@ const boundaries = {
     "env.useBrowserCache = false",
   ],
   "poc-horizon/src/index.ts": [
-    "server.requestTimeout = HTTP_LIMITS.requestTimeout",
     "process.exitCode = 1",
     "process.exitCode = 0",
+    "process.exitCode = 1",
     "process.exitCode = 1",
   ],
   "poc-rizzo/src/index.ts": [
     "process.exitCode = 1",
     "process.exitCode = 0",
+    "process.exitCode = 1",
     "process.exitCode = 1",
   ],
   "poc-rizzo/src/adapters/transformersAdapter.ts": [

@@ -14,12 +14,9 @@ for (const mode of ["defaults", "port-zero", "warmup-failure"]) {
       globalThis.trace.push('create');
       return () => {};
     }`;
-      const transport = `import { EventEmitter } from 'node:events';
-      export function createServer() {
-        const server = new EventEmitter();
-        server.listen = (port, host) => { globalThis.trace.push(['listen', port, host]); queueMicrotask(() => server.emit('listening')); };
-        server.close = done => done();
-        return server;
+      const transport = `export async function startServer(listener, config) {
+        if (typeof listener !== 'function') throw Error('missing listener');
+        globalThis.trace.push(['startServer', config.port, config.host]);
       }`;
       const detector = `export async function transformersAdapterBuilder() {
       globalThis.trace.push('warmup');
@@ -33,13 +30,13 @@ for (const mode of ["defaults", "port-zero", "warmup-failure"]) {
       delete process.env.BIND_HOST;
       ${mode === "port-zero" ? "process.env.PORT = '0';" : "delete process.env.PORT;"}
       registerHooks({ resolve(specifier, context, next) {
-        if (context.parentURL === ${JSON.stringify(indexURL)} && specifier === 'node:http') return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(transport))}, shortCircuit: true };
+        if (context.parentURL === ${JSON.stringify(indexURL)} && specifier === '@pagopa/detector-http') return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(transport))}, shortCircuit: true };
         if (context.parentURL === ${JSON.stringify(indexURL)} && specifier === './app.js') return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(app))}, shortCircuit: true };
         if (context.parentURL === ${JSON.stringify(indexURL)} && specifier === './adapters/transformersAdapter.js') return { url: ${JSON.stringify("data:text/javascript," + encodeURIComponent(detector))}, shortCircuit: true };
         return next(specifier, context);
       } });
       process.on('exit', () => {
-        assert.deepEqual(globalThis.trace, ${JSON.stringify(mode === "warmup-failure" ? ["warmup"] : ["warmup", "warmed", "create", ["listen", mode === "port-zero" ? 0 : 8000, "127.0.0.1"]])});
+        assert.deepEqual(globalThis.trace, ${JSON.stringify(mode === "warmup-failure" ? ["warmup"] : ["warmup", "warmed", "create", ["startServer", mode === "port-zero" ? 0 : 8000, "127.0.0.1"]])});
       });
     `;
       const result = child("", cwd, [

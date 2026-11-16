@@ -58,7 +58,7 @@ export async function transformersAdapterBuilder(options: ModelOptions = {}) {
   )
     throw new TypeError("INVALID_TOKEN_BUDGET");
   const infer = await initializeModel(options);
-  return { infer };
+  return { infer, ready: () => true };
 }
 export type TransformersAdapter = ReturnType<typeof transformersAdapterBuilder>;
 

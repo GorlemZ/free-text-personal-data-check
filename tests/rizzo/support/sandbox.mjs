@@ -41,6 +41,12 @@ export async function sandbox(t) {
   await cp(join(root, "dist"), join(pkg, "dist"), { recursive: true });
   await cp(join(root, "package.json"), join(pkg, "package.json"));
   await mkdir(join(pkg, "node_modules/@huggingface"), { recursive: true });
+  await mkdir(join(pkg, "node_modules/@pagopa"), { recursive: true });
+  await symlink(
+    await realpath(join(root, "../packages/detector-http")),
+    join(pkg, "node_modules/@pagopa/detector-http"),
+    "dir",
+  );
   for (const name of ["@huggingface/transformers", "p-limit", "raw-body"])
     await symlink(
       await realpath(join(root, "node_modules", name)),
