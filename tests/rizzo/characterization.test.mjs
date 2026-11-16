@@ -86,7 +86,7 @@ test("field-local preflight is sequential, not global, and late failure returns 
   ]);
 });
 
-test("configured requests run concurrently without waiting; HTTP framing and timeout defaults remain Node-owned", async (t) => {
+test("configured requests run concurrently and responses use Express framing", async (t) => {
   let entered = 0;
   let release;
   const held = new Promise((resolve) => {
@@ -125,8 +125,9 @@ test("configured requests run concurrently without waiting; HTTP framing and tim
       response.headers.get("content-type"),
       "application/json; charset=utf-8",
     );
-    assert.equal(response.headers.get("content-length"), null);
-    assert.equal(response.headers.get("transfer-encoding"), "chunked");
+    assert.match(response.headers.get("content-length") ?? "", /^\d+$/);
+    assert.equal(response.headers.get("x-content-type-options"), null);
+    assert.equal(response.headers.get("transfer-encoding"), null);
     assert.deepEqual(await response.json(), {
       verdict: "accepted",
       findings: [],
@@ -136,7 +137,7 @@ test("configured requests run concurrently without waiting; HTTP framing and tim
     { fieldId: "x", text: "x".repeat(1024 * 1024) },
   ]);
   assert.equal(large.status, 413);
-  assert.equal(large.headers.get("connection"), "close");
+  assert.equal(large.headers.get("connection"), "keep-alive");
   assert.deepEqual(await large.json(), { code: "body_too_large" });
 });
 

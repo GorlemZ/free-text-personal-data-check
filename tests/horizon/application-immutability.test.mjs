@@ -56,7 +56,7 @@ const boundaries = {
   "poc-horizon/src/adapters/transformersAdapter.ts": [
     "env.allowRemoteModels = false",
     "env.allowLocalModels = true",
-    'env.localModelPath = MODEL_CONFIG.root + "/"',
+    "env.localModelPath = MODEL_CONFIG.root",
     "env.useBrowserCache = false",
   ],
   "poc-horizon/src/index.ts": [
@@ -117,16 +117,10 @@ test("all runtime and CLI first-party sources: no application-owned mutable accu
     );
     for (const file of walk(resolve(root, `poc-${engine}/src`)))
       assert.ok(graph.has(file), `source not covered by active graph: ${file}`);
-    const http = fs.readFileSync(
-      resolve(root, `poc-${engine}/src/utilities/http.ts`),
-      "utf8",
-    );
-    assert.match(http, /from ["']raw-body["']/);
-    assert.equal(
-      JSON.parse(fs.readFileSync(resolve(root, `poc-${engine}/package.json`)))
-        .dependencies["raw-body"],
-      "2.5.2",
-    );
+    const dependencies = JSON.parse(
+      fs.readFileSync(resolve(root, `poc-${engine}/package.json`)),
+    ).dependencies;
+    assert.equal(dependencies["raw-body"], undefined);
   }
   const inventory = Object.fromEntries(
     [...graph].map(([file, writes]) => [relative(root, file), writes]),
@@ -137,7 +131,7 @@ test("all runtime and CLI first-party sources: no application-owned mutable accu
         inventory,
         boundaries,
         externalState: [
-          "raw-body buffering",
+          "Express/body-parser buffering",
           "p-limit admission",
           "Node streams/server/process/filesystem",
           "SDK configuration/cache/inference",

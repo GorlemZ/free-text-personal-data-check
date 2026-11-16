@@ -1,14 +1,16 @@
-import type { ServerResponse } from "node:http";
-import { send } from "../utilities/http.js";
+import type { Response } from "express";
 import { detectorUnavailable } from "../utilities/errorMappers.js";
 
 export type Ready = () => unknown | Promise<unknown>;
 export async function healthRouter(
-  response: ServerResponse,
+  response: Response,
   ready: Ready,
 ): Promise<void> {
   try {
-    if (await ready()) return send(response, 200, { status: "ready" });
+    if (await ready()) {
+      response.status(200).send({ status: "ready" });
+      return;
+    }
   } catch {}
-  return send(response, 503, detectorUnavailable());
+  response.status(503).send(detectorUnavailable());
 }

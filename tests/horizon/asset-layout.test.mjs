@@ -97,7 +97,7 @@ for (const { name, diagnostic } of mutants) {
             let from;
             let to;
             if (mutant === 'detector-models' && url === detectorUrl) {
-              from = 'MODEL_CONFIG.root + "/"'; to = 'MODEL_CONFIG.root + "/wrong/"';
+              from = 'env.localModelPath = MODEL_CONFIG.root;'; to = 'env.localModelPath = MODEL_CONFIG.root + "/wrong/";';
             }
             if (mutant === 'cli-models' && url === prefetchUrl) {
               from = 'const root = MODEL_CONFIG.root;'; to = "const root = MODEL_CONFIG.root + '/wrong';";

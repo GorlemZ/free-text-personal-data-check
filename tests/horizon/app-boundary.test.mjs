@@ -48,8 +48,35 @@ test("both PoCs delegate method and path matching to a router framework", () => 
     assert.match(source, /from ["']@pagopa\/detector-http["']/, relative);
     assert.doesNotMatch(source, /request\.method|req\.method/, relative);
     assert.doesNotMatch(source, /request\.url|req\.url/, relative);
-    assert.doesNotMatch(source, /express\.json\(/, relative);
   }
+});
+
+test("Horizon uses standard JSON parsing, Zod validation and framework serialization", () => {
+  const shared = readFileSync(
+    new URL("../../packages/detector-http/src/app.ts", import.meta.url),
+    "utf8",
+  );
+  const app = readFileSync(
+    new URL("../../poc-horizon/src/app.ts", import.meta.url),
+    "utf8",
+  );
+  const router = readFileSync(
+    new URL("../../poc-horizon/src/routers/analysisRouter.ts", import.meta.url),
+    "utf8",
+  );
+  const validator = readFileSync(
+    new URL(
+      "../../poc-horizon/src/validation/analyzeRequest.ts",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(shared, /express\.json\(/);
+  assert.match(app, /jsonBodyLimitBytes:\s*HTTP_LIMITS\.maxBodyBytes/);
+  assert.match(validator, /\.safeParse\(/);
+  assert.match(router, /res\.status\([^)]*\)\.send\(/);
+  assert.doesNotMatch(router, /readBody|reply\(/);
+  assert.doesNotMatch(validator, /JSON\.parse/);
 });
 
 test("both composition roots delegate server lifecycle to the shared infrastructure package", () => {

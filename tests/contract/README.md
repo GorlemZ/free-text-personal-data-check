@@ -3,7 +3,7 @@
 ## Richiesta e risposta
 
 - `GET /health/ready`: `200 {"status":"ready"}` soltanto quando il detector è pronto; altrimenti `503 {"code":"detector_unavailable"}`. Un processo che fallisce prima del bind non espone un endpoint pronto.
-- `POST /v1/analyze`, `Content-Type: application/json` (case-insensitive, parametri consentiti), JSON UTF-8 rigoroso.
+- `POST /v1/analyze`, `Content-Type: application/json` (case-insensitive, parametri consentiti). Horizon e Rizzo usano la decodifica UTF-8 standard di Express, che sostituisce sequenze invalide; Presidio conserva la decodifica UTF-8 rigorosa.
 - Metodo e path devono coincidere esattamente: query string, slash finale, path percent-encoded alternativo e metodi diversi ricevono 404, senza redirect.
 
 ```json
@@ -48,10 +48,10 @@ Ogni coppia vietata viene restituita una volta; ordine lessicografico per unità
 | 404  | `{"code":"not_found"}`            | Metodo/path non ammessi                                  |
 | 400  | `{"code":"invalid_request"}`      | Content-Type non ammesso                                 |
 | 413  | `{"code":"body_too_large"}`       | Body oltre 1 MiB                                         |
-| 400  | `{"code":"invalid_request"}`      | UTF-8, JSON, Unicode o schema invalido                   |
+| 400  | `{"code":"invalid_request"}`      | JSON, Unicode risultante o schema invalido               |
 | 503  | `{"code":"detector_unavailable"}` | Detector indisponibile, output invalido o limite tecnico |
 
-La tabella è nell'ordine di precedenza. Si valida l'intera richiesta prima dell'inferenza: input invalido resta 400 anche quando il detector non è disponibile. Gli errori non espongono verdetti o finding parziali. Un limite token può essere superato anche sotto 50 parole e produce 503. Horizon/Rizzo validano prima dell’ammissione: una richiesta valida eccedente la capacità configurata riceve 503 senza attendere o eseguire inferenza; health non occupa capacità. Il budget include token speciali ed è verificato per campo sequenzialmente, senza risultati parziali.
+La tabella è nell'ordine di precedenza. In Presidio una sequenza UTF-8 invalida rientra nel 400; in Horizon e Rizzo può diventare replacement character e la richiesta prosegue se JSON e schema risultanti sono validi. Si valida l'intera richiesta prima dell'inferenza: input invalido resta 400 anche quando il detector non è disponibile. Gli errori non espongono verdetti o finding parziali. Un limite token può essere superato anche sotto 50 parole e produce 503. Horizon/Rizzo validano prima dell’ammissione: una richiesta valida eccedente la capacità configurata riceve 503 senza attendere o eseguire inferenza; health non occupa capacità. Il budget include token speciali ed è verificato per campo sequenzialmente, senza risultati parziali.
 
 ## Semantica e limiti
 

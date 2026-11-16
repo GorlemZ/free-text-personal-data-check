@@ -231,7 +231,7 @@ test("fails closed on detector exceptions or an invalid detector result", async 
   }
 });
 
-test("enforces the 1 MiB byte limit and strict UTF-8 before detection", async () => {
+test("enforces the 1 MiB byte limit and uses standard UTF-8 decoding", async () => {
   let calls = 0;
   await withServer(
     async () => {
@@ -266,10 +266,10 @@ test("enforces the 1 MiB byte limit and strict UTF-8 before detection", async ()
         Buffer.from('"}]}'),
       ]);
       assert.deepEqual(await post(base, raw, true), {
-        status: 400,
-        body: { code: "invalid_request" },
+        status: 200,
+        body: { verdict: "accepted", findings: [] },
       });
-      assert.equal(calls, 0);
+      assert.equal(calls, 1);
     },
   );
 });

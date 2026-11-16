@@ -392,7 +392,7 @@ test("duplicate IDs, invalid categories and too many words are 400", async () =>
     assert.ok(!text.includes("SENTINELSECRET"));
   }
 });
-test("invalid UTF-8 fails before inference without echo", async () => {
+test("standard JSON decoding replaces invalid UTF-8 from the controlled caller", async () => {
   const response = await fetch(url + "/v1/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -402,8 +402,11 @@ test("invalid UTF-8 fails before inference without echo", async () => {
       Buffer.from('","allowedCategories":[]}]}'),
     ]),
   });
-  assert.equal(response.status, 400);
-  assert.deepEqual(await response.json(), { code: "invalid_request" });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    verdict: "accepted",
+    findings: [],
+  });
 });
 
 test("second-field error is fail-closed without a partial verdict", async () => {

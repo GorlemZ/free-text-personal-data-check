@@ -1,54 +1,41 @@
+import { z } from "zod";
 import { isCategory } from "../model/categories.js";
-import { isRecord } from "../model/contracts.js";
 import type { Field } from "../model/contracts.js";
 import { HTTP_LIMITS } from "../config/config.js";
 import { InvalidRequest } from "../model/errors.js";
 
-const invalid: () => never = () => {
-  throw new InvalidRequest();
-};
+const categorySchema = z.custom<Field["allowedCategories"][number]>(isCategory);
+const isWellFormed = (value: string): boolean => value.isWellFormed();
+const FieldSchema = z
+  .object({
+    fieldId: z
+      .string()
+      .min(1)
+      .max(HTTP_LIMITS.maxFieldIdUnits)
+      .refine(isWellFormed),
+    text: z
+      .string()
+      .refine(isWellFormed)
+      .refine(
+        (value) =>
+          value.split(/\p{White_Space}+/u).filter(Boolean).length <=
+          HTTP_LIMITS.maxWords,
+      ),
+    allowedCategories: z.array(categorySchema).default([]),
+  })
+  .strict();
+const AnalyzeRequestSchema = z
+  .object({
+    fields: z.array(FieldSchema).min(1).max(HTTP_LIMITS.maxFields),
+  })
+  .strict()
+  .refine(
+    ({ fields }) =>
+      new Set(fields.map(({ fieldId }) => fieldId)).size === fields.length,
+  );
 
-export function validateAnalyzeRequest(body: string): readonly Field[] {
-  const payload: unknown = (() => {
-    try {
-      return JSON.parse(body) as unknown;
-    } catch {
-      return invalid();
-    }
-  })();
-  if (
-    !isRecord(payload) ||
-    Object.keys(payload).join() !== "fields" ||
-    !Array.isArray(payload.fields) ||
-    payload.fields.length < 1 ||
-    payload.fields.length > HTTP_LIMITS.maxFields
-  )
-    invalid();
-  const fields = payload.fields.map((field: unknown): Field => {
-    if (
-      !isRecord(field) ||
-      Object.keys(field).some(
-        (key) => !["allowedCategories", "fieldId", "text"].includes(key),
-      ) ||
-      typeof field.fieldId !== "string" ||
-      field.fieldId.length < 1 ||
-      field.fieldId.length > HTTP_LIMITS.maxFieldIdUnits ||
-      !field.fieldId.isWellFormed() ||
-      typeof field.text !== "string" ||
-      !field.text.isWellFormed() ||
-      field.text.split(/\p{White_Space}+/u).filter(Boolean).length >
-        HTTP_LIMITS.maxWords
-    )
-      invalid();
-    const allowed = "allowedCategories" in field ? field.allowedCategories : [];
-    if (!Array.isArray(allowed) || !allowed.every(isCategory)) invalid();
-    return {
-      fieldId: field.fieldId,
-      text: field.text,
-      allowedCategories: allowed,
-    };
-  });
-  if (new Set(fields.map((field) => field.fieldId)).size !== fields.length)
-    invalid();
-  return fields;
+export function validateAnalyzeRequest(payload: unknown): readonly Field[] {
+  const parsed = AnalyzeRequestSchema.safeParse(payload);
+  if (!parsed.success) throw new InvalidRequest();
+  return parsed.data.fields;
 }

@@ -2203,6 +2203,22 @@
       "expected": {
         "code": "invalid_request"
       },
+      "expectedByEngine": {
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        }
+      },
       "body_hex": "7b226669656c6473223a5b7b226669656c644964223a2278222c2274657874223a22ff227d5d7d",
       "realSmoke": true
     },

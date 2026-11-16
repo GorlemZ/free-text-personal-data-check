@@ -63,6 +63,7 @@ test("strict TypeScript layout and dist-only commands cover every production mod
     "TEST_COMMAND_REQUIRES_BUILD: centralized harness must work without existing dist",
   );
   assert.deepEqual(devDependencies, {
+    "@types/express": "4.17.21",
     "@types/node": "24.10.1",
     typescript: "5.9.3",
   });

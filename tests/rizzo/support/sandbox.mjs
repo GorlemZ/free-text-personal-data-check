@@ -47,7 +47,7 @@ export async function sandbox(t) {
     join(pkg, "node_modules/@pagopa/detector-http"),
     "dir",
   );
-  for (const name of ["@huggingface/transformers", "p-limit", "raw-body"])
+  for (const name of ["@huggingface/transformers", "express", "p-limit", "zod"])
     await symlink(
       await realpath(join(root, "node_modules", name)),
       join(pkg, "node_modules", name),

@@ -103,9 +103,7 @@ test("real compiler enforces closed readonly classification DTOs without offsets
 test("HTTP boundary normalizes omission only and rejects null without changing original text", async () => {
   const text = "  🙂e\u0301\t";
   assert.deepEqual(
-    validateAnalyzeRequest(
-      JSON.stringify({ fields: [{ fieldId: "a", text }] }),
-    ),
+    validateAnalyzeRequest({ fields: [{ fieldId: "a", text }] }),
     [{ fieldId: "a", text, allowedCategories: [] }],
   );
   const invalidFields = [
@@ -116,9 +114,7 @@ test("HTTP boundary normalizes omission only and rejects null without changing o
     { fieldId: "a", text, allowedCategories: [null] },
   ];
   for (const field of invalidFields) {
-    assert.throws(() =>
-      validateAnalyzeRequest(JSON.stringify({ fields: [field] })),
-    );
+    assert.throws(() => validateAnalyzeRequest({ fields: [field] }));
   }
   const calls = [];
   const server = createServer(

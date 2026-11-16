@@ -5,13 +5,15 @@ import { validateAnalyzeRequest } from "../../poc-horizon/dist/validation/analyz
 test("standard JSON last-value-wins validates only the resulting closed schema", () => {
   assert.deepEqual(
     validateAnalyzeRequest(
-      '{"fields":null,"fields":[{"fieldId":null,"fieldId":"a","text":"\\ud800","text":"ok"}]}',
+      JSON.parse(
+        '{"fields":null,"fields":[{"fieldId":null,"fieldId":"a","text":"\\ud800","text":"ok"}]}',
+      ),
     ),
     [{ fieldId: "a", text: "ok", allowedCategories: [] }],
   );
   assert.throws(() =>
     validateAnalyzeRequest(
-      '{"fields":[{"fieldId":"a","text":"ok","text":null}]}',
+      JSON.parse('{"fields":[{"fieldId":"a","text":"ok","text":null}]}'),
     ),
   );
 });
@@ -24,11 +26,13 @@ test("resulting Unicode strings and repeated fieldIds remain invalid", () => {
       { fieldId: "a", text: "" },
     ],
   ]) {
-    assert.throws(() => validateAnalyzeRequest(JSON.stringify({ fields })));
+    assert.throws(() => validateAnalyzeRequest({ fields }));
   }
   assert.equal(
     validateAnalyzeRequest(
-      '{"fields":[{"fieldId":"\\ud83d\\ude42","text":"\\ud83d\\ude42"}]}',
+      JSON.parse(
+        '{"fields":[{"fieldId":"\\ud83d\\ude42","text":"\\ud83d\\ude42"}]}',
+      ),
     )[0].text,
     "🙂",
   );

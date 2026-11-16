@@ -16,7 +16,7 @@ pnpm --filter poc-horizon-pii-check start
 
 ## Confine HTTP e composizione
 
-- `createApp({ analysisService, ready, concurrency? })` in `src/app.ts` restituisce un `RequestListener`: servizio e readiness sono obbligatori e separati, senza `listen` o dipendenze modello di default. Il dispatch di metodo/percorso e il fallback 404 sono montati dal package condiviso `@pagopa/detector-http` su Express con strict routing e senza `express.json()`: lo stream resta intatto fino al reader rigoroso del servizio.
+- `createApp({ analysisService, ready, concurrency? })` in `src/app.ts` restituisce un `RequestListener`: servizio e readiness sono obbligatori e separati, senza `listen` o dipendenze modello di default. Il dispatch di metodo/percorso, il parser `express.json()` limitato a 1 MiB e il fallback 404 sono montati dal package condiviso `@pagopa/detector-http`; il router riceve `req.body`, lo valida con Zod e risponde tramite `res.status(...).send(...)`.
 - `src/index.ts` è il solo composition root: legge config, attende il modello, costruisce service e app e delega listen, segnali e shutdown bounded a `@pagopa/detector-http`. La porta è validata fail-fast; il modello è pronto prima dell'apertura della porta.
 - `analysisServiceBuilder({ adapter, recognize?, threshold? })` espone `analyze(fields) -> readonly FieldAnalysis[]`. L'adapter è direttamente iniettato; non serve un wrapper model pass-through. Mapping, interpretazione delle regole e policy sono funzioni pure, senza framework DI.
 - Ogni campo completa **budget → inferenza → mapping/soglia → regole integrative → policy** prima del successivo. Un errore impedisce ogni lavoro successivo e produce errore tecnico senza risultati parziali. Un campo tardivo fuori budget può quindi invalidare lavoro già svolto sui precedenti.
@@ -76,16 +76,16 @@ Gli helper storici di sola forma CF, carte e telefoni e l'alias `italian-phone` 
 
 ## Confine HTTP, parsing standard e stato
 
-Il buffering è delegato alla dipendenza diretta esatta `raw-body@2.5.2` in modalità
-Buffer, con limite di **1 MiB sui byte effettivamente ricevuti**, senza fidarsi di
-`Content-Length` né anticipare l’errore sulla sola lunghezza dichiarata. Il decoder
-UTF-8 resta `fatal: true, ignoreBOM: true`: byte invalidi/troncati e BOM iniziale
-sono rifiutati (400); il superamento byte resta 413. Il framing malformato, incluso
-`Content-Length` non valido, è gestito da Node prima del listener applicativo.
-Horizon drena il body rifiutato e conserva la connessione; Rizzo drena e mantiene
-`Connection: close` sul 413. Content-type e routing precedono la lettura del body;
-schema precede ammissione/inferenza. Una disconnessione durante il body non avvia
-inferenza; quella durante inferenza non libera anticipatamente la capacità.
+Horizon usa il parser JSON standard Express con limite di **1 MiB**. Il parser
+gestisce media type, buffering, decodifica e `JSON.parse`; il router riceve un valore
+non fidato e `AnalyzeRequestSchema.safeParse(req.body)` applica schema chiuso,
+limiti e normalizzazione dell’allowlist. JSON malformato resta 400 e il superamento
+del limite resta 413. Per il chiamante M2M controllato non sono più requisiti del
+boundary la decodifica UTF-8 `fatal`, il rifiuto del BOM, il draining applicativo e
+la precedenza custom degli errori byte-level: il BOM iniziale è accettato e sequenze
+UTF-8 invalide dentro stringhe possono essere sostituite dal decoder standard.
+Routing e parser precedono schema, ammissione e inferenza; una disconnessione durante
+inferenza non libera anticipatamente la capacità.
 
 **Differenza deliberata:** `JSON.parse` standard sostituisce gli scanner custom.
 Chiavi JSON duplicate (anche con escape equivalenti) usano **l’ultimo valore**;
@@ -99,7 +99,7 @@ l’harness condiviso dichiara le tre aspettative last-wins per i soli motori No
 Il codice applicativo usa valori readonly, `map`/`every`, Set costruiti senza
 `.add` e ordinamento non mutante. Il controllo AST copre tutti gli entrypoint
 runtime e CLI e i relativi import locali; non certifica immutabilità dell’intero
-processo. Stato di buffer e scheduling appartiene rispettivamente a `raw-body`
-e `p-limit`; stream, socket, filesystem, processo e SDK restano confini mutabili
+processo. Stato di buffer e scheduling appartiene rispettivamente al parser Express
+e a `p-limit`; stream, socket, filesystem, processo e SDK restano confini mutabili
 espliciti. Gli smoke reali non sono eseguiti dai gate sintetici: nessuna prova di
 qualità del modello è implicita in queste verifiche.

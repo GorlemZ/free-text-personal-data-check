@@ -21,7 +21,7 @@ pnpm --filter node-rizzo-pii-spike start
 ## Confine HTTP e composizione
 
 - `src/index.ts` legge la configurazione, attende l'adapter, costruisce model detection service, analysis service e app, quindi delega listen, segnali e shutdown bounded a `@pagopa/detector-http`.
-- `src/app.ts` monta health, analysis e fallback tramite il router Express condiviso. Non installa parser JSON: il body reader Rizzo conserva limite sui byte effettivi, UTF-8 fatal, drain e validazione prima di readiness/inferenza.
+- `src/app.ts` monta health, analysis e fallback tramite il router Express condiviso e abilita `express.json()` con limite 1 MiB. Il router valida `req.body` con Zod prima di readiness e inferenza.
 - Router, service, interprete del modello e adapter restano separati. Dopo `model/modelInterpretation.ts`, il dominio lavora con `ReadonlySet<Category>`; formato SDK e label native non entrano nella policy.
 - Il package standalone non simula autenticazione o middleware di audit/context del monorepo: questi dipendono dal contratto service-to-service del package Interop finale.
 
@@ -92,16 +92,14 @@ Sorgente `rizzoaiacademy/rizzo-pii-0.3B`; export community `andrearuffini/local-
 
 ## Confine HTTP, parsing standard e stato
 
-Il buffering è delegato alla dipendenza diretta esatta `raw-body@2.5.2` in modalità
-Buffer, con limite di **1 MiB sui byte effettivamente ricevuti**, senza fidarsi di
-`Content-Length` né anticipare l’errore sulla sola lunghezza dichiarata. Il decoder
-UTF-8 resta `fatal: true, ignoreBOM: true`: byte invalidi/troncati e BOM iniziale
-sono rifiutati (400); il superamento byte resta 413. Il framing malformato, incluso
-`Content-Length` non valido, è gestito da Node prima del listener applicativo.
-Horizon drena il body rifiutato e conserva la connessione; Rizzo drena e mantiene
-`Connection: close` sul 413. Content-type e routing precedono la lettura del body;
-schema precede ammissione/inferenza. Una disconnessione durante il body non avvia
-inferenza; quella durante inferenza non libera anticipatamente la capacità.
+Il buffering e il parsing sono delegati a `express.json()` con limite di **1 MiB**.
+Il router riceve un valore non fidato e usa `AnalyzeRequestSchema.safeParse(req.body)`
+per applicare schema chiuso, massimo 10 campi, massimo 50 parole, identificativi
+unici e categorie note. JSON malformato produce 400 e il superamento del limite
+produce 413 senza esporre dettagli del parser. Il BOM iniziale viene accettato;
+byte UTF-8 invalidi possono essere decodificati come replacement character secondo
+il comportamento standard. Il framing malformato resta responsabilità di Node.
+Schema e normalizzazione precedono ammissione, readiness e inferenza.
 
 **Differenza deliberata:** `JSON.parse` standard sostituisce gli scanner custom.
 Chiavi JSON duplicate (anche con escape equivalenti) usano **l’ultimo valore**;
@@ -115,7 +113,7 @@ l’harness condiviso dichiara le tre aspettative last-wins per i soli motori No
 Il codice applicativo usa valori readonly, `map`/`every`, Set costruiti senza
 `.add` e ordinamento non mutante. Il controllo AST copre tutti gli entrypoint
 runtime e CLI e i relativi import locali; non certifica immutabilità dell’intero
-processo. Stato di buffer e scheduling appartiene rispettivamente a `raw-body`
+processo. Stato di buffer e scheduling appartiene rispettivamente a Express/body-parser
 e `p-limit`; stream, socket, filesystem, processo e SDK restano confini mutabili
 espliciti. Gli smoke reali non sono eseguiti dai gate sintetici: nessuna prova di
 qualità del modello è implicita in queste verifiche.

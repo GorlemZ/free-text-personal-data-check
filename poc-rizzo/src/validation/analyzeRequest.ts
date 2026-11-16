@@ -1,56 +1,40 @@
+import { z } from "zod";
+import { HTTP_LIMITS } from "../config/config.js";
 import { CATEGORIES } from "../model/categories.js";
-import type { Category, Field } from "../model/contracts.js";
+import type { Field } from "../model/contracts.js";
 
-const knownCategories: ReadonlySet<unknown> = new Set(CATEGORIES);
-const objectWithKeys = (
-  value: unknown,
-  keys: readonly string[],
-): value is Record<string, unknown> =>
-  value !== null &&
-  typeof value === "object" &&
-  !Array.isArray(value) &&
-  Object.keys(value).every((key) => keys.includes(key));
-interface RawField {
-  readonly fieldId: string;
-  readonly text: string;
-  readonly allowedCategories?: readonly Category[];
-}
+const CategorySchema = z.enum(CATEGORIES);
+const isWellFormed = (value: string): boolean => value.isWellFormed();
+const FieldSchema = z
+  .object({
+    fieldId: z
+      .string()
+      .min(1)
+      .max(HTTP_LIMITS.maxFieldIdUnits)
+      .refine(isWellFormed),
+    text: z
+      .string()
+      .refine(isWellFormed)
+      .refine(
+        (value) =>
+          value.split(/\p{White_Space}+/u).filter(Boolean).length <=
+          HTTP_LIMITS.maxWords,
+      ),
+    allowedCategories: z.array(CategorySchema).default([]),
+  })
+  .strict();
 
-function validField(field: unknown): field is RawField {
-  return (
-    objectWithKeys(field, ["fieldId", "text", "allowedCategories"]) &&
-    typeof field.fieldId === "string" &&
-    field.fieldId.length > 0 &&
-    field.fieldId.length <= 128 &&
-    field.fieldId.isWellFormed() &&
-    typeof field.text === "string" &&
-    field.text.isWellFormed() &&
-    field.text.split(/\p{White_Space}+/u).filter(Boolean).length <= 50 &&
-    (!Object.hasOwn(field, "allowedCategories") ||
-      (Array.isArray(field.allowedCategories) &&
-        field.allowedCategories.every((category: unknown) =>
-          knownCategories.has(category),
-        )))
+const AnalyzeRequestSchema = z
+  .object({
+    fields: z.array(FieldSchema).min(1).max(HTTP_LIMITS.maxFields),
+  })
+  .strict()
+  .refine(
+    ({ fields }) =>
+      new Set(fields.map(({ fieldId }) => fieldId)).size === fields.length,
   );
-}
 
-export function analyzeRequest(payload: unknown): readonly Field[] | undefined {
-  if (
-    !objectWithKeys(payload, ["fields"]) ||
-    !Array.isArray(payload.fields) ||
-    payload.fields.length < 1 ||
-    payload.fields.length > 10
-  )
-    return undefined;
-  const fields: readonly unknown[] = payload.fields;
-  if (
-    !fields.every(validField) ||
-    new Set(fields.map((field) => field.fieldId)).size !== fields.length
-  )
-    return undefined;
-  return fields.map((field) => ({
-    fieldId: field.fieldId,
-    text: field.text,
-    allowedCategories: field.allowedCategories ?? [],
-  }));
+export function analyzeRequest(body: unknown): readonly Field[] | undefined {
+  const parsed = AnalyzeRequestSchema.safeParse(body);
+  return parsed.success ? parsed.data.fields : undefined;
 }

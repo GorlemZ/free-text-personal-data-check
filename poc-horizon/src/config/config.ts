@@ -1,12 +1,11 @@
 import { fileURLToPath } from "node:url";
-import { resolve } from "node:path";
 import { parsePort } from "@pagopa/detector-http";
 
 // Stable local assets, independent of cwd and source/dist directory layout.
 export const MODEL_CONFIG = Object.freeze({
   modelId: "Horizon-Labs/pii-redactor-base",
   policyVersion: "horizon-pii-redactor-base-q8-ef0eff8e-poc7-uniform9",
-  root: resolve(fileURLToPath(new URL("../../models/", import.meta.url))),
+  root: fileURLToPath(new URL("../../models/", import.meta.url)),
   manifestUrl: new URL("../../model-manifest.json", import.meta.url),
   tokenBudget: 512,
   task: "token-classification",

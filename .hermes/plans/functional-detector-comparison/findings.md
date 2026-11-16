@@ -90,3 +90,24 @@ Direzione raccomandata: partire dalla forma applicativa/error/config di Horizon,
 - Docker build/deploy includono il package workspace condiviso. Le immagini finali restano Node-only e gli smoke reali offline passano.
 - L'integrazione con API client generato, context/audit/logger/auth middleware di `pagopa-interop-commons` resta intenzionalmente al package finale nel monorepo: il repository standalone non simula autenticazione service-to-service né inventa un contratto tecnico.
 - Nessun timeout di inferenza è stato introdotto: il lifecycle abortable dell'inferenza resta aperto, perché il timeout HTTP o un `Promise.race` non liberano in modo sicuro la capacità admission.
+
+## Considerazioni differite: memoria, async, coda e multithreading
+
+- Il layer applicativo TypeScript non crea `worker_threads`, processi figli o thread pool. `p-limit` coordina Promise e limita quante operazioni vengono ammesse; non crea capacità CPU né thread.
+- HTTP e altre operazioni I/O sono asincrone sul modello event-loop/libuv. L'inferenza CPU passa invece da Transformers.js a `onnxruntime-node`: l'eventuale parallelismo reale è nel runtime nativo ONNX e nei suoi thread interni, non nel router o nel service.
+- Una Promise pendente o una coda `p-limit` non mette direttamente sotto pressione il threading dell'inferenza, ma trattiene richiesta validata, testo e memoria. Una coda assorbe burst; non aumenta il throughput sostenibile del modello e aggiunge latenza di attesa.
+- Il no-wait attuale (`activeCount + pendingCount >= concurrency`) respinge subito l'eccesso. L'alternativa da esplorare è una coda esplicitamente bounded tramite parametri separati `concurrency` e `maxPendingRequests`, con timeout di attesa, gestione della disconnessione e metriche active/pending/rejected. Mai adottare la coda interna illimitata di `p-limit` come policy implicita.
+- La profondità della coda deve derivare dal budget di latenza e da misure reali: p50/p90/p99 per richiesta da 1/5/10 campi, throughput sostenibile, CPU, RSS e responsiveness dell'event loop. La relazione concettuale è `latenza totale = attesa in coda + servizio`; la coda non modifica la capacità di servizio.
+- Da confrontare nella Phase 4: concorrenza applicativa 1/2/4 con thread ONNX di default e, se l'API pinned lo consente, con thread intra/inter-op limitati. Una singola inferenza potrebbe già usare più core; aumentare la concorrenza applicativa potrebbe causare oversubscription. Non assumere che “async” sostituisca i thread per lavoro CPU-bound.
+- Memoria da misurare come RSS/container oltre all'heap Node: pesi q8, runtime nativo, tokenizer e tensori intermedi non sono rappresentati dal solo heap JS. Separare warm-up, crescita sotto richieste ripetute e memoria trattenuta da richieste in coda.
+- Cancellazione ancora aperta: timeout HTTP o `Promise.race` non interrompono necessariamente ONNX. Il permit admission deve restare occupato finché il lavoro sottostante termina, salvo supporto verificato a una vera cancellazione.
+- Queste sono ipotesi e dimensioni d'indagine, non configurazioni approvate. L'utente ha rinviato l'attività a domani e la Phase 4 resta l'ultima attività prestazionale.
+
+## Implementazione Phase 6: boundary HTTP standard Horizon e Rizzo
+
+- Horizon e Rizzo abilitano `express.json()` nel package condiviso tramite opzione esplicita e mantengono il limite 1 MiB; entrambi hanno rimosso reader e dipendenza diretta `raw-body`.
+- `AnalyzeRequestSchema.safeParse(req.body)` sostituisce parsing e validazione manuali. Restano schema chiuso, 1–10 campi, massimo 50 parole, `fieldId` unici e categorie chiuse; l'allowlist omessa viene normalizzata a `[]`.
+- Router analysis, health e fallback Horizon serializzano oggetti con `res.status(...).send(...)`; l'errore body-parser viene mappato a 400 o 413 senza esporre dettagli.
+- Sono state rimosse da entrambi i PoC la dipendenza diretta da `raw-body` e la utility `utilities/http.ts`. Il BOM UTF-8 è accettato dal parser standard e byte UTF-8 invalidi in stringhe possono diventare replacement character, come esplicitamente accettato per il chiamante M2M controllato.
+- `X-Content-Type-Options: nosniff` resta nel contratto Horizon tramite opzione dedicata; non viene aggiunto a Rizzo. Una review indipendente aveva rilevato la regressione condivisa iniziale, poi corretta e coperta da test runtime.
+- Il model root usa direttamente `fileURLToPath(new URL("../../models/", import.meta.url))`; l'adapter non aggiunge un secondo slash.

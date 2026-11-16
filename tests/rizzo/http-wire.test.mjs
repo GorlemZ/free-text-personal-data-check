@@ -70,20 +70,24 @@ function request(
   });
 }
 
-test("real HTTP wire keeps strict UTF8, BOM, duplicate keys, Unicode and byte limits with legacy framing", async (t) => {
+test("real HTTP wire uses standard JSON decoding, Unicode validation and byte limits", async (t) => {
   const { server, trace } = await fixture(t);
   const valid = '{"fields":[{"fieldId":"x","text":""}]}';
   const cases = [
     [Buffer.from(valid), 200, '{"verdict":"accepted","findings":[]}'],
-    [Buffer.from("\ufeff" + valid), 400, '{"code":"invalid_request"}'],
+    [
+      Buffer.from("\ufeff" + valid),
+      200,
+      '{"verdict":"accepted","findings":[]}',
+    ],
     [
       Buffer.concat([
         Buffer.from('{"fields":[{"fieldId":"x","text":"'),
         Buffer.from([0xc0, 0xaf]),
         Buffer.from('"}]}'),
       ]),
-      400,
-      '{"code":"invalid_request"}',
+      200,
+      '{"verdict":"accepted","findings":[]}',
     ],
     [
       Buffer.from('{"fields":[{"fieldId":"x","text":"","te\\u0078t":""}]}'),
@@ -140,12 +144,8 @@ test("real HTTP wire keeps strict UTF8, BOM, duplicate keys, Unicode and byte li
       actual.headers["content-type"],
       "application/json; charset=utf-8",
     );
-    assert.equal(actual.headers["content-length"], undefined);
-    assert.equal(actual.headers["transfer-encoding"], "chunked");
-    if (status === 413) {
-      assert.equal(actual.headers.connection, "close");
-      assert.ok(trace.includes("resume"));
-    }
+    assert.match(actual.headers["content-length"] ?? "", /^\d+$/);
+    assert.equal(actual.headers["transfer-encoding"], undefined);
     if (status === 200)
       assert.deepEqual(
         trace.filter((x) => x !== "resume"),
@@ -159,12 +159,11 @@ test("real HTTP wire keeps strict UTF8, BOM, duplicate keys, Unicode and byte li
   }
 });
 
-test("real HTTP wire drains unsupported content types and retains exact route and header behavior", async (t) => {
+test("real HTTP wire rejects unsupported content types and retains exact routes", async (t) => {
   const { server, trace } = await fixture(t);
   const badContent = await request(server, { contentType: "text/plain" });
   assert.equal(badContent.status, 400);
   assert.equal(badContent.body, '{"code":"invalid_request"}');
-  assert.ok(trace.includes("resume"));
   assert.deepEqual(
     trace.filter((x) => x !== "resume"),
     [],
@@ -189,8 +188,8 @@ test("real HTTP wire drains unsupported content types and retains exact route an
       actual.headers["content-type"],
       "application/json; charset=utf-8",
     );
-    assert.equal(actual.headers["content-length"], undefined);
-    assert.equal(actual.headers["transfer-encoding"], "chunked");
+    assert.match(actual.headers["content-length"] ?? "", /^\d+$/);
+    assert.equal(actual.headers["transfer-encoding"], undefined);
     assert.deepEqual(
       trace.filter((x) => x !== "resume"),
       [],

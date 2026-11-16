@@ -18,11 +18,18 @@ La consegna funzionale è una tabella comparativa di sensibilità e correttezza,
 Il goal sopra è vincolante. I dettagli iniziali vengono concordati con al massimo 10 domande, una alla volta. A conclusione: sintesi, unica review avversariale indipendente e approvazione esplicita dell'utente. Il requisito approvato diventa intoccabile fino al suo raggiungimento: nessun abbassamento di soglie, esclusione opportunistica di casi o cambio di semantica per dichiarare successo. Eventuali impossibilità vanno riportate come blocchi, non risolte cambiando il requisito.
 
 ## Current Phase
+Phase 6 completata per Horizon e Rizzo; Phase 4 (performance, memoria, coda e multithreading) resta pending e rinviata a domani su richiesta dell'utente.
 ### Phase 5: Refactoring architetturale dei PoC verso la forma Interop
 **Status:** complete
 Refactoring autorizzato sul branch `refactor/horizon-typescript`. Per il repository PoC standalone: sostituire il dispatch manuale con un router framework senza parser JSON implicito; mantenere stream/body reader rigoroso, contratto HTTP e admission; rendere `index.ts` un composition root sottile tramite lifecycle server dedicato; validare la config fail-fast; separare l'interpretazione dell'output Horizon dal catalogo domain; mantenere tipi validati nel dominio Rizzo; rendere esplicita e leggibile l'orchestrazione sequenziale. Autenticazione service-to-service, middleware `pagopa-interop-commons` e API client generato restano fuori dal repository standalone e richiedono il package finale nel monorepo. Non introdurre un timeout fittizio con `Promise.race`: la cancellabilità reale dell'inferenza resta una decisione separata.
 
 Gate: RED/GREEN mirati per routing/config/readiness/layering, suite complete di entrambi i PoC, `pnpm check`, `git diff --check`, smoke HTTP e review avversariale del diff. Nessun benchmark prestazionale o modifica della detection.
+
+### Phase 6: Parsing e serializzazione HTTP standard — Horizon e Rizzo
+**Status:** complete
+Su richiesta dell'utente, sostituire nei boundary Horizon e Rizzo il reader/decoder/`JSON.parse` manuale con il parser JSON standard Express dotato di limite 1 MiB, validare `req.body` tramite schema Zod e serializzare oggetti tramite `res.status(...).send(...)`. Mantenere route, status applicativi, limiti 10 campi/50 parole, deduplicazione, admission e fail-closed. Sono esplicitamente declassate le semantiche custom su UTF-8 fatal, BOM, draining e precedenza byte-level: il chiamante è un servizio interno controllato e il boundary deve avvicinarsi allo stile Interop. Semplificare inoltre il model root Horizon a `fileURLToPath(new URL(...))`.
+
+Gate: RED/GREEN sui percorsi HTTP Horizon e Rizzo, typecheck/build, suite complete e contract compatibili con il nuovo parsing standard, `pnpm check`, `git diff --check` e review proporzionata del diff. Nessun benchmark: memoria, coda, concorrenza e thread restano Phase 4, da affrontare domani.
 
 ### Phase 1: Intervista e congelamento del requisito
 **Status:** complete

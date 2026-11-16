@@ -1,6 +1,13 @@
 import { fileURLToPath } from "node:url";
 import { parsePort } from "@pagopa/detector-http";
 
+export const HTTP_LIMITS = Object.freeze({
+  maxBodyBytes: 1_048_576,
+  maxFieldIdUnits: 128,
+  maxFields: 10,
+  maxWords: 50,
+});
+
 export interface HttpConfig {
   readonly port: number;
   readonly host: string;

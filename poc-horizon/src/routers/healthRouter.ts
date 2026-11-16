@@ -1,17 +1,17 @@
-import type { RequestListener } from "node:http";
+import type { RequestHandler } from "express";
 import type { Readiness } from "../model/contracts.js";
 import { DetectorUnavailable } from "../model/errors.js";
-import { reply } from "../utilities/http.js";
+
 import { toHttpError } from "../utilities/errorMappers.js";
 
-export function createHealthRouter(ready: Readiness): RequestListener {
+export function createHealthRouter(ready: Readiness): RequestHandler {
   return async (_req, res) => {
     try {
       if (!(await ready())) throw new DetectorUnavailable();
-      reply(res, 200, { status: "ready" });
+      res.status(200).send({ status: "ready" });
     } catch {
       const mapped = toHttpError(new DetectorUnavailable());
-      reply(res, mapped.status, mapped.payload);
+      res.status(mapped.status).send(mapped.payload);
     }
   };
 }

@@ -58,12 +58,35 @@ const post = (url, fields = [field()]) =>
   });
 async function responseIs(response, status, body) {
   assert.equal(response.status, status);
-  assert.equal(response.headers.get("content-type"), "application/json");
+  assert.equal(
+    response.headers.get("content-type"),
+    "application/json; charset=utf-8",
+  );
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.deepEqual(await response.json(), body);
 }
 const unavailable = { code: "detector_unavailable" };
 const accepted = { verdict: "accepted", findings: [] };
+
+test("standard JSON parser accepts a UTF-8 BOM", async (t) => {
+  let calls = 0;
+  const url = await serve(t, {
+    ready: () => true,
+    analysisService: {
+      analyze: async () => {
+        calls += 1;
+        return [];
+      },
+    },
+  });
+  const response = await fetch(url + "/v1/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "\ufeff" + JSON.stringify({ fields: [field()] }),
+  });
+  await responseIs(response, 200, accepted);
+  assert.equal(calls, 1);
+});
 
 test("Horizon readiness requires an explicitly ready value", async (t) => {
   for (const ready of [() => false, () => 0, () => ""]) {
@@ -250,9 +273,6 @@ test("invalid wire/schema never calls service, admission or readiness; exact hea
     '{"fields":[{"fieldId":"x","text":"x"}],"extra":0}',
     '{"fields":[{"fieldId":"x","text":"\\ud800"}]}',
     '{"fields":[{"fieldId":"\\udc00","text":"x"}]}',
-    "\ufeff" + valid,
-    Buffer.from([0xff]),
-    Buffer.from([0xc0, 0xaf]),
     JSON.stringify({ fields: [field("x"), field("x")] }),
     JSON.stringify({
       fields: Array.from({ length: 11 }, (_, i) => field(String(i))),
@@ -367,7 +387,10 @@ test("route and content-type are decided before reading any request body", async
             res.on("end", () => {
               try {
                 assert.equal(res.statusCode, status);
-                assert.equal(res.headers["content-type"], "application/json");
+                assert.equal(
+                  res.headers["content-type"],
+                  "application/json; charset=utf-8",
+                );
                 assert.equal(res.headers["x-content-type-options"], "nosniff");
                 assert.deepEqual(JSON.parse(body), { code });
                 resolve();

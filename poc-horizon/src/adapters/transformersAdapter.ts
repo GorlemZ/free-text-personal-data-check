@@ -39,7 +39,7 @@ export async function transformersAdapterBuilder({
     throw new TypeError("INVALID_TOKEN_BUDGET");
   env.allowRemoteModels = false;
   env.allowLocalModels = true;
-  env.localModelPath = MODEL_CONFIG.root + "/";
+  env.localModelPath = MODEL_CONFIG.root;
   env.useBrowserCache = false;
   const detector = await createPipeline();
   const safeLimit = Math.min(
