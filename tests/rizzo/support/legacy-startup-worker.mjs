@@ -1,4 +1,4 @@
-// One initialization per process prevents the deliberately sticky failed cache leaking.
+// Isolated initialization observes configuration validation and filesystem errors.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
@@ -43,7 +43,7 @@ syncBuiltinESMExports();
 let caught;
 try {
   const api = await import(input.moduleURL);
-  await (api.transformersAdapterBuilder ? api.transformersAdapterBuilder().warmup : api.createModel)({ directory: pathToFileURL(input.directory + '/'), manifestPath: pathToFileURL(input.directory + '/manifest.json'), loadModel: async (directory, options) => {
+  await (api.transformersAdapterBuilder ? api.transformersAdapterBuilder : api.createModel)({ directory: pathToFileURL(input.directory + '/'), manifestPath: pathToFileURL(input.directory + '/manifest.json'), loadModel: async (directory, options) => {
     trace.push('loader');
     assert.equal(directory, input.directory + '/');
     assert.deepEqual(options, { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true });

@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 
 test('importing app, services, adapter, composition root and CLIs neither loads SDK nor opens sockets', () => {
   const urls = ['app', 'services/analysisService', 'services/ruleDetectionService',
-    'services/modelDetectionService', 'adapters/transformersAdapter', 'index', 'scripts/smoke', 'scripts/prefetch']
+    'adapters/transformersAdapter', 'index', 'scripts/smoke', 'scripts/prefetch']
     .map(path => new URL('../../poc-horizon/dist/' + path + '.js', import.meta.url).href);
   const code = `
     import assert from 'node:assert/strict';
@@ -50,60 +50,22 @@ function probe(body) {
   assert.equal(result.status, 0, result.stderr + result.stdout);
 }
 
-test('adapter owns a lazy promise per instance and import has no SDK configuration side effects', () => probe(`
-  const sdk = await import(sdkUrl);
-  assert.deepEqual(sdk.env, {}, 'import must not configure SDK');
-  let initialized = 0, inferred = 0, tokenized = 0;
-  factory = async (...args) => {
-    initialized++; calls.push(args);
-    const pipeline = async (text, options) => { inferred++; return { raw: text, options }; };
-    pipeline.tokenizer = (text, options) => { tokenized++; return { input_ids: { size: 1 } }; };
-    return pipeline;
-  };
-  const a = make(), b = make();
-  assert.equal(initialized, 0);
-  await Promise.all([a.ready(), a.ready(), a.prepare('original'), a.infer({ text: 'original' })]);
-  assert.equal(initialized, 1, 'concurrent operations share one init');
-  assert.equal(inferred, 1); assert.equal(tokenized, 1);
-  await b.ready();
-  assert.equal(initialized, 2, 'separate adapter instances must not share mutable state');
-`));
-
-test('adapter retries once after a shared initialization failure', () => probe(`
-  let initialized = 0, release;
-  const failure = new Error('synthetic init failure');
-  const gate = new Promise(resolve => release = resolve);
-  factory = async () => {
-    initialized++;
-    if (initialized === 1) { await gate; throw failure; }
-    const pipeline = async () => [];
-    pipeline.tokenizer = () => ({ input_ids: { size: 1 } });
-    return pipeline;
-  };
-  const adapter = make();
-  const operations = [adapter.ready(), adapter.prepare('a'), adapter.infer({ text: 'b' })];
-  release();
-  const failures = await Promise.allSettled(operations);
-  assert.equal(initialized, 1);
-  assert.ok(failures.every(result => result.status === 'rejected' && result.reason === failure));
-  await Promise.all([adapter.ready(), adapter.prepare('a'), adapter.infer({ text: 'b' })]);
-  assert.equal(initialized, 2);
-`));
-
-test('a failed injected runtime load is shared and retried without caching failure', () => probe(`
+test('explicit initialization returns a ready adapter and never reloads on requests', () => probe(`
   let loaded = 0;
-  const failure = new Error('synthetic loader failure');
-  factory = async () => { const pipeline = async () => []; pipeline.tokenizer = () => ({ input_ids: { size: 1 } }); return pipeline; };
-  const adapter = builder({ loadRuntime: async () => {
-    loaded++;
-    if (loaded === 1) throw failure;
-    return { env, pipeline: factory };
-  } });
-  const first = await Promise.allSettled([adapter.ready(), adapter.prepare('a'), adapter.infer({ text: 'a' })]);
+  factory = async () => { loaded++; const p = async () => []; p.tokenizer = () => ({ input_ids: { size: 1 } }); return p; };
+  const adapter = await make();
   assert.equal(loaded, 1);
-  assert.ok(first.every(result => result.status === 'rejected' && result.reason === failure));
-  await Promise.all([adapter.ready(), adapter.prepare('a')]);
-  assert.equal(loaded, 2);
+  await adapter.ready(); await adapter.prepare('a'); await adapter.infer({ text: 'a' });
+  assert.equal(loaded, 1);
+`));
+
+test('initialization failure rejects the builder without an implicit retry', () => probe(`
+  let loaded = 0;
+  const failure = Error('synthetic');
+  factory = async () => { loaded++; throw failure; };
+  await assert.rejects(make(), error => error === failure);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(loaded, 1);
 `));
 
 test('real adapter uses exact offline/native options, budget 512/513, no inference during ready/preflight and opaque raw output', () => probe(`
@@ -118,7 +80,7 @@ test('real adapter uses exact offline/native options, budget 512/513, no inferen
     };
     return pipeline;
   };
-  const adapter = make();
+  const adapter = await make();
   await adapter.ready();
   assert.equal(inferred, 0);
   assert.deepEqual(await adapter.prepare('512'), { text: '512' });
@@ -129,8 +91,8 @@ test('real adapter uses exact offline/native options, budget 512/513, no inferen
   assert.equal(inferred, 1);
   assert.deepEqual(calls, [
     ['token-classification', 'Horizon-Labs/pii-redactor-base', { dtype: 'q8', device: 'cpu', local_files_only: true }],
-    ['tokenize', '512', { truncation: false, padding: false }],
-    ['tokenize', '513', { truncation: false, padding: false }],
+    ['tokenize', '512', { truncation: false, padding: false, add_special_tokens: true }],
+    ['tokenize', '513', { truncation: false, padding: false, add_special_tokens: true }],
     [original, { aggregation_strategy: 'simple' }],
   ]);
   assert.equal(env.allowRemoteModels, false);

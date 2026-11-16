@@ -10,55 +10,44 @@ import { validateAnalyzeRequest } from '../../poc-horizon/dist/validation/analyz
 import { createHandler } from './create-test-app.mjs';
 
 const root = fileURLToPath(new URL('../../poc-horizon/', import.meta.url));
-test('real compiler rejects open categories, missing allowlist, partial/undefined/null spans and mutable DTOs', async () => {
+test('real compiler enforces closed readonly classification DTOs without offsets or candidates', async () => {
   const temporary = await mkdtemp(join(tmpdir(), 'horizon-domain-types-'));
   try {
     const contracts = join(root, 'src/model/contracts.js');
     const source = `
-      import type { Field, Candidate, RuleCandidate, ModelCandidate, ModelPrediction, ModelAdapter, FieldAnalysis } from ${JSON.stringify(contracts)};
+      import type { Field, ModelPrediction, ModelAdapter, FieldAnalysis, Recognizer } from ${JSON.stringify(contracts)};
       const valid: Field = { fieldId: 'a', text: 'original', allowedCategories: ['PERSON'] };
-      const unlocated: ModelCandidate = { source: 'model', category: 'PERSON', score: 0.3 };
-      const located: ModelCandidate = { ...unlocated, start: 0, end: 2 };
       // @ts-expect-error closed category
       const invalidCategory: Field = { ...valid, allowedCategories: ['UNKNOWN'] };
       // @ts-expect-error required normalized allowlist
       const missing: Field = { fieldId: 'a', text: 'original' };
-      // @ts-expect-error half span
-      const half: Candidate = { source: 'model', category: 'PERSON', score: 0.3, start: 0 };
-      // @ts-expect-error other half span
-      const halfEnd: Candidate = { source: 'model', category: 'PERSON', score: 0.3, end: 2 };
-      // @ts-expect-error explicit undefined is not an absent offset
-      const undefinedSpan: Candidate = { ...unlocated, start: undefined, end: undefined };
-      // @ts-expect-error null is never a span
-      const nullSpan: Candidate = { ...unlocated, start: null, end: null };
-      // @ts-expect-error category closed on model DTO
-      const invalidModel: ModelCandidate = { source: 'model', category: 'UNKNOWN', score: 1 };
-      // @ts-expect-error category closed on rule DTO
-      const invalidRule: RuleCandidate = { source: 'rule', category: 'UNKNOWN', start: 0, end: 2, check: 'passed' };
       // @ts-expect-error mandatory text cannot be null
       const nullText: Field = { ...valid, text: null };
       // @ts-expect-error readonly field
       valid.text = 'changed';
       // @ts-expect-error readonly array
       valid.allowedCategories.push('PERSON');
-      // @ts-expect-error readonly candidate
-      located.score = 1;
-      // @ts-expect-error half rule span
-      const halfRule: RuleCandidate = { source: 'rule', category: 'PERSON', check: 'passed', start: 0 };
       // @ts-expect-error normalized allowlist cannot be null
       const nullAllowed: Field = { ...valid, allowedCategories: null };
-      // @ts-expect-error prediction span must be complete
-      const halfPrediction: ModelPrediction = { entity_group: 'PERSON', score: 0.9, start: 0 };
-      // @ts-expect-error explicit undefined is forbidden in validated prediction DTO
-      const undefinedPrediction: ModelPrediction = { entity_group: 'PERSON', score: 0.9, start: undefined, end: undefined };
+      // @ts-expect-error model domain DTO has no offsets
+      const span: ModelPrediction = { entity_group: 'PERSON', score: 0.9, start: 0 };
       declare const raw: Awaited<ReturnType<ModelAdapter['infer']>>;
-      // @ts-expect-error raw external outputs are unknown, never trusted DTOs
-      const trusted: Candidate = raw;
+      // @ts-expect-error external output is unknown
+      const trusted: ModelPrediction = raw;
+      const recognizer: Recognizer = () => new Set(['IT_IDENTITY_CARD']);
+      // @ts-expect-error rule boundary is readonly
+      recognizer('text').add('PERSON');
+      // @ts-expect-error no candidate/offset protocol at the rule boundary
+      const obsolete: Recognizer = () => [{ category: 'IT_IDENTITY_CARD', start: 0, end: 9 }];
       declare const analysis: FieldAnalysis;
-      // @ts-expect-error immutable category sets
+      // @ts-expect-error immutable detected categories
       analysis.detected.add('PERSON');
-      // @ts-expect-error immutable candidates
-      analysis.candidates.push(located);
+      // @ts-expect-error immutable denied categories
+      analysis.denied.add('PERSON');
+      // @ts-expect-error removed candidates
+      analysis.candidates;
+      // @ts-expect-error removed possible categories
+      analysis.possible;
     `;
     const probe = join(temporary, 'probe.mts');
     await writeFile(probe, source);

@@ -26,7 +26,7 @@ export async function sandbox(t) {
   await cp(join(root, 'dist'), join(pkg, 'dist'), { recursive: true });
   await cp(join(root, 'package.json'), join(pkg, 'package.json'));
   await mkdir(join(pkg, 'node_modules/@huggingface'), { recursive: true });
-  for (const name of ['@huggingface/transformers', 'ibantools']) await symlink(await realpath(join(root, 'node_modules', name)), join(pkg, 'node_modules', name), 'dir');
+  for (const name of ['@huggingface/transformers', 'p-limit', 'raw-body']) await symlink(await realpath(join(root, 'node_modules', name)), join(pkg, 'node_modules', name), 'dir');
   return { pkg, cwd };
 }
 export function child(code, cwd, argv = ['--input-type=module', '-e', code]) {

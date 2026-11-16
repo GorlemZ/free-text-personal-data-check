@@ -6,6 +6,7 @@ import { modelDetectionServiceBuilder } from './services/modelDetectionService.j
 import { transformersAdapterBuilder } from './adapters/transformersAdapter.js';
 import type { Analysis } from './model/contracts.js';
 import { entrypointPath, readHttpConfig, type HttpConfig } from './config/config.js';
+import type { ModelOptions } from './config/modelConfig.js';
 export { analysisServiceBuilder, transformersAdapterBuilder };
 
 interface StartupDependencies {
@@ -17,27 +18,29 @@ interface StartupDependencies {
 const serverUnavailable = (): void => { process.stderr.write('SERVER_UNAVAILABLE\n'); process.exit(1); };
 
 export async function startup({ warmup, createServer = createHttpServer, config, onServerError = serverUnavailable }: StartupDependencies): Promise<Server> {
+  const httpConfig = config ?? readHttpConfig();
   const analysisService = await warmup();
-  const server = createServer(createApp({ analysisService, ready: () => true }));
+  const server = createServer(createApp({ analysisService, ready: () => true, concurrency: httpConfig.concurrency ?? 1 }));
   server.on('error', onServerError);
-  const { port, host } = config ?? readHttpConfig();
+  const { port, host } = httpConfig;
   server.listen(port, host);
   return server;
 }
 
-export async function composeRuntime() {
-  const { ruleDetectionServiceBuilder } = await import('./services/ruleDetectionService.js');
-  const adapter = transformersAdapterBuilder();
+export async function composeRuntime(options: ModelOptions = {}) {
+  const { recognize } = await import('./recognizers/rules.js');
+  const adapter = await transformersAdapterBuilder(options);
   const modelDetectionService = modelDetectionServiceBuilder({ infer: adapter.infer });
-  const ruleDetectionService = ruleDetectionServiceBuilder();
+  const ruleDetectionService = recognize;
   const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService });
   return { adapter, modelDetectionService, analysisService };
 }
 
 export async function main(): Promise<void> {
   try {
-    const { adapter, analysisService } = await composeRuntime();
-    const server = await startup({ warmup: async () => { await adapter.warmup(); return analysisService; } });
+    const config = readHttpConfig();
+    const { analysisService } = await composeRuntime(config);
+    const server = await startup({ config, warmup: async () => analysisService });
     process.once('SIGTERM', () => server.close(() => process.exit(0)));
     process.once('SIGINT', () => server.close(() => process.exit(0)));
   } catch { process.stderr.write('STARTUP_FAILED\n'); process.exit(1); }

@@ -12,15 +12,15 @@ npm --prefix poc-horizon run smoke
 npm --prefix poc-horizon start
 ```
 
-`build` ripulisce `dist/` e compila tutti i sorgenti `.ts` di `src/` (incluse le CLI in `src/scripts/`), senza caricare o scaricare modelli. Eseguirlo prima di `prefetch` e `start`: questi usano rispettivamente `node dist/scripts/prefetch.js` e `node dist/index.js`. `smoke` compila e avvia `dist/scripts/smoke.js`. Importare app, router, servizi, adapter, `index`, `smoke` o `prefetch` non avvia server, inferenza o download e non configura/carica il runtime Transformers. Bind predefinito `127.0.0.1:8000`, configurabile con le sole `ANALYZER_BIND_HOST` e `ANALYZER_PORT` (conversione `Number`, anche porta `0` supportata). `index.ts` legge la configurazione una volta, costruisce un solo adapter e i tre servizi, attende il warmup e soltanto dopo ascolta, con `requestTimeout` di 10000 ms. La Promise della pipeline è lazy e condivisa per istanza dell'adapter, con retry dopo fallimento; carica soltanto file locali e pesi mancanti impediscono l'avvio. La readiness riguarda il caricamento, non l'inferenza.
+`build` ripulisce `dist/` e compila sorgenti e CLI senza caricare o scaricare modelli. `prefetch` e `start` richiedono prima il build; `smoke` compila ed esegue inferenza reale. Importare i moduli non avvia server, SDK o download. Bind predefinito `127.0.0.1:8000`, configurabile con `ANALYZER_BIND_HOST` e `ANALYZER_PORT` (conversione `Number`, porta `0` supportata). La composition root legge la configurazione, attende una sola inizializzazione esplicita dell'adapter e poi ascolta, con `requestTimeout` di 10000 ms. Nessuna cache lazy o retry implicito; file locali mancanti o configurazione invalida impediscono il listen. La readiness riguarda il caricamento, non l'inferenza.
 
 ## Confine HTTP e composizione
 
-- `createApp({ analysisService, ready, onQueued? })` in `src/app.ts` restituisce un `RequestListener`: servizio e readiness sono obbligatori e separati, senza `listen` o dipendenze modello di default.
-- `analysisServiceBuilder({ ruleDetectionService, modelDetectionService })` espone `analyze(fields) -> FieldAnalysis[]` asincrono. `ruleDetectionServiceBuilder` separa `collect` raw e `interpret`; `modelDetectionServiceBuilder(adapter)` delega `prepare`/`ready`/`infer` e separa `interpret`. I tipi pubblici dei servizi sono derivati con `ReturnType`, senza classi o framework DI.
-- L'analisi prepara tutti i campi sequenzialmente prima di ogni regola o inferenza. Poi, per campo: collect raw regole → infer raw modello → guard condiviso che entrambi siano array → interpretazione regole → interpretazione modello → fusione → policy. Un risultato regole malformato non sopprime l'inferenza; un recognizer che lancia sì. Un errore infer non interpreta le regole raccolte. Nessun risultato parziale o fallback.
-- I router riconoscono soltanto `GET /health/ready` e `POST /v1/analyze` esatti. Validazione strict JSON/schema e limite byte precedono l'ammissione. Ogni app possiede un executor FIFO indipendente: una richiesta di analisi attiva, massimo quattro incluse l'attiva; l'intera analisi e la proiezione della risposta occupano un job. Readiness fuori coda.
-- `config/config.ts` centralizza limiti HTTP, opzioni e percorsi modello/manifest esistenti senza nuove variabili d'ambiente. `adapters/transformersAdapter.ts` è l'unico confine SDK, con loader tecnico iniettabile per test senza pesi. Le porte raw restituiscono `unknown`; soltanto l'interpretazione costruisce DTO validati. `model/contracts.ts` definisce DTO readonly, `Category` chiusa sulle nove voci di `model/categories.ts`, `Field.allowedCategories` obbligatorio dopo normalizzazione HTTP omissione → `[]`, span come coppia completa oppure assente (`exactOptionalPropertyTypes`). Semantica e policy sono funzioni pure. `validation/`, converter, errori e utility conservano il confine HTTP; risposte JSON con `nosniff`, senza testo o candidati.
+- `createApp({ analysisService, ready, concurrency? })` in `src/app.ts` restituisce un `RequestListener`: servizio e readiness sono obbligatori e separati, senza `listen` o dipendenze modello di default.
+- `analysisServiceBuilder({ adapter, recognize?, threshold? })` espone `analyze(fields) -> readonly FieldAnalysis[]`. L'adapter è direttamente iniettato; non serve un wrapper model pass-through. Mapping, interpretazione delle regole e policy sono funzioni pure, senza framework DI.
+- Ogni campo completa **budget → inferenza → mapping/soglia → regole integrative → policy** prima del successivo. Un errore impedisce ogni lavoro successivo e produce errore tecnico senza risultati parziali. Un campo tardivo fuori budget può quindi invalidare lavoro già svolto sui precedenti.
+- I router riconoscono solo `GET /health/ready` e `POST /v1/analyze` esatti. Validazione JSON standard/schema e limite byte precedono l’ammissione. Ogni app possiede un limiter privato `p-limit@6.2.0`: capacità per intera richiesta, inclusa la proiezione, nessuna coda oltre il limite, saturazione 503. Health indipendente dalla capacità. Lo slot si libera solo alla conclusione reale del task, anche in errore; timeout o disconnessione del client non cancellano l’inferenza né liberano anticipatamente capacità.
+- `config/config.ts` centralizza limiti HTTP, opzioni e percorsi modello/manifest e configurazione di budget e concorrenza. `adapters/transformersAdapter.ts` è l'unico confine SDK, con loader tecnico iniettabile per test senza pesi. La porta raw del modello restituisce `unknown`; il riconoscitore integrativo restituisce `ReadonlySet<Category>`. Matching, contesto e checksum restano locali al riconoscitore: nessun candidato, offset o stato di check attraversa il confine applicativo. Il servizio controlla soltanto categorie valide e fonte statica, senza ricostruire span o validare testo. `model/contracts.ts` definisce DTO readonly, `Category` chiusa sulle nove voci di `model/categories.ts`, `Field.allowedCategories` obbligatorio dopo normalizzazione HTTP omissione → `[]`, risultato con sole categorie `detected` e `denied`, senza `possible`, candidati, score o offset. Gli offset interni ai riconoscitori servono soltanto ai loro controlli locali, mai alla validazione del modello. Riconoscimento e policy sono funzioni pure; i checksum usano riduzioni senza accumulatori mutabili. `validation/`, converter, errori e utility conservano il confine HTTP; risposte JSON con `nosniff`, senza testo o candidati.
 - I test d'integrazione e l'harness contrattuale usano `tests/horizon/create-test-app.mjs`: compone i veri servizi con adapter sintetico esplicito. Il solo wrapper legacy `analyzeFields` vive negli harness, non nel runtime produttivo. Lo smoke programmatico richiede `handler` e `detectText`; la CLI compone lo stack soltanto nel main guard.
 
 Dopo il prefetch:
@@ -40,22 +40,65 @@ docker run --rm --network none free-text-check:horizon-uniform node dist/scripts
 
 Come [Rizzo](../poc-rizzo/README.md#pipeline-nlp-comune), Horizon usa `TokenClassificationPipeline` standard di Transformers.js, senza decoder applicativo. Le entità ricevute vengono validate e mappate nel servizio: non è un controllo dei logits dei token filtrati dalla libreria. Modelli, soglie e regole restano distinti; l'API comune non implica detection equivalente.
 
-Soglia sperimentale `0.35`, aggregazione `simple`. La pipeline valida tutti i campi e il budget token, applica regole e modello al testo originale, converte i candidati nel catalogo comune e applica la policy per campo.
+Soglia sperimentale inclusiva `0.35`, aggregazione `simple`. La matrice statica `CATEGORY_SOURCES` decide la fonte **per categoria**, non per singola predizione: assenza o score basso del modello non attiva regole di recupero.
 
-- `EMAIL` diventa `EMAIL_ADDRESS`; `PHONE` e il riconoscitore `PHONE_NUMBER` condividono la categoria business. Entrambi passano il filtro geografico italiano sull'intero candidato.
-- `TAX_ID` e `BANK_ACCOUNT` non vengono promossi automaticamente a identificativi italiani o IBAN. Extra conosciuti sono esclusi prima della policy; etichette sconosciute o risultati malformati causano errore tecnico.
-- `NATIONAL_ID` e `DRIVER_LICENSE` diventano documenti italiani soltanto con forma, confini Unicode e contesto italiano nei 50 caratteri precedenti, oppure valore standalone. Sono supportate CIE `AA12345AA`/`1234567AA` e patenti `AA1234567A`/variante `U1…`.
-- Transformers.js restituisce `word` senza offset: **solo per i documenti**, il valore con bordi rimossi tramite `trim()` deve corrispondere a un'unica occorrenza letterale nell'originale. Nessuna normalizzazione interna. Valori ripetuti, assenti o non corrispondenti restano esclusi; gli offset eventualmente forniti sono autorevoli. Offset invalidi o `word` di tipo errato causano errore tecnico.
+| Categoria | Fonte esclusiva | Motivazione / mapping |
+|---|---|---|
+| PERSON | modello | `PERSON` |
+| EMAIL_ADDRESS | modello | `EMAIL` |
+| PHONE_NUMBER | modello | `PHONE`; nessun veto geografico o di forma |
+| CREDIT_CARD | modello | `CREDIT_CARD`; nessun veto Luhn |
+| IT_FISCAL_CODE | regole | `TAX_ID` generico non prova un CF italiano |
+| IT_VAT_CODE | regole | nessuna label nativa specifica P.IVA |
+| IBAN_CODE | regole | `BANK_ACCOUNT` non implica IBAN; regola esistente solo IT |
+| IT_IDENTITY_CARD | regole | `NATIONAL_ID` non prova nazionalità/formato italiano |
+| IT_DRIVER_LICENSE | regole | `DRIVER_LICENSE` generico non prova patente italiana |
+
+Le label generiche documentali restano extra noti ignorati, anche quando il testo sembra italiano: la detection IT è indipendente e integrativa. Le regole documentali riconoscono CIE `AA12345AA`/`1234567AA` e patenti `AA1234567A`/variante `U1…`, con confini Unicode e contesto nei 50 caratteri precedenti oppure valore standalone. Non associano `word` o offset del modello e non richiedono un'occorrenza unica.
+
+Il mapping tecnico controlla contenitore, label conosciuta, score finito in `[0,1]` e tipo di `word` quando presente. `word` assente/vuoto e offset assenti o malformati non bloccano la classificazione: non vengono usati né restituiti. Gli alias canonici conosciuti sono accettati solo quando la matrice assegna la categoria al modello; non trasformano categorie integrative in categorie coperte.
 
 ## Limiti del motore
 
-- **512 token inclusi quelli speciali**; preflight con `truncation:false`. Il limite può essere superato sotto 50 parole: risposta 503, senza analisi parziale.
-- Un'inferenza alla volta, fino a quattro richieste ammesse complessivamente; saturazione 503.
-- CF canonico con checksum, senza omocodia; P.IVA con checksum e placeholder tutto-zero escluso; IBAN **solo IT** con modulo 97; carte di 13–19 cifre con Luhn. Il gold include checksum errati riconoscibili e IBAN esteri: queste differenze possono produrre falsi negativi.
-- Carte e telefoni del modello richiedono span validi, senza ricostruzione da `word`; PERSON ed email non li richiedono. Le categorie sovrapposte restano indipendenti nella policy.
+- `ANALYZER_TOKEN_BUDGET`: intero positivo sicuro, default **512**, massimo 512 e comunque non oltre i limiti nativi del modello/tokenizer caricato. Un solo controllo esterno per campo, con `truncation:false`, `padding:false`, `add_special_tokens:true`. La pipeline standard tokenizza nuovamente: nessun tokenizer custom. Overflow anche sotto 50 parole: 503, senza analisi parziale.
+- `ANALYZER_CONCURRENCY`: intero positivo sicuro, default **1**. Stato di scheduling interno alla libreria, non immutabilità del suo runtime: `activeCount + pendingCount` include le prenotazioni nello stesso turno sincrono di `limit(task)`, prima dei microtask. Nessun contatore applicativo e nessuna richiesta eccedente eseguita. Il limite è per istanza app/processo, non distribuito fra processi.
+- CF canonico con checksum, senza omocodia; P.IVA con checksum e placeholder tutto-zero escluso; IBAN **solo IT** con modulo 97. I checksum appartengono solo a queste regole integrative. Il gold include checksum errati riconoscibili e IBAN esteri: queste differenze possono produrre falsi negativi.
+- Nessun controllo di forma, checksum, span o geografia può scartare una categoria coperta emessa dal modello sopra soglia. Questo può aumentare falsi positivi (inclusi telefoni esteri rispetto al gold italiano); togliere le regole sulle categorie coperte può aumentare omissioni. Nessuna equivalenza con la baseline o qualità reale è attestata dai test sintetici. Le categorie sovrapposte restano indipendenti nella policy.
 
-L'helper storico [fiscal-code.ts](src/fiscal-code.ts) verifica soltanto la forma plausibile ed è coperto da regressioni; la pipeline HTTP usa il riconoscitore strutturato.
+Gli helper storici di sola forma CF, carte e telefoni e l'alias `italian-phone` sono rimossi: non avevano consumer runtime o CLI. La pipeline HTTP usa solo il registry di categorie integrative. I test conservano checksum e confini delle regole attive, mapping modello, policy, errori, admission e budget; non impongono più comportamenti dei recognizer ritirati.
+
+`tests/horizon/detection-purity.test.mjs` visita tutti gli import transitivi delle entry point detection di entrambi i motori (inclusi collaboratori Rizzo iniettati e import di tipi), senza filtro sui file modificati. Verifica tramite AST assenza di `let`/`var`, riassegnazioni, incrementi e metodi mutanti noti, con controlli positivi del gate e inventario emesso. Non è una prova formale di purezza: adapter SDK, startup, HTTP/ammissione e budget restano confini esclusi esplicitamente; nessun file raggiunto dal nucleo è escluso.
 
 ## Modello e attribuzioni
 
 [model-manifest.json](model-manifest.json) fissa revisione e dimensioni, più SHA256 degli artefatti maggiori; la build Docker verifica i file locali, mentre `npm run build` compila soltanto. La model card dichiara Apache-2.0 e attribuisce parte dei dati CC-BY-4.0 ad ai4privacy e NVIDIA: conservare gli avvisi nella redistribuzione di modello o immagine.
+
+## Confine HTTP, parsing standard e stato
+
+Il buffering è delegato alla dipendenza diretta esatta `raw-body@2.5.2` in modalità
+Buffer, con limite di **1 MiB sui byte effettivamente ricevuti**, senza fidarsi di
+`Content-Length` né anticipare l’errore sulla sola lunghezza dichiarata. Il decoder
+UTF-8 resta `fatal: true, ignoreBOM: true`: byte invalidi/troncati e BOM iniziale
+sono rifiutati (400); il superamento byte resta 413. Il framing malformato, incluso
+`Content-Length` non valido, è gestito da Node prima del listener applicativo.
+Horizon drena il body rifiutato e conserva la connessione; Rizzo drena e mantiene
+`Connection: close` sul 413. Content-type e routing precedono la lettura del body;
+schema precede ammissione/inferenza. Una disconnessione durante il body non avvia
+inferenza; quella durante inferenza non libera anticipatamente la capacità.
+
+**Differenza deliberata:** `JSON.parse` standard sostituisce gli scanner custom.
+Chiavi JSON duplicate (anche con escape equivalenti) usano **l’ultimo valore**;
+si valida lo schema risultante. Un valore precedente scartato, anche con surrogate
+isolate, non viene più ispezionato; chiavi sconosciute e valori finali invalidi
+restano vietati. `fieldId` ripetuti fra campi restano invalidi; ID e testo finali
+sono verificati con `isWellFormed()`. Limiti Unicode, parole, categorie e risultato
+business restano invariati. Questa scelta non modifica il parser di Presidio:
+l’harness condiviso dichiara le tre aspettative last-wins per i soli motori Node.
+
+Il codice applicativo usa valori readonly, `map`/`every`, Set costruiti senza
+`.add` e ordinamento non mutante. Il controllo AST copre tutti gli entrypoint
+runtime e CLI e i relativi import locali; non certifica immutabilità dell’intero
+processo. Stato di buffer e scheduling appartiene rispettivamente a `raw-body`
+e `p-limit`; stream, socket, filesystem, processo e SDK restano confini mutabili
+espliciti. Gli smoke reali non sono eseguiti dai gate sintetici: nessuna prova di
+qualità del modello è implicita in queste verifiche.

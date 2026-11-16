@@ -5,18 +5,13 @@ import { createApp } from './app.js';
 import { transformersAdapterBuilder } from './adapters/transformersAdapter.js';
 import { loadConfig, HTTP_LIMITS } from './config/config.js';
 import { analysisServiceBuilder } from './services/analysisService.js';
-import { ruleDetectionServiceBuilder } from './services/ruleDetectionService.js';
-import { modelDetectionServiceBuilder } from './services/modelDetectionService.js';
 
 export async function main(): Promise<void> {
   try {
     const config = loadConfig(process.env);
-    const adapter = transformersAdapterBuilder();
-    const ruleDetectionService = ruleDetectionServiceBuilder();
-    const modelDetectionService = modelDetectionServiceBuilder(adapter);
-    const analysisService = analysisServiceBuilder({ ruleDetectionService, modelDetectionService });
-    await modelDetectionService.ready(); // fail before accepting requests
-    const server = createServer(createApp({ analysisService, ready: modelDetectionService.ready }));
+    const adapter = await transformersAdapterBuilder({ tokenBudget: config.tokenBudget });
+    const analysisService = analysisServiceBuilder({ adapter });
+    const server = createServer(createApp({ analysisService, ready: adapter.ready, concurrency: config.concurrency }));
     server.requestTimeout = HTTP_LIMITS.requestTimeout;
     server.listen(config.port, config.bindHost);
   } catch {

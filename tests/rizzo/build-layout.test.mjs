@@ -13,7 +13,7 @@ test('strict TypeScript layout and dist-only commands cover every production mod
   assert.ok(include.includes('src/**/*.ts'));
   const sources = await readdir(root + 'src', { recursive: true });
   assert.deepEqual(sources.filter(name => /\.(?:mjs|mts|js)$/.test(name)), []);
-  for (const name of ['app.ts', 'index.ts', 'adapters/transformersAdapter.ts', 'model/contracts.ts', 'model/categories.ts', 'model/modelInterpretation.ts', 'model/fieldPolicy.ts', 'recognizers/rules.ts', 'services/analysisService.ts', 'services/modelDetectionService.ts', 'services/ruleDetectionService.ts', 'scripts/prefetch.ts', 'scripts/smoke.ts']) assert.ok(sources.includes(name), name);
+  for (const name of ['app.ts', 'index.ts', 'adapters/transformersAdapter.ts', 'model/contracts.ts', 'model/categories.ts', 'model/modelInterpretation.ts', 'model/fieldPolicy.ts', 'recognizers/rules.ts', 'services/analysisService.ts', 'services/modelDetectionService.ts', 'scripts/prefetch.ts', 'scripts/smoke.ts']) assert.ok(sources.includes(name), name);
   for (const name of ['model', 'detector', 'categories', 'rules']) { assert.equal(sources.includes(name + '.ts'), false); assert.equal(existsSync(root + 'dist/' + name + '.js'), false); }
   const { scripts, devDependencies } = JSON.parse(await readFile(root + 'package.json', 'utf8'));
   assert.equal(scripts.start, 'node dist/index.js');

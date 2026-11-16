@@ -97,7 +97,7 @@ test('health completes during blocked analysis and independent requests enter de
   const hold = deferred(), allEntered = deferred();
   let entered = 0;
   t.after(() => hold.resolve());
-  const { base } = await socket(t, { ready: () => true, analysisService: fields => analyzeFields(fields, async () => { if (++entered === 3) allEntered.resolve(); await hold.promise; return new Set(); }) });
+  const { base } = await socket(t, { concurrency: 3, ready: () => true, analysisService: fields => analyzeFields(fields, async () => { if (++entered === 3) allEntered.resolve(); await hold.promise; return new Set(); }) });
   const pending = [post(base, [field('a')]), post(base, [field('b')]), post(base, [field('c')])];
   try {
     await deadline(allEntered.promise);
@@ -160,14 +160,14 @@ test('API converter projects only category pairs and sorts UTF16 without exposin
 });
 
 test('HTTP environment config preserves Number coercions, defaults, empty values and access order', () => {
-  assert.deepEqual(readHttpConfig({}), { port: 8000, host: '127.0.0.1' });
+  assert.deepEqual(readHttpConfig({}), { port: 8000, host: '127.0.0.1', concurrency: 1 });
   for (const raw of ['0', '', ' 0 ', '0x10', '1e2', '-1', 'NaN', 'not-a-port']) {
     const actual = readHttpConfig({ PORT: raw, BIND_HOST: '' });
     assert.ok(Object.is(actual.port, Number(raw)));
     assert.equal(actual.host, '');
   }
   const trace = [];
-  assert.deepEqual(readHttpConfig({ get PORT() { trace.push('PORT'); return '0'; }, get BIND_HOST() { trace.push('BIND_HOST'); return '127.0.0.1'; } }), { port: 0, host: '127.0.0.1' });
+  assert.deepEqual(readHttpConfig({ get PORT() { trace.push('PORT'); return '0'; }, get BIND_HOST() { trace.push('BIND_HOST'); return '127.0.0.1'; } }), { port: 0, host: '127.0.0.1', concurrency: 1 });
   assert.deepEqual(trace, ['PORT', 'BIND_HOST']);
 });
 

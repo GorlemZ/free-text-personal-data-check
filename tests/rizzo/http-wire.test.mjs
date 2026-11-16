@@ -29,7 +29,7 @@ test('real HTTP wire keeps strict UTF8, BOM, duplicate keys, Unicode and byte li
     [Buffer.from(valid), 200, '{"verdict":"accepted","findings":[]}'],
     [Buffer.from('\ufeff' + valid), 400, '{"code":"invalid_request"}'],
     [Buffer.concat([Buffer.from('{"fields":[{"fieldId":"x","text":"'), Buffer.from([0xc0, 0xaf]), Buffer.from('"}]}')]), 400, '{"code":"invalid_request"}'],
-    [Buffer.from('{"fields":[{"fieldId":"x","text":"","te\\u0078t":""}]}'), 400, '{"code":"invalid_request"}'],
+    [Buffer.from('{"fields":[{"fieldId":"x","text":"","te\\u0078t":""}]}'), 200, '{"verdict":"accepted","findings":[]}'],
     [Buffer.from('{"fields":[{"fieldId":"x","text":"\\ud800"}]}'), 400, '{"code":"invalid_request"}'],
     [Buffer.from(JSON.stringify({ fields: [{ fieldId: '😀', text: 'synthetic😀' }] })), 200, '{"verdict":"accepted","findings":[]}'],
     [Buffer.from(JSON.stringify({ fields: [{ fieldId: 'x', text: 'x'.repeat(1024 * 1024 - Buffer.byteLength(valid)) }] })), 200, '{"verdict":"accepted","findings":[]}'],

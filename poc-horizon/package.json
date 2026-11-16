@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2",
-    "libphonenumber-js": "1.13.16"
+    "p-limit": "6.2.0",
+    "raw-body": "2.5.2"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

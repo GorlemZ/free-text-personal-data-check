@@ -60,7 +60,7 @@ test('public pipeline receives unchanged text with standard simple aggregation',
   const infer = createInference({ tokenizer: t, pipeline, maxTokens: 2 });
   assert.deepEqual([...await infer('Ada Rossi')], ['PERSON']);
   assert.deepEqual(calls, [
-    { text: 'Ada Rossi', options: { truncation: false, padding: false } },
+    { text: 'Ada Rossi', options: { truncation: false, padding: false, add_special_tokens: true } },
     { text: 'Ada Rossi', options: { aggregation_strategy: 'simple' } },
   ]);
 });
@@ -77,7 +77,7 @@ test('full preflight rejects limit plus one before the pipeline, accepts the exa
   assert.equal(calls, 0);
   assert.deepEqual([...await infer('8192')], []);
   assert.equal(calls, 1);
-  assert.deepEqual(seen, Array.from({ length: 2 }, () => ({ truncation: false, padding: false })));
+  assert.deepEqual(seen, Array.from({ length: 2 }, () => ({ truncation: false, padding: false, add_special_tokens: true })));
 });
 
 test('tokenizer and pipeline errors propagate unchanged without partial categories', async () => {
@@ -103,13 +103,13 @@ test('mapping retains all six categories and the unchanged inclusive threshold',
   const output = ['FULLNAME', 'EMAIL', 'CF', 'PIVA', 'IBAN', 'CREDITCARDNUMBER'].map(label => entity(label, .5));
   assert.deepEqual([...await inferOutput(output)('synthetic')].sort(),
     ['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD'].sort());
-  assert.deepEqual([...await inferOutput([entity('FULLNAME', .499999), entity('EMAIL', 1, '')])('synthetic')], []);
+  assert.deepEqual([...await inferOutput([entity('FULLNAME', .499999), entity('EMAIL', 1, '')])('synthetic')], ['EMAIL_ADDRESS']);
   assert.deepEqual([...await inferOutput([entity('FULLNAME', 1), entity('FULLNAME', 0)])('synthetic')], ['PERSON']);
 });
 
-test('model phone fragments and generic document labels cannot bypass full-text rules', async () => {
+test('model phones have no shape veto while generic documents remain unmapped', async () => {
   for (const word of ['3331234567', '+1 3331234567', '+39 3331234567']) {
-    assert.deepEqual([...await inferOutput([entity('TELEPHONENUM', .99, word)])('telefono +1 3331234567')], []);
+    assert.deepEqual([...await inferOutput([entity('TELEPHONENUM', .99, word)])('telefono +1 3331234567')], ['PHONE_NUMBER']);
   }
   assert.deepEqual([...await inferOutput([entity('ID_DOC'), entity('CITY'), entity('CF', .9, 'RSSMRA80A01H501X')])('synthetic')], ['IT_FISCAL_CODE']);
 });
@@ -122,7 +122,7 @@ test('semantic adapter preserves its existing injection contract and validates n
   }
 });
 
-test('startup composes the public pipeline with the exact local fp32 loader and reuses in-flight initialization', async t => {
+test('startup composes the public pipeline once and reuses the ready inference', async t => {
   const f = await fixture(t);
   const { readFile } = await import('node:fs/promises');
   const config = JSON.parse(await readFile(join(f.path, 'config.json'), 'utf8'));
@@ -136,8 +136,8 @@ test('startup composes the public pipeline with the exact local fp32 loader and 
     await new Promise(resolve => setImmediate(resolve));
     return fakeModel(config, inputs => seen.push(Array.from(inputs.input_ids.data, Number)));
   };
-  const [a, b] = await Promise.all([f.createModel({ ...f, loadModel }), f.createModel({ ...f, loadModel })]);
-  assert.equal(a, b);
+  const a = await f.createModel({ ...f, loadModel });
+  const b = a;
   assert.equal(loads, 1);
   assert.deepEqual([...await a('Ada Rossi')], ['PERSON']);
   assert.deepEqual([...await b('Ada')], ['PERSON']);
@@ -146,10 +146,9 @@ test('startup composes the public pipeline with the exact local fp32 loader and 
   assert.deepEqual(seen[2], [1, 2, 3]);
   await assert.rejects(() => a('Ada Rossi extra Ada'), /TOKEN_LIMIT/);
   assert.equal(seen.length, 3);
-  assert.equal(await f.createModel({ ...f, loadModel }), a);
   assert.equal(loads, 1);
   const original = new PreTrainedTokenizer(JSON.parse(await readFile(join(f.path, 'tokenizer.json'), 'utf8')), { model_max_length: 3 });
-  assert.deepEqual(Array.from(original('Ada Rossi', { truncation: false, padding: false }).input_ids.data, Number), seen[0]);
+  assert.deepEqual(Array.from(original('Ada Rossi', { truncation: false, padding: false, add_special_tokens: true }).input_ids.data, Number), seen[0]);
 });
 
 test('factory tokenizer loading cannot use these unchanged artifacts without tokenizer_config.json', async t => {
@@ -176,12 +175,12 @@ test('missing startup artifacts propagate their filesystem error before model lo
   assert.equal(loads, 0);
 });
 
-test('startup loader failure propagates identically to concurrent callers', async t => {
+test('startup loader failure propagates without implicit retry', async t => {
   const f = await fixture(t);
   const failure = new Error('synthetic model load failure');
   let loads = 0;
   const loadModel = async () => { loads++; throw failure; };
-  const results = await Promise.allSettled([f.createModel({ ...f, loadModel }), f.createModel({ ...f, loadModel })]);
+  const results = await Promise.allSettled([f.createModel({ ...f, loadModel })]);
   assert.equal(loads, 1);
   for (const result of results) {
     assert.equal(result.status, 'rejected');

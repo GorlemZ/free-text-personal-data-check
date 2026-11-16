@@ -4,11 +4,11 @@ import { resolve } from 'node:path';
 import { composeRuntime } from '../index.js';
 
 export async function smoke(): Promise<void> {
-  const { adapter, modelDetectionService: infer } = await composeRuntime();
-  await adapter.warmup();
+  const { modelDetectionService: infer } = await composeRuntime();
+
   const samples=[['name','Il referente sintetico si chiama Ada Rossi.'],['email-tail','nota '.repeat(47)+'scrivere a ada.rossi@example.com']] as const;
   for (const [id,text] of samples) {
-    const categories=[...await infer(text)].sort();
+    const categories=[...await infer(text)].toSorted();
     console.log(JSON.stringify({id,categories}));
     assert.ok(categories.length>0,`${id}: no entities observed`);
     if(id==='email-tail') assert.ok(categories.includes('EMAIL_ADDRESS'),'tail email was not observed');

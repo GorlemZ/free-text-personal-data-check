@@ -62,136 +62,24 @@ test('provided malformed document words fail closed even with the full allowlist
 });
 
 for (const [label, category, value, context] of documents) {
-  test(`${label}: installed pipeline without offsets reaches document mapping over HTTP`, async () => {
+  test(`${label}: native generic label cannot classify nationality; supplementary rules do`, async () => {
     const results = await pipelineResult(label, value);
-    await withService(results, async send => {
-      assert.deepEqual(await send(context + value), { status: 200, body: rejected(category) });
-    });
-  });
-
-  test(`${label}: trims decoded edge whitespace only before exact original association`, async () => {
-    const results = await pipelineResult(label, ` ${value}\t`);
-    await withService(results, async send => {
-      assert.deepEqual(await send(`🙂 ${context}${value}.`), { status: 200, body: rejected(category) });
-    });
-  });
-
-  test(`${label}: preserves standalone, non-BMP prefix, threshold and full allowlist policy`, async () => {
-    for (const score of [0.1, 0.349, 0.35, 0.9]) {
-      await withService([{ entity_group: label, score, word: value }], async send => {
-        for (const text of [value, ` \t${value}\n`, `🙂 ${context}(${value}).`, `${context}🙂${value}🙂`]) {
-          assert.deepEqual(await send(text), { status: 200, body: score >= 0.35 ? rejected(category) : accepted });
-          assert.deepEqual(await send(text, fullAllowlist), { status: 200, body: accepted });
+    assert.deepEqual([...categoriesOf(results, .35, context + value)], []);
+    for (const output of [[], results, [{ entity_group: label, score: .1, word: 'unrelated', start: -1 }]]) {
+      await withService(output, async send => {
+        for (const text of [value, context + value, `${context}${value}; ${value}`]) {
+          assert.deepEqual(await send(text), { status: 200, body: rejected(category) });
+          assert.deepEqual(await send(text, [category]), { status: 200, body: accepted });
+        }
+        for (const neighbor of ['x', '9', '_', 'é', '中', '١', '²', '\u0301', '𐐀', '𝟙']) {
+          for (const text of [context + neighbor + value, context + value + neighbor]) {
+            assert.deepEqual(await send(text), { status: 200, body: accepted });
+          }
+        }
+        for (const text of ['unrelated item ' + value, context + '.'.repeat(51) + value, context + '123-45-6789']) {
+          assert.deepEqual(await send(text), { status: 200, body: accepted });
         }
       });
     }
-  });
-
-  test(`${label}: repeated literal is ambiguous even when only one occurrence has Italian context`, async () => {
-    for (const word of [value, ` ${value} `]) {
-      await withService([{ entity_group: label, score: 0.9, word }], async send => {
-        for (const text of [
-          `${context}${value}; unrelated item ${value}`,
-          `unrelated item ${value}; ${context}${value}`,
-          `${context}${value}; ${context}${value}`,
-          `${context}${value}; embedded_${value}`,
-        ]) assert.deepEqual(await send(text), { status: 200, body: accepted }, text);
-      });
-    }
-  });
-
-  test(`${label}: exact association retains Unicode full-token boundaries`, async () => {
-    await withService([{ entity_group: label, score: 0.9, word: ` ${value} ` }], async send => {
-      for (const neighbor of ['x', '9', '_', 'é', '中', '١', '²', '\u0301', '𐐀', '𝟙']) {
-        for (const text of [`${context}${neighbor}${value}`, `${context}${value}${neighbor}`]) {
-          assert.deepEqual(await send(text), { status: 200, body: accepted }, text);
-        }
-      }
-    });
-  });
-
-  test(`${label}: never normalizes, searches generic IDs or invents missing word association`, async () => {
-    for (const word of [undefined, '', ' \t\n', 'unmatched', value.toLowerCase(),
-      value.slice(0, 2) + ' ' + value.slice(2), `(${value})`, value.slice(1)]) {
-      await withService([{ entity_group: label, score: 0.9, word }], async send => {
-        assert.deepEqual(await send(context + value), { status: 200, body: accepted });
-      });
-    }
-    await withService([{ entity_group: label, score: 0.9, word: value }], async send => {
-      for (const text of ['unrelated item ' + value, `patentex ${value}`, `documentoz ${value}`,
-        `${context}${'.'.repeat(51)}${value}`, context + value.toLowerCase(),
-        context + value.slice(0, 2) + ' ' + value.slice(2)]) {
-        assert.deepEqual(await send(text), { status: 200, body: accepted }, text);
-      }
-    });
-    for (const word of ['123-45-6789', 'D1234567', 'CA123456AA']) {
-      await withService([{ entity_group: label, score: 0.9, word }], async send => {
-        assert.deepEqual(await send(context + word), { status: 200, body: accepted });
-      });
-    }
-  });
-
-  test(`${label}: provided offsets remain authoritative and never fall back to word`, async () => {
-    const prefix = `🙂 ${context}`;
-    const text = `${prefix}${value}; ${'.'.repeat(60)} unrelated ${value}`;
-    for (const [start, expected] of [[prefix.length, rejected(category)], [text.lastIndexOf(value), accepted]]) {
-      // Repeated word is resolvable with offsets. A conflicting word does not
-      // override the existing authoritative original-span path.
-      for (const word of [value, 'not the span', undefined]) {
-        await withService([{ entity_group: label, score: 0.9, start, end: start + value.length, word }], async send => {
-          assert.deepEqual(await send(text), { status: 200, body: expected });
-        });
-      }
-    }
-    await withService([{ entity_group: label, score: 0.9, start: 0, end: 2, word: value }], async send => {
-      assert.deepEqual(await send(prefix + value), { status: 200, body: accepted });
-    });
   });
 }
-
-test('alternate Italian forms and canonical document aliases also work without offsets', async () => {
-  for (const [entity_group, category, word] of [
-    ['NATIONAL_ID', 'IT_IDENTITY_CARD', '1234567AB'],
-    ['DRIVER_LICENSE', 'IT_DRIVER_LICENSE', 'U1B234567C'],
-    ['IT_IDENTITY_CARD', 'IT_IDENTITY_CARD', 'CA12345AA'],
-    ['IT_DRIVER_LICENSE', 'IT_DRIVER_LICENSE', 'AB1234567C'],
-  ]) {
-    await withService([{ entity_group, score: 0.9, word }], async send => {
-      assert.deepEqual(await send(word), { status: 200, body: rejected(category) });
-    });
-  }
-});
-
-test('word association is document-only and cannot bypass structured model span/checksum gates', async () => {
-  for (const [entity_group, text] of [
-    ['IT_FISCAL_CODE', 'RSSMRA85M01H501Q'], ['IT_VAT_CODE', '12345678903'],
-    ['IBAN_CODE', 'IT60X0542811101000000123456'], ['CREDIT_CARD', '4111 1111 1111 1111'],
-    ['PHONE', '0212345678'], ['PHONE_NUMBER', '0212345678'],
-  ]) {
-    // Remove the independent rule producer only for this isolation test: its
-    // valid finding would otherwise hide a regression in the model's span gate.
-    const [analysis] = await analyzeFields([{ fieldId: 'a', text, allowedCategories: [] }], {
-      prepare: text => ({ text }), infer: async () => [{ entity_group, score: 0.9, word: text }],
-    }, () => [], categoriesOf, 0.35);
-    assert.equal(analysis.candidates.length, 1);
-    assert.deepEqual([...analysis.detected], [], entity_group);
-    assert.deepEqual([...analysis.possible], [], entity_group);
-    assert.deepEqual([...analysis.denied], [], entity_group);
-  }
-});
-
-test('unknown labels and malformed scores/offsets still fail closed before allowlist policy', async () => {
-  for (const candidate of [
-    { entity_group: 'UNKNOWN_NATIVE', score: 0.01 },
-    { entity_group: '__proto__', score: 0.9 },
-    { score: '0.9' }, { score: NaN }, { score: -1 }, { score: 1.01 },
-    { start: 0 }, { end: 9 }, { start: null, end: null },
-    { start: -1, end: 9 }, { start: 0, end: 999 }, { start: 0.5, end: 9 },
-    { start: 9, end: 0 },
-  ]) {
-    await withService([{ entity_group: 'NATIONAL_ID', score: 0.9, word: 'CA12345AA', ...candidate }], async send => {
-      assert.deepEqual(await send('CA12345AA', fullAllowlist),
-        { status: 503, body: { code: 'detector_unavailable' } });
-    });
-  }
-});

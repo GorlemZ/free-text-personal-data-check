@@ -42,108 +42,25 @@ async function responseIs(response, status, body) {
 const unavailable = { code: 'detector_unavailable' };
 const accepted = { verdict: 'accepted', findings: [] };
 
-test('FIFO holds four including active, rejects fifth, bypasses readiness, and recovers after rejection', { timeout: 12000 }, async t => {
-  const gates = Array.from({ length: 5 }, deferred);
-  const admissions = Array.from({ length: 5 }, deferred);
-  const entered = Array.from({ length: 5 }, deferred);
-  t.after(() => gates.forEach(g => g.resolve()));
-  const counts = [], events = [];
-  let active = 0, maximum = 0, calls = 0, healthy = true, readyCalls = 0;
-  const url = await serve(t, {
-    ready: () => { readyCalls++; if (!healthy) throw Error('SENTINELSECRET'); },
-    onQueued: pending => { counts.push(pending); admissions[counts.length - 1].resolve(); },
-    analysisService: { analyze: async fields => {
-      const i = calls++;
-      active++; maximum = Math.max(maximum, active);
-      events.push(`analyze:${fields[0].fieldId}`);
-      entered[i].resolve();
-      try {
-        await gates[i].promise;
-        if (i === 0) throw Error('SENTINELSECRET');
-        return [{ fieldId: fields[0].fieldId, get denied() {
-          events.push(`project:${fields[0].fieldId}`); return new Set();
-        } }];
-      } finally { active--; }
-    } },
-  });
-  const jobs = [];
-  for (let i = 0; i < 4; i++) {
-    jobs.push(post(url, [field(`job${i}`)]));
-    await within(admissions[i].promise);
-  }
-  await within(entered[0].promise);
-  assert.equal(calls, 1);
-  assert.deepEqual(counts, [1, 2, 3, 4]);
-  await responseIs(await post(url, [field('overflow')]), 503, unavailable);
-  await responseIs(await fetch(url + '/health/ready'), 200, { status: 'ready' });
-  healthy = false;
-  await responseIs(await fetch(url + '/health/ready'), 503, unavailable);
-  await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, body: '{"fields":[]}' }), 400, { code: 'invalid_request' });
-  assert.equal(calls, 1);
-  assert.deepEqual(counts, [1, 2, 3, 4], 'invalid and rejected requests never enter queue');
-  gates[0].resolve();
-  await responseIs(await within(jobs[0]), 503, unavailable);
-  await within(entered[1].promise);
-  jobs.push(post(url, [field('job4')]));
-  await within(admissions[4].promise);
-  assert.deepEqual(counts, [1, 2, 3, 4, 4], 'failed active job released exactly one slot');
-  for (let i = 1; i < 5; i++) {
-    await within(entered[i].promise);
-    assert.equal(calls, i + 1);
-    gates[i].resolve();
-    await responseIs(await within(jobs[i]), 200, accepted);
-  }
-  assert.equal(maximum, 1);
-  assert.equal(readyCalls, 2);
-  assert.deepEqual(events, ['analyze:job0', 'analyze:job1', 'project:job1',
-    'analyze:job2', 'project:job2', 'analyze:job3', 'project:job3', 'analyze:job4', 'project:job4']);
-});
-
-test('two createApp instances do not share an executor or admission capacity', { timeout: 10000 }, async t => {
-  const release = deferred(), entered = deferred();
-  t.after(() => release.resolve());
-  const admitted = Array.from({ length: 4 }, deferred);
-  let count = 0, secondCalls = 0;
-  const first = await serve(t, { ready: () => true,
-    onQueued: () => admitted[count++].resolve(),
-    analysisService: { analyze: async () => { entered.resolve(); await release.promise; return []; } } });
-  const second = await serve(t, { ready: () => true,
-    analysisService: { analyze: async () => { secondCalls++; return []; } } });
-  const jobs = [];
-  for (let i = 0; i < 4; i++) {
-    jobs.push(post(first)); await within(admitted[i].promise);
-  }
-  await within(entered.promise);
+test('two createApp instances do not share capacity', async t => {
+  const gate = deferred(), entered = deferred();
+  t.after(() => gate.resolve());
+  const first = await serve(t, { ready: () => true, analysisService: { analyze: async () => { entered.resolve(); await gate.promise; return []; } } });
+  const second = await serve(t, { ready: () => true, analysisService: { analyze: async () => [] } });
+  const job = post(first); await within(entered.promise);
   await responseIs(await post(first), 503, unavailable);
-  await responseIs(await within(post(second)), 200, accepted);
-  assert.equal(secondCalls, 1);
-  release.resolve();
-  for (const job of jobs) await responseIs(await within(job), 200, accepted);
+  await responseIs(await post(second), 200, accepted);
+  gate.resolve(); await responseIs(await job, 200, accepted);
 });
 
-test('projection failure stays inside job, releases slot and does not poison queued requests', async t => {
-  const release = deferred(), entered = deferred(), secondQueued = deferred();
-  t.after(() => release.resolve());
+test('projection failure releases capacity and subsequent admission recovers', async t => {
   let calls = 0;
-  const events = [];
-  const url = await serve(t, { ready: () => true,
-    onQueued: count => { if (count === 2) secondQueued.resolve(); },
-    analysisService: { analyze: async () => {
-      const n = ++calls; events.push(`analyze${n}`);
-      if (n === 1) {
-        entered.resolve(); await release.promise;
-        return [{ fieldId: 'description', get denied() { events.push('project1'); throw Error('SENTINELSECRET'); } }];
-      }
-      return [];
-    } } });
-  const first = post(url); await within(entered.promise);
-  const second = post(url); await within(secondQueued.promise);
-  release.resolve();
-  await responseIs(await first, 503, unavailable);
-  await responseIs(await second, 200, accepted);
+  const url = await serve(t, { ready: () => true, analysisService: { analyze: async () => {
+    if (++calls === 1) return [{ fieldId: 'description', get denied() { throw Error('SENTINELSECRET'); } }];
+    return [];
+  } } });
+  await responseIs(await post(url), 503, unavailable);
   await responseIs(await post(url), 200, accepted);
-  assert.deepEqual(events, ['analyze1', 'project1', 'analyze2', 'analyze3']);
 });
 
 test('all readiness and service failures map to 503 even with input-error class identities', async t => {
@@ -154,19 +71,6 @@ test('all readiness and service failures map to 503 even with input-error class 
     await responseIs(await fetch(url + '/health/ready'), 503, unavailable);
     await responseIs(await post(url), 503, unavailable);
   }
-});
-
-test('queue observer rejection is redacted as unavailable and subsequent admission recovers', async t => {
-  let observations = 0;
-  const url = await serve(t, { ready: () => true,
-    onQueued: pending => {
-      assert.equal(typeof pending, 'number');
-      if (++observations === 1) throw new InvalidRequest('SENTINELSECRET');
-    },
-    analysisService: { analyze: async () => [] },
-  });
-  await responseIs(await post(url), 503, unavailable);
-  await responseIs(await post(url), 200, accepted);
 });
 
 test('createApp requires explicit service and readiness at runtime', () => {
@@ -189,8 +93,8 @@ test('direct app passes original strings to service and projects only sorted pub
 });
 
 test('invalid wire/schema never calls service, admission or readiness; exact headers on all statuses', async t => {
-  let calls = 0, admissions = 0, readyCalls = 0;
-  const url = await serve(t, { ready: () => { readyCalls++; }, onQueued: () => admissions++,
+  let calls = 0, readyCalls = 0;
+  const url = await serve(t, { ready: () => { readyCalls++; },
     analysisService: { analyze: async () => { calls++; return []; } } });
   const valid = JSON.stringify({ fields: [field()] });
   for (const body of [
@@ -201,8 +105,6 @@ test('invalid wire/schema never calls service, admission or readiness; exact hea
     '{"fields":[{"fieldId":"x","text":"x","allowedCategories":["EMAIL"]}]}',
     '{"fields":[{"fieldId":"x","text":"x","extra":0}]}',
     '{"fields":[{"fieldId":"x","text":"x"}],"extra":0}',
-    '{"fields":[],"\\u0066ields":[{"fieldId":"x","text":"x"}]}',
-    '{"fields":[{"fieldId":"x","text":"x","text":"y"}]}',
     '{"fields":[{"fieldId":"x","text":"\\ud800"}]}',
     '{"fields":[{"fieldId":"\\udc00","text":"x"}]}',
     '\ufeff' + valid, Buffer.from([0xff]), Buffer.from([0xc0, 0xaf]),
@@ -225,14 +127,14 @@ test('invalid wire/schema never calls service, admission or readiness; exact hea
     await responseIs(await fetch(url + path, { method, headers: { 'Content-Type': 'text/plain' },
       ...(method === 'GET' ? {} : { body: 'invalid' }) }), 404, { code: 'not_found' });
   }
-  assert.equal(calls, 0); assert.equal(admissions, 0); assert.equal(readyCalls, 0);
+  assert.equal(calls, 0); assert.equal(readyCalls, 0);
   const exactLimit = valid + ' '.repeat(1048576 - Buffer.byteLength(valid));
   await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
     headers: { 'Content-Type': 'aPpLiCaTiOn/JsOn ; ignored=parameter' }, body: exactLimit }), 200, accepted);
-  assert.equal(calls, 1); assert.equal(admissions, 1);
+  assert.equal(calls, 1);
   await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
     headers: { 'Content-Type': 'application/json' }, body: exactLimit + ' ' }), 413, { code: 'body_too_large' });
-  assert.equal(calls, 1); assert.equal(admissions, 1); assert.equal(readyCalls, 0);
+  assert.equal(calls, 1); assert.equal(readyCalls, 0);
 });
 
 test('route and content-type are decided before reading any request body', async t => {
@@ -299,12 +201,12 @@ test('compiled HTTP import graph cannot load SDK/analysis, read env, listen or f
 });
 
 test('config reads only when called, preserves Number conversion, zero port and host bytes', () => {
-  assert.deepEqual(loadConfig({}), { port: 8000, bindHost: '127.0.0.1' });
+  assert.deepEqual(loadConfig({}), { port: 8000, bindHost: '127.0.0.1', concurrency: 1, tokenBudget: 512 });
   for (const [value, expected] of [['0', 0], ['', 0], [' 42 ', 42], ['0x10', 16]])
     assert.equal(loadConfig({ ANALYZER_PORT: value }).port, expected);
   assert.ok(Number.isNaN(loadConfig({ ANALYZER_PORT: 'bad' }).port));
   assert.equal(loadConfig({ ANALYZER_BIND_HOST: ' LOCALHOST ' }).bindHost, ' LOCALHOST ');
   assert.equal(loadConfig({ ANALYZER_BIND_HOST: '' }).bindHost, '');
   assert.deepEqual(HTTP_LIMITS, { maxBodyBytes: 1048576, maxFields: 10, maxFieldIdUnits: 128,
-    maxWords: 50, maxPending: 4, requestTimeout: 10000 });
+    maxWords: 50, requestTimeout: 10000 });
 });

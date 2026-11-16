@@ -17,7 +17,7 @@ for (const [mutant, diagnostic] of [['none', null], ['model-root', 'MODEL_DIRECT
     const sdk = `
       export const env = {};
       export const AutoModelForTokenClassification = { async from_pretrained(path, options) { globalThis.probe.loads.push({ path, options }); return {}; } };
-      export class PreTrainedTokenizer { constructor() { return () => ({ input_ids: { data: [1] } }); } }
+      export class PreTrainedTokenizer { constructor() { return Object.assign(() => ({ input_ids: { data: [1] } }), {model_max_length:3}); } }
       export class TokenClassificationPipeline { constructor() { return async () => []; } }
     `;
     const filesystem = `
@@ -77,7 +77,7 @@ for (const [mutant, diagnostic] of [['none', null], ['model-root', 'MODEL_DIRECT
       assert.deepEqual(probe.mkdirs, [], 'CLI import must not create model directories');
       const { env } = await import(${JSON.stringify(sdkURL)});
       assert.deepEqual(env, {}, 'import must not configure SDK');
-      await transformersAdapterBuilder().warmup();
+      await transformersAdapterBuilder();
       assert.equal(env.allowRemoteModels, false);
       assert.deepEqual(probe.loads, [{ path: ${JSON.stringify(join(pkg, 'models') + '/')}, options: { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true } }], 'MODEL_DIRECTORY');
       assert.deepEqual(probe.reads, [${JSON.stringify(pathToFileURL(join(pkg, 'model-manifest.json')).href)}, ${JSON.stringify(pathToFileURL(join(pkg, 'models/config.json')).href)}, ${JSON.stringify(pathToFileURL(join(pkg, 'models/tokenizer.json')).href)}], 'MODEL_MANIFEST_PATH');

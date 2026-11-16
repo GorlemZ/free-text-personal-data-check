@@ -12,22 +12,22 @@ const field = (fieldId, text, allowedCategories = []) => ({ fieldId, text, allow
 test('service builders compose raw interpretation, real rules and field policy sequentially', async () => {
   assert.equal(typeof api.analysisServiceBuilder, 'function', 'SERVICE_BUILDERS_REQUIRED');
   const { modelDetectionServiceBuilder } = await import('../../poc-rizzo/dist/services/modelDetectionService.js');
-  const { ruleDetectionServiceBuilder } = await import('../../poc-rizzo/dist/services/ruleDetectionService.js');
+  const { recognize } = await import('../../poc-rizzo/dist/recognizers/rules.js');
   const trace = [];
   const modelDetectionService = modelDetectionServiceBuilder({ infer: async text => {
     trace.push(text);
     return { output: [{ entity_group: 'FULLNAME', word: 'synthetic', score: .5 }] };
   } });
-  const analysis = api.analysisServiceBuilder({ modelDetectionService, ruleDetectionService: ruleDetectionServiceBuilder() });
+  const analysis = api.analysisServiceBuilder({ modelDetectionService, ruleDetectionService: recognize });
   assert.deepEqual(await analysis([field('b', 'synthetic@example.test'), field('a', 'other', ['PERSON'])]), [
-    { fieldId: 'b', category: 'PERSON' }, { fieldId: 'b', category: 'EMAIL_ADDRESS' },
+    { fieldId: 'b', category: 'PERSON' },
   ]);
   assert.deepEqual(trace, ['synthetic@example.test', 'other']);
 });
 
 function composed(trace, { output, preflight, pipeline } = {}) {
   const infer = rawInferenceBuilder({ maxTokens: 1, tokenizer: (text, options) => {
-    trace.push('tokenize:' + text); assert.deepEqual(options, { truncation: false, padding: false });
+    trace.push('tokenize:' + text); assert.deepEqual(options, { truncation: false, padding: false, add_special_tokens: true });
     return preflight ? preflight(text) : { input_ids: { data: [1] } };
   }, pipeline: async (text, options) => {
     trace.push('pipeline:' + text); assert.deepEqual(options, { aggregation_strategy: 'simple' });
@@ -37,7 +37,7 @@ function composed(trace, { output, preflight, pipeline } = {}) {
   } });
   const modelDetectionService = modelDetectionServiceBuilder({ infer });
   return api.analysisServiceBuilder({ modelDetectionService, ruleDetectionService: text => {
-    trace.push('rules:' + text); return new Set(['EMAIL_ADDRESS']);
+    trace.push('rules:' + text); return new Set(['IT_IDENTITY_CARD']);
   } });
 }
 function observed(trace, id, label = 'FULLNAME', score = .5) {
@@ -49,7 +49,7 @@ function observed(trace, id, label = 'FULLNAME', score = .5) {
 test('each field finishes preflight pipeline complete projection interpretation rules fusion and policy before the next', async () => {
   const trace = [], analysis = composed(trace);
   const a = field('a', 'first'), b = field('b', 'second', ['PERSON']);
-  assert.deepEqual(await analysis([a, b]), [{ fieldId: 'a', category: 'PERSON' }, { fieldId: 'a', category: 'EMAIL_ADDRESS' }, { fieldId: 'b', category: 'EMAIL_ADDRESS' }]);
+  assert.deepEqual(await analysis([a, b]), [{ fieldId: 'a', category: 'PERSON' }, { fieldId: 'a', category: 'IT_IDENTITY_CARD' }, { fieldId: 'b', category: 'IT_IDENTITY_CARD' }]);
   assert.deepEqual(trace, ['first', 'second'].flatMap(text => ['tokenize:' + text, 'pipeline:' + text,
     ...[0, 1].flatMap(i => ['entity_group', 'word', 'score'].map(key => 'project:' + text + ':' + i + ':' + key)), 'rules:' + text]));
 });
@@ -104,11 +104,6 @@ test('allowlists never skip inference or rescue model failures, including a full
   assert.deepEqual(trace, ['tokenize:x', 'pipeline:x']);
 });
 
-test('semantic legacy boundary retains primitive boxing and the precise repeated getter access order', () => {
+test('malformed semantic primitives fail closed', () => {
   for (const value of [undefined, null, false, true, 0, 1, 'x', Symbol('x'), 1n]) assert.throws(() => interpretSemanticEntities([value]), /INVALID_MODEL_OUTPUT/);
-  const trace = [];
-  const value = Object.defineProperties({}, Object.fromEntries([['label', 'FULLNAME'], ['text', 'x'], ['score', .5]].map(([key, result]) => [key, { get() { trace.push(key); return result; } }])));
-  assert.deepEqual([...interpretSemanticEntities([value])], ['PERSON']);
-  assert.deepEqual(trace, ['label', 'text', 'score', 'score', 'score', 'score', 'text', 'label', 'label']);
 });
-

@@ -9,7 +9,7 @@ import { boundaryCases } from './async-boundary.mjs';
 const adapterURL = new URL('../../../poc-rizzo/dist/adapters/transformersAdapter.js', import.meta.url).href;
 const sdk = 'data:text/javascript,' + encodeURIComponent(`
  export const env={}; export const AutoModelForTokenClassification={from_pretrained:async()=>{throw Error('NO_REAL_LOADER');}};
- export class PreTrainedTokenizer {constructor(){return (...args)=>globalThis.portFixture.tokenizer(...args);}}
+ export class PreTrainedTokenizer {constructor(){return Object.assign((...args)=>globalThis.portFixture.tokenizer(...args), {model_max_length:1});}}
  export class TokenClassificationPipeline {constructor(){return (...args)=>globalThis.portFixture.pipeline(...args);}}
 `);
 registerHooks({ resolve(s, c, next) { return s === '@huggingface/transformers' && c.parentURL === adapterURL ? { url: sdk, shortCircuit: true } : next(s, c); } });
@@ -22,18 +22,16 @@ try {
  let loads = 0;
  const rows = await boundaryCases(async options => {
    globalThis.portFixture = options;
-   const adapter = transformersAdapterBuilder();
-   const promise = adapter.warmup({ directory: pathToFileURL(directory + '/'), manifestPath: pathToFileURL(join(directory, 'manifest.json')), loadModel: async (path, options) => {
+   const adapter = await transformersAdapterBuilder({ directory: pathToFileURL(directory + '/'), manifestPath: pathToFileURL(join(directory, 'manifest.json')), loadModel: async (path, options) => {
      loads++; assert.equal(path, directory + '/'); assert.deepEqual(options, { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true }); return {};
    } });
-   assert.equal(adapter.warmup({}), promise); await promise;
    return adapter.infer;
  });
  assert.equal(loads, rows.length);
  // Integrity remains in the real initialization path, not bypassed by the SDK sentinel.
  await writeFile(join(directory, 'model.onnx'), 'different');
  let forbiddenLoads = 0;
- await assert.rejects(transformersAdapterBuilder().warmup({ directory: pathToFileURL(directory + '/'), manifestPath: pathToFileURL(join(directory, 'manifest.json')), loadModel: async () => { forbiddenLoads++; return {}; } }), /MODEL_INTEGRITY_FAILURE/);
+ await assert.rejects(transformersAdapterBuilder({ directory: pathToFileURL(directory + '/'), manifestPath: pathToFileURL(join(directory, 'manifest.json')), loadModel: async () => { forbiddenLoads++; return {}; } }), /MODEL_INTEGRITY_FAILURE/);
  assert.equal(forbiddenLoads, 0);
  console.log(JSON.stringify({ rows, loads, hashNegativeControl: true }));
 } finally { delete globalThis.portFixture; await rm(directory, { recursive: true, force: true }); }

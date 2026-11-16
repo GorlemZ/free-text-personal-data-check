@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import getRawBody from 'raw-body';
 import { HTTP_LIMITS } from '../config/config.js';
 import { BodyTooLarge, InvalidRequest } from '../model/errors.js';
 
@@ -7,18 +8,14 @@ export function reply(res: ServerResponse, status: number, payload: unknown): vo
   res.end(JSON.stringify(payload));
 }
 export async function readBody(req: IncomingMessage): Promise<string> {
-  let size = 0;
-  const chunks: Buffer[] = [];
   try {
-    for await (const chunk of req.iterator({ destroyOnReturn: false })) {
-      size += chunk.length;
-      if (size > HTTP_LIMITS.maxBodyBytes) throw new BodyTooLarge();
-      chunks.push(chunk);
-    }
-    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.concat(chunks));
+    // Count actual bytes, not Content-Length: preserve body/error precedence.
+    // Buffering state belongs to raw-body; decoding remains fatal and preserves BOM.
+    const body = await getRawBody(req, { limit: HTTP_LIMITS.maxBodyBytes });
+    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(body);
   } catch (error) {
     req.resume();
-    if (error instanceof BodyTooLarge) throw error;
+    if (error !== null && typeof error === 'object' && 'type' in error && error.type === 'entity.too.large') throw new BodyTooLarge();
     throw new InvalidRequest();
   }
 }

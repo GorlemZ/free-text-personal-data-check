@@ -77,17 +77,19 @@ test('validates the entire closed request before any detector call', async () =>
   });
 });
 
-test('rejects malformed JSON and duplicate decoded keys without echoing input', async () => {
+test('rejects malformed JSON without echoing input; duplicate decoded keys use last value', async () => {
   let calls = 0;
   await withServer(async () => { calls++; return new Set(); }, async base => {
+    for (const raw of ['{"private":', '', '[', 'null trailing'])
+      assert.deepEqual(await post(base, raw, true), { status: 400, body: { code: 'invalid_request' } });
+    assert.equal(calls, 0);
     for (const raw of [
       '{"fields":[],"fields":[{"fieldId":"x","text":"secret"}]}',
       '{"fields":[{"fieldId":"x","text":"secret","te\\u0078t":""}]}',
       '{"fields":[{"fieldId":"x","fieldId":"y","text":""}]}',
       '{"fields":[{"fieldId":"x","text":"","allowedCategories":[],"allowedCategories":["PERSON"]}]}',
-      '{"private":', '', '[', 'null trailing',
-    ]) assert.deepEqual(await post(base, raw, true), { status: 400, body: { code: 'invalid_request' } });
-    assert.equal(calls, 0);
+    ]) assert.deepEqual(await post(base, raw, true), { status: 200, body: { verdict: 'accepted', findings: [] } });
+    assert.equal(calls, 4);
     assert.equal((await post(base, { fields: [field('text: { \\"fields\\": 1, \\"fields\\": 2 } \\')] })).status, 200);
   });
 });

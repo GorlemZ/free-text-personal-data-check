@@ -14,11 +14,11 @@ for (const mode of ['defaults', 'port-zero', 'warmup-failure']) {
     }`;
     const transport = `export function createServer() { return { on() {}, listen(port, host) { globalThis.trace.push(['listen', port, host]); }, close(done) { done(); } };
     }`;
-    const detector = `export function transformersAdapterBuilder() { return { infer: async () => [], async warmup() {
+    const detector = `export async function transformersAdapterBuilder() {
       globalThis.trace.push('warmup');
       await new Promise(resolve => setImmediate(resolve));
-      ${mode === 'warmup-failure' ? "throw Error('SENSITIVE_SENTINEL');" : "globalThis.trace.push('warmed'); return async () => new Set();"}
-    } }; }`;
+      ${mode === 'warmup-failure' ? "throw Error('SENSITIVE_SENTINEL');" : "globalThis.trace.push('warmed'); return { infer: async () => [] };"}
+    }`;
     const hook = `
       import assert from 'node:assert/strict';
       import { registerHooks } from 'node:module';

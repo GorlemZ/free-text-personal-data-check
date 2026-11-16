@@ -2061,6 +2061,10 @@
     },
     {
       "name": "invalid-json-0",
+      "expectedByEngine": {
+        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
+        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",
@@ -2076,6 +2080,10 @@
     },
     {
       "name": "invalid-json-1",
+      "expectedByEngine": {
+        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
+        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",
@@ -2091,6 +2099,10 @@
     },
     {
       "name": "invalid-json-2",
+      "expectedByEngine": {
+        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
+        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",

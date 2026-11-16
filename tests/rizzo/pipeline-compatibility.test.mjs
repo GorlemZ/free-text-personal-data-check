@@ -2,8 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { createInference, semanticCategories } from './support/model.mjs';
-import { decodeBIO } from './fixtures/legacy-decoder.mjs';
+import { createInference } from './support/model.mjs';
 
 const require = createRequire(new URL('../../poc-rizzo/package.json', import.meta.url));
 const { TokenClassificationPipeline, Tensor } = await import(
@@ -38,10 +37,10 @@ function winning(indices, classes) {
   return indices.flatMap(index => Array.from({ length: classes }, (_, i) => i === index ? 10 : -10));
 }
 
-test('standard pipeline skips non-finite logits on a special token; legacy raw failure is not preserved', async () => {
+test('standard pipeline skips non-finite logits on a special token', async () => {
   const labels = { 0: 'O', 1: 'B-FULLNAME' };
   const f = example({ labels, values: [10, NaN, 0, 10] });
-  assert.throws(() => decodeBIO(f.ids, f.logits, labels, f.tokenizer), /INVALID_MODEL_OUTPUT/);
+
   const output = await f.pipeline('Ada', { aggregation_strategy: 'simple' });
   assert.equal(output.length, 1);
   assert.equal(output[0].entity_group, 'FULLNAME');
@@ -52,9 +51,9 @@ test('standard simple grouping crosses a filtered O and can lower the category b
   const labels = { 0: 'O', 1: 'B-FULLNAME', 2: 'I-FULLNAME' };
   const f = example({ labels, ids: [11, 22, 33], specialIds: [], words: { 11: 'Ada', 22: 'e', 33: 'Rossi' },
     values: [0, .8, 0, 10, 0, 0, 0, 0, .1] });
-  const baseline = semanticCategories(decodeBIO(f.ids, f.logits, labels, f.tokenizer));
+
   const output = await f.pipeline('Ada e Rossi', { aggregation_strategy: 'simple' });
-  assert.deepEqual([...baseline], ['PERSON']);
+
   assert.equal(output.length, 1);
   assert.equal(output[0].entity_group, 'FULLNAME');
   assert.equal(output[0].word, 'Ada Rossi');
@@ -65,7 +64,7 @@ test('standard simple grouping crosses a filtered O and can lower the category b
 test('standard pipeline skips a malformed winning label on a special token', async () => {
   const labels = { 0: 'O', 1: 'BAD_LABEL', 2: 'B-FULLNAME' };
   const f = example({ labels, values: [0, 10, 0, 0, 0, 10] });
-  assert.throws(() => decodeBIO(f.ids, f.logits, labels, f.tokenizer), /INVALID_MODEL_LABEL/);
+
   assert.deepEqual([...await f.infer('Ada')], ['PERSON']);
 });
 
@@ -77,7 +76,7 @@ test('standard BIO grouping preserves Unicode and the tail with the same preflig
   assert.deepEqual(output.map(item => [item.entity_group, item.word]), [['FULLNAME', 'Zoë D’Amico'], ['EMAIL', 'synthetic@example.test']]);
   assert.deepEqual([...await f.infer('Zoë D’Amico synthetic@example.test')], ['PERSON', 'EMAIL_ADDRESS']);
   assert.deepEqual(f.tokenizations.slice(-2), [
-    { text: 'Zoë D’Amico synthetic@example.test', options: { truncation: false, padding: false } },
+    { text: 'Zoë D’Amico synthetic@example.test', options: { truncation: false, padding: false, add_special_tokens: true } },
     { text: ['Zoë D’Amico synthetic@example.test'], options: { padding: true, truncation: true } },
   ]);
 });
@@ -133,5 +132,5 @@ test('preflight prevents standard pipeline truncation from concealing an over-li
   await assert.rejects(() => f.infer('Ada'), /TOKEN_LIMIT/);
   assert.equal(f.runs(), 0);
   assert.equal(f.tokenizations.length, 1);
-  assert.deepEqual(f.tokenizations[0].options, { truncation: false, padding: false });
+  assert.deepEqual(f.tokenizations[0].options, { truncation: false, padding: false, add_special_tokens: true });
 });

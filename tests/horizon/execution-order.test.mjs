@@ -7,7 +7,7 @@ async function requestWith(overrides) {
   const server = createServer(createHandler({
     ready: async () => true,
     prepare: text => ({ text }),
-    recognize: () => [],
+    recognize: () => new Set(),
     infer: async () => [],
     ...overrides,
   }));
@@ -34,61 +34,59 @@ test('a malformed recognizer return still runs inference before failing closed',
       infer: async () => { events.push('infer'); return []; },
     });
     assert.deepEqual(result, unavailable);
-    assert.deepEqual(events, ['collect', 'infer']);
+    assert.deepEqual(events, ['infer', 'collect']);
   }
 });
 
-test('a recognizer exception prevents inference for the current field', async () => {
+test('a recognizer exception occurs after model success and fails the request', async () => {
   const events = [];
   const result = await requestWith({
     recognize: () => { events.push('collect'); throw Error('fixture recognizer error'); },
     infer: async () => { events.push('infer'); return []; },
   });
   assert.deepEqual(result, unavailable);
-  assert.deepEqual(events, ['collect']);
+  assert.deepEqual(events, ['infer', 'collect']);
 });
 
-test('an inference exception leaves collected rule candidates uninterpreted', async () => {
+test('an inference exception prevents rule collection', async () => {
   const events = [];
-  const rule = { get source() { events.push('interpret-rule'); return 'rule'; } };
+  const rule = new Set(['PERSON']);
   const result = await requestWith({
-    recognize: () => { events.push('collect'); return [rule]; },
+    recognize: () => { events.push('collect'); return rule; },
     infer: async () => { events.push('infer'); throw Error('fixture inference error'); },
   });
   assert.deepEqual(result, unavailable);
-  assert.deepEqual(events, ['collect', 'infer']);
+  assert.deepEqual(events, ['infer']);
 });
 
-test('both raw collection shapes are checked before interpreting rule candidates', async () => {
+test('invalid model container prevents supplementary collection', async () => {
   const events = [];
-  const rule = { get source() { events.push('interpret-rule'); return 'rule'; } };
+  const rule = new Set(['PERSON']);
   const result = await requestWith({
-    recognize: () => { events.push('collect'); return [rule]; },
+    recognize: () => { events.push('collect'); return rule; },
     infer: async () => { events.push('infer'); return {}; },
   });
   assert.deepEqual(result, unavailable);
-  assert.deepEqual(events, ['collect', 'infer']);
+  assert.deepEqual(events, ['infer']);
 });
 
-test('rule interpretation follows inference and precedes model interpretation', async () => {
+test('model interpretation precedes supplementary collection and interpretation', async () => {
   const events = [];
-  const rule = {
-    get source() { events.push('interpret-rule'); return 'rule'; },
-    category: 'PERSON', start: 0, end: 7, check: 'not_checked',
-  };
+  const rule = new class extends Set {
+    *[Symbol.iterator]() { events.push('interpret-rule'); yield 'PERSON'; }
+  }();
   const model = {
     get entity_group() { events.push('interpret-model'); return 'PERSON'; },
     score: 0.9, start: 0, end: 7,
   };
   const result = await requestWith({
-    recognize: () => { events.push('collect'); return [rule]; },
+    recognize: () => { events.push('collect'); return rule; },
     infer: async () => { events.push('infer'); return [model]; },
   });
   assert.deepEqual(result, { status: 200, body: {
     verdict: 'rejected', findings: [{ fieldId: 'description', category: 'PERSON' }],
   } });
-  assert.equal(events[0], 'collect');
-  assert.equal(events[1], 'infer');
-  assert.ok(events.indexOf('interpret-rule') > events.indexOf('infer'));
-  assert.ok(events.lastIndexOf('interpret-rule') < events.indexOf('interpret-model'));
+  assert.equal(events[0], 'infer');
+  assert.ok(events.indexOf('interpret-model') < events.indexOf('collect'));
+  assert.ok(events.indexOf('collect') < events.indexOf('interpret-rule'));
 });

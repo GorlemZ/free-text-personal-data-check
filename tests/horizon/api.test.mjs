@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { createHandler } from './create-test-app.mjs';
 import { categoriesOf, CATEGORIES, LABEL_MAP } from '../../poc-horizon/dist/model/categories.js';
-import { vatCandidates } from '../../poc-horizon/dist/recognizers/vat.js';
-import { italianIbanCandidates } from '../../poc-horizon/dist/recognizers/italian-iban.js';
+import { vatCategories } from '../../poc-horizon/dist/recognizers/vat.js';
+import { italianIbanCategories } from '../../poc-horizon/dist/recognizers/italian-iban.js';
 
 let server, url;
 before(async () => {
@@ -98,13 +98,13 @@ test('rejects email without text; allowlist applies after recognition', async ()
   const allowed = await post({ fields: [field('Mario Rossi', 'description', ['PERSON'])] });
   assert.equal((await allowed.json()).verdict, 'accepted');
 });
-test('Italian document labels survive the semantic adapter and business allowlists', async () => {
+test('Italian supplementary documents survive model-independent recognition and business allowlists', async () => {
   for (const [label, category, text] of [
     ['NATIONAL_ID', 'IT_IDENTITY_CARD', 'CA12345AA'],
     ['DRIVER_LICENSE', 'IT_DRIVER_LICENSE', 'AB1234567C'],
   ]) {
     const local = createServer(createHandler({ ready: async () => true,
-      prepare: text => ({ text }), recognize: () => [],
+      prepare: text => ({ text }),
       infer: async () => [{ entity_group: label, score: 0.9, start: 0, end: text.length }],
     }));
     await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
@@ -124,7 +124,7 @@ test('Italian document labels survive the semantic adapter and business allowlis
   }
 });
 
-test('HTTP unifies both native phone producers before business allowlisting', async () => {
+test('HTTP maps native phone predictions before business allowlisting', async () => {
   const text = '0212345678'; // Metadata example; not an assignment claim.
   const local = createServer(createHandler({ ready: async () => true,
     prepare: text => ({ text }),
@@ -149,7 +149,7 @@ test('HTTP unifies both native phone producers before business allowlisting', as
   } finally { await new Promise(resolve => local.close(resolve)); }
 });
 
-test('malformed phone envelope cannot escape native model span gate over HTTP', async () => {
+test('malformed phone shape cannot veto a valid native model prediction over HTTP', async () => {
   const text = '+999 02 1234 5678';
   const local = createServer(createHandler({ ready: async () => true,
     prepare: text => ({ text }), infer: async () => [{ entity_group: 'PHONE', score: 0.9,
@@ -162,14 +162,14 @@ test('malformed phone envelope cannot escape native model span gate over HTTP', 
       body: JSON.stringify({ fields: [field(text)] }),
     });
     assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), { verdict: 'accepted',
-      findings: [] });
+    assert.deepEqual(await response.json(), { verdict: 'rejected',
+      findings: [{ fieldId: 'description', category: 'PHONE_NUMBER' }] });
   } finally { await new Promise(resolve => local.close(resolve)); }
 });
 
 test('late model failure discards a prior native document finding', async () => {
   const local = createServer(createHandler({ ready: async () => true,
-    prepare: text => ({ text }), recognize: () => [],
+    prepare: text => ({ text }),
     infer: async ({ text }) => { if (text === 'FAIL') throw Error('SENTINELSECRET');
       return [{ entity_group: 'DRIVER_LICENSE', score: 0.9, start: 0, end: text.length }]; },
   }));
@@ -193,9 +193,9 @@ test('all nine business labels form an accepted HTTP allowlist', async () => {
     findings: [] });
 });
 
-test('PERSON and native document remain independently forbidden over the same span', async () => {
+test('PERSON and supplementary Italian document remain independently forbidden', async () => {
   const local = createServer(createHandler({ ready: async () => true,
-    prepare: text => ({ text }), recognize: () => [],
+    prepare: text => ({ text }),
     infer: async () => [{ entity_group: 'PERSON', score: 0.9 },
       { entity_group: 'NATIONAL_ID', score: 0.9, start: 0, end: 9 }],
   }));
@@ -211,11 +211,8 @@ test('PERSON and native document remain independently forbidden over the same sp
   } finally { await new Promise(resolve => local.close(resolve)); }
 });
 
-test('duplicate keys, duplicate IDs, invalid categories and too many words are 400', async () => {
+test('duplicate IDs, invalid categories and too many words are 400', async () => {
   for (const body of [
-    '{"fields":[],"fields":[{"fieldId":"description","text":"SENTINELSECRET","allowedCategories":[] }]}',
-    '{"fields":[{"fieldId":"description","fieldId":"description","text":"SENTINELSECRET","allowedCategories":[]}]}',
-    '{"fields":[],"\\u0066ields":[{"fieldId":"description","text":"SENTINELSECRET","allowedCategories":[]}]}',
     { fields: [field('SENTINELSECRET'), field('SENTINELSECRET')] },
     { fields: [field('SENTINELSECRET','description',['PHONE'])] },
     { fields: [field('SENTINELSECRET','')] },
@@ -255,14 +252,14 @@ test('findings sorted and deduplicated, no raw words', async () => {
   assert.ok(!text.includes('mario.rossi'));
   assert.deepEqual(JSON.parse(text).findings.map(f => f.fieldId), ['contactName','description']);
 });
-test('preflight every field before rules and inference, then run both and union per-field policy', async () => {
+test('budget each field immediately before its inference, rules and policy', async () => {
   const events = [];
   const handler = createHandler({
     ready: async () => true,
     prepare: async text => { events.push(`prepare:${text}`); return { text }; },
     recognize: text => { events.push(`rules:${text}`); return text === 'FIRST'
-      ? [{ category: 'IT_FISCAL_CODE', source: 'rule', start: 0, end: 5, check: 'not_checked' }]
-      : []; },
+      ? new Set(['IT_FISCAL_CODE'])
+      : new Set(); },
     infer: async ({ text }) => { events.push(`infer:${text}`); return text === 'FIRST'
       ? [{ entity_group: 'PERSON', score: 0.9, start: 0, end: 5 }]
       : []; },
@@ -278,18 +275,18 @@ test('preflight every field before rules and inference, then run both and union 
     assert.equal(response.status, 200);
     assert.deepEqual((await response.json()).findings,
       [{ fieldId: 'description', category: 'PERSON' }]);
-    assert.deepEqual(events, ['prepare:FIRST', 'prepare:SECOND',
-      'rules:FIRST', 'infer:FIRST', 'rules:SECOND', 'infer:SECOND']);
+    assert.deepEqual(events, ['prepare:FIRST', 'infer:FIRST', 'rules:FIRST',
+      'prepare:SECOND', 'infer:SECOND', 'rules:SECOND']);
   } finally { await new Promise(resolve => local.close(resolve)); }
 });
 
-test('preflight failure on later field executes neither rules nor inference', async () => {
+test('budget failure on later field aborts without partial results', async () => {
   const events = [];
   const local = createServer(createHandler({
     ready: async () => true,
     prepare: text => { events.push(`prepare:${text}`); if (text === 'SECOND') throw Error('OVER');
       return { text }; },
-    recognize: text => { events.push(`rules:${text}`); return []; },
+    recognize: text => { events.push(`rules:${text}`); return new Set(); },
     infer: async ({ text }) => { events.push(`infer:${text}`); return []; },
   }));
   await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
@@ -300,7 +297,7 @@ test('preflight failure on later field executes neither rules nor inference', as
     });
     assert.equal(response.status, 503);
     assert.deepEqual(await response.json(), { code: 'detector_unavailable' });
-    assert.deepEqual(events, ['prepare:FIRST', 'prepare:SECOND']);
+    assert.deepEqual(events, ['prepare:FIRST', 'infer:FIRST', 'rules:FIRST', 'prepare:SECOND']);
   } finally { await new Promise(resolve => local.close(resolve)); }
 });
 
@@ -319,15 +316,15 @@ test('HTTP ignores known native extras but fails closed for unknown labels and m
     prepare: text => ({ text }),
     infer: async ({ text }) => text === 'UNKNOWN'
       ? [{ entity_group: 'NEW_LABEL', score: 0.01 }]
-      : text === 'BAD_SPAN'
-        ? [{ entity_group: 'PERSON', score: 0.9, start: 0, end: 99 }]
+      : text === 'BAD_SCORE'
+        ? [{ entity_group: 'PERSON', score: '0.9' }]
         : [{ entity_group: 'BANK_ACCOUNT', score: 0.9 }],
   }));
   await new Promise(resolve => local.listen(0, '127.0.0.1', resolve));
   try {
     for (const [text, status, body] of [
       ['KNOWN', 200, 'accepted'], ['UNKNOWN', 503, 'detector_unavailable'],
-      ['BAD_SPAN', 503, 'detector_unavailable'],
+      ['BAD_SCORE', 503, 'detector_unavailable'],
     ]) {
       const response = await fetch(`http://127.0.0.1:${local.address().port}/v1/analyze`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },

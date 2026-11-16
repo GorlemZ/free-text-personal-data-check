@@ -80,3 +80,20 @@ test('smoke exercises migrated HTTP and token failure without making model quali
   assert.equal(texts.length, 2);
   assert.ok(texts.every(text => text.split(/\p{White_Space}+/u).filter(Boolean).length <= 50));
 });
+
+test('smoke closes its loopback server on invalid HTTP outcome and malformed response', async () => {
+  const { smoke } = await import('../../poc-horizon/dist/scripts/smoke.js');
+  for (const malformed of [false, true]) {
+    const servers = [];
+    await assert.rejects(() => smoke({
+      detectText: async text => { if (text === 'x '.repeat(1000)) throw Error('TOKEN_BUDGET_EXCEEDED'); return []; },
+      handler: (_req, res) => {
+        servers.push(res.socket.server);
+        res.writeHead(200, { 'content-type': 'application/json' });
+        res.end(malformed ? '{' : JSON.stringify({ findings: [] }));
+      },
+    }));
+    assert.ok(servers.length > 0);
+    assert.ok(servers.every(server => !server.listening));
+  }
+});

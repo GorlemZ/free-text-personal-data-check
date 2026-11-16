@@ -11,8 +11,8 @@ import { createServer } from './support/http.mjs';
 import { createDetector } from './support/detector.mjs';
 import { createInference } from './support/model.mjs';
 
-async function socket(t, detect) {
-  const server = createServer({ detect });
+async function socket(t, detect, concurrency = 1) {
+  const server = createServer({ detect, concurrency });
   const defaults = http.createServer();
   for (const key of ['timeout', 'requestTimeout', 'headersTimeout', 'keepAliveTimeout', 'maxRequestsPerSocket']) assert.equal(server[key], defaults[key], key);
   server.listen(0, '127.0.0.1');
@@ -30,7 +30,7 @@ test('Rizzo model executes before rules and failure prevents rule collection', a
     if (text === 'synthetic@example.test fail') throw marker;
     return new Set(['PERSON']);
   } });
-  assert.deepEqual([...await detect('synthetic@example.test')], ['PERSON', 'EMAIL_ADDRESS']);
+  assert.deepEqual([...await detect('synthetic@example.test')], ['PERSON']);
   await assert.rejects(() => detect('synthetic@example.test fail'), error => error === marker);
   assert.deepEqual(trace, ['synthetic@example.test', 'synthetic@example.test fail']);
 });
@@ -46,13 +46,13 @@ test('field-local preflight is sequential, not global, and late failure returns 
   assert.deepEqual(trace, ['preflight:first', 'model:first', 'preflight:second']);
 });
 
-test('requests run concurrently without a global queue; HTTP framing and timeout defaults remain Node-owned', async t => {
+test('configured requests run concurrently without waiting; HTTP framing and timeout defaults remain Node-owned', async t => {
   let entered = 0;
   let release;
   const held = new Promise(resolve => { release = resolve; });
   let both;
   const arrived = new Promise(resolve => { both = resolve; });
-  const base = await socket(t, async () => { if (++entered === 2) both(); await held; return new Set(); });
+  const base = await socket(t, async () => { if (++entered === 2) both(); await held; return new Set(); }, 2);
   const a = post(base, [{ fieldId: 'a', text: 'first' }]);
   const b = post(base, [{ fieldId: 'b', text: 'second' }]);
   const timer = setTimeout(() => { release(); both(); }, 2000);
@@ -73,7 +73,7 @@ test('requests run concurrently without a global queue; HTTP framing and timeout
   assert.deepEqual(await large.json(), { code: 'body_too_large' });
 });
 
-test('initialization rejection is sticky and later options never replace the first initialization', async t => {
+test('explicit initialization rejects once without retry', async t => {
   const scratch = await realpath(tmpdir());
   assert.equal(scratch, await realpath(process.env.TMPDIR));
   const dir = await mkdtemp(join(scratch, 'rizzo-sticky-'));
@@ -87,12 +87,8 @@ test('initialization rejection is sticky and later options never replace the fir
   const failure = new Error('synthetic loader failure');
   let first = 0, second = 0;
   const a = createModel({ directory: pathToFileURL(dir + '/'), manifestPath: pathToFileURL(join(dir, 'manifest.json')), loadModel: async (path, options) => { first++; assert.equal(path, dir + '/'); assert.deepEqual(options, { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true }); throw failure; } });
-  const alternate = { directory: pathToFileURL(dir + '/absent/'), loadModel: async () => { second++; } };
-  const b = createModel(alternate);
-  assert.equal(a, b);
-  for (const promise of [a, b]) await assert.rejects(promise, error => error === failure);
-  assert.equal(createModel(alternate), a);
-  await assert.rejects(createModel(alternate), error => error === failure);
+  await assert.rejects(a, error => error === failure);
+  await new Promise(resolve => setImmediate(resolve));
   assert.equal(first, 1);
   assert.equal(second, 0);
 });

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../poc-rizzo/', import.meta.url));
 const ts = createRequire(join(root, 'package.json'))('typescript');
 
-test('domain DTOs and all three ReturnType builder contracts reject invalid and mutable types under real strict NodeNext', async t => {
+test('domain DTOs and composed service contracts reject invalid and mutable types under real strict NodeNext', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'rizzo-C-types-')); t.after(() => rm(dir, { recursive: true, force: true }));
   const configPath = join(root, 'tsconfig.json'), config = ts.readConfigFile(configPath, ts.sys.readFile);
   assert.equal(config.error, undefined);
@@ -19,19 +19,22 @@ test('domain DTOs and all three ReturnType builder contracts reject invalid and 
   assert.equal(options.module, ts.ModuleKind.NodeNext); assert.equal(options.moduleResolution, ts.ModuleResolutionKind.NodeNext);
   const path = name => JSON.stringify(join(root, 'src', name + '.js'));
   const fixture = `import type { Category, Field, Finding, RawInference } from ${path('model/contracts')};
-import { analysisServiceBuilder, type AnalysisService } from ${path('services/analysisService')};
+import { analysisServiceBuilder, detectCategories, type AnalysisService } from ${path('services/analysisService')};
 import { modelDetectionServiceBuilder, type ModelDetectionService } from ${path('services/modelDetectionService')};
-import { ruleDetectionServiceBuilder, type RuleDetectionService } from ${path('services/ruleDetectionService')};
+import { recognize } from ${path('recognizers/rules')};
 const category: Category = 'PERSON';
 const fields: readonly Field[] = [{ fieldId: 'a', text: '', allowedCategories: [category] }];
 const raw: RawInference = async () => ({ output: { external: 'untrusted' } });
 const model: ModelDetectionService = modelDetectionServiceBuilder({ infer: raw });
-const rules: RuleDetectionService = ruleDetectionServiceBuilder();
+const rules: typeof recognize = recognize;
 const analysis: AnalysisService = analysisServiceBuilder({ modelDetectionService: model, ruleDetectionService: rules });
 const exactA: ReturnType<typeof analysisServiceBuilder> = analysis;
 const exactM: ReturnType<typeof modelDetectionServiceBuilder> = model;
-const exactR: ReturnType<typeof ruleDetectionServiceBuilder> = rules;
+const exactR: typeof recognize = rules;
 async function check() {
+  const detected = await detectCategories('x', model, rules);
+  // @ts-expect-error immutable detected category set
+  detected.add(category);
   const result = await analysis(fields);
   const envelope = await raw('x');
   const external: unknown = envelope.output;

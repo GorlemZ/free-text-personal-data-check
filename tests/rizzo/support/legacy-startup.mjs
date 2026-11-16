@@ -133,9 +133,10 @@ export function assertModelCase(actual, scenario) {
           error = { name: original.name, code: null, message: original.message, identity: 'parse' };
         } else if (scenario.config === null) error = { name: 'TypeError', code: null, message: "Cannot read properties of null (reading 'max_position_embeddings')", identity: null };
         else {
-          trace.push('config:get', 'loader');
-          if (scenario.reread) trace.push('config:get');
-          error = { name: 'Error', code: 'M1_SENTINEL', message: scenario.reread ? 'M1_CONFIG_REREAD_SENTINEL' : 'M1_LOADER_SENTINEL', identity: scenario.reread ? 'config-reread' : 'loader' };
+          trace.push('config:get');
+          const limit = Object.hasOwn(scenario, 'config') ? scenario.config.max_position_embeddings : 3;
+          if (!Number.isSafeInteger(limit) || limit <= 0) error = { name: 'TypeError', code: null, message: 'INVALID_TOKEN_BUDGET', identity: null };
+          else { trace.push('loader'); error = scenario.reread ? null : { name: 'Error', code: 'M1_SENTINEL', message: 'M1_LOADER_SENTINEL', identity: 'loader' }; }
         }
       }
     }

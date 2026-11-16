@@ -31,8 +31,6 @@ test('TypeScript builds an import-safe service runnable from dist without source
     await symlink(join(root, 'node_modules'), join(isolated, 'node_modules'), 'dir');
     const appUrl = pathToFileURL(join(isolated, 'dist/app.js')).href;
     const analysisUrl = pathToFileURL(join(isolated, 'dist/services/analysisService.js')).href;
-    const rulesUrl = pathToFileURL(join(isolated, 'dist/services/ruleDetectionService.js')).href;
-    const modelUrl = pathToFileURL(join(isolated, 'dist/services/modelDetectionService.js')).href;
     const registryUrl = pathToFileURL(join(isolated, 'dist/recognizers/registry.js')).href;
     const smokeUrl = pathToFileURL(join(isolated, 'dist/scripts/smoke.js')).href;
     const prefetchUrl = pathToFileURL(join(isolated, 'dist/scripts/prefetch.js')).href;
@@ -45,8 +43,6 @@ test('TypeScript builds an import-safe service runnable from dist without source
       globalThis.fetch = async () => { forbiddenFetches++; throw Error('forbidden runtime fetch'); };
       const { createApp } = await import(${JSON.stringify(appUrl)});
       const { analysisServiceBuilder } = await import(${JSON.stringify(analysisUrl)});
-      const { ruleDetectionServiceBuilder } = await import(${JSON.stringify(rulesUrl)});
-      const { modelDetectionServiceBuilder } = await import(${JSON.stringify(modelUrl)});
       const { recognizeItalianIdentifiers } = await import(${JSON.stringify(registryUrl)});
       const { smoke } = await import(${JSON.stringify(smokeUrl)});
       const { prefetch } = await import(${JSON.stringify(prefetchUrl)});
@@ -64,8 +60,7 @@ test('TypeScript builds an import-safe service runnable from dist without source
       const server = createServer(createApp({
         ready: async () => true,
         analysisService: analysisServiceBuilder({
-          ruleDetectionService: ruleDetectionServiceBuilder(recognizeItalianIdentifiers),
-          modelDetectionService: modelDetectionServiceBuilder(adapter),
+          recognize: recognizeItalianIdentifiers, adapter,
         }),
       }));
       await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));

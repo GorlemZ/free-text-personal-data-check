@@ -17,7 +17,7 @@ const field = (text = '', fieldId = 'custom', allowedCategories) =>
   ({ fieldId, text, ...(allowedCategories === undefined ? {} : { allowedCategories }) });
 const accepted = { verdict: 'accepted', findings: [] };
 
-test('uniform validation has closed schema, Unicode word/ID limits and duplicate-key rejection', async () => {
+test('uniform validation has closed schema, Unicode word/ID limits and repeated fieldId rejection', async () => {
   let calls = 0;
   await withService({ infer: async () => { calls++; return []; } }, async send => {
     for (const body of [
@@ -44,8 +44,6 @@ test('uniform validation has closed schema, Unicode word/ID limits and duplicate
       { fields: [field()], extra: 1 },
       { fields: [{ ...field(), extra: 1 }] },
       { fields: [{ fieldId: 'a' }] },
-      '{"fields":[],"\\u0066ields":[{"fieldId":"a","text":""}]}',
-      '{"fields":[{"fieldId":"a","text":"","\\u0074ext":""}]}',
       Buffer.from([0xff]),
     ]) {
       const response = await send(body);
@@ -97,21 +95,21 @@ test('canonical findings use UTF-16 ordering, not locale or Unicode scalar order
   });
 });
 
-test('native phone aliases and rule producer share policy, with Italian-only geography', async () => {
+test('native phone aliases share policy without a geography veto', async () => {
   for (const value of ['3331234567', '+39 3331234567', '+44 20 8366 1177', '+1 (213) 373-4253']) {
     await withService({ infer: async ({ text }) => ['PHONE', 'PHONE_NUMBER'].map(entity_group =>
       ({ entity_group, score: 0.9, start: text.indexOf(value), end: text.length })) }, async send => {
       for (const allowed of [[], ['PHONE_NUMBER']]) {
         const response = await send({ fields: [field(`telefono ${value}`, 'a', allowed)] });
         assert.equal(response.status, 200);
-        assert.deepEqual(await response.json(), allowed.length || value.startsWith('+44') || value.startsWith('+1')
+        assert.deepEqual(await response.json(), allowed.length
           ? accepted : { verdict: 'rejected', findings: [{ fieldId: 'a', category: 'PHONE_NUMBER' }] });
       }
     });
   }
 });
 
-test('native documents map only Italian forms in original standalone or contextual text', async () => {
+test('supplementary documents recognize Italian forms in standalone or contextual text', async () => {
   for (const [label, category, value, context] of [
     ['NATIONAL_ID', 'IT_IDENTITY_CARD', 'CA12345AA', 'carta di identità: '],
     ['NATIONAL_ID', 'IT_IDENTITY_CARD', '1234567AB', 'CIE: '],
@@ -138,7 +136,6 @@ test('native documents map only Italian forms in original standalone or contextu
 test('malformed native containers/candidates and genuinely unknown labels fail closed before policy', async () => {
   for (const results of ['', {}, null, [null], [[]], [{ entity_group: 'PERSON', score: '0.9' }],
     [{ entity_group: 'LOCATION', score: -1 }], [{ entity_group: 'LOCATION', score: NaN }],
-    [{ entity_group: 'LOCATION', score: 0.9, start: 0, end: 999 }],
     [{ entity_group: '__proto__', score: 0.9 }], [{ entity_group: 'toString', score: 0.9 }],
     [{ entity_group: 'UNKNOWN_NATIVE', score: 0.01 }]]) {
     await withService({ infer: async () => results }, async send => {
@@ -149,7 +146,7 @@ test('malformed native containers/candidates and genuinely unknown labels fail c
   }
 });
 
-test('all nine canonical aliases traverse the real HTTP adapter and field policy', async () => {
+test('all nine categories traverse their fixed sources and field policy', async () => {
   const examples = [
     ['PERSON', 'Ada Verdi'], ['EMAIL_ADDRESS', 'ada@example.test'],
     ['PHONE_NUMBER', '3331234567'], ['IT_FISCAL_CODE', 'RSSMRA85M01H501Q'],

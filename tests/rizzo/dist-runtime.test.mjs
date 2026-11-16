@@ -17,7 +17,7 @@ test('compiled modules import safely and serve synthetic HTTP using standard res
     http.Server.prototype.listen = () => { throw Error('forbidden import listen'); };
     const { createApp } = await import(${JSON.stringify(url('app'))});
     const { modelDetectionServiceBuilder } = await import(${JSON.stringify(url('services/modelDetectionService'))});
-    const { ruleDetectionServiceBuilder } = await import(${JSON.stringify(url('services/ruleDetectionService'))});
+    const { recognize } = await import(${JSON.stringify(url('recognizers/rules'))});
     const { analysisServiceBuilder } = await import(${JSON.stringify(url('services/analysisService'))});
     await import(${JSON.stringify(url('adapters/transformersAdapter'))});
     await import(${JSON.stringify(url('index'))});
@@ -32,7 +32,7 @@ test('compiled modules import safely and serve synthetic HTTP using standard res
     http.Server.prototype.listen = originalListen;
     const trace = [];
     const modelDetectionService = modelDetectionServiceBuilder({ infer: async text => { trace.push(text); return { output: [{ entity_group: 'FULLNAME', word: 'synthetic', score: .9 }] }; } });
-    const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService: ruleDetectionServiceBuilder() });
+    const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService: recognize });
     const server = http.createServer(createApp({ analysisService, ready: () => true }));
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
     try {
@@ -42,7 +42,7 @@ test('compiled modules import safely and serve synthetic HTTP using standard res
       assert.deepEqual(trace, []);
       const response = await realFetch(base + '/v1/analyze', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ fields: [{ fieldId: 'fixture', text: 'synthetic@example.test' }] }) });
       assert.equal(response.status, 200);
-      assert.deepEqual(await response.json(), { verdict: 'rejected', findings: [{ fieldId: 'fixture', category: 'EMAIL_ADDRESS' }, { fieldId: 'fixture', category: 'PERSON' }] });
+      assert.deepEqual(await response.json(), { verdict: 'rejected', findings: [{ fieldId: 'fixture', category: 'PERSON' }] });
       assert.deepEqual(trace, ['synthetic@example.test']);
     } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
     console.log('DIST_ONLY_STANDARD_RESOLUTION_PASS');

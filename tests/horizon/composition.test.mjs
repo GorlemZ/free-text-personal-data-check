@@ -7,9 +7,10 @@ for (const cli of [false, true]) {
     const indexUrl = new URL('../../poc-horizon/dist/index.js', import.meta.url).href;
     const detectorUrl = new URL('../../poc-horizon/dist/adapters/transformersAdapter.js', import.meta.url).href;
     const detector = `
-      export function transformersAdapterBuilder() {
+      export async function transformersAdapterBuilder() {
         globalThis.probe.instances++;
-        return { ready, prepare, infer: inferPrepared };
+        await ready();
+        return { ready: () => true, prepare, infer: inferPrepared };
       }
       async function ready() {
         globalThis.probe.events.push('warmup');

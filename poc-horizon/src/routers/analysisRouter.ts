@@ -1,13 +1,13 @@
 import type { RequestListener } from 'node:http';
 import type { AnalysisService } from '../services/analysisService.js';
-import type { SerialExecutor } from '../utilities/serialExecutor.js';
+import type { Admission } from '../utilities/admission.js';
 import { DetectorUnavailable, InvalidRequest } from '../model/errors.js';
 import { toAnalyzeResponse } from '../model/apiConverter.js';
 import { toHttpError } from '../utilities/errorMappers.js';
 import { readBody, reply } from '../utilities/http.js';
 import { validateAnalyzeRequest } from '../validation/analyzeRequest.js';
 
-export function createAnalysisRouter(service: AnalysisService, executor: SerialExecutor): RequestListener {
+export function createAnalysisRouter(service: AnalysisService, executor: Admission): RequestListener {
   return async (req, res) => {
     if ((req.headers['content-type'] ?? '').split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
       req.resume();

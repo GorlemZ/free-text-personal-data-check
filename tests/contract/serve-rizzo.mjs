@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { createApp } from '../../poc-rizzo/dist/app.js';
 import { analysisServiceBuilder } from '../../poc-rizzo/dist/services/analysisService.js';
 import { modelDetectionServiceBuilder } from '../../poc-rizzo/dist/services/modelDetectionService.js';
-import { ruleDetectionServiceBuilder } from '../../poc-rizzo/dist/services/ruleDetectionService.js';
+import { recognize } from '../../poc-rizzo/dist/recognizers/rules.js';
 
 const unavailable = process.env.CONTRACT_UNAVAILABLE === '1';
 const entity = label => ({label, text:'synthetic fixture', score:.99});
@@ -23,7 +23,7 @@ function nativeOutput(text) {
   }
 }
 const modelDetectionService = modelDetectionServiceBuilder({ infer: async text => ({ output: nativeOutput(text).map(({ label, text: word, score }) => ({ entity_group: label, word, score })) }) });
-const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService: ruleDetectionServiceBuilder() });
+const analysisService = analysisServiceBuilder({ modelDetectionService, ruleDetectionService: recognize });
 const server = createServer(createApp({ analysisService, ready: () => !unavailable }));
 server.listen(Number(process.env.PORT), '127.0.0.1');
 for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => server.close(() => process.exit(0)));

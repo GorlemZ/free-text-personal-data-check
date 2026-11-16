@@ -106,7 +106,7 @@ for (const { name, diagnostic } of mutants) {
         assert.deepEqual(probe.pipelines, [], 'imports must not initialize the model');
         assert.deepEqual(probe.manifests, [], 'imports must not read the manifest');
         assert.deepEqual(env, {}, 'imports must not configure the SDK');
-        const adapter = transformersAdapterBuilder();
+        const adapter = await transformersAdapterBuilder();
         await adapter.ready();
         assert.equal(env.localModelPath, ${JSON.stringify(expectedModels + '/')}, 'DETECTOR_MODEL_PATH');
         assert.equal(env.allowRemoteModels, false);
