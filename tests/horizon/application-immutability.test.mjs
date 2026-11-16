@@ -132,7 +132,7 @@ test("all runtime and CLI first-party sources: no application-owned mutable accu
         boundaries,
         externalState: [
           "Express/body-parser buffering",
-          "p-limit admission",
+          "shared FIFO admission",
           "Node streams/server/process/filesystem",
           "SDK configuration/cache/inference",
         ],

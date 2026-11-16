@@ -4,6 +4,7 @@ export {
   type DetectorRoutes,
 } from "./app.js";
 export { parsePort } from "./config.js";
+export { createAdmission, type Admission } from "./admission.js";
 export {
   startServer,
   type ServerConfig,

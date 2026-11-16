@@ -23,6 +23,8 @@ try {
       analysisService,
       ready: adapter.ready,
       concurrency: config.concurrency,
+      maxPendingRequests: config.maxPendingRequests,
+      maxQueueWaitMs: config.maxQueueWaitMs,
     }),
     { port: config.port, host: config.host },
     {

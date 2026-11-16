@@ -43,8 +43,8 @@ docker run --rm --network none free-text-check:rizzo-uniform node dist/scripts/s
 La composition root legge la configurazione prima dell’uso e attende una sola inizializzazione esplicita del modello prima del listen. L’adapter pronto contiene la funzione di inferenza: nessuna cache lazy, `let` o retry implicito. Integrità, modello/tokenizer o configurazione non validi impediscono l’avvio; gli import e il build restano privi di caricamenti.
 
 - `ANALYZER_TOKEN_BUDGET`: intero positivo sicuro, non oltre il minimo dei limiti modello/tokenizer. Se omesso, usa quel limite (8192 nel modello corrente), come prima. Un controllo esterno per campo con `truncation:false`, `padding:false`, `add_special_tokens:true`, immediatamente prima della pipeline standard. Si contano anche i token speciali; la tokenizzazione interna della pipeline resta necessaria, senza tokenizer custom. Overflow: 503 senza risultati parziali.
-- `ANALYZER_CONCURRENCY`: intero positivo sicuro, default **1**. Ogni app ha un limiter privato `p-limit@6.2.0`, acquisito dopo validazione per l’intera richiesta e la sua proiezione. `activeCount + pendingCount` e `limit(task)` nello stesso turno sincrono evitano overbooking prima dei microtask; richieste eccedenti ricevono subito 503 senza esecuzione, non aspettano in coda.
-- Health è indipendente dal limiter. Lo slot si libera solo quando il task termina realmente, anche in errore: timeout/disconnessione del client non cancellano inferenza né liberano capacità anticipatamente. Stato interno della libreria accettato; nessun contatore applicativo mutabile. Limite per istanza app/processo, non distribuito fra processi.
+- `ANALYZER_CONCURRENCY`: intero positivo sicuro, default **1**. `ANALYZER_MAX_PENDING_REQUESTS`: intero non negativo sicuro, default **4**; blank/whitespace è invalido. `ANALYZER_MAX_QUEUE_WAIT_MS`: intero positivo sicuro, default **500**. La coda FIFO bounded condivisa da `@pagopa/detector-http` ammette l'intera richiesta e la sua proiezione; overflow e scadenza pending restituiscono il 503 pubblico esistente. Una richiesta scaduta libera subito capacità e non viene eseguita; il timer viene disarmato quando ottiene lo slot, quindi non interrompe inferenza già iniziata.
+- Health è indipendente dall'ammissione. Lo slot attivo si libera solo quando il task termina realmente, anche in errore: timeout/disconnessione del client non cancellano inferenza né liberano capacità anticipatamente. Limite per istanza app/processo, non distribuito fra processi.
 
 ## Pipeline NLP comune
 
@@ -114,6 +114,6 @@ Il codice applicativo usa valori readonly, `map`/`every`, Set costruiti senza
 `.add` e ordinamento non mutante. Il controllo AST copre tutti gli entrypoint
 runtime e CLI e i relativi import locali; non certifica immutabilità dell’intero
 processo. Stato di buffer e scheduling appartiene rispettivamente a Express/body-parser
-e `p-limit`; stream, socket, filesystem, processo e SDK restano confini mutabili
+e alla coda FIFO condivisa; stream, socket, filesystem, processo e SDK restano confini mutabili
 espliciti. Gli smoke reali non sono eseguiti dai gate sintetici: nessuna prova di
 qualità del modello è implicita in queste verifiche.

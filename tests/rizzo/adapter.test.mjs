@@ -78,6 +78,10 @@ test("ready adapters hash artifacts before loader and use real tokenizer pipelin
         device: "cpu",
         subfolder: "",
         local_files_only: true,
+        session_options: {
+          intraOpNumThreads: 2,
+          interOpNumThreads: 1,
+        },
       });
       // All original hashes must have been consumed before this loader can tamper them.
       await writeFile(join(dir, "model.onnx"), "post-hash synthetic mutation");

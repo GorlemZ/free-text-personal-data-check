@@ -128,7 +128,12 @@ for (const { name, diagnostic } of mutants) {
 
         assert.deepEqual(probe.pipelines, [{ task: 'token-classification',
           model: 'Horizon-Labs/pii-redactor-base',
-          options: { dtype: 'q8', device: 'cpu', local_files_only: true } }]);
+          options: {
+            dtype: 'q8',
+            device: 'cpu',
+            local_files_only: true,
+            session_options: { intraOpNumThreads: 2, interOpNumThreads: 1 },
+          } }]);
         // Only filesystem fixtures are used: no actual artifact or checksum is read.
         await prefetch({ verifyOnly: true });
         assert.deepEqual(probe.manifests, [${JSON.stringify(expectedManifest)}], 'CLI_MANIFEST_PATH');

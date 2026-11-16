@@ -12,11 +12,20 @@ export interface HttpConfig {
   readonly port: number;
   readonly host: string;
   readonly concurrency: number;
+  readonly maxPendingRequests: number;
+  readonly maxQueueWaitMs: number;
   readonly tokenBudget: number;
 }
 function positiveInteger(value: string, name: string): number {
   const parsed = Number(value);
   if (!Number.isSafeInteger(parsed) || parsed <= 0)
+    throw new TypeError("INVALID_" + name);
+  return parsed;
+}
+function nonNegativeInteger(value: string, name: string): number {
+  if (value.trim() === "") throw new TypeError("INVALID_" + name);
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 0)
     throw new TypeError("INVALID_" + name);
   return parsed;
 }
@@ -29,6 +38,14 @@ export function readHttpConfig(
     concurrency: positiveInteger(
       environment.ANALYZER_CONCURRENCY ?? "1",
       "CONCURRENCY",
+    ),
+    maxPendingRequests: nonNegativeInteger(
+      environment.ANALYZER_MAX_PENDING_REQUESTS ?? "4",
+      "MAX_PENDING_REQUESTS",
+    ),
+    maxQueueWaitMs: positiveInteger(
+      environment.ANALYZER_MAX_QUEUE_WAIT_MS ?? "500",
+      "MAX_QUEUE_WAIT_MS",
     ),
     tokenBudget: positiveInteger(
       environment.ANALYZER_TOKEN_BUDGET ?? "512",

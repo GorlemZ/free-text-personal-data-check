@@ -12,6 +12,7 @@ test("whole-request admission rejects excess without execution, health stays rea
   const calls = [];
   const app = createApp({
     concurrency: 1,
+    maxPendingRequests: 0,
     ready: async () => true,
     analysisService: {
       async analyze(fields) {

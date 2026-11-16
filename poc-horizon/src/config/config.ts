@@ -13,6 +13,10 @@ export const MODEL_CONFIG = Object.freeze({
     dtype: "q8",
     device: "cpu",
     local_files_only: true,
+    session_options: Object.freeze({
+      intraOpNumThreads: 2,
+      interOpNumThreads: 1,
+    }),
   }),
   tokenizerOptions: Object.freeze({
     truncation: false,
@@ -35,6 +39,8 @@ export type HttpConfig = Readonly<{
   port: number;
   bindHost: string;
   concurrency: number;
+  maxPendingRequests: number;
+  maxQueueWaitMs: number;
   tokenBudget: number;
 }>;
 
@@ -45,6 +51,19 @@ function positiveInteger(
 ): number {
   const parsed = value === undefined ? fallback : Number(value);
   if (!Number.isSafeInteger(parsed) || parsed <= 0)
+    throw new TypeError("INVALID_" + name);
+  return parsed;
+}
+
+function nonNegativeInteger(
+  value: string | undefined,
+  fallback: number,
+  name: string,
+): number {
+  if (value !== undefined && value.trim() === "")
+    throw new TypeError("INVALID_" + name);
+  const parsed = value === undefined ? fallback : Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < 0)
     throw new TypeError("INVALID_" + name);
   return parsed;
 }
@@ -67,6 +86,16 @@ export function loadConfig(
       environment.ANALYZER_CONCURRENCY,
       1,
       "CONCURRENCY",
+    ),
+    maxPendingRequests: nonNegativeInteger(
+      environment.ANALYZER_MAX_PENDING_REQUESTS,
+      4,
+      "MAX_PENDING_REQUESTS",
+    ),
+    maxQueueWaitMs: positiveInteger(
+      environment.ANALYZER_MAX_QUEUE_WAIT_MS,
+      500,
+      "MAX_QUEUE_WAIT_MS",
     ),
     tokenBudget,
   };

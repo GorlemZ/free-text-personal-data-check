@@ -11,6 +11,7 @@ test("admission occupies entire request and rejects excess without execution", a
   const server = createServer(
     createApp({
       concurrency: 1,
+      maxPendingRequests: 0,
       ready: () => true,
       analysisService: async (fields) => {
         calls.push(fields);

@@ -91,7 +91,7 @@ for (const [mutant, diagnostic] of [
       assert.deepEqual(env, {}, 'import must not configure SDK');
       await transformersAdapterBuilder();
       assert.equal(env.allowRemoteModels, false);
-      assert.deepEqual(probe.loads, [{ path: ${JSON.stringify(join(pkg, "models") + "/")}, options: { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true } }], 'MODEL_DIRECTORY');
+      assert.deepEqual(probe.loads, [{ path: ${JSON.stringify(join(pkg, "models") + "/")}, options: { dtype: 'fp32', device: 'cpu', subfolder: '', local_files_only: true, session_options: { intraOpNumThreads: 2, interOpNumThreads: 1 } } }], 'MODEL_DIRECTORY');
       assert.deepEqual(probe.reads, [${JSON.stringify(pathToFileURL(join(pkg, "model-manifest.json")).href)}, ${JSON.stringify(pathToFileURL(join(pkg, "models/config.json")).href)}, ${JSON.stringify(pathToFileURL(join(pkg, "models/tokenizer.json")).href)}], 'MODEL_MANIFEST_PATH');
       probe.reads.length = 0;
       probe.streams.length = 0;

@@ -111,6 +111,10 @@ async function initializeModel({
     device: "cpu",
     subfolder: "",
     local_files_only: true,
+    session_options: {
+      intraOpNumThreads: 2,
+      interOpNumThreads: 1,
+    },
   });
   const pipeline = new TokenClassificationPipeline({
     task: "token-classification",

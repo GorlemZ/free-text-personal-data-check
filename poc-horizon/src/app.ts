@@ -14,6 +14,8 @@ export type AppDependencies = Readonly<{
   analysisService: AnalysisService;
   ready: Readiness;
   concurrency?: number;
+  maxPendingRequests?: number;
+  maxQueueWaitMs?: number;
 }>;
 
 export function createApp(deps: AppDependencies): RequestListener {
@@ -25,7 +27,11 @@ export function createApp(deps: AppDependencies): RequestListener {
     throw new TypeError("App dependencies are required");
   const analysis = createAnalysisRouter(
     deps.analysisService,
-    createAdmission(deps.concurrency),
+    createAdmission(
+      deps.concurrency,
+      deps.maxPendingRequests,
+      deps.maxQueueWaitMs,
+    ),
   );
   const health = createHealthRouter(deps.ready);
   const onJsonError: ErrorRequestHandler = (error, _req, res, next) => {

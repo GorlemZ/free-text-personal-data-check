@@ -59,6 +59,10 @@ try {
           device: "cpu",
           subfolder: "",
           local_files_only: true,
+          session_options: {
+            intraOpNumThreads: 2,
+            interOpNumThreads: 1,
+          },
         });
         return {};
       },

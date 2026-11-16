@@ -14,7 +14,7 @@ Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi li
 
 L'elaborazione avviene localmente. Rizzo e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python. I due servizi Node condividono `@pagopa/detector-http`, il package infrastrutturale che monta routing Express, abilita il parser JSON standard con limite 1 MiB, valida la porta e gestisce listen/segnali/shutdown. Entrambi validano `req.body` con Zod e delegano a Express la serializzazione JSON. Service, adapter e dominio restano nei rispettivi PoC.
 
-Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token e il limite delle analisi contemporanee sono configurabili; le richieste eccedenti la capacità vengono respinte senza attesa. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
+Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Il default condiviso ammette una richiesta attiva e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
 
 ## Valutazione funzionale aggiornata
 
@@ -65,7 +65,13 @@ Un riconto indipendente delle osservazioni ha confermato matrici, denominatori e
 
 Le immagini sono state costruite dai sorgenti del commit indicato. Per Horizon il Dockerfile di staging ometteva soltanto il comando prefetch `--verify-only`: il run verifica quella build derivata, **non il Dockerfile originale end-to-end**. Le build delle dipendenze hanno usato la rete; l'inferenza ha usato asset locali, senza download dei pesi. Non viene dichiarato isolamento di rete del container. I container del run sono stati rimossi.
 
-## Memoria — misure storiche, non rieseguite dopo il refactor
+## Memoria e capacità
+
+Candidate A è stata verificata su Horizon e Rizzo con una replica limitata a 2 CPU e `4_000_000_000` byte, ORT intra-op 2/inter-op 1, una richiesta attiva e quattro pending. Nello screening seriale preliminare Horizon ha elaborato 8,65 req/s con p95 271,1 ms e circa 2.198,0 MiB post-load; Rizzo 6,84 req/s con p95 346,6 ms e circa 2.200,8 MiB post-load. Entrambi hanno completato 30/30 richieste.
+
+Il [report Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md) contiene configurazione, metodo, gate e limiti. È uno screening breve closed-loop: non certifica capacità produttiva, RAM minima o stabilità prolungata; restano da eseguire le curve open-loop e il confronto Candidate B/C.
+
+### Misure storiche
 
 Le misure seguenti precedono le nuove versioni e **non ne certificano il consumo**. Rizzo e Horizon avevano completato una prova con 4 GB disponibili e 30 richieste ciascuno; Presidio era stato misurato con un carico diverso.
 
@@ -75,7 +81,7 @@ Le misure seguenti precedono le nuove versioni e **non ne certificano il consumo
 | Horizon  |                                Circa 2,36 GB | Test a 4 GB completato                                                |
 | Presidio |                                Circa 0,16 GB | Misura precedente con carico diverso                                  |
 
-Sono massimi campionati dell'intero container in prove brevi e non omogenee. **Memoria e performance sono una valutazione successiva: 2 GB per container non è attualmente un requisito vincolante né un criterio di accettazione del refactor.** Il nuovo run funzionale non è un benchmark di risorse.
+Sono massimi campionati dell'intero container in prove brevi e non omogenee e non vanno confrontati direttamente con Candidate A. Il run funzionale non è un benchmark di risorse.
 
 ## Guide e utilizzo
 

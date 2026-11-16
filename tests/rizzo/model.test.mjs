@@ -308,6 +308,10 @@ test("startup composes the public pipeline once and reuses the ready inference",
       device: "cpu",
       subfolder: "",
       local_files_only: true,
+      session_options: {
+        intraOpNumThreads: 2,
+        interOpNumThreads: 1,
+      },
     });
     assert.equal(env.allowRemoteModels, false);
     await new Promise((resolve) => setImmediate(resolve));

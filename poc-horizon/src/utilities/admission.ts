@@ -1,18 +1,1 @@
-import pLimit from "p-limit";
-
-// State belongs exclusively to p-limit; the limiter and its queue stay private.
-export function createAdmission(concurrency = 1) {
-  if (!Number.isSafeInteger(concurrency) || concurrency <= 0)
-    throw new TypeError("INVALID_CONCURRENCY");
-  const limit = pLimit(concurrency);
-  return {
-    run<T>(task: () => Promise<T>): Promise<T> {
-      // p-limit 6.2 reserves pending synchronously, active in a later microtask.
-      // Never await between checking capacity and reserving this request.
-      if (limit.activeCount + limit.pendingCount >= concurrency)
-        return Promise.reject(new Error("SATURATED"));
-      return limit(task);
-    },
-  };
-}
-export type Admission = ReturnType<typeof createAdmission>;
+export { createAdmission, type Admission } from "@pagopa/detector-http";

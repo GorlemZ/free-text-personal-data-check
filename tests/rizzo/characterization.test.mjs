@@ -197,6 +197,10 @@ test("explicit initialization rejects once without retry", async (t) => {
         device: "cpu",
         subfolder: "",
         local_files_only: true,
+        session_options: {
+          intraOpNumThreads: 2,
+          interOpNumThreads: 1,
+        },
       });
       throw failure;
     },

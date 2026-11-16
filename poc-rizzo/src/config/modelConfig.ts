@@ -11,6 +11,10 @@ export type LoadModel = (
     device: "cpu";
     subfolder: "";
     local_files_only: true;
+    session_options: {
+      intraOpNumThreads: 2;
+      interOpNumThreads: 1;
+    };
   },
 ) => ReturnType<typeof AutoModelForTokenClassification.from_pretrained>;
 export interface ModelOptions {

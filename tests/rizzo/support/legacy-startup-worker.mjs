@@ -100,6 +100,10 @@ try {
         device: "cpu",
         subfolder: "",
         local_files_only: true,
+        session_options: {
+          intraOpNumThreads: 2,
+          interOpNumThreads: 1,
+        },
       });
       if (!input.reread) throw loaderError;
       // The public pipeline constructor accepts this synthetic boundary; no model call is allowed.

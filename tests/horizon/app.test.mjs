@@ -121,6 +121,14 @@ test("Horizon HTTP config rejects invalid ports", () => {
     });
 });
 
+test("Horizon pending queue config rejects blank and invalid values", () => {
+  for (const value of ["", "   ", "-1", "1.5", "NaN"])
+    assert.throws(
+      () => loadConfig({ ANALYZER_MAX_PENDING_REQUESTS: value }),
+      /INVALID_MAX_PENDING_REQUESTS/,
+    );
+});
+
 test("two createApp instances do not share capacity", async (t) => {
   const gate = deferred(),
     entered = deferred();
@@ -456,6 +464,8 @@ test("config reads only when called, validates the port and preserves host bytes
     port: 8000,
     bindHost: "127.0.0.1",
     concurrency: 1,
+    maxPendingRequests: 4,
+    maxQueueWaitMs: 500,
     tokenBudget: 512,
   });
   for (const [value, expected] of [

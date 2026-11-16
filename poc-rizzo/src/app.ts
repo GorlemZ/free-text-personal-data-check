@@ -16,6 +16,8 @@ export interface AppDependencies {
   readonly analysisService: Analysis;
   readonly ready: Ready;
   readonly concurrency?: number;
+  readonly maxPendingRequests?: number;
+  readonly maxQueueWaitMs?: number;
 }
 
 const onJsonError: ErrorRequestHandler = (error, _request, response, next) => {
@@ -35,8 +37,14 @@ export function createApp({
   analysisService,
   ready,
   concurrency,
+  maxPendingRequests,
+  maxQueueWaitMs,
 }: AppDependencies): RequestListener {
-  const admission = createAdmission(concurrency);
+  const admission = createAdmission(
+    concurrency,
+    maxPendingRequests,
+    maxQueueWaitMs,
+  );
   return createDetectorApp(
     {
       health: (_request, response) => healthRouter(response, ready),

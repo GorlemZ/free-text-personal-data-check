@@ -35,7 +35,7 @@ test("retired rule helpers and decoder are absent from source and clean emit", (
   );
 });
 
-test("retired direct dependencies are absent, admission pins retained", () => {
+test("retired direct dependencies and obsolete p-limit admission are absent", () => {
   for (const [engine, retired] of [
     ["horizon", "libphonenumber-js"],
     ["rizzo", "ibantools"],
@@ -54,8 +54,8 @@ test("retired direct dependencies are absent, admission pins retained", () => {
     );
     assert.equal(pkg.dependencies[retired], undefined);
     assert.doesNotMatch(lock, new RegExp(`(?:^|/)${retired}(?:@|:)`, "m"));
-    assert.equal(pkg.dependencies["p-limit"], "6.2.0");
-    assert.match(lock, /p-limit@6\.2\.0/);
-    assert.match(lock, /yocto-queue@1\.2\.2/);
+    assert.equal(pkg.dependencies["p-limit"], undefined);
+    assert.doesNotMatch(lock, /p-limit@6\.2\.0/);
+    assert.doesNotMatch(lock, /yocto-queue@1\.2\.2/);
   }
 });

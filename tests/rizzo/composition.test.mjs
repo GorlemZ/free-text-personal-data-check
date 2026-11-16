@@ -30,9 +30,18 @@ test("resolved HTTP config has explicit concurrency and token budget", () => {
       PORT: "0",
       BIND_HOST: "localhost",
       ANALYZER_CONCURRENCY: "2",
+      ANALYZER_MAX_PENDING_REQUESTS: "3",
+      ANALYZER_MAX_QUEUE_WAIT_MS: "250",
       ANALYZER_TOKEN_BUDGET: "64",
     }),
-    { port: 0, host: "localhost", concurrency: 2, tokenBudget: 64 },
+    {
+      port: 0,
+      host: "localhost",
+      concurrency: 2,
+      maxPendingRequests: 3,
+      maxQueueWaitMs: 250,
+      tokenBudget: 64,
+    },
   );
 });
 
@@ -42,6 +51,14 @@ test("Rizzo HTTP config rejects invalid ports", () => {
       name: "TypeError",
       message: "INVALID_PORT",
     });
+});
+
+test("Rizzo pending queue config rejects blank and invalid values", () => {
+  for (const value of ["", "   ", "-1", "1.5", "NaN"])
+    assert.throws(
+      () => readHttpConfig({ ANALYZER_MAX_PENDING_REQUESTS: value }),
+      /INVALID_MAX_PENDING_REQUESTS/,
+    );
 });
 
 async function socket(t, dependencies) {
@@ -328,6 +345,8 @@ test("HTTP environment config validates ports and preserves defaults, empty host
     port: 8000,
     host: "127.0.0.1",
     concurrency: 1,
+    maxPendingRequests: 4,
+    maxQueueWaitMs: 500,
     tokenBudget: 512,
   });
   for (const raw of ["0", "", " 0 ", "0x10", "1e2"]) {
@@ -347,7 +366,14 @@ test("HTTP environment config validates ports and preserves defaults, empty host
         return "127.0.0.1";
       },
     }),
-    { port: 0, host: "127.0.0.1", concurrency: 1, tokenBudget: 512 },
+    {
+      port: 0,
+      host: "127.0.0.1",
+      concurrency: 1,
+      maxPendingRequests: 4,
+      maxQueueWaitMs: 500,
+      tokenBudget: 512,
+    },
   );
   assert.deepEqual(trace, ["PORT", "BIND_HOST"]);
 });
