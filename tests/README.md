@@ -1,12 +1,12 @@
 # Test e valutazione
 
-Tutti i comandi partono dalla root del repository. Node.js 24 e npm servono ai PoC JavaScript; Python 3.11–3.12 e `uv` al PoC Presidio. Il runner di valutazione usa soltanto la standard library Python.
+Tutti i comandi partono dalla root del repository. Node.js 24, Corepack e pnpm 10.29.3 servono ai PoC TypeScript; Python 3.11–3.12 e `uv` al PoC Presidio. Il runner di valutazione usa soltanto la standard library Python.
 
 ## Installazione ed esecuzione
 
 ```sh
-npm --prefix poc-rizzo ci
-npm --prefix poc-horizon ci
+corepack enable
+pnpm install --frozen-lockfile
 uv sync --project poc-presidio --frozen --extra dev
 python3 tests/run.py
 ```
@@ -19,20 +19,20 @@ La preparazione installa il modello spaCy previsto dal lockfile. Le suite Rizzo 
 python3 tests/run.py rizzo contract
 ```
 
-| Suite | Percorso | Che cosa verifica |
-|---|---|---|
-| `layout` | `test_layout.py` | Quattro cartelle operative e suite centralizzate |
-| `rizzo` | `rizzo/` | API, pipeline standard con inferenza sintetica, mapping, regole e dipendenze native |
-| `horizon` | `horizon/` | Build, pipeline, adapter e riconoscitori |
-| `presidio` | `presidio/` | API, adapter, routing reale e smoke locale |
-| `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering |
-| `resources` | `resources/tests/` | Contabilità risorse, lifecycle Docker iniettato e HTTP loopback finto; nessun benchmark automatico |
-| `contract` | `contract/` | Stesse fixture HTTP contro i tre handler, con inferenza sostituita |
+| Suite        | Percorso            | Che cosa verifica                                                                                  |
+| ------------ | ------------------- | -------------------------------------------------------------------------------------------------- |
+| `layout`     | `test_layout.py`    | Quattro cartelle operative e suite centralizzate                                                   |
+| `rizzo`      | `rizzo/`            | API, pipeline standard con inferenza sintetica, mapping, regole e dipendenze native                |
+| `horizon`    | `horizon/`          | Build, pipeline, adapter e riconoscitori                                                           |
+| `presidio`   | `presidio/`         | API, adapter, routing reale e smoke locale                                                         |
+| `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering                                      |
+| `resources`  | `resources/tests/`  | Contabilità risorse, lifecycle Docker iniettato e HTTP loopback finto; nessun benchmark automatico |
+| `contract`   | `contract/`         | Stesse fixture HTTP contro i tre handler, con inferenza sostituita                                 |
 
 Controlli statici aggiuntivi, dopo l'installazione:
 
 ```sh
-npm --prefix poc-horizon run typecheck
+pnpm typecheck
 uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pyproject.toml poc-presidio/src tests/presidio tests/contract/serve-presidio.py
 ```
 
@@ -41,9 +41,8 @@ uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pypro
 Per lavorare soltanto su Rizzo e Horizon, senza invocare il runner Python:
 
 ```sh
-npm --prefix poc-rizzo test
-npm --prefix poc-horizon test
-npm --prefix poc-horizon run typecheck
+pnpm test
+pnpm check
 ```
 
 Le regressioni Rizzo esercitano la pipeline Transformers.js installata con tensori sintetici e i controlli sulle entità pubbliche. Non certificano caricamento degli artefatti reali, equivalenza con il decoder precedente o rispetto del limite di memoria; questi richiedono prove separate con il modello reale.

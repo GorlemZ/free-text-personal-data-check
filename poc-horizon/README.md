@@ -5,11 +5,11 @@ Servizio TypeScript su Node.js 24 con `@huggingface/transformers@4.3.2`, modello
 ## Avvio dalla root
 
 ```sh
-npm --prefix poc-horizon ci
-npm --prefix poc-horizon run build
-npm --prefix poc-horizon run prefetch
-npm --prefix poc-horizon run smoke
-npm --prefix poc-horizon start
+pnpm install --frozen-lockfile
+pnpm --filter poc-horizon-pii-check build
+pnpm --filter poc-horizon-pii-check prefetch
+pnpm --filter poc-horizon-pii-check smoke
+pnpm --filter poc-horizon-pii-check start
 ```
 
 `build` ripulisce `dist/` e compila sorgenti e CLI senza caricare o scaricare modelli. `prefetch` e `start` richiedono prima il build; `smoke` compila ed esegue inferenza reale. Importare i moduli non avvia server, SDK o download. Bind predefinito `127.0.0.1:8000`, configurabile con `ANALYZER_BIND_HOST` e `ANALYZER_PORT` (conversione `Number`, porta `0` supportata). La composition root legge la configurazione, attende una sola inizializzazione esplicita dell'adapter e poi ascolta, con `requestTimeout` di 10000 ms. Nessuna cache lazy o retry implicito; file locali mancanti o configurazione invalida impediscono il listen. La readiness riguarda il caricamento, non l'inferenza.
@@ -26,11 +26,11 @@ npm --prefix poc-horizon start
 Dopo il prefetch:
 
 ```sh
-docker build -t free-text-check:horizon-uniform ./poc-horizon
+docker build -f poc-horizon/Dockerfile -t free-text-check:horizon-uniform .
 docker run --rm -e ANALYZER_BIND_HOST=0.0.0.0   -p 127.0.0.1:18082:8000 free-text-check:horizon-uniform
 ```
 
-Attendere `GET /health/ready`. Il Dockerfile compila TypeScript in build; il runtime contiene `dist/`, dipendenze, manifest e asset locali, non `src/` o i vecchi `scripts/`. Verifica gli asset offline con `node dist/scripts/prefetch.js --verify-only` e usa Node sotto utente non privilegiato, senza Python, test o benchmark. Smoke senza rete sull'immagine già costruita:
+Attendere `GET /health/ready`. Il Dockerfile compila TypeScript in build; il runtime contiene `dist/`, dipendenze, manifest e asset locali, non `src/` o i vecchi `scripts/`. Durante la build finale un verificatore Node inline controlla dimensioni e SHA-256 degli asset e conferma l'assenza degli eseguibili Python. L'immagine usa Node sotto utente non privilegiato, senza Python, test o benchmark. Smoke senza rete sull'immagine già costruita:
 
 ```sh
 docker run --rm --network none free-text-check:horizon-uniform node dist/scripts/smoke.js
@@ -42,17 +42,17 @@ Come [Rizzo](../poc-rizzo/README.md#pipeline-nlp-comune), Horizon usa `TokenClas
 
 Soglia sperimentale inclusiva `0.35`, aggregazione `simple`. La matrice statica `CATEGORY_SOURCES` decide la fonte **per categoria**, non per singola predizione: assenza o score basso del modello non attiva regole di recupero.
 
-| Categoria | Fonte esclusiva | Motivazione / mapping |
-|---|---|---|
-| PERSON | modello | `PERSON` |
-| EMAIL_ADDRESS | modello | `EMAIL` |
-| PHONE_NUMBER | modello | `PHONE`; nessun veto geografico o di forma |
-| CREDIT_CARD | modello | `CREDIT_CARD`; nessun veto Luhn |
-| IT_FISCAL_CODE | regole | `TAX_ID` generico non prova un CF italiano |
-| IT_VAT_CODE | regole | nessuna label nativa specifica P.IVA |
-| IBAN_CODE | regole | `BANK_ACCOUNT` non implica IBAN; regola esistente solo IT |
-| IT_IDENTITY_CARD | regole | `NATIONAL_ID` non prova nazionalità/formato italiano |
-| IT_DRIVER_LICENSE | regole | `DRIVER_LICENSE` generico non prova patente italiana |
+| Categoria         | Fonte esclusiva | Motivazione / mapping                                         |
+| ----------------- | --------------- | ------------------------------------------------------------- |
+| PERSON            | modello         | `PERSON`                                                      |
+| EMAIL_ADDRESS     | modello         | `EMAIL`                                                       |
+| PHONE_NUMBER      | modello         | `PHONE`; nessun veto geografico o di forma                    |
+| CREDIT_CARD       | modello         | `CREDIT_CARD`; nessun veto Luhn                               |
+| IT_FISCAL_CODE    | regole          | `TAX_ID` generico non prova un CF italiano                    |
+| IT_VAT_CODE       | regole          | nessuna label nativa specifica P.IVA                          |
+| IBAN_CODE         | regole          | `BANK_ACCOUNT` non implica IBAN; regola morfologica ISO 13616 |
+| IT_IDENTITY_CARD  | regole          | `NATIONAL_ID` non prova nazionalità/formato italiano          |
+| IT_DRIVER_LICENSE | regole          | `DRIVER_LICENSE` generico non prova patente italiana          |
 
 Le label generiche documentali restano extra noti ignorati, anche quando il testo sembra italiano: la detection IT è indipendente e integrativa. Le regole documentali riconoscono CIE `AA12345AA`/`1234567AA` e patenti `AA1234567A`/variante `U1…`, con confini Unicode e contesto nei 50 caratteri precedenti oppure valore standalone. Non associano `word` o offset del modello e non richiedono un'occorrenza unica.
 
@@ -62,7 +62,7 @@ Il mapping tecnico controlla contenitore, label conosciuta, score finito in `[0,
 
 - `ANALYZER_TOKEN_BUDGET`: intero positivo sicuro, default **512**, massimo 512 e comunque non oltre i limiti nativi del modello/tokenizer caricato. Un solo controllo esterno per campo, con `truncation:false`, `padding:false`, `add_special_tokens:true`. La pipeline standard tokenizza nuovamente: nessun tokenizer custom. Overflow anche sotto 50 parole: 503, senza analisi parziale.
 - `ANALYZER_CONCURRENCY`: intero positivo sicuro, default **1**. Stato di scheduling interno alla libreria, non immutabilità del suo runtime: `activeCount + pendingCount` include le prenotazioni nello stesso turno sincrono di `limit(task)`, prima dei microtask. Nessun contatore applicativo e nessuna richiesta eccedente eseguita. Il limite è per istanza app/processo, non distribuito fra processi.
-- CF canonico con checksum, senza omocodia; P.IVA con checksum e placeholder tutto-zero escluso; IBAN **solo IT** con modulo 97. I checksum appartengono solo a queste regole integrative. Il gold include checksum errati riconoscibili e IBAN esteri: queste differenze possono produrre falsi negativi.
+- CF e P.IVA richiedono una morfologia italiana riconoscibile; il placeholder P.IVA tutto-zero resta escluso. Gli IBAN seguono la morfologia internazionale ISO 13616 (15–34 caratteri alfanumerici), in forma compatta oppure nei consueti gruppi di quattro separati da un singolo spazio ASCII. I checksum restano disponibili come diagnostica interna ma **non filtrano la detection**: un identificativo riconoscibile con cifra o carattere di controllo errato resta sensibile e viene segnalato.
 - Nessun controllo di forma, checksum, span o geografia può scartare una categoria coperta emessa dal modello sopra soglia. Questo può aumentare falsi positivi (inclusi telefoni esteri rispetto al gold italiano); togliere le regole sulle categorie coperte può aumentare omissioni. Nessuna equivalenza con la baseline o qualità reale è attestata dai test sintetici. Le categorie sovrapposte restano indipendenti nella policy.
 
 Gli helper storici di sola forma CF, carte e telefoni e l'alias `italian-phone` sono rimossi: non avevano consumer runtime o CLI. La pipeline HTTP usa solo il registry di categorie integrative. I test conservano checksum e confini delle regole attive, mapping modello, policy, errori, admission e budget; non impongono più comportamenti dei recognizer ritirati.
@@ -71,7 +71,7 @@ Gli helper storici di sola forma CF, carte e telefoni e l'alias `italian-phone` 
 
 ## Modello e attribuzioni
 
-[model-manifest.json](model-manifest.json) fissa revisione e dimensioni, più SHA256 degli artefatti maggiori; la build Docker verifica i file locali, mentre `npm run build` compila soltanto. La model card dichiara Apache-2.0 e attribuisce parte dei dati CC-BY-4.0 ad ai4privacy e NVIDIA: conservare gli avvisi nella redistribuzione di modello o immagine.
+[model-manifest.json](model-manifest.json) fissa revisione e dimensioni, più SHA256 degli artefatti maggiori; la build Docker verifica i file locali, mentre `pnpm --filter poc-horizon-pii-check build` compila soltanto. La model card dichiara Apache-2.0 e attribuisce parte dei dati CC-BY-4.0 ad ai4privacy e NVIDIA: conservare gli avvisi nella redistribuzione di modello o immagine.
 
 ## Confine HTTP, parsing standard e stato
 

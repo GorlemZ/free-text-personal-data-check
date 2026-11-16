@@ -1,0 +1,13 @@
+.git
+.hermes
+node_modules
+**/node_modules
+**/dist
+tests
+results
+**/results
+evidence
+**/evidence
+poc-horizon/src
+poc-horizon/models
+poc-horizon/model-manifest.json

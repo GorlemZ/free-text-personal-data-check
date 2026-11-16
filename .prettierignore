@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/models
+**/results
+**/evidence
+.hermes
+pnpm-lock.yaml
+poc-*/model-manifest.json
+poc-rizzo/MODEL_LICENSE
+tests/evaluation
+tests/presidio
+poc-presidio

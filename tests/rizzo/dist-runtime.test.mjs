@@ -1,12 +1,12 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { sandbox, child } from './support/sandbox.mjs';
+import test from "node:test";
+import assert from "node:assert/strict";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+import { sandbox, child } from "./support/sandbox.mjs";
 
-test('compiled modules import safely and serve synthetic HTTP using standard resolution without source or models', async t => {
+test("compiled modules import safely and serve synthetic HTTP using standard resolution without source or models", async (t) => {
   const { pkg, cwd } = await sandbox(t);
-  const url = name => pathToFileURL(join(pkg, 'dist', name + '.js')).href;
+  const url = (name) => pathToFileURL(join(pkg, "dist", name + ".js")).href;
   const code = `
     import assert from 'node:assert/strict';
     import http from 'node:http';
@@ -15,18 +15,18 @@ test('compiled modules import safely and serve synthetic HTTP using standard res
     globalThis.fetch = async () => { throw Error('forbidden import fetch'); };
     const originalListen = http.Server.prototype.listen;
     http.Server.prototype.listen = () => { throw Error('forbidden import listen'); };
-    const { createApp } = await import(${JSON.stringify(url('app'))});
-    const { modelDetectionServiceBuilder } = await import(${JSON.stringify(url('services/modelDetectionService'))});
-    const { recognize } = await import(${JSON.stringify(url('recognizers/rules'))});
-    const { analysisServiceBuilder } = await import(${JSON.stringify(url('services/analysisService'))});
-    await import(${JSON.stringify(url('adapters/transformersAdapter'))});
-    await import(${JSON.stringify(url('index'))});
-    const { prefetch } = await import(${JSON.stringify(url('scripts/prefetch'))});
-    const { smoke } = await import(${JSON.stringify(url('scripts/smoke'))});
+    const { createApp } = await import(${JSON.stringify(url("app"))});
+    const { modelDetectionServiceBuilder } = await import(${JSON.stringify(url("services/modelDetectionService"))});
+    const { recognize } = await import(${JSON.stringify(url("recognizers/rules"))});
+    const { analysisServiceBuilder } = await import(${JSON.stringify(url("services/analysisService"))});
+    await import(${JSON.stringify(url("adapters/transformersAdapter"))});
+
+    const { prefetch } = await import(${JSON.stringify(url("scripts/prefetch"))});
+    const { smoke } = await import(${JSON.stringify(url("scripts/smoke"))});
     assert.equal(typeof prefetch, 'function');
     assert.equal(typeof smoke, 'function');
-    assert.equal(existsSync(${JSON.stringify(join(pkg, 'src'))}), false);
-    assert.equal(existsSync(${JSON.stringify(join(pkg, 'models'))}), false);
+    assert.equal(existsSync(${JSON.stringify(join(pkg, "src"))}), false);
+    assert.equal(existsSync(${JSON.stringify(join(pkg, "models"))}), false);
     assert.equal(process.env.NODE_OPTIONS, undefined);
     assert.equal(process.env.NODE_PATH, undefined);
     http.Server.prototype.listen = originalListen;

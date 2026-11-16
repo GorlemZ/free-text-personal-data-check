@@ -66,11 +66,17 @@ I 53 casi originali sono conservati; 38 scenari sono importati da 28 testi lette
 
 ## Risultati e interpretazione
 
-Il run **12 novembre 2026** ha completato **546/546 richieste** con zero errori tecnici o contrattuali. Le sei esportazioni sono state rigenerate byte-identiche e le matrici ricontate indipendentemente:
+Il run funzionale **16 novembre 2026** sul checkout `refactor/horizon-typescript` ha completato **546/546 richieste** con zero errori tecnici o contrattuali. Il checkout era dirty: commit e digest delle tre immagini sono registrati nel contesto, ma il commit da solo non identifica i sorgenti eseguiti.
 
-[Report](results/uniform-http/report.md) · [JSON](results/uniform-http/results.json) · [Contesto del run](results/uniform-http/run-context.json) · [Audit](results/uniform-http/audit.md)
+[Report corrente](results/horizon-typescript-2026-11-16/report.md) · [JSON](results/horizon-typescript-2026-11-16/results.json) · [Contesto del run](results/horizon-typescript-2026-11-16/run-context.json)
 
-Gli artefatti descrivono lo snapshot funzionale pubblicato in `8dab3a9`; la successiva pulizia di documentazione e commenti conserva quei file. Gli hash dei sorgenti nel contesto si riferiscono alla versione eseguita.
+Sul verdetto HTTP, Horizon ha ottenuto TP=65, FP=1, FN=1, TN=24; Rizzo TP=63, FP=3, FN=3, TN=22; Presidio TP=51, FP=5, FN=15, TN=20. Nella matrice detection Horizon ha recall e precisione 1,0000 per CF, P.IVA e IBAN sul campione; gli IBAN hanno TP=8, FP=0, FN=0, TN=84. Sono risultati descrittivi non heldout, senza soglia di promozione.
+
+Il run precedente del **12 novembre 2026** aveva completato **546/546 richieste** con zero errori tecnici o contrattuali. Le sei esportazioni erano state rigenerate byte-identiche e le matrici ricontate indipendentemente:
+
+[Report precedente](results/uniform-http/report.md) · [JSON precedente](results/uniform-http/results.json) · [Contesto precedente](results/uniform-http/run-context.json) · [Audit precedente](results/uniform-http/audit.md)
+
+Gli artefatti precedenti descrivono lo snapshot funzionale pubblicato in `8dab3a9`; la successiva pulizia di documentazione e commenti conserva quei file. Gli hash dei sorgenti nel relativo contesto si riferiscono alla versione eseguita.
 
 Il campione è **non heldout**: gli input originali erano già stati valutati e Rizzo condivide provenienza con il modello. Varianti policy e famiglie sono correlate; le ripetizioni della prova detection per scenario pesano nelle matrici. La famiglia maggiore è Gretel CSV, con 11 testi; sette testi Rizzo sono thread correlati. Le percentuali descrivono questo campione. `accepted` resta un esito euristico; nessun tuning è stato effettuato sulle predizioni. Performance e memoria richiedono misure separate.
 

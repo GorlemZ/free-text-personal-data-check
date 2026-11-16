@@ -1,105 +1,215 @@
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
-import { createServer, request } from 'node:http';
-import { spawnSync } from 'node:child_process';
-import { createApp } from '../../poc-horizon/dist/app.js';
-import { InvalidRequest, BodyTooLarge } from '../../poc-horizon/dist/model/errors.js';
-import { loadConfig, HTTP_LIMITS } from '../../poc-horizon/dist/config/config.js';
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { createServer, request } from "node:http";
+import { spawnSync } from "node:child_process";
+import { createApp } from "../../poc-horizon/dist/app.js";
+import {
+  InvalidRequest,
+  BodyTooLarge,
+} from "../../poc-horizon/dist/model/errors.js";
+import {
+  loadConfig,
+  HTTP_LIMITS,
+} from "../../poc-horizon/dist/config/config.js";
 
 function deferred() {
   let resolve, reject;
-  const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+  const promise = new Promise((yes, no) => {
+    resolve = yes;
+    reject = no;
+  });
   return { promise, resolve, reject };
 }
 async function within(promise) {
   let timer;
   try {
-    return await Promise.race([promise, new Promise((_, reject) => {
-      timer = setTimeout(() => reject(Error('deterministic barrier timeout')), 3000);
-    })]);
-  } finally { clearTimeout(timer); }
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timer = setTimeout(
+          () => reject(Error("deterministic barrier timeout")),
+          3000,
+        );
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
 }
 async function serve(t, deps) {
   const server = createServer(createApp(deps));
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   t.after(async () => {
     server.closeAllConnections();
-    await new Promise(resolve => server.close(resolve));
+    await new Promise((resolve) => server.close(resolve));
   });
   return `http://127.0.0.1:${server.address().port}`;
 }
-const field = (fieldId = 'description', text = 'neutral') => ({ fieldId, text });
-const post = (url, fields = [field()]) => fetch(url + '/v1/analyze', {
-  method: 'POST', headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ fields }), signal: AbortSignal.timeout(5000),
+const field = (fieldId = "description", text = "neutral") => ({
+  fieldId,
+  text,
 });
+const post = (url, fields = [field()]) =>
+  fetch(url + "/v1/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fields }),
+    signal: AbortSignal.timeout(5000),
+  });
 async function responseIs(response, status, body) {
   assert.equal(response.status, status);
-  assert.equal(response.headers.get('content-type'), 'application/json');
-  assert.equal(response.headers.get('x-content-type-options'), 'nosniff');
+  assert.equal(response.headers.get("content-type"), "application/json");
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.deepEqual(await response.json(), body);
 }
-const unavailable = { code: 'detector_unavailable' };
-const accepted = { verdict: 'accepted', findings: [] };
+const unavailable = { code: "detector_unavailable" };
+const accepted = { verdict: "accepted", findings: [] };
 
-test('two createApp instances do not share capacity', async t => {
-  const gate = deferred(), entered = deferred();
+test("two createApp instances do not share capacity", async (t) => {
+  const gate = deferred(),
+    entered = deferred();
   t.after(() => gate.resolve());
-  const first = await serve(t, { ready: () => true, analysisService: { analyze: async () => { entered.resolve(); await gate.promise; return []; } } });
-  const second = await serve(t, { ready: () => true, analysisService: { analyze: async () => [] } });
-  const job = post(first); await within(entered.promise);
+  const first = await serve(t, {
+    ready: () => true,
+    analysisService: {
+      analyze: async () => {
+        entered.resolve();
+        await gate.promise;
+        return [];
+      },
+    },
+  });
+  const second = await serve(t, {
+    ready: () => true,
+    analysisService: { analyze: async () => [] },
+  });
+  const job = post(first);
+  await within(entered.promise);
   await responseIs(await post(first), 503, unavailable);
   await responseIs(await post(second), 200, accepted);
-  gate.resolve(); await responseIs(await job, 200, accepted);
+  gate.resolve();
+  await responseIs(await job, 200, accepted);
 });
 
-test('projection failure releases capacity and subsequent admission recovers', async t => {
+test("projection failure releases capacity and subsequent admission recovers", async (t) => {
   let calls = 0;
-  const url = await serve(t, { ready: () => true, analysisService: { analyze: async () => {
-    if (++calls === 1) return [{ fieldId: 'description', get denied() { throw Error('SENTINELSECRET'); } }];
-    return [];
-  } } });
+  const url = await serve(t, {
+    ready: () => true,
+    analysisService: {
+      analyze: async () => {
+        if (++calls === 1)
+          return [
+            {
+              fieldId: "description",
+              get denied() {
+                throw Error("SENTINELSECRET");
+              },
+            },
+          ];
+        return [];
+      },
+    },
+  });
   await responseIs(await post(url), 503, unavailable);
   await responseIs(await post(url), 200, accepted);
 });
 
-test('all readiness and service failures map to 503 even with input-error class identities', async t => {
-  for (const error of [new InvalidRequest('SENTINELSECRET'), new BodyTooLarge('SENTINELSECRET'),
-    Error('SENTINELSECRET'), null]) {
-    const url = await serve(t, { ready: () => { throw error; },
-      analysisService: { analyze: async () => { throw error; } } });
-    await responseIs(await fetch(url + '/health/ready'), 503, unavailable);
+test("all readiness and service failures map to 503 even with input-error class identities", async (t) => {
+  for (const error of [
+    new InvalidRequest("SENTINELSECRET"),
+    new BodyTooLarge("SENTINELSECRET"),
+    Error("SENTINELSECRET"),
+    null,
+  ]) {
+    const url = await serve(t, {
+      ready: () => {
+        throw error;
+      },
+      analysisService: {
+        analyze: async () => {
+          throw error;
+        },
+      },
+    });
+    await responseIs(await fetch(url + "/health/ready"), 503, unavailable);
     await responseIs(await post(url), 503, unavailable);
   }
 });
 
-test('createApp requires explicit service and readiness at runtime', () => {
-  for (const deps of [undefined, {}, { ready: () => true }, { analysisService: { analyze: async () => [] } }])
-    assert.throws(() => createApp(deps), { name: 'TypeError', message: 'App dependencies are required' });
+test("createApp requires explicit service and readiness at runtime", () => {
+  for (const deps of [
+    undefined,
+    {},
+    { ready: () => true },
+    { analysisService: { analyze: async () => [] } },
+  ])
+    assert.throws(() => createApp(deps), {
+      name: "TypeError",
+      message: "App dependencies are required",
+    });
 });
 
-test('direct app passes original strings to service and projects only sorted public fields in UTF-16 order', async t => {
-  const fields = [field('\ue000', '  e\u0301\t'), field('😀', 'é'), field('Z'), field('a')];
+test("direct app passes original strings to service and projects only sorted public fields in UTF-16 order", async (t) => {
+  const fields = [
+    field("\ue000", "  e\u0301\t"),
+    field("😀", "é"),
+    field("Z"),
+    field("a"),
+  ];
   let calls = 0;
-  const url = await serve(t, { ready: () => true, analysisService: { analyze: async input => {
-    calls++;
-    assert.deepEqual(input, fields.map(f => ({ ...f, allowedCategories: [] })));
-    return input.map(({ fieldId }) => ({ fieldId, denied: new Set(['PERSON', 'EMAIL_ADDRESS']),
-      detected: new Set(), possible: new Set(), candidates: [{ text: 'SENTINELSECRET', score: 0.99 }] }));
-  } } });
-  await responseIs(await post(url, fields), 200, { verdict: 'rejected', findings:
-    ['Z', 'a', '😀', '\ue000'].flatMap(fieldId => ['EMAIL_ADDRESS', 'PERSON'].map(category => ({ fieldId, category }))) });
+  const url = await serve(t, {
+    ready: () => true,
+    analysisService: {
+      analyze: async (input) => {
+        calls++;
+        assert.deepEqual(
+          input,
+          fields.map((f) => ({ ...f, allowedCategories: [] })),
+        );
+        return input.map(({ fieldId }) => ({
+          fieldId,
+          denied: new Set(["PERSON", "EMAIL_ADDRESS"]),
+          detected: new Set(),
+          possible: new Set(),
+          candidates: [{ text: "SENTINELSECRET", score: 0.99 }],
+        }));
+      },
+    },
+  });
+  await responseIs(await post(url, fields), 200, {
+    verdict: "rejected",
+    findings: ["Z", "a", "😀", "\ue000"].flatMap((fieldId) =>
+      ["EMAIL_ADDRESS", "PERSON"].map((category) => ({ fieldId, category })),
+    ),
+  });
   assert.equal(calls, 1);
 });
 
-test('invalid wire/schema never calls service, admission or readiness; exact headers on all statuses', async t => {
-  let calls = 0, readyCalls = 0;
-  const url = await serve(t, { ready: () => { readyCalls++; },
-    analysisService: { analyze: async () => { calls++; return []; } } });
+test("invalid wire/schema never calls service, admission or readiness; exact headers on all statuses", async (t) => {
+  let calls = 0,
+    readyCalls = 0;
+  const url = await serve(t, {
+    ready: () => {
+      readyCalls++;
+    },
+    analysisService: {
+      analyze: async () => {
+        calls++;
+        return [];
+      },
+    },
+  });
   const valid = JSON.stringify({ fields: [field()] });
   for (const body of [
-    '', 'null', '[]', '{}', '{"fields":[]}', '{"fields":[null]}', '{"fields":[[]]}',
-    '{"fields":[{"fieldId":"x","text":1}]}', '{"fields":[{"fieldId":1,"text":"x"}]}',
+    "",
+    "null",
+    "[]",
+    "{}",
+    '{"fields":[]}',
+    '{"fields":[null]}',
+    '{"fields":[[]]}',
+    '{"fields":[{"fieldId":"x","text":1}]}',
+    '{"fields":[{"fieldId":1,"text":"x"}]}',
     '{"fields":[{"fieldId":"x","text":"x","allowedCategories":null}]}',
     '{"fields":[{"fieldId":"x","text":"x","allowedCategories":[1]}]}',
     '{"fields":[{"fieldId":"x","text":"x","allowedCategories":["EMAIL"]}]}',
@@ -107,72 +217,154 @@ test('invalid wire/schema never calls service, admission or readiness; exact hea
     '{"fields":[{"fieldId":"x","text":"x"}],"extra":0}',
     '{"fields":[{"fieldId":"x","text":"\\ud800"}]}',
     '{"fields":[{"fieldId":"\\udc00","text":"x"}]}',
-    '\ufeff' + valid, Buffer.from([0xff]), Buffer.from([0xc0, 0xaf]),
-    JSON.stringify({ fields: [field('x'), field('x')] }),
-    JSON.stringify({ fields: Array.from({ length: 11 }, (_, i) => field(String(i))) }),
-    JSON.stringify({ fields: [field('x'.repeat(129))] }),
-    JSON.stringify({ fields: [field('x', 'x\u0085'.repeat(51))] }),
+    "\ufeff" + valid,
+    Buffer.from([0xff]),
+    Buffer.from([0xc0, 0xaf]),
+    JSON.stringify({ fields: [field("x"), field("x")] }),
+    JSON.stringify({
+      fields: Array.from({ length: 11 }, (_, i) => field(String(i))),
+    }),
+    JSON.stringify({ fields: [field("x".repeat(129))] }),
+    JSON.stringify({ fields: [field("x", "x\u0085".repeat(51))] }),
   ]) {
-    await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
-      headers: { 'Content-Type': 'application/json' }, body }), 400, { code: 'invalid_request' });
+    await responseIs(
+      await fetch(url + "/v1/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      }),
+      400,
+      { code: "invalid_request" },
+    );
   }
-  for (const contentType of ['text/plain', 'application/jsonx', 'application/json-seq',
-    'application/ld+json', 'application/json, text/plain', '']) {
-    await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
-      headers: { 'Content-Type': contentType }, body: valid }), 400, { code: 'invalid_request' });
+  for (const contentType of [
+    "text/plain",
+    "application/jsonx",
+    "application/json-seq",
+    "application/ld+json",
+    "application/json, text/plain",
+    "",
+  ]) {
+    await responseIs(
+      await fetch(url + "/v1/analyze", {
+        method: "POST",
+        headers: { "Content-Type": contentType },
+        body: valid,
+      }),
+      400,
+      { code: "invalid_request" },
+    );
   }
-  for (const [method, path] of [['GET', '/v1/analyze'], ['PUT', '/v1/analyze'],
-    ['POST', '/health/ready'], ['POST', '/v1/analyze/'], ['POST', '/v1/analyze?x=1'],
-    ['GET', '/health/ready/'], ['GET', '/health/ready?x=1'], ['POST', '/v1/%61nalyze']]) {
-    await responseIs(await fetch(url + path, { method, headers: { 'Content-Type': 'text/plain' },
-      ...(method === 'GET' ? {} : { body: 'invalid' }) }), 404, { code: 'not_found' });
+  for (const [method, path] of [
+    ["GET", "/v1/analyze"],
+    ["PUT", "/v1/analyze"],
+    ["POST", "/health/ready"],
+    ["POST", "/v1/analyze/"],
+    ["POST", "/v1/analyze?x=1"],
+    ["GET", "/health/ready/"],
+    ["GET", "/health/ready?x=1"],
+    ["POST", "/v1/%61nalyze"],
+  ]) {
+    await responseIs(
+      await fetch(url + path, {
+        method,
+        headers: { "Content-Type": "text/plain" },
+        ...(method === "GET" ? {} : { body: "invalid" }),
+      }),
+      404,
+      { code: "not_found" },
+    );
   }
-  assert.equal(calls, 0); assert.equal(readyCalls, 0);
-  const exactLimit = valid + ' '.repeat(1048576 - Buffer.byteLength(valid));
-  await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
-    headers: { 'Content-Type': 'aPpLiCaTiOn/JsOn ; ignored=parameter' }, body: exactLimit }), 200, accepted);
+  assert.equal(calls, 0);
+  assert.equal(readyCalls, 0);
+  const exactLimit = valid + " ".repeat(1048576 - Buffer.byteLength(valid));
+  await responseIs(
+    await fetch(url + "/v1/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "aPpLiCaTiOn/JsOn ; ignored=parameter" },
+      body: exactLimit,
+    }),
+    200,
+    accepted,
+  );
   assert.equal(calls, 1);
-  await responseIs(await fetch(url + '/v1/analyze', { method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, body: exactLimit + ' ' }), 413, { code: 'body_too_large' });
-  assert.equal(calls, 1); assert.equal(readyCalls, 0);
+  await responseIs(
+    await fetch(url + "/v1/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: exactLimit + " ",
+    }),
+    413,
+    { code: "body_too_large" },
+  );
+  assert.equal(calls, 1);
+  assert.equal(readyCalls, 0);
 });
 
-test('route and content-type are decided before reading any request body', async t => {
+test("route and content-type are decided before reading any request body", async (t) => {
   let calls = 0;
-  const url = await serve(t, { ready: () => true,
-    analysisService: { analyze: async () => { calls++; return []; } } });
+  const url = await serve(t, {
+    ready: () => true,
+    analysisService: {
+      analyze: async () => {
+        calls++;
+        return [];
+      },
+    },
+  });
   for (const [path, contentType, status, code] of [
-    ['/v1/analyze?x=1', 'text/plain', 404, 'not_found'],
-    ['/v1/analyze', 'application/jsonx', 400, 'invalid_request'],
+    ["/v1/analyze?x=1", "text/plain", 404, "not_found"],
+    ["/v1/analyze", "application/jsonx", 400, "invalid_request"],
   ]) {
-    await within(new Promise((resolve, reject) => {
-      const req = request(url + path, { method: 'POST', headers: {
-        'Content-Type': contentType, 'Content-Length': '1048577',
-      } }, res => {
-        let body = '';
-        res.setEncoding('utf8'); res.on('data', chunk => body += chunk);
-        res.on('end', () => {
-          try {
-            assert.equal(res.statusCode, status);
-            assert.equal(res.headers['content-type'], 'application/json');
-            assert.equal(res.headers['x-content-type-options'], 'nosniff');
-            assert.deepEqual(JSON.parse(body), { code });
-            resolve();
-          } catch (error) { reject(error); }
-          finally { req.destroy(); }
-        });
-      });
-      req.on('error', reject);
-      req.setTimeout(2000, () => req.destroy(Error('headers/body ordering timeout')));
-      req.flushHeaders(); // Deliberately never send a body or EOF.
-    }));
+    await within(
+      new Promise((resolve, reject) => {
+        const req = request(
+          url + path,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": contentType,
+              "Content-Length": "1048577",
+            },
+          },
+          (res) => {
+            let body = "";
+            res.setEncoding("utf8");
+            res.on("data", (chunk) => (body += chunk));
+            res.on("end", () => {
+              try {
+                assert.equal(res.statusCode, status);
+                assert.equal(res.headers["content-type"], "application/json");
+                assert.equal(res.headers["x-content-type-options"], "nosniff");
+                assert.deepEqual(JSON.parse(body), { code });
+                resolve();
+              } catch (error) {
+                reject(error);
+              } finally {
+                req.destroy();
+              }
+            });
+          },
+        );
+        req.on("error", reject);
+        req.setTimeout(2000, () =>
+          req.destroy(Error("headers/body ordering timeout")),
+        );
+        req.flushHeaders(); // Deliberately never send a body or EOF.
+      }),
+    );
   }
   assert.equal(calls, 0);
 });
 
-test('compiled HTTP import graph cannot load SDK/analysis, read env, listen or fetch', () => {
-  const appUrl = new URL('../../poc-horizon/dist/app.js', import.meta.url).href;
-  const result = spawnSync(process.execPath, ['--input-type=module', '--eval', `
+test("compiled HTTP import graph cannot load SDK/analysis, read env, listen or fetch", () => {
+  const appUrl = new URL("../../poc-horizon/dist/app.js", import.meta.url).href;
+  const result = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "--eval",
+      `
     import assert from 'node:assert/strict';
     import { registerHooks } from 'node:module';
     import { Server } from 'node:net';
@@ -194,19 +386,40 @@ test('compiled HTTP import graph cannot load SDK/analysis, read env, listen or f
       analysisService: { analyze: async () => { effects++; return []; } } }), 'function');
     assert.equal(effects, 0);
     console.log('HTTP import isolation verified');
-  `], { encoding: 'utf8', timeout: 10000 });
+  `,
+    ],
+    { encoding: "utf8", timeout: 10000 },
+  );
   assert.ifError(result.error);
   assert.equal(result.status, 0, result.stderr + result.stdout);
   assert.match(result.stdout, /HTTP import isolation verified/);
 });
 
-test('config reads only when called, preserves Number conversion, zero port and host bytes', () => {
-  assert.deepEqual(loadConfig({}), { port: 8000, bindHost: '127.0.0.1', concurrency: 1, tokenBudget: 512 });
-  for (const [value, expected] of [['0', 0], ['', 0], [' 42 ', 42], ['0x10', 16]])
+test("config reads only when called, preserves Number conversion, zero port and host bytes", () => {
+  assert.deepEqual(loadConfig({}), {
+    port: 8000,
+    bindHost: "127.0.0.1",
+    concurrency: 1,
+    tokenBudget: 512,
+  });
+  for (const [value, expected] of [
+    ["0", 0],
+    ["", 0],
+    [" 42 ", 42],
+    ["0x10", 16],
+  ])
     assert.equal(loadConfig({ ANALYZER_PORT: value }).port, expected);
-  assert.ok(Number.isNaN(loadConfig({ ANALYZER_PORT: 'bad' }).port));
-  assert.equal(loadConfig({ ANALYZER_BIND_HOST: ' LOCALHOST ' }).bindHost, ' LOCALHOST ');
-  assert.equal(loadConfig({ ANALYZER_BIND_HOST: '' }).bindHost, '');
-  assert.deepEqual(HTTP_LIMITS, { maxBodyBytes: 1048576, maxFields: 10, maxFieldIdUnits: 128,
-    maxWords: 50, requestTimeout: 10000 });
+  assert.ok(Number.isNaN(loadConfig({ ANALYZER_PORT: "bad" }).port));
+  assert.equal(
+    loadConfig({ ANALYZER_BIND_HOST: " LOCALHOST " }).bindHost,
+    " LOCALHOST ",
+  );
+  assert.equal(loadConfig({ ANALYZER_BIND_HOST: "" }).bindHost, "");
+  assert.deepEqual(HTTP_LIMITS, {
+    maxBodyBytes: 1048576,
+    maxFields: 10,
+    maxFieldIdUnits: 128,
+    maxWords: 50,
+    requestTimeout: 10000,
+  });
 });

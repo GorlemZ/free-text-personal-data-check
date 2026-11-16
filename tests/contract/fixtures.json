@@ -41,10 +41,7 @@
           {
             "fieldId": "x",
             "text": "fixture:extra",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -94,10 +91,7 @@
           {
             "fieldId": "x",
             "text": "fixture:person",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -147,10 +141,7 @@
           {
             "fieldId": "x",
             "text": "fixture:extra-person",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -200,10 +191,7 @@
           {
             "fieldId": "x",
             "text": "fixture:person-aliases",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -289,9 +277,7 @@
           {
             "fieldId": "x",
             "text": "fixture:phone 3331234567",
-            "allowedCategories": [
-              "PHONE_NUMBER"
-            ]
+            "allowedCategories": ["PHONE_NUMBER"]
           }
         ]
       }
@@ -381,9 +367,7 @@
           {
             "fieldId": "z",
             "text": "fixture:person",
-            "allowedCategories": [
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON"]
           },
           {
             "fieldId": "a",
@@ -1918,9 +1902,7 @@
           {
             "fieldId": "x",
             "text": "",
-            "allowedCategories": [
-              "UNKNOWN"
-            ]
+            "allowedCategories": ["UNKNOWN"]
           }
         ]
       }
@@ -2062,8 +2044,14 @@
     {
       "name": "invalid-json-0",
       "expectedByEngine": {
-        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
-        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
       },
       "mode": "ready",
       "method": "POST",
@@ -2081,8 +2069,14 @@
     {
       "name": "invalid-json-1",
       "expectedByEngine": {
-        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
-        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
       },
       "mode": "ready",
       "method": "POST",
@@ -2100,8 +2094,14 @@
     {
       "name": "invalid-json-2",
       "expectedByEngine": {
-        "horizon": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } },
-        "rizzo": { "status": 200, "expected": { "verdict": "accepted", "findings": [] } }
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
       },
       "mode": "ready",
       "method": "POST",

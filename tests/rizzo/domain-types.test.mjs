@@ -1,27 +1,39 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
-import { mkdtemp, writeFile, rm, readdir, readFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-const root = fileURLToPath(new URL('../../poc-rizzo/', import.meta.url));
-const ts = createRequire(join(root, 'package.json'))('typescript');
+import test from "node:test";
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+const root = fileURLToPath(new URL("../../poc-rizzo/", import.meta.url));
+const ts = createRequire(join(root, "package.json"))("typescript");
 
-test('domain DTOs and composed service contracts reject invalid and mutable types under real strict NodeNext', async t => {
-  const dir = await mkdtemp(join(tmpdir(), 'rizzo-C-types-')); t.after(() => rm(dir, { recursive: true, force: true }));
-  const configPath = join(root, 'tsconfig.json'), config = ts.readConfigFile(configPath, ts.sys.readFile);
+test("domain DTOs and composed service contracts reject invalid and mutable types under real strict NodeNext", async (t) => {
+  const dir = await mkdtemp(join(tmpdir(), "rizzo-C-types-"));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const configPath = join(root, "tsconfig.json"),
+    config = ts.readConfigFile(configPath, ts.sys.readFile);
   assert.equal(config.error, undefined);
-  const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root, undefined, configPath);
-  assert.deepEqual(parsed.errors, []); assert.equal(ts.version, '5.9.3');
-  const options = { ...parsed.options, noEmit: true }; delete options.rootDir;
-  assert.equal(options.strict, true); assert.equal(options.exactOptionalPropertyTypes, true);
-  assert.equal(options.module, ts.ModuleKind.NodeNext); assert.equal(options.moduleResolution, ts.ModuleResolutionKind.NodeNext);
-  const path = name => JSON.stringify(join(root, 'src', name + '.js'));
-  const fixture = `import type { Category, Field, Finding, RawInference } from ${path('model/contracts')};
-import { analysisServiceBuilder, detectCategories, type AnalysisService } from ${path('services/analysisService')};
-import { modelDetectionServiceBuilder, type ModelDetectionService } from ${path('services/modelDetectionService')};
-import { recognize } from ${path('recognizers/rules')};
+  const parsed = ts.parseJsonConfigFileContent(
+    config.config,
+    ts.sys,
+    root,
+    undefined,
+    configPath,
+  );
+  assert.deepEqual(parsed.errors, []);
+  assert.equal(ts.version, "5.9.3");
+  const options = { ...parsed.options, noEmit: true };
+  delete options.rootDir;
+  assert.equal(options.strict, true);
+  assert.equal(options.exactOptionalPropertyTypes, true);
+  assert.equal(options.module, ts.ModuleKind.NodeNext);
+  assert.equal(options.moduleResolution, ts.ModuleResolutionKind.NodeNext);
+  const path = (name) => JSON.stringify(join(root, "src", name + ".js"));
+  const fixture = `import type { Category, Field, Finding, RawInference } from ${path("model/contracts")};
+import { analysisServiceBuilder, detectCategories, type AnalysisService } from ${path("services/analysisService")};
+import { modelDetectionServiceBuilder, type ModelDetectionService } from ${path("services/modelDetectionService")};
+import { recognize } from ${path("recognizers/rules")};
 const category: Category = 'PERSON';
 const fields: readonly Field[] = [{ fieldId: 'a', text: '', allowedCategories: [category] }];
 const raw: RawInference = async () => ({ output: { external: 'untrusted' } });
@@ -33,6 +45,7 @@ const exactM: ReturnType<typeof modelDetectionServiceBuilder> = model;
 const exactR: typeof recognize = rules;
 async function check() {
   const detected = await detectCategories('x', model, rules);
+  const normalized: ReadonlySet<Category> = detected;
   // @ts-expect-error immutable detected category set
   detected.add(category);
   const result = await analysis(fields);
@@ -75,18 +88,46 @@ const noCategory: Finding = { fieldId: 'a' };
 // @ts-expect-error all DI mandatory
 analysisServiceBuilder({ modelDetectionService: model });
 `;
-  async function diagnostics(text) { const file = join(dir, 'probe.mts'); await writeFile(file, text); return ts.getPreEmitDiagnostics(ts.createProgram({ rootNames: [file], options })).map(d => ({ code: d.code, message: ts.flattenDiagnosticMessageText(d.messageText, '\n') })); }
+  async function diagnostics(text) {
+    const file = join(dir, "probe.mts");
+    await writeFile(file, text);
+    return ts
+      .getPreEmitDiagnostics(ts.createProgram({ rootNames: [file], options }))
+      .map((d) => ({
+        code: d.code,
+        message: ts.flattenDiagnosticMessageText(d.messageText, "\n"),
+      }));
+  }
   assert.deepEqual(await diagnostics(fixture), []);
-  assert.deepEqual((await diagnostics(fixture + '\n// @ts-expect-error unused positive control\nconst control: string = "valid";')).map(d => d.code), [2578]);
+  assert.deepEqual(
+    (
+      await diagnostics(
+        fixture +
+          '\n// @ts-expect-error unused positive control\nconst control: string = "valid";',
+      )
+    ).map((d) => d.code),
+    [2578],
+  );
 });
 
-test('domain validation converter and service imports have no runtime dependency on SDK adapters or HTTP', async () => {
-  for (const dir of ['model', 'validation', 'services']) for (const file of await readdir(join(root, 'src', dir))) {
-    if (!file.endsWith('.ts')) continue;
-    const source = ts.createSourceFile(file, await readFile(join(root, 'src', dir, file), 'utf8'), ts.ScriptTarget.Latest, true);
-    for (const statement of source.statements) if (ts.isImportDeclaration(statement)) {
-      const specifier = statement.moduleSpecifier.text;
-      assert.doesNotMatch(specifier, /huggingface|onnxruntime|adapters|node:http|routers|utilities\/http/, dir + '/' + file);
+test("domain validation converter and service imports have no runtime dependency on SDK adapters or HTTP", async () => {
+  for (const dir of ["model", "validation", "services"])
+    for (const file of await readdir(join(root, "src", dir))) {
+      if (!file.endsWith(".ts")) continue;
+      const source = ts.createSourceFile(
+        file,
+        await readFile(join(root, "src", dir, file), "utf8"),
+        ts.ScriptTarget.Latest,
+        true,
+      );
+      for (const statement of source.statements)
+        if (ts.isImportDeclaration(statement)) {
+          const specifier = statement.moduleSpecifier.text;
+          assert.doesNotMatch(
+            specifier,
+            /huggingface|onnxruntime|adapters|node:http|routers|utilities\/http/,
+            dir + "/" + file,
+          );
+        }
     }
-  }
 });

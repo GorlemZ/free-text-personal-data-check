@@ -5,23 +5,23 @@ Servizio Node.js 24: modello Rizzo ONNX, pipeline standard Transformers.js `toke
 ## Avvio dalla root
 
 ```sh
-npm --prefix poc-rizzo ci
-npm --prefix poc-rizzo run typecheck
-npm --prefix poc-rizzo run build
-npm --prefix poc-rizzo test
-npm --prefix poc-rizzo run prefetch
-npm --prefix poc-rizzo run smoke
-npm --prefix poc-rizzo start
+pnpm install --frozen-lockfile
+pnpm --filter node-rizzo-pii-spike typecheck
+pnpm --filter node-rizzo-pii-spike build
+pnpm --filter node-rizzo-pii-spike test
+pnpm --filter node-rizzo-pii-spike prefetch
+pnpm --filter node-rizzo-pii-spike smoke
+pnpm --filter node-rizzo-pii-spike start
 ```
 
-`build` elimina prima l'intera directory `dist` e compila tutti i sorgenti e CLI con TypeScript strict (NodeNext). Il runtime usa soltanto `dist/index.js`; i test importano il codice compilato e `npm test` esegue il build prima della suite, anche quando invocato dall'harness centralizzato. L'import dei moduli e delle CLI non avvia server, caricamento del modello o download. Dopo modifiche ai sorgenti, ripetere typecheck e build.
+`build` elimina prima l'intera directory `dist` e compila tutti i sorgenti e CLI con TypeScript strict (NodeNext). Il runtime usa soltanto `dist/index.js`; i test importano il codice compilato e `pnpm --filter node-rizzo-pii-spike test` esegue il build prima della suite, anche quando invocato dall'harness centralizzato. L'import dei moduli e delle CLI non avvia server, caricamento del modello o download. Dopo modifiche ai sorgenti, ripetere typecheck e build.
 
 `prefetch` scarica gli artefatti fissati in [model-manifest.json](model-manifest.json); `smoke` esegue inferenza reale e verifica PERSON, email in coda e gestione dell'overflow token. Il servizio usa solo modelli locali. Bind predefinito `127.0.0.1:8000`, configurabile con `BIND_HOST` e `PORT`.
 
 Dopo il prefetch:
 
 ```sh
-docker build -t free-text-check:rizzo-uniform ./poc-rizzo
+docker build -f poc-rizzo/Dockerfile -t free-text-check:rizzo-uniform .
 docker run --rm -p 127.0.0.1:18081:8000 free-text-check:rizzo-uniform
 ```
 
@@ -61,17 +61,17 @@ Il caricamento usa gli artefatti locali originali, verificati con il manifest. L
 
 `CATEGORY_SOURCES` assegna una sola fonte per categoria. Le regole non recuperano omissioni o score sotto soglia del modello.
 
-| Categoria | Fonte esclusiva | Mapping / motivazione |
-|---|---|---|
-| PERSON | modello | `FULLNAME` |
-| EMAIL_ADDRESS | modello | `EMAIL` |
-| PHONE_NUMBER | modello | `TELEPHONENUM`, senza filtro geografico |
-| IT_FISCAL_CODE | modello | label specifica italiana `CF`, non dedotta da un generico tax ID |
-| IT_VAT_CODE | modello | label specifica italiana `PIVA` |
-| IBAN_CODE | modello | `IBAN` |
-| CREDIT_CARD | modello | `CREDITCARDNUMBER` |
-| IT_IDENTITY_CARD | regole | `ID_DOC`/`DOCID` generici non distinguono identità e nazionalità |
-| IT_DRIVER_LICENSE | regole | nessuna label nativa specifica per patente italiana |
+| Categoria         | Fonte esclusiva | Mapping / motivazione                                            |
+| ----------------- | --------------- | ---------------------------------------------------------------- |
+| PERSON            | modello         | `FULLNAME`                                                       |
+| EMAIL_ADDRESS     | modello         | `EMAIL`                                                          |
+| PHONE_NUMBER      | modello         | `TELEPHONENUM`, senza filtro geografico                          |
+| IT_FISCAL_CODE    | modello         | label specifica italiana `CF`, non dedotta da un generico tax ID |
+| IT_VAT_CODE       | modello         | label specifica italiana `PIVA`                                  |
+| IBAN_CODE         | modello         | `IBAN`                                                           |
+| CREDIT_CARD       | modello         | `CREDITCARDNUMBER`                                               |
+| IT_IDENTITY_CARD  | regole          | `ID_DOC`/`DOCID` generici non distinguono identità e nazionalità |
+| IT_DRIVER_LICENSE | regole          | nessuna label nativa specifica per patente italiana              |
 
 Restano solo regole integrative per CIE e patenti, con formati italiani, confini Unicode e contesto nei 50 caratteri precedenti oppure valore standalone. Le regole email/CF/P.IVA/IBAN/carte/telefoni sono rimosse dal percorso, non tenute come fallback. La dipendenza inutilizzata `ibantools` e la fixture del decoder BIO storico sono rimosse. I test della pipeline standard mantengono casi sintetici di raggruppamento, token speciali, Unicode, soglia, output invalido, errori e budget senza eseguire il decoder ritirato. I test `legacy-config`, `legacy-manifest` e `legacy-prefetch` restano: verificano ancora confini CLI/configurazione correnti, non detection superata.
 

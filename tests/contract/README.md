@@ -7,7 +7,15 @@
 - Metodo e path devono coincidere esattamente: query string, slash finale, path percent-encoded alternativo e metodi diversi ricevono 404, senza redirect.
 
 ```json
-{"fields":[{"fieldId":"descrizione","text":"Vorrei informazioni.","allowedCategories":[]}]}
+{
+  "fields": [
+    {
+      "fieldId": "descrizione",
+      "text": "Vorrei informazioni.",
+      "allowedCategories": []
+    }
+  ]
+}
 ```
 
 Da 1 a 10 campi; `fieldId` univoco e lungo 1–128 unità UTF-16. `text` può essere vuoto e contiene al massimo 50 unità separate dalla proprietà Unicode `White_Space`. ID e testo devono essere stringhe Unicode ben formate, senza surrogate isolate. Non si tronca l'input. Body massimo 1 MiB UTF-8. Lo schema è chiuso; tipi errati e membri ignoti sono invalidi. Horizon e Rizzo usano `JSON.parse`: chiavi duplicate, anche con escape equivalenti, hanno semantica last-wins; si valida solo il risultato, incluse le stringhe finali ben formate. I valori precedenti scartati non sono ispezionati. `fieldId` ripetuti restano vietati. Presidio conserva il rifiuto dei duplicati: `expectedByEngine` nelle tre fixture pertinenti rende esplicita questa differenza senza modificarne il parser.
@@ -21,24 +29,27 @@ Da 1 a 10 campi; `fieldId` univoco e lungo 1–128 unità UTF-16. `text` può es
 Risposta business esclusivamente HTTP 200:
 
 ```json
-{"verdict":"accepted","findings":[]}
+{ "verdict": "accepted", "findings": [] }
 ```
 
 ```json
-{"verdict":"rejected","findings":[{"fieldId":"descrizione","category":"PERSON"}]}
+{
+  "verdict": "rejected",
+  "findings": [{ "fieldId": "descrizione", "category": "PERSON" }]
+}
 ```
 
 Ogni coppia vietata viene restituita una volta; ordine lessicografico per unità UTF-16 su `fieldId`, poi `category`. Le categorie consentite sono omesse. Un solo finding vietato basta al rifiuto. Nessun testo, valore estratto, span, score, etichetta nativa o versione del modello nella risposta.
 
 ## Errori e precedenza
 
-| HTTP | Body | Condizione |
-|---|---|---|
-| 404 | `{"code":"not_found"}` | Metodo/path non ammessi |
-| 400 | `{"code":"invalid_request"}` | Content-Type non ammesso |
-| 413 | `{"code":"body_too_large"}` | Body oltre 1 MiB |
-| 400 | `{"code":"invalid_request"}` | UTF-8, JSON, Unicode o schema invalido |
-| 503 | `{"code":"detector_unavailable"}` | Detector indisponibile, output invalido o limite tecnico |
+| HTTP | Body                              | Condizione                                               |
+| ---- | --------------------------------- | -------------------------------------------------------- |
+| 404  | `{"code":"not_found"}`            | Metodo/path non ammessi                                  |
+| 400  | `{"code":"invalid_request"}`      | Content-Type non ammesso                                 |
+| 413  | `{"code":"body_too_large"}`       | Body oltre 1 MiB                                         |
+| 400  | `{"code":"invalid_request"}`      | UTF-8, JSON, Unicode o schema invalido                   |
+| 503  | `{"code":"detector_unavailable"}` | Detector indisponibile, output invalido o limite tecnico |
 
 La tabella è nell'ordine di precedenza. Si valida l'intera richiesta prima dell'inferenza: input invalido resta 400 anche quando il detector non è disponibile. Gli errori non espongono verdetti o finding parziali. Un limite token può essere superato anche sotto 50 parole e produce 503. Horizon/Rizzo validano prima dell’ammissione: una richiesta valida eccedente la capacità configurata riceve 503 senza attendere o eseguire inferenza; health non occupa capacità. Il budget include token speciali ed è verificato per campo sequenzialmente, senza risultati parziali.
 
