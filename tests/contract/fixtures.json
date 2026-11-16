@@ -41,10 +41,7 @@
           {
             "fieldId": "x",
             "text": "fixture:extra",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -94,10 +91,7 @@
           {
             "fieldId": "x",
             "text": "fixture:person",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -147,10 +141,7 @@
           {
             "fieldId": "x",
             "text": "fixture:extra-person",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -200,10 +191,7 @@
           {
             "fieldId": "x",
             "text": "fixture:person-aliases",
-            "allowedCategories": [
-              "PERSON",
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON", "PERSON"]
           }
         ]
       }
@@ -289,9 +277,7 @@
           {
             "fieldId": "x",
             "text": "fixture:phone 3331234567",
-            "allowedCategories": [
-              "PHONE_NUMBER"
-            ]
+            "allowedCategories": ["PHONE_NUMBER"]
           }
         ]
       }
@@ -381,9 +367,7 @@
           {
             "fieldId": "z",
             "text": "fixture:person",
-            "allowedCategories": [
-              "PERSON"
-            ]
+            "allowedCategories": ["PERSON"]
           },
           {
             "fieldId": "a",
@@ -1918,9 +1902,7 @@
           {
             "fieldId": "x",
             "text": "",
-            "allowedCategories": [
-              "UNKNOWN"
-            ]
+            "allowedCategories": ["UNKNOWN"]
           }
         ]
       }
@@ -2061,6 +2043,16 @@
     },
     {
       "name": "invalid-json-0",
+      "expectedByEngine": {
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",
@@ -2076,6 +2068,16 @@
     },
     {
       "name": "invalid-json-1",
+      "expectedByEngine": {
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",
@@ -2091,6 +2093,16 @@
     },
     {
       "name": "invalid-json-2",
+      "expectedByEngine": {
+        "horizon": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        }
+      },
       "mode": "ready",
       "method": "POST",
       "path": "/v1/analyze",
@@ -2190,6 +2202,22 @@
       "status": 400,
       "expected": {
         "code": "invalid_request"
+      },
+      "expectedByEngine": {
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        }
       },
       "body_hex": "7b226669656c6473223a5b7b226669656c644964223a2278222c2274657874223a22ff227d5d7d",
       "realSmoke": true

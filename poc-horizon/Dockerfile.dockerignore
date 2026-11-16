@@ -1,0 +1,14 @@
+.git
+.hermes
+node_modules
+**/node_modules
+**/dist
+tests
+results
+**/results
+evidence
+**/evidence
+poc-rizzo/src
+poc-rizzo/models
+poc-rizzo/model-manifest.json
+poc-rizzo/MODEL_LICENSE

@@ -69,7 +69,8 @@ def await_server(base, process, mode):
 
 def check_cases(base, cases, engine):
     failures = []
-    for case in cases:
+    for original in cases:
+        case = {**original, **original.get('expectedByEngine', {}).get(engine, {})}
         try:
             status, body, content_type = request(base, case)
             if (status != case['status'] or body != case['expected'] or content_type != 'application/json'):

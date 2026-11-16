@@ -1,0 +1,4 @@
+packages:
+  - packages/*
+  - poc-horizon
+  - poc-rizzo

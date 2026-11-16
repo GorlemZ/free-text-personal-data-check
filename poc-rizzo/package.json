@@ -6,15 +6,28 @@
   "engines": {
     "node": ">=24"
   },
+  "packageManager": "pnpm@10.29.3",
   "scripts": {
-    "test": "node --test ../tests/rizzo/*.test.mjs",
-    "start": "node src/server.mjs",
-    "prefetch": "node scripts/prefetch.mjs",
-    "smoke": "node scripts/smoke.mjs"
+    "prebuild": "pnpm --filter @pagopa/detector-http build",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck",
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\" && tsc",
+    "test": "pnpm build && node --test ../tests/rizzo/*.test.mjs",
+    "start": "node dist/index.js",
+    "prefetch": "node dist/scripts/prefetch.js",
+    "smoke": "node dist/scripts/smoke.js"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.2",
-    "ibantools": "4.5.4",
-    "onnxruntime-node": "1.30.0"
+    "@pagopa/detector-http": "workspace:*",
+    "express": "4.20.0",
+    "onnxruntime-node": "1.30.0",
+    "p-limit": "6.2.0",
+    "zod": "3.23.8"
   }
 }
