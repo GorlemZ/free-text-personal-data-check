@@ -132,7 +132,7 @@ for (const { name, diagnostic } of mutants) {
             dtype: 'q8',
             device: 'cpu',
             local_files_only: true,
-            session_options: { intraOpNumThreads: 2, interOpNumThreads: 1 },
+            session_options: { intraOpNumThreads: 1, interOpNumThreads: 1 },
           } }]);
         // Only filesystem fixtures are used: no actual artifact or checksum is read.
         await prefetch({ verifyOnly: true });

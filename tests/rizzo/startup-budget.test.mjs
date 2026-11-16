@@ -34,7 +34,7 @@ test("configuration and raw adapter validate positive safe integer budgets", () 
       /TOKEN_BUDGET/,
     );
   }
-  assert.equal(readHttpConfig({}).concurrency, 1);
+  assert.equal(readHttpConfig({}).concurrency, 2);
   for (const maxTokens of [0, -1, 1.5, NaN, Infinity])
     assert.throws(
       () =>

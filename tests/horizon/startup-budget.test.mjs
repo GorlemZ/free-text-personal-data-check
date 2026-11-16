@@ -62,7 +62,7 @@ test("startup validates external integers and model/tokenizer limits before use"
       /TOKEN_BUDGET/,
     );
   }
-  assert.equal(loadConfig({}).concurrency, 1);
+  assert.equal(loadConfig({}).concurrency, 2);
   assert.equal(loadConfig({}).tokenBudget, 512);
   assert.equal(
     loadConfig({ ANALYZER_CONCURRENCY: "2", ANALYZER_TOKEN_BUDGET: "8" })

@@ -309,7 +309,7 @@ test("startup composes the public pipeline once and reuses the ready inference",
       subfolder: "",
       local_files_only: true,
       session_options: {
-        intraOpNumThreads: 2,
+        intraOpNumThreads: 1,
         interOpNumThreads: 1,
       },
     });

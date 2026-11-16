@@ -198,7 +198,7 @@ test("explicit initialization rejects once without retry", async (t) => {
         subfolder: "",
         local_files_only: true,
         session_options: {
-          intraOpNumThreads: 2,
+          intraOpNumThreads: 1,
           interOpNumThreads: 1,
         },
       });

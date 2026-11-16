@@ -463,7 +463,7 @@ test("config reads only when called, validates the port and preserves host bytes
   assert.deepEqual(loadConfig({}), {
     port: 8000,
     bindHost: "127.0.0.1",
-    concurrency: 1,
+    concurrency: 2,
     maxPendingRequests: 4,
     maxQueueWaitMs: 500,
     tokenBudget: 512,

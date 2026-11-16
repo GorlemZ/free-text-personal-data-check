@@ -14,7 +14,7 @@ Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi li
 
 L'elaborazione avviene localmente. Rizzo e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python. I due servizi Node condividono `@pagopa/detector-http`, il package infrastrutturale che monta routing Express, abilita il parser JSON standard con limite 1 MiB, valida la porta e gestisce listen/segnali/shutdown. Entrambi validano `req.body` con Zod e delegano a Express la serializzazione JSON. Service, adapter e dominio restano nei rispettivi PoC.
 
-Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Il default condiviso ammette una richiesta attiva e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
+Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Candidate B ammette di default due richieste attive e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
 
 ## Valutazione funzionale aggiornata
 
@@ -70,6 +70,8 @@ Le immagini sono state costruite dai sorgenti del commit indicato. Per Horizon i
 Candidate A è stata verificata su Horizon e Rizzo con una replica limitata a 2 CPU e `4_000_000_000` byte, ORT intra-op 2/inter-op 1, una richiesta attiva e quattro pending. Nello screening seriale preliminare Horizon ha elaborato 8,65 req/s con p95 271,1 ms e circa 2.198,0 MiB post-load; Rizzo 6,84 req/s con p95 346,6 ms e circa 2.200,8 MiB post-load. Entrambi hanno completato 30/30 richieste.
 
 Il [report Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md) contiene configurazione, metodo, gate e limiti. È uno screening breve closed-loop: non certifica capacità produttiva, RAM minima o stabilità prolungata; restano da eseguire le curve open-loop e il confronto Candidate B/C.
+
+Candidate B usa una sessione ONNX condivisa con intra-op/inter-op 1/1 e due richieste attive. Il gate di isolamento reale è passato su entrambi i motori, ma lo screening preliminare a due client ha superato il target p90: Horizon 5,12 req/s e p90 752,6 ms; Rizzo 5,02 req/s e p90 789,7 ms. Il [report Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) conserva risultati e caveat; le curve open-loop restano necessarie prima di una decisione finale.
 
 ### Misure storiche
 

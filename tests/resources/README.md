@@ -3,6 +3,7 @@
 Risultati pubblicati:
 
 - [Phase A — Candidate A, 16 novembre 2026](results/phase-a-candidate-a-2026-11-16/report.md): screening seriale preliminare di Horizon e Rizzo a 2 CPU e 4 GB; non è una misura di capacità produttiva sostenibile.
+- [Phase B — Candidate B, 16 novembre 2026](results/phase-b-candidate-b-2026-11-16/report.md): isolamento shared-session e screening preliminare a due client di Horizon e Rizzo a 2 CPU e 4 GB.
 
 An opt-in, standard-library Python harness for **containerized pipelines**, not isolated model memory or functional accuracy. It does not build/pull images, tune workers/models, modify gold, or touch functional evaluation results. `tests/run.py resources` runs only unit tests and fake loopback HTTP servers; Docker lifecycle calls in that suite use an injected transport.
 

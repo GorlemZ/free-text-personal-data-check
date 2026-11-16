@@ -12,7 +12,7 @@ export type LoadModel = (
     subfolder: "";
     local_files_only: true;
     session_options: {
-      intraOpNumThreads: 2;
+      intraOpNumThreads: 1;
       interOpNumThreads: 1;
     };
   },

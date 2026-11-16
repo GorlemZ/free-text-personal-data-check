@@ -67,6 +67,8 @@ Purpose: overlap two independent requests on the same ONNX session while staying
 
 Promotion requires a real-model concurrency parity gate: different simultaneous inputs, 1/5/10-field requests, one failing request beside one valid request, deterministic public responses and no cross-request contamination.
 
+Status 2026-11-16: parity gate passed for Horizon and Rizzo. The preliminary two-client screening reached Horizon 5.12 req/s at p90 752.6 ms and Rizzo 5.02 req/s at p90 789.7 ms, so both exceeded the provisional 500 ms p90 target. Candidate B is not promoted on this evidence; open-loop curves remain required for the final comparison.
+
 ### Candidate C — Two processes, one model session each
 
 ```text

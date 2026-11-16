@@ -36,7 +36,7 @@ export function readHttpConfig(
     port: parsePort(environment.PORT),
     host: environment.BIND_HOST ?? "127.0.0.1",
     concurrency: positiveInteger(
-      environment.ANALYZER_CONCURRENCY ?? "1",
+      environment.ANALYZER_CONCURRENCY ?? "2",
       "CONCURRENCY",
     ),
     maxPendingRequests: nonNegativeInteger(

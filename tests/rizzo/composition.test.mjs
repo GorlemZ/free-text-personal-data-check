@@ -344,7 +344,7 @@ test("HTTP environment config validates ports and preserves defaults, empty host
   assert.deepEqual(readHttpConfig({}), {
     port: 8000,
     host: "127.0.0.1",
-    concurrency: 1,
+    concurrency: 2,
     maxPendingRequests: 4,
     maxQueueWaitMs: 500,
     tokenBudget: 512,
@@ -369,7 +369,7 @@ test("HTTP environment config validates ports and preserves defaults, empty host
     {
       port: 0,
       host: "127.0.0.1",
-      concurrency: 1,
+      concurrency: 2,
       maxPendingRequests: 4,
       maxQueueWaitMs: 500,
       tokenBudget: 512,

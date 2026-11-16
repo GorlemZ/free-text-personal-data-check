@@ -79,7 +79,7 @@ test("ready adapters hash artifacts before loader and use real tokenizer pipelin
         subfolder: "",
         local_files_only: true,
         session_options: {
-          intraOpNumThreads: 2,
+          intraOpNumThreads: 1,
           interOpNumThreads: 1,
         },
       });

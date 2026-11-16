@@ -134,7 +134,7 @@ test("real adapter uses exact offline/native options, budget 512/513, no inferen
       dtype: 'q8',
       device: 'cpu',
       local_files_only: true,
-      session_options: { intraOpNumThreads: 2, interOpNumThreads: 1 },
+      session_options: { intraOpNumThreads: 1, interOpNumThreads: 1 },
     }],
     ['tokenize', '512', { truncation: false, padding: false, add_special_tokens: true }],
     ['tokenize', '513', { truncation: false, padding: false, add_special_tokens: true }],

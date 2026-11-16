@@ -14,7 +14,7 @@ export const MODEL_CONFIG = Object.freeze({
     device: "cpu",
     local_files_only: true,
     session_options: Object.freeze({
-      intraOpNumThreads: 2,
+      intraOpNumThreads: 1,
       interOpNumThreads: 1,
     }),
   }),
@@ -84,7 +84,7 @@ export function loadConfig(
     bindHost: environment.ANALYZER_BIND_HOST ?? "127.0.0.1",
     concurrency: positiveInteger(
       environment.ANALYZER_CONCURRENCY,
-      1,
+      2,
       "CONCURRENCY",
     ),
     maxPendingRequests: nonNegativeInteger(
