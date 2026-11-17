@@ -12,6 +12,223 @@ from test_telemetry import FRAME
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_open_loop_single_engine_fake_lifecycle_and_cleanup(self):
+        import run as r
+        import telemetry as t
+        requests = []
+        failures = []
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def reply(self, body, status=200):
+                body = json.dumps(body).encode()
+                self.send_response(status)
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_GET(self):
+                self.reply({'status': 'ready'})
+
+            def do_POST(self):
+                requests.append(json.loads(self.rfile.read(int(self.headers['Content-Length']))))
+                status = failures.pop(0) if failures else 200
+                self.reply({'verdict': 'accepted', 'findings': []}, status)
+
+            def log_message(self, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        fake = FakeDocker()
+
+        class Docker(t.Docker):
+            def verify(self, cid, deadline):
+                if getattr(self, 'started_for_guard', False) and deadline - time.monotonic() < .75:
+                    raise TimeoutError('STATE_INSPECTION_BUDGET_TOO_SHORT')
+                return super().verify(cid, deadline)
+
+            def preflight(self, images, cpus, memory, deadline):
+                return {'host': {'NCPU': 4, 'MemTotal': 8_000_000_000,
+                                 'CgroupVersion': '2', 'Architecture': 'arm64',
+                                 'ServerVersion': 'fake'},
+                        'images': {name: {'id': image, 'architecture': 'arm64',
+                                         'logical_bytes': 1,
+                                         'runtime': {'entrypoint': None, 'cmd': None},
+                                         'cache_paths': [],
+                                         'provenance': 'operator_verified_source_image'}
+                                   for name, image in images.items()}}
+
+            def static_inventory(self, cid, paths, deadline):
+                return {'paths': [], 'method': 'stopped_container_export_logical',
+                        'cache_warning': 'May warm Docker VM page cache; no cold-cache claim'}
+
+            def start(self, cid, cpus, memory, deadline):
+                super().start(cid, cpus, memory, deadline)
+                self.started_for_guard = True
+                return server.server_port
+
+            def post_inventory(self, cid, paths, deadline, *, collector_stopped):
+                return {'paths': [], 'writable_bytes': 0, 'rootfs_bytes': 1,
+                        'method': 'du_kib_allocated_root_and_docker_inspect'}
+
+        class Collector:
+            def __init__(self, cid, cpus):
+                self.samples = [t.parse_frame(
+                    FRAME.replace('@memory.max\n1000', '@memory.max\n4000000000'),
+                    time.monotonic(), cpus)]
+
+            def guard(self):
+                return None
+
+            def poll(self):
+                pass
+
+            def stop(self, deadline):
+                return True
+
+        try:
+            receipt = r.open_loop_campaign(
+                r.load_gold(r.ROOT / 'tests/evaluation/gold.json'), engine='horizon',
+                image='sha256:' + '1' * 64, cpus=2., memory=4_000_000_000,
+                rate=5., measurement_seconds=.2, drain_seconds=.4,
+                socket_timeout=.2, max_client_inflight=4, budget_seconds=5.,
+                docker=Docker('fake', command=fake), collector_factory=Collector,
+                readiness_seconds=1., cleanup_reserve=.5, stabilization_seconds=.1,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        self.assertTrue(receipt['complete'], receipt)
+        self.assertEqual(receipt['schemaVersion'], 2)
+        self.assertEqual(receipt['benchmark'], 'fixed_rate_open_loop')
+        self.assertEqual(receipt['config']['memory'], 4_000_000_000)
+        self.assertEqual(receipt['engine']['name'], 'horizon')
+        self.assertEqual(len(requests), 2)
+        self.assertEqual(receipt['engine']['stabilization']['phase'], 'stabilization')
+        self.assertTrue(receipt['engine']['stabilization']['drained'])
+        self.assertTrue(receipt['engine']['cleanup'])
+        self.assertEqual(fake.objects, {})
+        metrics = r.fixed_rate_metrics(receipt['engine']['stage'], receipt['cases'])
+        self.assertEqual(metrics['offered'], 1)
+        self.assertEqual(metrics['success'], 1)
+        r.validate_open_loop_receipt(receipt)
+        failures.append(503)
+        before = len(requests)
+        failure_server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        failure_thread = threading.Thread(target=failure_server.serve_forever, daemon=True)
+        failure_thread.start()
+        class FailureDocker(Docker):
+            def start(self, cid, cpus, memory, deadline):
+                t.Docker.start(self, cid, cpus, memory, deadline)
+                return failure_server.server_port
+        try:
+            failed_stabilization = r.open_loop_campaign(
+                r.load_gold(r.ROOT / 'tests/evaluation/gold.json'), engine='horizon',
+                image='sha256:' + '1' * 64, cpus=2., memory=4_000_000_000,
+                rate=5., stabilization_seconds=.1, measurement_seconds=.2,
+                drain_seconds=.4, socket_timeout=.2, max_client_inflight=4,
+                budget_seconds=6., docker=FailureDocker('stabilization-fail', command=fake),
+                collector_factory=Collector, readiness_seconds=2., cleanup_reserve=.5)  # type: ignore[arg-type]
+        finally:
+            failure_server.shutdown()
+            failure_server.server_close()
+            failure_thread.join()
+        self.assertEqual(len(requests) - before, 1, failed_stabilization)
+        self.assertIsNone(failed_stabilization['engine']['stage'])
+        self.assertEqual(failed_stabilization['engine']['stop_reason'], 'stabilization_failed')
+        self.assertTrue(failed_stabilization['engine']['cleanup'])
+        r.validate_open_loop_receipt(failed_stabilization)
+        class MissingCpuCollector(Collector):
+            def __init__(self, cid, cpus):
+                super().__init__(cid, cpus)
+                self.samples[0]['cpu_max'] = None
+                self.samples[0]['missing']['cpu_max'] = 'absent_unreadable_or_unlimited'
+        missing = r.open_loop_campaign(
+            r.load_gold(r.ROOT / 'tests/evaluation/gold.json'), engine='horizon',
+            image='sha256:' + '1' * 64, cpus=2., memory=4_000_000_000,
+            rate=5., measurement_seconds=.05, drain_seconds=.4,
+            socket_timeout=.2, max_client_inflight=4, budget_seconds=3.,
+            docker=Docker('missing', command=fake), collector_factory=MissingCpuCollector,  # type: ignore[arg-type]
+            readiness_seconds=.2, cleanup_reserve=.5)
+        self.assertFalse(missing['complete'])
+        self.assertEqual(missing['engine']['stop_reason'], 'cgroup_limits_missing')
+        self.assertTrue(missing['engine']['cleanup'])
+        self.assertIn('CGROUP_LIMITS_UNPROVEN', missing['incidents'])
+        r.validate_open_loop_receipt(missing)
+        class OversizedFrameCollector(Collector):
+            def guard(self):  # type: ignore[override]
+                return 'collector_frame_too_large'
+        oversized = r.open_loop_campaign(
+            r.load_gold(r.ROOT / 'tests/evaluation/gold.json'), engine='horizon',
+            image='sha256:' + '1' * 64, cpus=2., memory=4_000_000_000,
+            rate=1., measurement_seconds=.01, drain_seconds=.11,
+            socket_timeout=.01, max_client_inflight=1, budget_seconds=2.,
+            docker=Docker('oversized', command=fake), collector_factory=OversizedFrameCollector,  # type: ignore[arg-type]
+            readiness_seconds=.1, cleanup_reserve=.2)
+        self.assertFalse(oversized['complete'])
+        self.assertEqual(oversized['engine']['stop_reason'], 'collector_frame_too_large')
+        self.assertTrue(oversized['engine']['cleanup'])
+        r.validate_open_loop_receipt(oversized)
+        class SlowCleanupDocker(Docker):
+            def cleanup(self, deadline, only=None):
+                time.sleep(.55)
+                return super().cleanup(time.monotonic() + 1., only)
+        overrun = r.open_loop_campaign(
+            r.load_gold(r.ROOT / 'tests/evaluation/gold.json'), engine='horizon',
+            image='sha256:' + '1' * 64, cpus=2., memory=4_000_000_000,
+            rate=1., measurement_seconds=.01, drain_seconds=.11,
+            socket_timeout=.01, max_client_inflight=1, budget_seconds=.5,
+            docker=SlowCleanupDocker('slow', command=fake), collector_factory=Collector,  # type: ignore[arg-type]
+            readiness_seconds=.1, cleanup_reserve=.2)
+        self.assertFalse(overrun['complete'])
+        self.assertIn('HARD_DEADLINE_OVERRUN', overrun['incidents'])
+        self.assertGreater(overrun['elapsed'], overrun['config']['budget_seconds'])
+        self.assertTrue(overrun['engine']['cleanup'])
+        r.validate_open_loop_receipt(overrun)
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            first, second = Path(tmp) / 'first', Path(tmp) / 'second'
+            r.render_open_loop(receipt, first)
+            rerendered = json.loads((first / 'results.json').read_text())
+            r.render_open_loop(rerendered, second)
+            for filename in ('results.json', 'stages.csv', 'samples.csv', 'report.md'):
+                self.assertEqual((first / filename).read_bytes(), (second / filename).read_bytes())
+            self.assertIn('stabilization', (first / 'stages.csv').read_text())
+            self.assertNotIn('text', (first / 'results.json').read_text())
+            self.assertIn(',missing,', (first / 'samples.csv').read_text())
+            self.assertIn('[{""name""', (first / 'samples.csv').read_text())
+            malformed = json.loads((first / 'results.json').read_text())
+            malformed['engine']['samples'][0]['secret'] = 'REQUEST_SENTINEL_PRIVATE'
+            with self.assertRaises(ValueError):
+                r.render_open_loop(malformed, Path(tmp) / 'rejected')
+            overlap = json.loads((first / 'results.json').read_text())
+            overlap['engine']['stabilization']['drainEnd'] = overlap['engine']['stage']['start'] + .1
+            with self.assertRaises(ValueError):
+                r.validate_open_loop_receipt(overlap)
+            old = json.loads((first / 'results.json').read_text())
+            del old['config']['stabilization_seconds']
+            del old['engine']['stabilization']
+            r.validate_open_loop_receipt(old)
+
+    def test_open_loop_limit_evidence_is_exact_or_page_rounded_only(self):
+        import run as r
+        self.assertTrue(r.memory_limit_matches(4_000_000_000, 4_000_000_000))
+        self.assertTrue(r.memory_limit_matches(4_000_000_000, 3_999_999_999))
+        self.assertFalse(r.memory_limit_matches(4_000_000_000, 3_999_995_904))
+        self.assertFalse(r.memory_limit_matches(4_000_000_000, 4_000_000_001))
+        self.assertFalse(r.effective_cgroup_limits([], 2., 4_000_000_000))
+        samples = [
+            {'time': .5, 'memory_current': 1, 'cpu_cores': 99},
+            {'time': 1.2, 'memory_current': 2, 'cpu_cores': 88},
+            {'time': 1.8, 'memory_current': 3, 'cpu_cores': 3},
+        ]
+        summary = r.phase_resource_summary(samples, 1., 2.)
+        self.assertEqual(summary['memory_current'], 3)
+        self.assertEqual(summary['cpu_cores'], 3, 'cross-boundary CPU interval leaked into phase')
+
     def test_unmeasured_load_is_null_but_measured_zero_is_zero(self):
         import run as r
         import tempfile

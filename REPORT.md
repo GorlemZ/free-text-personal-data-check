@@ -12,7 +12,7 @@ Il repository confronta tre implementazioni dello stesso servizio HTTP:
 
 I tre motori ricevono gli stessi campi, applicano la stessa policy sulle categorie consentite e restituiscono lo stesso formato di risposta per le richieste valide. Il contratto documenta differenze di parsing sugli input malformati, in particolare UTF-8 non valido e chiavi JSON duplicate. Nel confronto funzionale sul golden esteso, Horizon ha ottenuto l'accuratezza più alta sul verdetto HTTP: **94,70%**, contro **89,40%** di Rizzo e **78,81%** di Presidio.
 
-La parte prestazionale è ancora preliminare. Gli screening A, B e C misurano configurazioni diverse con carichi closed-loop brevi. Non sostituiscono le curve open-loop, i cold start ripetuti e i run prolungati necessari per stimare la capacità produttiva.
+La parte prestazionale comprende screening closed-loop e una campagna open-loop su Candidate A. Nessun punto open-loop testato ha rispettato il target p90 < 500 ms; il protocollo ha fermato i livelli superiori al primo confine non sostenibile. Cold start ripetuti e run prolungati restano necessari per caratterizzare avvio e stabilità.
 
 ## Flusso del servizio
 
@@ -106,7 +106,22 @@ Gli screening usano una replica limitata a 2 CPU e `4_000_000_000` byte di RAM. 
 
 Candidate A è lo screening seriale con il miglior throughput osservato per entrambi i motori. Candidate B supera il target p90 di 500 ms. Candidate C raggiunge quel target per Horizon nel singolo run, ma durante il cold start rimane a circa 6,3 MB dal limite; Rizzo non riesce a caricare due modelli nel cap.
 
-I carichi non sono omogenei: Candidate A usa un client seriale, mentre B e C usano due client closed-loop. Le differenze di throughput e latenza sono diagnostiche. Non costituiscono una graduatoria di capacità sostenibile.
+I carichi closed-loop non sono omogenei: Candidate A usa un client seriale, mentre B e C usano due client. Le differenze di throughput e latenza sono diagnostiche.
+
+### Campagna open-loop Candidate A
+
+La campagna open-loop usa arrivi a tasso fisso, deadline monotone, 30 secondi di stabilizzazione e 90 secondi di misura nello stesso container. Il criterio richiede p90 < 500 ms, zero errori, timeout e rifiuti tecnici client/server, accounting completo e coda stabile.
+
+| Motore | Tasso offerto | Esito | Successi | Timeout | Max in-flight | p90 |
+| --- | ---: | --- | ---: | ---: | ---: | ---: |
+| Horizon | 4,325 req/s | stop durante stabilizzazione | 34/56 | 22 | 22 | 4.084 ms |
+| Horizon | 1 req/s | misura completa | 90/90 | 0 | 2 | 807 ms |
+| Horizon | 0,5 req/s | misura completa | 45/45 | 0 | 1 | 803 ms |
+| Rizzo | 3,42 req/s | misura completa | 308/308 | 0 | 8 | 957 ms |
+| Rizzo | 1 req/s | misura completa | 90/90 | 0 | 1 | 648 ms |
+| Rizzo | 0,5 req/s | misura completa | 45/45 | 0 | 1 | 599 ms |
+
+Nessun punto passa il criterio. I livelli 75–200% sono stati fermati dal gate del protocollo. A 0,5 req/s la latenza massima è inferiore all'intervallo di arrivo di due secondi e il max in-flight è 1 per entrambi i motori; il p90 osservato in quel campione riflette quindi il tempo di servizio, anziché una coda in crescita. Il [report completo](tests/resources/results/open-loop-candidate-a-2026-11-17/report.md) include i receipt, i limiti cgroup verificati e i tentativi parziali conservati.
 
 ## Coda, concorrenza e comportamento in errore
 
@@ -134,16 +149,10 @@ Artefatti principali:
 - [report funzionale completo](tests/evaluation/results/main-2026-11-17/report.md);
 - [risultati machine-readable](tests/evaluation/results/main-2026-11-17/results.json);
 - [contesto, immagini e hash](tests/evaluation/results/main-2026-11-17/run-context.json);
-- [Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md), [Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) e [Candidate C](tests/resources/results/phase-c-candidate-c-2026-11-16/report.md).
+- [Candidate A open-loop](tests/resources/results/open-loop-candidate-a-2026-11-17/report.md), [Candidate A closed-loop](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md), [Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) e [Candidate C](tests/resources/results/phase-c-candidate-c-2026-11-16/report.md).
 
 ## Attività ancora necessarie
 
-La valutazione funzionale a tre motori è completa sul golden corrente. La caratterizzazione produttiva richiede ancora:
+La valutazione funzionale a tre motori è completa sul golden corrente. La campagna open-loop Candidate A ha raggiunto il gate di arresto senza individuare un tasso che rispetti p90 < 500 ms. Il passo successivo richiede una decisione sul target o sul carico prima di ripetere le curve. La caratterizzazione produttiva richiede inoltre run prolungati, cold start ripetuti, recovery dopo burst/crash/OOM e una scelta verificata del routing quando una replica usa più processi.
 
-- curve open-loop omogenee al 50%, 75%, 100%, 125%, 150% e 200% della capacità stimata;
-- run prolungati e cold start ripetuti;
-- serie temporali di memoria, profondità della coda, CPU throttling ed event-loop lag;
-- prove di recovery dopo burst, timeout, crash e OOM;
-- una scelta verificata del routing quando una replica usa più processi.
-
-Finché queste misure non saranno disponibili, i dati A/B/C restano screening tecnici e non una dichiarazione di capacità produttiva.
+I dati A/B/C descrivono le configurazioni e i carichi osservati. Una dichiarazione di capacità produttiva richiede un punto sostenibile e la relativa prova prolungata.

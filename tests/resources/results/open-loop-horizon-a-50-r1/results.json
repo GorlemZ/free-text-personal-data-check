@@ -1,0 +1,1526 @@
+{
+  "benchmark": "fixed_rate_open_loop",
+  "cases": [
+    {
+      "characters": 152,
+      "fields": 1,
+      "id": "gretel-38",
+      "source": "gretel",
+      "words": 12
+    },
+    {
+      "characters": 113,
+      "fields": 1,
+      "id": "aliasit-3087",
+      "source": "aliasit",
+      "words": 22
+    },
+    {
+      "characters": 58,
+      "fields": 1,
+      "id": "targeted-22",
+      "source": "targeted",
+      "words": 6
+    },
+    {
+      "characters": 634,
+      "fields": 1,
+      "id": "gretel-61",
+      "source": "gretel",
+      "words": 48
+    },
+    {
+      "characters": 427,
+      "fields": 1,
+      "id": "gretel-443",
+      "source": "gretel",
+      "words": 42
+    },
+    {
+      "characters": 203,
+      "fields": 1,
+      "id": "legacy-it-driver-license-s01-allow",
+      "source": "legacy",
+      "words": 29
+    },
+    {
+      "characters": 136,
+      "fields": 1,
+      "id": "legacy-iban-code-s02",
+      "source": "legacy",
+      "words": 17
+    },
+    {
+      "characters": 97,
+      "fields": 1,
+      "id": "aliasit-3268",
+      "source": "aliasit",
+      "words": 11
+    },
+    {
+      "characters": 575,
+      "fields": 1,
+      "id": "gretel-294",
+      "source": "gretel",
+      "words": 18
+    },
+    {
+      "characters": 427,
+      "fields": 1,
+      "id": "gretel-127",
+      "source": "gretel",
+      "words": 25
+    },
+    {
+      "characters": 140,
+      "fields": 1,
+      "id": "legacy-iban-code-s01-wrong",
+      "source": "legacy",
+      "words": 21
+    },
+    {
+      "characters": 60,
+      "fields": 1,
+      "id": "targeted-09",
+      "source": "targeted",
+      "words": 9
+    },
+    {
+      "characters": 161,
+      "fields": 1,
+      "id": "legacy-it-identity-card-negative-03",
+      "source": "legacy",
+      "words": 20
+    },
+    {
+      "characters": 73,
+      "fields": 1,
+      "id": "targeted-13",
+      "source": "targeted",
+      "words": 11
+    },
+    {
+      "characters": 223,
+      "fields": 1,
+      "id": "aliasit-3088",
+      "source": "aliasit",
+      "words": 32
+    },
+    {
+      "characters": 19,
+      "fields": 1,
+      "id": "legacy-credit-card-isolated",
+      "source": "legacy",
+      "words": 1
+    },
+    {
+      "characters": 46,
+      "fields": 1,
+      "id": "targeted-02",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 1080,
+      "fields": 1,
+      "id": "gretel-50",
+      "source": "gretel",
+      "words": 37
+    },
+    {
+      "characters": 437,
+      "fields": 1,
+      "id": "gretel-128",
+      "source": "gretel",
+      "words": 47
+    },
+    {
+      "characters": 181,
+      "fields": 1,
+      "id": "aliasit-90",
+      "source": "aliasit",
+      "words": 26
+    },
+    {
+      "characters": 313,
+      "fields": 1,
+      "id": "rizzo-2335",
+      "source": "rizzo",
+      "words": 48
+    },
+    {
+      "characters": 345,
+      "fields": 1,
+      "id": "legacy-mixture-01-full",
+      "source": "legacy",
+      "words": 45
+    },
+    {
+      "characters": 453,
+      "fields": 1,
+      "id": "gretel-311",
+      "source": "gretel",
+      "words": 14
+    },
+    {
+      "characters": 709,
+      "fields": 1,
+      "id": "gretel-374",
+      "source": "gretel",
+      "words": 36
+    },
+    {
+      "characters": 136,
+      "fields": 1,
+      "id": "legacy-it-vat-code-s01",
+      "source": "legacy",
+      "words": 22
+    },
+    {
+      "characters": 45,
+      "fields": 1,
+      "id": "aliasit-3125",
+      "source": "aliasit",
+      "words": 6
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "legacy-phone-vat-overlap",
+      "source": "legacy",
+      "words": 28
+    },
+    {
+      "characters": 119,
+      "fields": 1,
+      "id": "legacy-iban-code-negative-04",
+      "source": "legacy",
+      "words": 18
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "legacy-phone-vat-overlap-all",
+      "source": "legacy",
+      "words": 28
+    },
+    {
+      "characters": 53,
+      "fields": 1,
+      "id": "targeted-08",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 345,
+      "fields": 1,
+      "id": "legacy-mixture-01",
+      "source": "legacy",
+      "words": 45
+    },
+    {
+      "characters": 1129,
+      "fields": 1,
+      "id": "gretel-177",
+      "source": "gretel",
+      "words": 48
+    },
+    {
+      "characters": 234,
+      "fields": 1,
+      "id": "aliasit-3283",
+      "source": "aliasit",
+      "words": 36
+    },
+    {
+      "characters": 105,
+      "fields": 1,
+      "id": "legacy-phone-number-negative-04",
+      "source": "legacy",
+      "words": 18
+    },
+    {
+      "characters": 192,
+      "fields": 1,
+      "id": "aliasit-150",
+      "source": "aliasit",
+      "words": 26
+    },
+    {
+      "characters": 1179,
+      "fields": 1,
+      "id": "gretel-138",
+      "source": "gretel",
+      "words": 49
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "aliasit-106",
+      "source": "aliasit",
+      "words": 28
+    },
+    {
+      "characters": 145,
+      "fields": 1,
+      "id": "legacy-it-fiscal-code-s01-allow",
+      "source": "legacy",
+      "words": 20
+    },
+    {
+      "characters": 860,
+      "fields": 1,
+      "id": "gretel-154",
+      "source": "gretel",
+      "words": 38
+    },
+    {
+      "characters": 315,
+      "fields": 1,
+      "id": "rizzo-26377",
+      "source": "rizzo",
+      "words": 46
+    },
+    {
+      "characters": 63,
+      "fields": 1,
+      "id": "aliasit-3286",
+      "source": "aliasit",
+      "words": 10
+    },
+    {
+      "characters": 674,
+      "fields": 1,
+      "id": "gretel-360",
+      "source": "gretel",
+      "words": 41
+    },
+    {
+      "characters": 89,
+      "fields": 1,
+      "id": "targeted-11",
+      "source": "targeted",
+      "words": 10
+    },
+    {
+      "characters": 182,
+      "fields": 1,
+      "id": "aliasit-3333",
+      "source": "aliasit",
+      "words": 25
+    },
+    {
+      "characters": 101,
+      "fields": 1,
+      "id": "legacy-email-address-s05",
+      "source": "legacy",
+      "words": 13
+    },
+    {
+      "characters": 120,
+      "fields": 1,
+      "id": "gretel-5",
+      "source": "gretel",
+      "words": 6
+    },
+    {
+      "characters": 377,
+      "fields": 1,
+      "id": "rizzo-15127",
+      "source": "rizzo",
+      "words": 49
+    },
+    {
+      "characters": 385,
+      "fields": 1,
+      "id": "rizzo-15085",
+      "source": "rizzo",
+      "words": 47
+    },
+    {
+      "characters": 114,
+      "fields": 1,
+      "id": "gretel-364",
+      "source": "gretel",
+      "words": 6
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "legacy-phone-vat-overlap-vat-only",
+      "source": "legacy",
+      "words": 28
+    },
+    {
+      "characters": 74,
+      "fields": 1,
+      "id": "targeted-14",
+      "source": "targeted",
+      "words": 13
+    },
+    {
+      "characters": 47,
+      "fields": 1,
+      "id": "gretel-184",
+      "source": "gretel",
+      "words": 2
+    },
+    {
+      "characters": 80,
+      "fields": 1,
+      "id": "aliasit-3205",
+      "source": "aliasit",
+      "words": 11
+    },
+    {
+      "characters": 795,
+      "fields": 1,
+      "id": "gretel-321",
+      "source": "gretel",
+      "words": 20
+    },
+    {
+      "characters": 67,
+      "fields": 1,
+      "id": "targeted-21",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 179,
+      "fields": 1,
+      "id": "legacy-it-identity-card-s02",
+      "source": "legacy",
+      "words": 26
+    },
+    {
+      "characters": 393,
+      "fields": 1,
+      "id": "rizzo-15285",
+      "source": "rizzo",
+      "words": 50
+    },
+    {
+      "characters": 677,
+      "fields": 1,
+      "id": "gretel-390",
+      "source": "gretel",
+      "words": 44
+    },
+    {
+      "characters": 48,
+      "fields": 1,
+      "id": "targeted-04",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 58,
+      "fields": 1,
+      "id": "aliasit-3113",
+      "source": "aliasit",
+      "words": 6
+    },
+    {
+      "characters": 49,
+      "fields": 1,
+      "id": "targeted-03",
+      "source": "targeted",
+      "words": 7
+    },
+    {
+      "characters": 51,
+      "fields": 1,
+      "id": "aliasit-3110",
+      "source": "aliasit",
+      "words": 6
+    },
+    {
+      "characters": 1144,
+      "fields": 1,
+      "id": "gretel-151",
+      "source": "gretel",
+      "words": 42
+    },
+    {
+      "characters": 10,
+      "fields": 1,
+      "id": "legacy-it-driver-license-isolated",
+      "source": "legacy",
+      "words": 1
+    },
+    {
+      "characters": 236,
+      "fields": 1,
+      "id": "aliasit-119",
+      "source": "aliasit",
+      "words": 33
+    },
+    {
+      "characters": 138,
+      "fields": 1,
+      "id": "gretel-141",
+      "source": "gretel",
+      "words": 8
+    },
+    {
+      "characters": 61,
+      "fields": 1,
+      "id": "targeted-01",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 69,
+      "fields": 1,
+      "id": "targeted-20",
+      "source": "targeted",
+      "words": 6
+    },
+    {
+      "characters": 144,
+      "fields": 1,
+      "id": "legacy-iban-code-negative-02",
+      "source": "legacy",
+      "words": 20
+    },
+    {
+      "characters": 480,
+      "fields": 1,
+      "id": "gretel-392",
+      "source": "gretel",
+      "words": 15
+    },
+    {
+      "characters": 173,
+      "fields": 1,
+      "id": "aliasit-154",
+      "source": "aliasit",
+      "words": 28
+    },
+    {
+      "characters": 287,
+      "fields": 1,
+      "id": "gretel-328",
+      "source": "gretel",
+      "words": 18
+    },
+    {
+      "characters": 55,
+      "fields": 1,
+      "id": "aliasit-3208",
+      "source": "aliasit",
+      "words": 8
+    },
+    {
+      "characters": 290,
+      "fields": 1,
+      "id": "aliasit-50",
+      "source": "aliasit",
+      "words": 36
+    },
+    {
+      "characters": 1410,
+      "fields": 1,
+      "id": "gretel-340",
+      "source": "gretel",
+      "words": 50
+    },
+    {
+      "characters": 1211,
+      "fields": 1,
+      "id": "gretel-77",
+      "source": "gretel",
+      "words": 46
+    },
+    {
+      "characters": 245,
+      "fields": 1,
+      "id": "aliasit-65",
+      "source": "aliasit",
+      "words": 32
+    },
+    {
+      "characters": 1014,
+      "fields": 1,
+      "id": "gretel-165",
+      "source": "gretel",
+      "words": 34
+    },
+    {
+      "characters": 926,
+      "fields": 1,
+      "id": "gretel-289",
+      "source": "gretel",
+      "words": 44
+    },
+    {
+      "characters": 361,
+      "fields": 1,
+      "id": "gretel-313",
+      "source": "gretel",
+      "words": 25
+    },
+    {
+      "characters": 437,
+      "fields": 1,
+      "id": "gretel-238",
+      "source": "gretel",
+      "words": 40
+    },
+    {
+      "characters": 79,
+      "fields": 1,
+      "id": "targeted-15",
+      "source": "targeted",
+      "words": 11
+    },
+    {
+      "characters": 1136,
+      "fields": 1,
+      "id": "gretel-225",
+      "source": "gretel",
+      "words": 36
+    },
+    {
+      "characters": 743,
+      "fields": 1,
+      "id": "gretel-439",
+      "source": "gretel",
+      "words": 44
+    },
+    {
+      "characters": 149,
+      "fields": 1,
+      "id": "legacy-it-fiscal-code-s02",
+      "source": "legacy",
+      "words": 22
+    },
+    {
+      "characters": 345,
+      "fields": 1,
+      "id": "legacy-mixture-01-partial",
+      "source": "legacy",
+      "words": 45
+    },
+    {
+      "characters": 269,
+      "fields": 1,
+      "id": "aliasit-57",
+      "source": "aliasit",
+      "words": 38
+    },
+    {
+      "characters": 340,
+      "fields": 1,
+      "id": "aliasit-176",
+      "source": "aliasit",
+      "words": 49
+    },
+    {
+      "characters": 529,
+      "fields": 1,
+      "id": "gretel-282",
+      "source": "gretel",
+      "words": 11
+    },
+    {
+      "characters": 95,
+      "fields": 1,
+      "id": "gretel-421",
+      "source": "gretel",
+      "words": 9
+    },
+    {
+      "characters": 188,
+      "fields": 1,
+      "id": "aliasit-3298",
+      "source": "aliasit",
+      "words": 25
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "legacy-phone-vat-overlap-phone-only",
+      "source": "legacy",
+      "words": 28
+    },
+    {
+      "characters": 69,
+      "fields": 1,
+      "id": "targeted-12",
+      "source": "targeted",
+      "words": 10
+    },
+    {
+      "characters": 99,
+      "fields": 2,
+      "id": "targeted-24",
+      "source": "targeted",
+      "words": 16
+    },
+    {
+      "characters": 99,
+      "fields": 1,
+      "id": "legacy-person-negative-01",
+      "source": "legacy",
+      "words": 14
+    },
+    {
+      "characters": 98,
+      "fields": 1,
+      "id": "legacy-person-negative-03",
+      "source": "legacy",
+      "words": 14
+    },
+    {
+      "characters": 376,
+      "fields": 1,
+      "id": "rizzo-15224",
+      "source": "rizzo",
+      "words": 46
+    },
+    {
+      "characters": 1230,
+      "fields": 1,
+      "id": "gretel-198",
+      "source": "gretel",
+      "words": 40
+    },
+    {
+      "characters": 81,
+      "fields": 1,
+      "id": "legacy-phone-number-s04",
+      "source": "legacy",
+      "words": 11
+    },
+    {
+      "characters": 57,
+      "fields": 1,
+      "id": "targeted-06",
+      "source": "targeted",
+      "words": 9
+    },
+    {
+      "characters": 154,
+      "fields": 1,
+      "id": "legacy-credit-card-s03",
+      "source": "legacy",
+      "words": 19
+    },
+    {
+      "characters": 606,
+      "fields": 1,
+      "id": "gretel-355",
+      "source": "gretel",
+      "words": 20
+    },
+    {
+      "characters": 256,
+      "fields": 1,
+      "id": "aliasit-137",
+      "source": "aliasit",
+      "words": 38
+    },
+    {
+      "characters": 145,
+      "fields": 1,
+      "id": "legacy-it-fiscal-code-s01",
+      "source": "legacy",
+      "words": 20
+    },
+    {
+      "characters": 185,
+      "fields": 1,
+      "id": "aliasit-3086",
+      "source": "aliasit",
+      "words": 33
+    },
+    {
+      "characters": 77,
+      "fields": 1,
+      "id": "targeted-10",
+      "source": "targeted",
+      "words": 10
+    },
+    {
+      "characters": 1147,
+      "fields": 1,
+      "id": "gretel-93",
+      "source": "gretel",
+      "words": 50
+    },
+    {
+      "characters": 179,
+      "fields": 1,
+      "id": "legacy-it-identity-card-s02-all",
+      "source": "legacy",
+      "words": 26
+    },
+    {
+      "characters": 193,
+      "fields": 1,
+      "id": "legacy-phone-vat-overlap-wrong",
+      "source": "legacy",
+      "words": 28
+    },
+    {
+      "characters": 374,
+      "fields": 1,
+      "id": "gretel-114",
+      "source": "gretel",
+      "words": 16
+    },
+    {
+      "characters": 485,
+      "fields": 1,
+      "id": "gretel-382",
+      "source": "gretel",
+      "words": 44
+    },
+    {
+      "characters": 125,
+      "fields": 1,
+      "id": "legacy-it-fiscal-code-negative-02",
+      "source": "legacy",
+      "words": 19
+    },
+    {
+      "characters": 336,
+      "fields": 1,
+      "id": "rizzo-2266",
+      "source": "rizzo",
+      "words": 48
+    },
+    {
+      "characters": 274,
+      "fields": 1,
+      "id": "gretel-96",
+      "source": "gretel",
+      "words": 25
+    },
+    {
+      "characters": 314,
+      "fields": 1,
+      "id": "aliasit-70",
+      "source": "aliasit",
+      "words": 44
+    },
+    {
+      "characters": 453,
+      "fields": 1,
+      "id": "gretel-17",
+      "source": "gretel",
+      "words": 39
+    },
+    {
+      "characters": 265,
+      "fields": 1,
+      "id": "gretel-60",
+      "source": "gretel",
+      "words": 15
+    },
+    {
+      "characters": 347,
+      "fields": 1,
+      "id": "rizzo-14989",
+      "source": "rizzo",
+      "words": 45
+    },
+    {
+      "characters": 312,
+      "fields": 1,
+      "id": "rizzo-15265",
+      "source": "rizzo",
+      "words": 44
+    },
+    {
+      "characters": 109,
+      "fields": 1,
+      "id": "legacy-phone-number-s01",
+      "source": "legacy",
+      "words": 19
+    },
+    {
+      "characters": 57,
+      "fields": 1,
+      "id": "targeted-07",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 98,
+      "fields": 1,
+      "id": "legacy-email-address-negative-04",
+      "source": "legacy",
+      "words": 14
+    },
+    {
+      "characters": 320,
+      "fields": 1,
+      "id": "aliasit-172",
+      "source": "aliasit",
+      "words": 49
+    },
+    {
+      "characters": 1189,
+      "fields": 1,
+      "id": "gretel-365",
+      "source": "gretel",
+      "words": 43
+    },
+    {
+      "characters": 341,
+      "fields": 1,
+      "id": "gretel-256",
+      "source": "gretel",
+      "words": 16
+    },
+    {
+      "characters": 85,
+      "fields": 1,
+      "id": "aliasit-3277",
+      "source": "aliasit",
+      "words": 11
+    },
+    {
+      "characters": 203,
+      "fields": 1,
+      "id": "legacy-it-driver-license-s01",
+      "source": "legacy",
+      "words": 29
+    },
+    {
+      "characters": 60,
+      "fields": 1,
+      "id": "targeted-16",
+      "source": "targeted",
+      "words": 10
+    },
+    {
+      "characters": 55,
+      "fields": 1,
+      "id": "targeted-17",
+      "source": "targeted",
+      "words": 12
+    },
+    {
+      "characters": 246,
+      "fields": 1,
+      "id": "aliasit-95",
+      "source": "aliasit",
+      "words": 37
+    },
+    {
+      "characters": 136,
+      "fields": 1,
+      "id": "legacy-it-vat-code-negative-03",
+      "source": "legacy",
+      "words": 20
+    },
+    {
+      "characters": 243,
+      "fields": 1,
+      "id": "aliasit-83",
+      "source": "aliasit",
+      "words": 40
+    },
+    {
+      "characters": 1017,
+      "fields": 1,
+      "id": "gretel-353",
+      "source": "gretel",
+      "words": 36
+    },
+    {
+      "characters": 104,
+      "fields": 1,
+      "id": "legacy-it-driver-license-negative-05",
+      "source": "legacy",
+      "words": 17
+    },
+    {
+      "characters": 107,
+      "fields": 1,
+      "id": "gretel-274",
+      "source": "gretel",
+      "words": 15
+    },
+    {
+      "characters": 110,
+      "fields": 1,
+      "id": "legacy-credit-card-negative-03",
+      "source": "legacy",
+      "words": 17
+    },
+    {
+      "characters": 66,
+      "fields": 1,
+      "id": "targeted-19",
+      "source": "targeted",
+      "words": 7
+    },
+    {
+      "characters": 257,
+      "fields": 1,
+      "id": "gretel-248",
+      "source": "gretel",
+      "words": 6
+    },
+    {
+      "characters": 62,
+      "fields": 1,
+      "id": "aliasit-3254",
+      "source": "aliasit",
+      "words": 8
+    },
+    {
+      "characters": 54,
+      "fields": 1,
+      "id": "targeted-05",
+      "source": "targeted",
+      "words": 7
+    },
+    {
+      "characters": 392,
+      "fields": 1,
+      "id": "gretel-431",
+      "source": "gretel",
+      "words": 10
+    },
+    {
+      "characters": 140,
+      "fields": 1,
+      "id": "legacy-iban-code-s01",
+      "source": "legacy",
+      "words": 21
+    },
+    {
+      "characters": 157,
+      "fields": 1,
+      "id": "legacy-person-s06",
+      "source": "legacy",
+      "words": 24
+    },
+    {
+      "characters": 189,
+      "fields": 1,
+      "id": "aliasit-142",
+      "source": "aliasit",
+      "words": 30
+    },
+    {
+      "characters": 218,
+      "fields": 1,
+      "id": "gretel-180",
+      "source": "gretel",
+      "words": 7
+    },
+    {
+      "characters": 90,
+      "fields": 1,
+      "id": "legacy-person-negative-02",
+      "source": "legacy",
+      "words": 15
+    },
+    {
+      "characters": 128,
+      "fields": 1,
+      "id": "gretel-146",
+      "source": "gretel",
+      "words": 11
+    },
+    {
+      "characters": 49,
+      "fields": 1,
+      "id": "targeted-00",
+      "source": "targeted",
+      "words": 8
+    },
+    {
+      "characters": 69,
+      "fields": 1,
+      "id": "targeted-23",
+      "source": "targeted",
+      "words": 9
+    },
+    {
+      "characters": 384,
+      "fields": 1,
+      "id": "rizzo-15261",
+      "source": "rizzo",
+      "words": 48
+    },
+    {
+      "characters": 54,
+      "fields": 1,
+      "id": "targeted-18",
+      "source": "targeted",
+      "words": 9
+    }
+  ],
+  "cleanup": {
+    "ca9b97bedd0cee33de293f64ac532c96cd82f5701f59435086f4afed4c08bd3b": true
+  },
+  "complete": false,
+  "config": {
+    "budget_seconds": 180.0,
+    "candidate": "A",
+    "cpus": 2.0,
+    "drain_seconds": 6.0,
+    "engine": "horizon",
+    "max_client_inflight": 32,
+    "measurement_seconds": 90.0,
+    "memory": 4000000000,
+    "rate": 4.325,
+    "socket_timeout_seconds": 5.0,
+    "stabilization_seconds": 30.0
+  },
+  "deadline": 1128530.428500083,
+  "elapsed": 32.173917582957074,
+  "engine": {
+    "candidate": "A",
+    "cleanup": true,
+    "collector_stopped": true,
+    "container": "ca9b97bedd0cee33de293f64ac532c96cd82f5701f59435086f4afed4c08bd3b",
+    "effective_limits": {
+      "Memory": 4000000000,
+      "MemorySwap": 4000000000,
+      "NanoCpus": 2000000000
+    },
+    "image": {
+      "architecture": "arm64",
+      "cache_paths": [],
+      "id": "sha256:9dd2f6842ea6dce2eb76d933a7271047d565587951da7f672d25b43b7511ea2c",
+      "logical_bytes": 1367596729,
+      "provenance": "operator_verified_source_image",
+      "runtime": {
+        "cmd": [
+          "node",
+          "dist/index.js"
+        ],
+        "entrypoint": [
+          "docker-entrypoint.sh"
+        ]
+      }
+    },
+    "name": "horizon",
+    "post_disk": {
+      "method": "du_kib_allocated_root_and_docker_inspect",
+      "paths": [],
+      "rootfs_bytes": 1367596729,
+      "writable_bytes": 0
+    },
+    "readiness": {
+      "end": 1128380.909218291,
+      "ready": false,
+      "start": 1128378.307972458
+    },
+    "samples": [
+      {
+        "anon": 39923712,
+        "cgroup_time": 26.9,
+        "cpu_budget_percent": null,
+        "cpu_cores": null,
+        "cpu_max": "200000 100000",
+        "cpu_read_seconds": 0.010000000000001563,
+        "cpu_time": 26.915,
+        "cpu_time_source": "cpu_stat_midpoint",
+        "delta_nr_throttled": null,
+        "delta_throttled_usec": null,
+        "file": 49152,
+        "gap_seconds": null,
+        "kernel": null,
+        "memory_current": 41943040,
+        "memory_max": 3999997952,
+        "memory_peak": null,
+        "memory_swap_current": 0,
+        "missing": {
+          "kernel": "absent_unreadable_or_unlimited",
+          "memory_peak": "absent_unreadable_or_unlimited"
+        },
+        "nr_throttled": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "processes": [
+          {
+            "name": "MainThread",
+            "pid": 1,
+            "ppid": 0,
+            "rss": 100605952
+          },
+          {
+            "name": "sh",
+            "pid": 19,
+            "ppid": 0,
+            "rss": 843776
+          }
+        ],
+        "read_seconds": 0.020000000000003126,
+        "shmem": 0,
+        "throttled_usec": 0,
+        "time": 1128378.549386875,
+        "usage_usec": 572932
+      },
+      {
+        "anon": 301895680,
+        "cgroup_time": 27.75,
+        "cpu_budget_percent": 51.53456140350874,
+        "cpu_cores": 1.0306912280701748,
+        "cpu_max": "200000 100000",
+        "cpu_read_seconds": 0.0,
+        "cpu_time": 27.77,
+        "cpu_time_source": "cpu_stat_midpoint",
+        "delta_nr_throttled": 0,
+        "delta_throttled_usec": 0,
+        "file": 49152,
+        "gap_seconds": 1.2248410829342902,
+        "kernel": null,
+        "memory_current": 305119232,
+        "memory_max": 3999997952,
+        "memory_peak": null,
+        "memory_swap_current": 0,
+        "missing": {
+          "kernel": "absent_unreadable_or_unlimited",
+          "memory_peak": "absent_unreadable_or_unlimited"
+        },
+        "nr_throttled": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "processes": [
+          {
+            "name": "MainThread",
+            "pid": 1,
+            "ppid": 0,
+            "rss": 369815552
+          },
+          {
+            "name": "sh",
+            "pid": 19,
+            "ppid": 0,
+            "rss": 843776
+          }
+        ],
+        "read_seconds": 0.030000000000001137,
+        "shmem": 0,
+        "throttled_usec": 0,
+        "time": 1128379.774227958,
+        "usage_usec": 1454173
+      },
+      {
+        "anon": 532770816,
+        "cgroup_time": 28.76,
+        "cpu_budget_percent": 51.236146341463304,
+        "cpu_cores": 1.0247229268292661,
+        "cpu_max": "200000 100000",
+        "cpu_read_seconds": 0.010000000000001563,
+        "cpu_time": 28.795,
+        "cpu_time_source": "cpu_stat_midpoint",
+        "delta_nr_throttled": 0,
+        "delta_throttled_usec": 0,
+        "file": 49152,
+        "gap_seconds": 1.135251833125949,
+        "kernel": null,
+        "memory_current": 536461312,
+        "memory_max": 3999997952,
+        "memory_peak": null,
+        "memory_swap_current": 0,
+        "missing": {
+          "kernel": "absent_unreadable_or_unlimited",
+          "memory_peak": "absent_unreadable_or_unlimited"
+        },
+        "nr_throttled": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "processes": [
+          {
+            "name": "MainThread",
+            "pid": 1,
+            "ppid": 0,
+            "rss": 600682496
+          },
+          {
+            "name": "sh",
+            "pid": 19,
+            "ppid": 0,
+            "rss": 843776
+          }
+        ],
+        "read_seconds": 0.04999999999999716,
+        "shmem": 0,
+        "throttled_usec": 0,
+        "time": 1128380.909479791,
+        "usage_usec": 2504514
+      }
+    ],
+    "stabilization": null,
+    "stage": null,
+    "state": {
+      "ExitCode": 0,
+      "OOMKilled": false,
+      "Running": true
+    },
+    "static_disk": {
+      "cache_warning": "May warm Docker VM page cache; no cold-cache claim",
+      "method": "stopped_container_export_logical",
+      "paths": [
+        {
+          "allocated_bytes": null,
+          "logical_bytes": 675715358,
+          "path": "/app/models",
+          "reason": "export_has_logical_sizes_only",
+          "status": "present"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/app/node_modules/.cache",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/home/analyzer/.cache",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/home/analyzer/.local/share/uv",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/home/node/.cache",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/home/node/.npm",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/root/.cache",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/root/.local/share/uv",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/root/.npm",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        },
+        {
+          "allocated_bytes": null,
+          "logical_bytes": null,
+          "path": "/tmp/.cache",
+          "reason": "export_has_logical_sizes_only",
+          "status": "absent"
+        }
+      ]
+    },
+    "stop_reason": "container_state_unavailable"
+  },
+  "gold_sha256": "9f7232b4532cabd376987d1cb11b32735c062e5861f5d18b77e4d4eab7ebec0f",
+  "incidents": [],
+  "order": [
+    "gretel-38",
+    "aliasit-3087",
+    "targeted-22",
+    "gretel-61",
+    "gretel-443",
+    "legacy-it-driver-license-s01-allow",
+    "legacy-iban-code-s02",
+    "aliasit-3268",
+    "gretel-294",
+    "gretel-127",
+    "legacy-iban-code-s01-wrong",
+    "targeted-09",
+    "legacy-it-identity-card-negative-03",
+    "targeted-13",
+    "aliasit-3088",
+    "legacy-credit-card-isolated",
+    "targeted-02",
+    "gretel-50",
+    "gretel-128",
+    "aliasit-90",
+    "rizzo-2335",
+    "legacy-mixture-01-full",
+    "gretel-311",
+    "gretel-374",
+    "legacy-it-vat-code-s01",
+    "aliasit-3125",
+    "legacy-phone-vat-overlap",
+    "legacy-iban-code-negative-04",
+    "legacy-phone-vat-overlap-all",
+    "targeted-08",
+    "legacy-mixture-01",
+    "gretel-177",
+    "aliasit-3283",
+    "legacy-phone-number-negative-04",
+    "aliasit-150",
+    "gretel-138",
+    "aliasit-106",
+    "legacy-it-fiscal-code-s01-allow",
+    "gretel-154",
+    "rizzo-26377",
+    "aliasit-3286",
+    "gretel-360",
+    "targeted-11",
+    "aliasit-3333",
+    "legacy-email-address-s05",
+    "gretel-5",
+    "rizzo-15127",
+    "rizzo-15085",
+    "gretel-364",
+    "legacy-phone-vat-overlap-vat-only",
+    "targeted-14",
+    "gretel-184",
+    "aliasit-3205",
+    "gretel-321",
+    "targeted-21",
+    "legacy-it-identity-card-s02",
+    "rizzo-15285",
+    "gretel-390",
+    "targeted-04",
+    "aliasit-3113",
+    "targeted-03",
+    "aliasit-3110",
+    "gretel-151",
+    "legacy-it-driver-license-isolated",
+    "aliasit-119",
+    "gretel-141",
+    "targeted-01",
+    "targeted-20",
+    "legacy-iban-code-negative-02",
+    "gretel-392",
+    "aliasit-154",
+    "gretel-328",
+    "aliasit-3208",
+    "aliasit-50",
+    "gretel-340",
+    "gretel-77",
+    "aliasit-65",
+    "gretel-165",
+    "gretel-289",
+    "gretel-313",
+    "gretel-238",
+    "targeted-15",
+    "gretel-225",
+    "gretel-439",
+    "legacy-it-fiscal-code-s02",
+    "legacy-mixture-01-partial",
+    "aliasit-57",
+    "aliasit-176",
+    "gretel-282",
+    "gretel-421",
+    "aliasit-3298",
+    "legacy-phone-vat-overlap-phone-only",
+    "targeted-12",
+    "targeted-24",
+    "legacy-person-negative-01",
+    "legacy-person-negative-03",
+    "rizzo-15224",
+    "gretel-198",
+    "legacy-phone-number-s04",
+    "targeted-06",
+    "legacy-credit-card-s03",
+    "gretel-355",
+    "aliasit-137",
+    "legacy-it-fiscal-code-s01",
+    "aliasit-3086",
+    "targeted-10",
+    "gretel-93",
+    "legacy-it-identity-card-s02-all",
+    "legacy-phone-vat-overlap-wrong",
+    "gretel-114",
+    "gretel-382",
+    "legacy-it-fiscal-code-negative-02",
+    "rizzo-2266",
+    "gretel-96",
+    "aliasit-70",
+    "gretel-17",
+    "gretel-60",
+    "rizzo-14989",
+    "rizzo-15265",
+    "legacy-phone-number-s01",
+    "targeted-07",
+    "legacy-email-address-negative-04",
+    "aliasit-172",
+    "gretel-365",
+    "gretel-256",
+    "aliasit-3277",
+    "legacy-it-driver-license-s01",
+    "targeted-16",
+    "targeted-17",
+    "aliasit-95",
+    "legacy-it-vat-code-negative-03",
+    "aliasit-83",
+    "gretel-353",
+    "legacy-it-driver-license-negative-05",
+    "gretel-274",
+    "legacy-credit-card-negative-03",
+    "targeted-19",
+    "gretel-248",
+    "aliasit-3254",
+    "targeted-05",
+    "gretel-431",
+    "legacy-iban-code-s01",
+    "legacy-person-s06",
+    "aliasit-142",
+    "gretel-180",
+    "legacy-person-negative-02",
+    "gretel-146",
+    "targeted-00",
+    "targeted-23",
+    "rizzo-15261",
+    "targeted-18"
+  ],
+  "preflight": {
+    "host": {
+      "Architecture": "aarch64",
+      "CgroupVersion": "2",
+      "MemTotal": 8232828928,
+      "NCPU": 5,
+      "ServerVersion": "24.0.5"
+    },
+    "images": {
+      "horizon": {
+        "architecture": "arm64",
+        "cache_paths": [],
+        "id": "sha256:9dd2f6842ea6dce2eb76d933a7271047d565587951da7f672d25b43b7511ea2c",
+        "logical_bytes": 1367596729,
+        "provenance": "operator_verified_source_image",
+        "runtime": {
+          "cmd": [
+            "node",
+            "dist/index.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ]
+        }
+      }
+    }
+  },
+  "schemaVersion": 2,
+  "start": 1128350.428500083,
+  "stop_reason": "container_state_unavailable"
+}

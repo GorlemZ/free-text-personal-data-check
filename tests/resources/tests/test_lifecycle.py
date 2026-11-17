@@ -18,8 +18,9 @@ class FakeDocker:
             name = args[args.index('--name') + 1]
             label = args[args.index('--label') + 1].split('=', 1)
             cid = format(len(self.objects) + 10, 'x') * 64
+            memory = int(args[args.index('--memory') + 1])
             self.objects[cid] = dict(Id=cid, Name='/' + name,
-                Config={'Labels': dict([label])}, HostConfig={'NanoCpus': 2000000000, 'Memory': 4294967296, 'MemorySwap': 4294967296},
+                Config={'Labels': dict([label])}, HostConfig={'NanoCpus': 2000000000, 'Memory': memory, 'MemorySwap': memory},
                 State={'Running': False, 'OOMKilled': False, 'ExitCode': 0},
                 NetworkSettings={'Ports': {'8000/tcp': [{'HostIp': '127.0.0.1', 'HostPort': '32100'}]}})
             return cid

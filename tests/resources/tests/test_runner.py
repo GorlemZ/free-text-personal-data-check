@@ -25,6 +25,51 @@ class Integration(unittest.TestCase):
 
 
 class Contracts(unittest.TestCase):
+    def test_fixed_rate_schedule_uses_absolute_monotonic_deadlines(self):
+        r = harness()
+        self.assertEqual(
+            r.fixed_rate_schedule(start=10.0, submission_end=10.75, rate=4.0),
+            [(0, 10.0), (1, 10.25), (2, 10.5)],
+        )
+        self.assertEqual(
+            r.fixed_rate_schedule(start=10.0, submission_end=10.5000001, rate=2.0),
+            [(0, 10.0), (1, 10.5)],
+        )
+        for rate in (0, -1, float('inf'), float('nan')):
+            with self.subTest(rate=rate), self.assertRaises(ValueError):
+                r.fixed_rate_schedule(start=10.0, submission_end=11.0, rate=rate)
+        with self.assertRaisesRegex(ValueError, 'ARRIVALS'):
+            r.fixed_rate_schedule(start=0., submission_end=1., rate=100001.)
+
+    def test_fixed_rate_non_admission_reasons_are_distinct(self):
+        r = harness()
+        classify = r.fixed_rate_non_admission
+        self.assertEqual(classify(now=9., submission_end=10., drain_deadline=12.,
+                                  timeout=1., active=0, max_inflight=1, stopped=True),
+                         'stopped_before_submit')
+        self.assertEqual(classify(now=10., submission_end=10., drain_deadline=12.,
+                                  timeout=1., active=0, max_inflight=1, stopped=False),
+                         'late_arrival')
+        self.assertEqual(classify(now=9.5, submission_end=10., drain_deadline=10.4,
+                                  timeout=1., active=0, max_inflight=1, stopped=False),
+                         'insufficient_drain')
+        self.assertEqual(classify(now=9., submission_end=10., drain_deadline=12.,
+                                  timeout=1., active=1, max_inflight=1, stopped=False),
+                         'client_capacity_exhausted')
+        self.assertIsNone(classify(now=9., submission_end=10., drain_deadline=12.,
+                                   timeout=1., active=0, max_inflight=1, stopped=False))
+
+    def test_fixed_rate_requires_worker_start_slack_after_socket_timeout(self):
+        r = harness()
+        cases = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+        import time
+        with self.assertRaisesRegex(ValueError, 'DRAIN'):
+            r.run_fixed_rate_stage(
+                '127.0.0.1', 1, cases, rate=1., duration=.1,
+                deadline=time.monotonic() + 2., socket_timeout=.5, drain_budget=.5,
+                max_client_inflight=1,
+            )
+
     def test_transition_budget_includes_child_start_and_teardown(self):
         r = harness()
         self.assertTrue(hasattr(r, 'transition_seconds'), 'transition accounting missing')
@@ -47,6 +92,41 @@ class Contracts(unittest.TestCase):
         offline = r.parse_args(['--rerender', 'receipt.json', '--output', 'newdir'])
         self.assertIsNotNone(offline.rerender)
 
+    def test_open_loop_cli_is_single_engine_decimal_limit_opt_in(self):
+        r = harness()
+        import contextlib
+        import io
+        base = ['open-loop', '--engine', 'horizon', '--candidate', 'A', '--image', 'sha256:' + '1' * 64,
+                '--gold', 'gold.json', '--rate', '6', '--measurement-seconds', '5',
+                '--drain-seconds', '2', '--socket-timeout-seconds', '1', '--max-client-inflight', '32',
+                '--cpus', '2', '--memory', '4000000000', '--budget-seconds', '35', '--output', 'newdir']
+        config = r.parse_args(base)
+        self.assertEqual(config.mode, 'open-loop')
+        self.assertEqual(config.engine, 'horizon')
+        self.assertEqual(config.candidate, 'A')
+        self.assertEqual(config.memory, 4_000_000_000)
+        self.assertEqual(config.rate, 6.)
+        protocol = list(base)
+        protocol[protocol.index('--measurement-seconds') + 1] = '90'
+        protocol[protocol.index('--drain-seconds') + 1] = '6'
+        protocol[protocol.index('--socket-timeout-seconds') + 1] = '5'
+        protocol[protocol.index('--budget-seconds') + 1] = '157'
+        protocol[protocol.index('--rate') + 1] = '1'
+        protocol[1:1] = ['--stabilization-seconds', '30']
+        self.assertEqual(r.parse_args(protocol).stabilization_seconds, 30.)
+        too_short = list(protocol)
+        too_short[too_short.index('--budget-seconds') + 1] = '156'
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            r.parse_args(too_short)
+        for replacement in (
+                ['--candidate', 'B'], ['--engine', 'presidio'], ['--memory', '4g'],
+                ['--cpus', '1'], ['--drain-seconds', '1']):
+            bad = list(base)
+            key, value = replacement
+            bad[bad.index(key) + 1] = value
+            with self.subTest(replacement=replacement), contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                r.parse_args(bad)
+
     def test_external_sources_literal_payload_and_common_order(self):
         self.assertTrue((ROOT / 'tests/resources/run.py').exists(), 'resource runner missing')
         r = harness()
@@ -60,7 +140,7 @@ class Contracts(unittest.TestCase):
         self.assertEqual(gold, before)
         self.assertEqual([c['id'] for c in cases], [c['id'] for c in r.ordered_cases(gold['cases'])])
         self.assertEqual(r.payload(cases[0]), {'fields': [dict(fieldId=f['fieldId'], text=f['text'], allowedCategories=[]) for f in cases[0]['fields']]})
-        self.assertEqual(r.evaluation.SOURCES, ['rizzo', 'gretel', 'targeted', 'legacy'])
+        self.assertEqual(r.evaluation.SOURCES, ['rizzo', 'gretel', 'targeted', 'legacy', 'aliasit'])
         self.assertNotIn('text', json.dumps(r.case_metadata(cases)))
         bad = copy.deepcopy(gold)
         bad['cases'][0]['fields'][0]['text'] = 'word ' * 51
@@ -72,6 +152,23 @@ class Contracts(unittest.TestCase):
 
 
 class Capacity(unittest.TestCase):
+    def test_fixed_rate_completion_cohorts_include_errors(self):
+        r = harness()
+        stage = dict(
+            start=1., submissionEnd=2., observations=[
+                dict(index=0, caseId='a', scheduledAt=1., offeredAt=1., submittedAt=1.,
+                     finish=1.5, status='success', code=None),
+                dict(index=1, caseId='a', scheduledAt=1.5, offeredAt=1.5, submittedAt=1.5,
+                     finish=2.2, status='http_error', code='HTTP_503'),
+            ],
+        )
+        metrics = r.fixed_rate_metrics(stage, [dict(id='a', fields=2)])
+        self.assertEqual(metrics['completed'], 2)
+        self.assertEqual(metrics['in_window_completed'], 1)
+        self.assertEqual(metrics['drain_completed'], 1)
+        self.assertEqual(metrics['success'], 1)
+        self.assertEqual(metrics['http_error'], 1)
+
     def test_plateau_requires_comparable_mix_and_repeat(self):
         r = harness()
         self.assertTrue(hasattr(r, 'plateau'), 'capacity classification missing')
@@ -97,6 +194,274 @@ class Capacity(unittest.TestCase):
 
 
 class FakeHTTP(unittest.TestCase):
+    def test_fixed_rate_receipt_excludes_request_and_response_sentinels(self):
+        import http.server
+        import threading
+        import time
+        r = harness()
+        request_sentinel = 'REQUEST_SENTINEL_9C6DB7'
+        response_sentinel = 'RESPONSE_SENTINEL_77A9E1'
+        seen_request = []
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):
+                body = self.rfile.read(int(self.headers['Content-Length']))
+                seen_request.append(request_sentinel.encode() in body)
+                response = ('{"debug":"' + response_sentinel + '"}').encode()
+                self.send_response(200)
+                self.send_header('Content-Length', str(len(response)))
+                self.end_headers()
+                self.wfile.write(response)
+
+            def log_message(self, format, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        source = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+        case = dict(source[0])
+        case['fields'] = [dict(field) for field in source[0]['fields']]
+        case['fields'][0]['text'] = request_sentinel
+        cases = [case]
+        try:
+            stage = r.run_fixed_rate_stage(
+                '127.0.0.1', server.server_port, cases, rate=1., duration=.1,
+                deadline=time.monotonic() + 3., socket_timeout=.5, drain_budget=.7,
+                max_client_inflight=1,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        serialized = json.dumps(stage)
+        self.assertEqual(seen_request, [True])
+        self.assertEqual(stage['observations'][0]['status'], 'contract_error')
+        self.assertNotIn(request_sentinel, serialized)
+        self.assertNotIn(response_sentinel, serialized)
+
+    def test_fixed_rate_client_capacity_exhaustion_is_explicit(self):
+        import http.server
+        import threading
+        import time
+        r = harness()
+        received = []
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):
+                self.rfile.read(int(self.headers['Content-Length']))
+                received.append(time.monotonic())
+                time.sleep(.5)
+                body = b'{"verdict":"accepted","findings":[]}'
+                self.send_response(200)
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        cases = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+        try:
+            stage = r.run_fixed_rate_stage(
+                '127.0.0.1', server.server_port, cases, rate=10., duration=.3,
+                deadline=time.monotonic() + 4., socket_timeout=1.2, drain_budget=1.4,
+                max_client_inflight=1,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        metrics = r.fixed_rate_metrics(stage, r.case_metadata(cases))
+        self.assertEqual(metrics['offered'], 3)
+        self.assertEqual(metrics['submitted'], 1)
+        self.assertEqual(metrics['client_capacity_exhausted'], 2)
+        self.assertEqual(metrics['success'], 1)
+        self.assertEqual(stage['maxInflight'], 1)
+        self.assertEqual(len(received), 1)
+
+    def test_fixed_rate_boundary_preserves_full_socket_timeout(self):
+        import http.server
+        import threading
+        import time
+        r = harness()
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):
+                self.rfile.read(int(self.headers['Content-Length']))
+                time.sleep(.65)
+                body = b'{"verdict":"accepted","findings":[]}'
+                self.send_response(200)
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        cases = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+        try:
+            stage = r.run_fixed_rate_stage(
+                '127.0.0.1', server.server_port, cases, rate=2., duration=.7,
+                deadline=time.monotonic() + 4., socket_timeout=.8, drain_budget=1.,
+                max_client_inflight=4,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        metrics = r.fixed_rate_metrics(stage, r.case_metadata(cases))
+        self.assertTrue(stage['drained'], stage)
+        self.assertEqual(metrics['submitted'], 2, stage)
+        self.assertEqual(metrics['success'], 2)
+        self.assertEqual(metrics['timeout'], 0)
+        self.assertGreaterEqual(metrics['drain_completed'], 1)
+
+    def test_fixed_rate_guard_reconciles_buffered_submit_events(self):
+        import http.server
+        import multiprocessing
+        import threading
+        import time
+        r = harness()
+        children_before = {child.pid for child in multiprocessing.active_children()}
+        received = []
+        tenth_arrived = threading.Event()
+        lock = threading.Lock()
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):
+                self.rfile.read(int(self.headers['Content-Length']))
+                with lock:
+                    received.append(time.monotonic())
+                    if len(received) >= 10:
+                        tenth_arrived.set()
+                time.sleep(.2)
+                try:
+                    body = b'{"verdict":"accepted","findings":[]}'
+                    self.send_response(200)
+                    self.send_header('Content-Length', str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                except (BrokenPipeError, ConnectionResetError):
+                    pass
+
+            def log_message(self, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        cases = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+
+        guard_calls = 0
+
+        def guard():
+            nonlocal guard_calls
+            guard_calls += 1
+            if guard_calls == 1:
+                tenth_arrived.wait(1.)
+            return 'memory_guard' if tenth_arrived.is_set() else None
+
+        try:
+            stage = r.run_fixed_rate_stage(
+                '127.0.0.1', server.server_port, cases, rate=200., duration=.2,
+                deadline=time.monotonic() + 4., socket_timeout=1., drain_budget=1.2,
+                max_client_inflight=32, guard=guard,
+            )
+            time.sleep(.1)
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        metrics = r.fixed_rate_metrics(stage, r.case_metadata(cases))
+        self.assertEqual(stage['stop_reason'], 'memory_guard')
+        self.assertIsNotNone(stage.get('stopAcknowledgedAt'), stage)
+        self.assertTrue(all(item['offeredAt'] <= stage['stopAcknowledgedAt']
+                            for item in stage['observations']), stage)
+        self.assertGreaterEqual(metrics['submitted'], len(received), stage)
+        not_admitted = sum(int(metrics[name] or 0) for name in (
+            'client_capacity_exhausted', 'late_arrival', 'insufficient_drain',
+            'stopped_before_submit', 'accounting_unknown'))
+        self.assertEqual(metrics['offered'],
+                         metrics['submitted'] + not_admitted, stage)
+        indices = [item['index'] for item in stage['observations']]
+        self.assertEqual(len(indices), len(set(indices)))
+        self.assertTrue(stage['accountingComplete'], stage)
+        children_after = {child.pid for child in multiprocessing.active_children()}
+        self.assertLessEqual(children_after, children_before)
+
+    def test_fixed_rate_arrivals_do_not_wait_for_prior_responses(self):
+        import http.server
+        import threading
+        import time
+        r = harness()
+        starts = []
+        finishes = []
+        lock = threading.Lock()
+        third_arrived = threading.Event()
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            protocol_version = 'HTTP/1.1'
+
+            def do_POST(self):
+                self.rfile.read(int(self.headers['Content-Length']))
+                with lock:
+                    starts.append(time.monotonic())
+                    if len(starts) == 3:
+                        third_arrived.set()
+                third_arrived.wait(1.2)
+                body = b'{"verdict":"accepted","findings":[]}'
+                self.send_response(200)
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                with lock:
+                    finishes.append(time.monotonic())
+
+            def log_message(self, *args):
+                pass
+
+        server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        cases = r.load_gold(ROOT / 'tests/evaluation/gold.json')
+        try:
+            stage = r.run_fixed_rate_stage(
+                '127.0.0.1', server.server_port, cases, rate=5., duration=.6,
+                deadline=time.monotonic() + 4., socket_timeout=1.5, drain_budget=1.7,
+                max_client_inflight=8,
+            )
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+        metrics = r.fixed_rate_metrics(stage, r.case_metadata(cases))
+        self.assertEqual(metrics['offered'], 3)
+        self.assertEqual(metrics['submitted'], 3, stage)
+        self.assertEqual(metrics['success'], 3)
+        self.assertTrue(stage['drained'])
+        self.assertEqual(len(starts), 3)
+        self.assertLess(starts[2], finishes[0], 'later arrivals waited for an earlier response')
+        self.assertTrue(all(item['scheduledAt'] is not None for item in stage['observations']))
+        scheduled = [float(item['scheduledAt']) for item in stage['observations']]
+        self.assertAlmostEqual(scheduled[1] - scheduled[0], .2, places=6)
+        self.assertAlmostEqual(scheduled[2] - scheduled[1], .2, places=6)
+        self.assertTrue(all(float(item['offeredAt']) >= float(item['scheduledAt'])
+                            for item in stage['observations']), stage)
+        self.assertNotIn('text', json.dumps(stage))
+        self.assertNotIn('findings', json.dumps(stage))
+
     def test_guard_accounts_for_buffered_started_and_finished_events(self):
         import http.server
         import threading

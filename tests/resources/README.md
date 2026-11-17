@@ -38,6 +38,26 @@ python3 tests/resources/run.py \
 
 No benchmark is started by the centralized test runner. Exit status is 0 for a complete protocol (capacity may still be inconclusive), 2 for partial/stopped runs or invalid input. Existing output directories are refused. Partial receipts retain cleanup and stop reasons; a failed cleanup is not permission to start another engine. Only matching run-label + name + full-ID containers can be removed, and removal is checked again. An interrupted/failed Docker create is recovered by its unique run name and ownership label, never a broad prune.
 
+## Fixed-rate open-loop stage
+
+The `open-loop` mode is a separate, explicit, single-engine Candidate-A stage. It uses the exact shared envelope of 2 CPU and `4000000000` bytes; binary `4g` is rejected. It schedules arrivals from absolute monotonic deadlines, does not wait for prior responses, stops new offers at the measurement boundary, and drains already submitted requests separately. Client-capacity exhaustion, late arrivals, insufficient drain budget, stop-before-submit, HTTP/contract/transport errors and timeouts remain distinct. Missing terminal acknowledgement marks accounting incomplete instead of inferring a result.
+
+Example low-rate qualification stage:
+
+```sh
+python3 tests/resources/run.py open-loop \
+  --engine horizon --candidate A \
+  --image YOUR_VERIFIED_HORIZON_CANDIDATE_A_IMAGE \
+  --gold tests/evaluation/gold.json \
+  --rate 1 --measurement-seconds 10 \
+  --socket-timeout-seconds 5 --drain-seconds 6 \
+  --max-client-inflight 32 \
+  --cpus 2 --memory 4000000000 --budget-seconds 45 \
+  --output tests/resources/results/YOUR_NEW_OPEN_LOOP_RUN_ID
+```
+
+Each invocation produces one sanitized stage and always attempts owned-container cleanup. It does not yet infer a capacity curve by itself: stabilization, the 50/75/100/125/150/200% sequence, replicates and sustainable-capacity classification are orchestration steps built on these stage receipts.
+
 ## Timing and safety
 
 All three static inventories are completed on **unstarted containers** before the first timed start. Images are reused by resolved ID and `--pull=never`; each service binds a dynamically allocated `127.0.0.1` port. Horizon/Presidio receive only their existing bind-host setting; no model or worker tuning is added.

@@ -1,0 +1,8 @@
+engine,run,kind,rate_rps,phase,complete,offered,success,timeouts,other_errors,capacity_rejected,max_inflight,p90_seconds,p95_seconds,max_seconds,max_memory_current_bytes,max_cpu_cores,criterion_met,stop_reason,cleanup
+horizon,open-loop-horizon-a-50-r1,nominal_50_retryable_pretraffic,4.325,none,false,0,0,0,0,0,0,,,,536461312,1.0306912280701748,false,container_state_unavailable,true
+horizon,open-loop-horizon-a-50-r2,nominal_50,4.325,stabilization,false,56,34,22,0,0,22,4.084423416992649,4.867687999969348,4.897855667164549,1386930176,2.011723232323228,false,server_drain_unknown,true
+horizon,open-loop-horizon-a-diagnostic-1rps-r1,diagnostic,1.0,measurement,true,90,90,0,0,0,2,0.8066655830480158,0.8729091249406338,1.480541457887739,1695166464,2.0111663366336674,false,,true
+horizon,open-loop-horizon-a-diagnostic-0_5rps-r1,diagnostic,0.5,measurement,true,45,45,0,0,0,1,0.8028563328552991,0.861900458112359,1.7721768328920007,1697796096,1.978338378378354,false,,true
+rizzo,open-loop-rizzo-a-50-r1,nominal_50,3.42,measurement,true,308,308,0,0,0,8,0.9569783331826329,1.4999628327786922,2.2133200839161873,2951274496,2.01621,false,,true
+rizzo,open-loop-rizzo-a-diagnostic-1rps-r1,diagnostic,1.0,measurement,true,90,90,0,0,0,1,0.6475889161229134,0.8049434169661254,0.86260333401151,2900684800,1.907494339622535,false,,true
+rizzo,open-loop-rizzo-a-diagnostic-0_5rps-r1,diagnostic,0.5,measurement,true,45,45,0,0,0,1,0.5993333340156823,0.7684157909825444,0.7997299169655889,2862247936,1.966067326732691,false,,true
