@@ -1,6 +1,6 @@
 # Controllo dei dati personali nei campi liberi
 
-Stato al 16 novembre 2026.
+Stato al 17 novembre 2026.
 
 ## Stato attuale
 
@@ -18,52 +18,54 @@ Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto b
 
 ## Valutazione funzionale aggiornata
 
-Il **16 novembre 2026** abbiamo valutato Rizzo e Horizon al commit **`5a497a9067635f2cb859bdb7ef878792e9cedcc3`**, con inferenza reale in container Docker e richieste HTTP. Gold, annotazioni e soglie sono rimasti invariati.
+Il **17 novembre 2026** abbiamo valutato Rizzo, Horizon e Presidio sul commit applicativo **`ce5d395818760f73e1ea17879d22cb158295f110`**, con inferenza reale in container Docker e richieste HTTP. Il gold esteso, le annotazioni e la policy sono stati congelati prima delle predizioni.
 
-Il campione esteso comprende **151 scenari, 152 campi e 142 testi distinti**. Sono state completate **604 richieste su 604**, senza errori tecnici o contrattuali e senza retry selettivi: una richiesta di detection senza categorie consentite e una richiesta con la policy annotata per ogni scenario e motore. Presidio non è stato rieseguito in questa valutazione.
+Il campione comprende **151 scenari, 152 campi e 142 testi distinti**. Sono state completate **906 richieste su 906**, senza errori tecnici o contrattuali e senza retry selettivi: una richiesta di detection con tutte le categorie vietate e una richiesta con la policy annotata per ogni scenario e motore.
 
 ### Correttezza dei verdetti
 
 Il gold prevede **98 rifiuti e 53 accettazioni**. La tabella usa i verdetti HTTP effettivi delle richieste policy.
 
-| PoC     | Decisioni corrette | Accettate per errore (su 98) | Rifiutate per errore (su 53) |
-| ------- | -----------------: | ---------------------------: | ---------------------------: |
-| Rizzo   |             89,40% |                    4 — 4,08% |                  12 — 22,64% |
-| Horizon |             90,07% |                    9 — 9,18% |                   6 — 11,32% |
+| PoC      | Decisioni corrette | Accettate per errore (su 98) | Rifiutate per errore (su 53) |
+| -------- | -----------------: | ---------------------------: | ---------------------------: |
+| Rizzo    |             89,40% |                    4 — 4,08% |                  12 — 22,64% |
+| Horizon  |             94,70% |                    1 — 1,02% |                   7 — 13,21% |
+| Presidio |             78,81% |                  20 — 20,41% |                  12 — 22,64% |
 
-Rizzo lascia passare meno scenari da rifiutare, ma produce più falsi rifiuti. Horizon restituisce l'insieme esatto delle categorie note in **124/152 campi**, contro **110/152** di Rizzo, nel catalogo valutato e ignorando le categorie annotate come ambigue. Un rifiuto corretto può essere causato anche da una categoria sbagliata: la correttezza del verdetto non sostituisce quella della detection.
+Horizon ha la maggiore accuratezza del verdetto in questo campione e il minor numero di false accettazioni. Ignorando le 13 coppie annotate come ambigue, restituisce l'insieme esatto delle categorie note in **129/152 campi**, contro **110/152** di Rizzo e **103/152** di Presidio. Un rifiuto corretto può comunque essere causato da una categoria sbagliata: la correttezza del verdetto non sostituisce quella della detection.
 
 ### Sensibilità e precisione per categoria
 
-La **sensibilità** misura quanti positivi attesi vengono individuati; la **precisione** quante segnalazioni sono corrette. L'unità di misura è la presenza della categoria nel campo, non il numero di entità o l'accuratezza degli span. Le **13 coppie campo/categoria annotate come ambigue** sono escluse dai conteggi detection, senza essere considerate errori; la policy è decidibile per tutti gli scenari.
+La **sensibilità** misura quanti positivi attesi vengono individuati; la **precisione** quante segnalazioni sono corrette. L'unità di misura è la presenza della categoria nel campo, non il numero di entità o l'accuratezza degli span. Le coppie ambigue sono escluse dai conteggi detection, senza essere considerate errori; la policy è decidibile per tutti gli scenari.
 
-| Categoria                 | Positivi attesi | Rizzo sensibilità | Rizzo precisione | Horizon sensibilità | Horizon precisione |
-| ------------------------- | --------------: | ----------------: | ---------------: | ------------------: | -----------------: |
-| Persona                   |              63 |            96,83% |           96,83% |              96,83% |             98,39% |
-| Email                     |              24 |              100% |              96% |                100% |                96% |
-| Telefono                  |              20 |               80% |              80% |                100% |                80% |
-| Codice fiscale            |              17 |              100% |              85% |              88,24% |               100% |
-| Partita IVA               |              10 |               40% |           44,44% |                 70% |               100% |
-| IBAN                      |               9 |              100% |           31,03% |              44,44% |               100% |
-| Carta di credito          |              14 |              100% |           73,68% |                100% |             63,64% |
-| Carta d'identità italiana |               7 |            85,71% |             100% |              85,71% |               100% |
-| Patente italiana          |               8 |            62,50% |             100% |              62,50% |               100% |
+| Categoria                 | Positivi | Rizzo sens. | Rizzo prec. | Horizon sens. | Horizon prec. | Presidio sens. | Presidio prec. |
+| ------------------------- | -------: | -----------: | -----------: | ------------: | ------------: | -------------: | -------------: |
+| Persona                   |       63 |       96,83% |       96,83% |        96,83% |        98,39% |         76,19% |         72,73% |
+| Email                     |       24 |         100% |           96% |          100% |           96% |           100% |           100% |
+| Telefono                  |       20 |          80% |           80% |          100% |           80% |            85% |            85% |
+| Codice fiscale            |       17 |         100% |           85% |          100% |          100% |           100% |           100% |
+| Partita IVA               |       10 |          40% |       44,44% |          100% |        90,91% |            70% |          87,5% |
+| IBAN                      |        9 |         100% |       31,03% |          100% |           90% |         66,67% |           100% |
+| Carta di credito          |       14 |         100% |       73,68% |          100% |        63,64% |         64,29% |           100% |
+| Carta d'identità italiana |        7 |       85,71% |          100% |        85,71% |          100% |           100% |           100% |
+| Patente italiana          |        8 |        62,5% |          100% |         62,5% |          100% |            50% |           100% |
 
-I principali limiti osservati sono:
+I principali compromessi osservati sono:
 
-- **IBAN:** Rizzo trova tutti i 9 positivi ma aggiunge 20 falsi positivi; Horizon ne trova 4 senza falsi positivi.
-- **Partita IVA:** Rizzo trova 4 positivi su 10 con 5 falsi positivi; Horizon ne trova 7 senza falsi positivi.
-- **Patenti:** entrambi trovano 5 positivi su 8.
+- **Verdetto:** Horizon accetta per errore 1 scenario da rifiutare; Rizzo 4; Presidio 20.
+- **IBAN:** Rizzo trova tutti i 9 positivi ma aggiunge 20 falsi positivi; Horizon trova tutti i 9 con 1 falso positivo; Presidio ne trova 6 senza falsi positivi.
+- **Persone:** Presidio trova 48 positivi su 63 e produce 18 falsi positivi; Rizzo e Horizon ne trovano 61, rispettivamente con 2 e 1 falsi positivi.
+- **Documenti:** Presidio trova tutte le 7 carte d'identità, mentre Rizzo e Horizon ne trovano 6; sulle patenti i tre motori ne trovano rispettivamente 5, 5 e 4 su 8.
 
-Non emerge un vincitore automatico: la scelta dipende dal compromesso fra dati non riconosciuti e blocchi ingiustificati.
+Il confronto resta descrittivo: la scelta dipende dal costo relativo di dati non riconosciuti e blocchi ingiustificati.
 
 ### Limiti e verifica del run
 
 Il campione è di sviluppo, **non held-out**, e contiene scenari correlati e testi riutilizzati. La detection viene ripetuta per scenario; le percentuali non dimostrano generalizzazione o adeguatezza alla produzione. La geografia prevista dal gold per telefoni e documenti è italiana: il confronto misura il comportamento delle pipeline, comprese eventuali segnalazioni più ampie del modello.
 
-Un riconto indipendente delle osservazioni ha confermato matrici, denominatori e CSV. I risultati dettagliati e il gold esteso restano locali; questa modifica pubblica soltanto la sintesi, senza testi del corpus. Il pilot pubblicato sotto `tests/evaluation/` contiene invece 91 scenari e risultati storici: non va confuso con il run esteso qui descritto.
+Il [report completo](tests/evaluation/results/main-2026-11-17/report.md), il [bundle JSON](tests/evaluation/results/main-2026-11-17/results.json) e il [contesto del run](tests/evaluation/results/main-2026-11-17/run-context.json) conservano matrici, copertura, digest delle immagini e hash degli artefatti. La rigenerazione offline delle sei esportazioni ha prodotto file byte-identici. Il bundle esclude testi, span, score, note libere e body di errore.
 
-Le immagini sono state costruite dai sorgenti del commit indicato. Per Horizon il Dockerfile di staging ometteva soltanto il comando prefetch `--verify-only`: il run verifica quella build derivata, **non il Dockerfile originale end-to-end**. Le build delle dipendenze hanno usato la rete; l'inferenza ha usato asset locali, senza download dei pesi. Non viene dichiarato isolamento di rete del container. I container del run sono stati rimossi.
+Le immagini sono state costruite dai Dockerfile correnti; l'inferenza ha usato asset locali. Le build possono usare la rete per le dipendenze e non viene dichiarato isolamento di rete dei container. I container del run sono stati rimossi. Il run funzionale non misura throughput, latenza o memoria.
 
 ## Memoria e capacità
 

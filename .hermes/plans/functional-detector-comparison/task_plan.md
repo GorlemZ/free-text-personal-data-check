@@ -43,7 +43,7 @@ La prosecuzione autorizzata dall'utente adotta l'implementazione già avviata ne
 
 ### Phase 3: Realizzazione e verifica funzionale
 **Status:** complete
-Workspace pnpm, contratto comune e container Node-only verificati. Horizon rileva identificativi morfologicamente riconoscibili con checksum errato e IBAN internazionali; i prefissi di candidati IBAN oltre 34 caratteri, anche raggruppati con spazi, sono esclusi. Il confronto HTTP sul gold congelato è stato rieseguito: 546/546 richieste riuscite, senza errori tecnici o contrattuali, con report descrittivo FP/TP/FN/TN in `tests/evaluation/results/horizon-typescript-2026-11-16/`. Nessun criterio prestazionale o di memoria ha condizionato questa fase.
+Workspace pnpm, contratto comune e container Node-only verificati. Horizon rileva identificativi morfologicamente riconoscibili con checksum errato e IBAN internazionali; i prefissi di candidati IBAN oltre 34 caratteri, anche raggruppati con spazi, sono esclusi. Il confronto HTTP totale sul gold esteso è stato rieseguito il 17 novembre su Rizzo, Horizon e Presidio: 906/906 richieste riuscite, senza errori tecnici o contrattuali, con report descrittivo FP/TP/FN/TN in `tests/evaluation/results/main-2026-11-17/`. Le 33 prove del runner/gold, la verifica dei 60 casi contro i Parquet fissati e la rigenerazione offline byte-identica sono passate. Il rerun finale usa immagini OCI etichettate al commit `ce5d395` e ha riprodotto byte per byte le sei esportazioni. Nessun criterio prestazionale o di memoria ha condizionato questa fase.
 
 ### Phase 4: Performance e memoria — ultimissima attività
 **Status:** in_progress
@@ -52,4 +52,4 @@ Confrontare, a parità di massimo 2 core e 4.000.000.000 byte RAM per replica: (
 Piano operativo: `.hermes/plans/2026-11-16_220013-memory-options-benchmark.md`.
 
 ## Perimetro corrente
-Implementazione funzionale e refactoring HTTP completati e integrati in `main` tramite PR #5, merge commit `5d670dbe02e466c44692d9517f72da0b5d6fd71b`. Il report del 12 novembre resta un artefatto storico; il run funzionale corrente è quello del 16 novembre. La nuova attività è esclusivamente Phase 4: capacità, memoria, concorrenza e coda sotto il budget produttivo dichiarato.
+Implementazione funzionale e refactoring HTTP completati e integrati in `main` tramite PR #5, merge commit `5d670dbe02e466c44692d9517f72da0b5d6fd71b`. I report del 12 e 16 novembre restano artefatti storici; il run funzionale corrente è il confronto totale a tre motori del 17 novembre in `tests/evaluation/results/main-2026-11-17/`. La Phase 4 su capacità, memoria, concorrenza e coda resta in corso sotto il budget produttivo dichiarato.

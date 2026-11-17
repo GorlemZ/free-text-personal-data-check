@@ -1,4 +1,21 @@
-# Merged pilot: implementer review and import ledger
+# Corpus review and import ledger
+
+## Current expansion — uniform-pilot-3
+
+Added **60 distinct complete source literals**: 30 Gretel Italian_test and 30 AliasIT v5. All previous **91 case objects are unchanged**. Current corpus: **151 scenarios, 152 fields, 142 distinct texts**. Historical review below covers the prior 91 cases; independent delta review `deleg_7bdd75b5` read every added literal and all **540** new field/category decisions before inference. Cumulative review coverage is **1,368** field/category decisions. This is agent review, not human approval.
+
+The review requested ten category corrections in six cases, applied exactly:
+- `gretel-151`: recognizable country-prefixed eleven-digit legal-entity VAT identifier becomes positive; no checksum gate.
+- `gretel-180`, `aliasit-83`, `aliasit-90`, `aliasit-142`, `aliasit-3268`: concrete non-Italian document forms are outside the restricted catalog, not intrinsically unknown.
+
+Consequently the additions supply difficult-but-decidable cases, **no newly established intrinsic ambiguity**. The **13 historical unknown category pairs remain unchanged**. Previously selected allowlists are retained as valid policy scenarios; the corrected cases no longer imply an indeterminate verdict. No annotation was selected using detector predictions, and no detector run accompanies this expansion.
+
+Literal text, whitespace, upstream spans and source row provenance were verified against pinned Parquet rows by the parent; the independent reviewer checked the candidate records and their embedded source rows. Original foreign-language fragments, formatting defects and upstream-truncated records are retained rather than repaired. See [SOURCES.md](SOURCES.md) for attribution, license notices and source limitations. Annotation rationale is stored per case in `review.note`.
+
+Family fingerprints are provenance, not proof of independent constructions. Ten AliasIT label/value or service-notice wrappers share the additional `correlationGroup` `aliasit-deterministic-italian-wrapper`; the two KlusAI declarations share one template. Do not report the 29 AliasIT fingerprints as 29 independent prose families. Source-level counters and normalized-text uniqueness are only descriptive diagnostics.
+
+## Historical consolidation review — uniform-pilot-2
+
 
 All 82 distinct complete literals (54 preserved + 28 imported), all 91 scenarios and 92 fields were read during consolidation. All nine category decisions were considered for each field (828 scenario-field/category decisions). No detector predictions were inspected for selection or annotation. Independent agent review `deleg_535a5d99`, task 3, subsequently reread all 82 complete texts, 91 scenarios and 828 decisions before new predictions: **PASS**, no annotation corrections or blocker/high/medium findings. This is not human validation. The original per-case review metadata is retained as historical provenance; `mergedReview` records approval of the consolidated artifact.
 
@@ -155,3 +172,70 @@ P=PERSON; E=EMAIL_ADDRESS; T=PHONE_NUMBER; F=IT_FISCAL_CODE; V=IT_VAT_CODE; I=IB
 | `legacy-phone-vat-overlap-vat-only` | `consumerNotes` | T V | — | V | rejected |
 | `legacy-phone-vat-overlap-all` | `consumerNotes` | T V | — | T V | accepted |
 | `legacy-phone-vat-overlap-wrong` | `consumerNotes` | T V | — | P | rejected |
+
+## Expansion annotation ledger
+
+Same abbreviations and full-negative review rule as above. Texts are unchanged external literals; source annotations are retained but are not copied blindly into gold.
+
+| Case | Field | Positive | Unknown | Allowed | Expected policy |
+| --- | --- | --- | --- | --- | --- |
+| `gretel-5` | `description` | P | — | — | rejected |
+| `gretel-17` | `description` | P | — | — | rejected |
+| `gretel-61` | `description` | P | — | — | rejected |
+| `gretel-77` | `description` | P | — | — | rejected |
+| `gretel-93` | `description` | — | — | — | accepted |
+| `gretel-127` | `description` | — | — | — | accepted |
+| `gretel-138` | `description` | P | — | — | rejected |
+| `gretel-141` | `description` | P | — | — | rejected |
+| `gretel-151` | `description` | V | — | — | rejected |
+| `gretel-154` | `description` | P | — | — | rejected |
+| `gretel-165` | `description` | P E | — | — | rejected |
+| `gretel-177` | `description` | — | — | — | accepted |
+| `gretel-180` | `description` | P E | — | P E | accepted |
+| `gretel-184` | `description` | — | — | — | accepted |
+| `gretel-198` | `description` | P | — | — | rejected |
+| `gretel-225` | `description` | P | — | — | rejected |
+| `gretel-238` | `description` | — | — | — | accepted |
+| `gretel-248` | `description` | P | — | — | rejected |
+| `gretel-274` | `description` | — | — | — | accepted |
+| `gretel-289` | `description` | P | — | — | rejected |
+| `gretel-294` | `description` | P I | — | — | rejected |
+| `gretel-340` | `description` | P | — | — | rejected |
+| `gretel-353` | `description` | P | — | — | rejected |
+| `gretel-355` | `description` | — | — | — | accepted |
+| `gretel-360` | `description` | P T | — | — | rejected |
+| `gretel-365` | `description` | — | — | — | accepted |
+| `gretel-374` | `description` | P | — | — | rejected |
+| `gretel-390` | `description` | P | — | — | rejected |
+| `gretel-392` | `description` | P | — | — | rejected |
+| `gretel-439` | `description` | — | — | — | accepted |
+| `aliasit-50` | `description` | P C | — | — | rejected |
+| `aliasit-57` | `description` | — | — | — | accepted |
+| `aliasit-65` | `description` | E | — | — | rejected |
+| `aliasit-70` | `description` | P | — | — | rejected |
+| `aliasit-83` | `description` | — | — | — | accepted |
+| `aliasit-90` | `description` | E | — | E | accepted |
+| `aliasit-95` | `description` | P | — | — | rejected |
+| `aliasit-106` | `description` | — | — | — | accepted |
+| `aliasit-119` | `description` | — | — | — | accepted |
+| `aliasit-137` | `description` | P E | — | — | rejected |
+| `aliasit-142` | `description` | E | — | E | accepted |
+| `aliasit-150` | `description` | — | — | — | accepted |
+| `aliasit-154` | `description` | P | — | — | rejected |
+| `aliasit-172` | `description` | P E | — | — | rejected |
+| `aliasit-176` | `description` | P E | — | — | rejected |
+| `aliasit-3298` | `description` | P T F | — | — | rejected |
+| `aliasit-3333` | `description` | P T F | — | — | rejected |
+| `aliasit-3086` | `description` | P | — | — | rejected |
+| `aliasit-3087` | `description` | P | — | — | rejected |
+| `aliasit-3088` | `description` | — | — | — | accepted |
+| `aliasit-3205` | `description` | — | — | — | accepted |
+| `aliasit-3208` | `description` | — | — | — | accepted |
+| `aliasit-3254` | `description` | — | — | — | accepted |
+| `aliasit-3268` | `description` | — | — | — | accepted |
+| `aliasit-3277` | `description` | — | — | — | accepted |
+| `aliasit-3283` | `description` | — | — | — | accepted |
+| `aliasit-3286` | `description` | — | — | — | accepted |
+| `aliasit-3110` | `description` | — | — | — | accepted |
+| `aliasit-3113` | `description` | — | — | — | accepted |
+| `aliasit-3125` | `description` | — | — | — | accepted |

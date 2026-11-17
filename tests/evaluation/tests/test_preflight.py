@@ -16,6 +16,17 @@ from test_cli import cli
 
 
 class PreflightTests(unittest.TestCase):
+    def test_aliasit_source_is_accepted_without_leaking_editorial_provenance(self):
+        gold = json.loads((ROOT / 'gold.json').read_text())
+        case = copy.deepcopy(gold['cases'][0])
+        case.update(id='aliasit-fixture', source='aliasit', family='aliasit-fixture-family')
+        case['provenance'] = {'row': 3, 'split': 'test', 'revision': 'pinned-source',
+                              'upstreamTextReconstruction': 'editorial note, not result data'}
+        runner.validate_cases([case])
+        projected = runner.project_cases([case])
+        runner.validate_cases(projected, with_text=False)
+        self.assertEqual(projected[0]['provenance'], {'row': 3, 'split': 'test', 'revision': 'pinned-source'})
+
     def test_single_static_gold_preserves_original_and_counts_selected_imports(self):
         gold = json.loads((ROOT / 'gold.json').read_text())
         runner.validate_gold(gold)
@@ -24,13 +35,13 @@ class PreflightTests(unittest.TestCase):
                          '9aaaa5aa577571da9a13134b6eff7d4c32f191ff5bf64d497c9b5e2c9b74474f')
         self.assertEqual(len({f['text'] for c in original for f in c['fields']}), 54)
         counts = runner.gold_counts(gold)
-        self.assertEqual((counts['cases'], counts['fields'], counts['distinctTexts']), (91, 92, 82))
-        self.assertEqual(counts['plannedHttpRequests'], 546)
+        self.assertEqual((counts['cases'], counts['fields'], counts['distinctTexts']), (151, 152, 142))
+        self.assertEqual(counts['plannedHttpRequests'], 906)
         self.assertEqual(counts['unknownPairs'], 13)
         self.assertEqual(counts['sources']['legacy']['cases'], 38)
         self.assertEqual(counts['sources']['legacy']['distinctTexts'], 28)
         self.assertEqual({s: counts['sources'][s]['cases'] for s in runner.SOURCES},
-                         {'rizzo': 10, 'gretel': 18, 'targeted': 25, 'legacy': 38})
+                         {'rizzo': 10, 'gretel': 48, 'targeted': 25, 'legacy': 38, 'aliasit': 30})
         self.assertFalse((ROOT / 'prepare_gold.py').exists())
         self.assertFalse((ROOT / 'baseline-capabilities.json').exists())
         self.assertFalse((ROOT / 'targeted-texts.json').exists())
@@ -46,8 +57,8 @@ class PreflightTests(unittest.TestCase):
         gold = json.loads((ROOT / 'gold.json').read_text())
         cases = [c for c in gold['cases'] if c['source'] == 'legacy']
         self.assertEqual(len(cases), 38)
-        self.assertEqual(gold['mergedReview']['distinctTextsRead'], 82)
-        self.assertEqual(gold['mergedReview']['casesReviewed'], 91)
+        self.assertEqual(gold['mergedReview']['distinctTextsRead'], 142)
+        self.assertEqual(gold['mergedReview']['casesReviewed'], 151)
         for c in cases:
             p = c['provenance']
             self.assertEqual(p['revision'], '38360c8d7f776c075457e319bd957502a03c963b')
@@ -64,7 +75,7 @@ class PreflightTests(unittest.TestCase):
             self.assertEqual(c['fields'][0]['expected'], [category])
             self.assertEqual(runner.expected_verdict(c), 'rejected')
         bad = copy.deepcopy(gold)
-        bad['cases'][-1]['provenance'].pop('sourceCaseId')
+        next(c for c in bad['cases'] if c['source'] == 'legacy')['provenance'].pop('sourceCaseId')
         with self.assertRaises(ValueError):
             runner.validate_gold(bad)
 

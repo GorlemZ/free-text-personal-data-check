@@ -193,9 +193,13 @@ class CliTests(unittest.TestCase):
             completed = cli('--gold', ROOT / 'gold.json', *endpoint_args(endpoints), '--output', output)
             self.assertEqual(completed.returncode, 0, completed.stderr)
             result = json.loads((output / 'results.json').read_text())
-            self.assertEqual(len(requests), 546)
-            self.assertEqual(len(result['observations']), 546)
-            self.assertEqual(result['inventory']['ALL'], {'cases': 91, 'fields': 92, 'distinctTexts': 82, 'families': 48, 'unknownPairs': 13})
+            self.assertEqual(len(requests), 906)
+            self.assertEqual(len(result['observations']), 906)
+            self.assertEqual(result['inventory']['ALL']['cases'], 151)
+            self.assertEqual(result['inventory']['ALL']['fields'], 152)
+            self.assertEqual(result['inventory']['ALL']['distinctTexts'], 142)
+            self.assertEqual(result['inventory']['ALL']['families'], len({c['family'] for c in cases}))
+            self.assertEqual(result['inventory']['ALL']['unknownPairs'], sum(len(f['unknown']) for c in cases for f in c['fields']))
             for original, projected in zip(cases, result['cases']):
                 self.assertEqual((original['id'], original['source'], original['family']),
                                  (projected['id'], projected['source'], projected['family']))
@@ -208,17 +212,20 @@ class CliTests(unittest.TestCase):
                                                'allowedCategories': f['allowedCategories'] if policy else []}
                                               for f in c['fields']]} for c in cases for policy in [False, True]]
                 self.assertEqual(sent, expected_wire)
-                for source, count in [('rizzo', 10), ('gretel', 18), ('targeted', 25), ('legacy', 38), ('ALL', 91)]:
+                for source, count in [('rizzo', 10), ('gretel', 48), ('targeted', 25), ('legacy', 38), ('aliasit', 30), ('ALL', 151)]:
                     self.assertEqual(result['metrics']['coverage'][source][engine + '/detection']['success'], count)
                     self.assertEqual(result['metrics']['pairedSuccesses'][source], {'detection': count, 'policy': count})
-                self.assertEqual(result['metrics']['detection']['ALL'][engine]['IT_IDENTITY_CARD']['unknownExcluded'], 6)
-                self.assertEqual(result['metrics']['detection']['ALL'][engine]['IT_DRIVER_LICENSE']['unknownExcluded'], 7)
+                for category in runner.CATALOG:
+                    unknown_count = sum(category in f['unknown'] for c in cases for f in c['fields'])
+                    self.assertEqual(result['metrics']['detection']['ALL'][engine][category]['unknownExcluded'], unknown_count)
+                self.assertEqual(result['metrics']['verdict']['ALL'][engine]['unknownExcluded'],
+                                 sum(runner.expected_verdict(c) is None for c in cases))
                 # Independent verdict oracle: original fixture labels, not runner.score.
                 expected_rejections = sum(any(set(f['expected']) - set(f['allowedCategories']) for f in c['fields']) for c in cases)
                 observed_rejections = sum(o['response']['verdict'] == 'rejected' for o in result['observations']
                                           if o['engine'] == engine and o['probe'] == 'policy')
                 self.assertEqual(expected_rejections, observed_rejections)
-            for name, expected_count in [('detection', 135), ('verdict', 15), ('coverage', 30), ('observations', 546)]:
+            for name, expected_count in [('detection', 162), ('verdict', 18), ('coverage', 36), ('observations', 906)]:
                 with (output / (name + '.csv')).open() as stream:
                     rows = list(csv.DictReader(stream))
                 self.assertEqual(len(rows), expected_count)

@@ -12,9 +12,9 @@ import urllib.error
 CATALOG = ['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER', 'IT_FISCAL_CODE',
            'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']
 ENGINES = ['rizzo', 'horizon', 'presidio']
-SOURCES = ['rizzo', 'gretel', 'targeted', 'legacy']
+SOURCES = ['rizzo', 'gretel', 'targeted', 'legacy', 'aliasit']
 PROVENANCE_KEYS = {'revision', 'row', 'split', 'originalIndex', 'index', 'sourceCaseId',
-                   'textIndex', 'familyId', 'scenario', 'provenanceId'}
+                   'textIndex', 'familyId', 'scenario', 'provenanceId', 'cohort'}
 STATUSES = ('success', 'technical_failure', 'contract_failure', 'unattempted')
 WHITE_SPACE = re.compile(r'[\u0009-\u000d\u0020\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+')
 

@@ -2,7 +2,7 @@
 
 `gold.json` → due POST per caso e motore → JSON, CSV e Markdown. Il runner usa la standard library Python e comunica con tre servizi HTTP già avviati. Il gold è statico: preflight e test lo leggono senza rigenerarlo.
 
-[Contratto HTTP](../contract/README.md) · [Suite automatiche](../README.md) · [Registro annotazioni e provenienza](REVIEW.md)
+[Contratto HTTP](../contract/README.md) · [Suite automatiche](../README.md) · [Registro annotazioni](REVIEW.md) · [Fonti e licenze](SOURCES.md)
 
 ## Eseguire un confronto
 
@@ -11,6 +11,15 @@ Dalla root, validare il gold:
 ```sh
 python3 tests/evaluation/runner.py --validate-only
 ```
+
+Per verificare che i 60 testi aggiunti coincidano con le righe dei Parquet fissati per revisione e SHA-256, usare una cache esterna al repository:
+
+```sh
+uv run --with pyarrow python tests/evaluation/verify_sources.py \
+  --cache-dir "$TMPDIR/golden-source-verification"
+```
+
+Il verificatore scarica soltanto i due artefatti dichiarati in [SOURCES.md](SOURCES.md), controlla hash, numero di righe, testo, span e metadati di provenienza selezionati, senza stampare i testi.
 
 Avviare i servizi seguendo i README [Rizzo](../../poc-rizzo/README.md), [Horizon](../../poc-horizon/README.md) e [Presidio](../../poc-presidio/README.md). Con le porte degli esempi, attendere `GET /health/ready` su `18081`, `18082` e `18083`, quindi scegliere una directory di output **che non esista**:
 
@@ -29,7 +38,7 @@ Per rigenerare i report da un bundle schema 2, senza rete o gold corrente, scegl
 
 ```sh
 python3 tests/evaluation/runner.py \
-  --render tests/evaluation/results/uniform-http/results.json \
+  --render tests/evaluation/results/main-2026-11-17/results.json \
   --output tests/evaluation/results/my-render
 ```
 
@@ -50,34 +59,35 @@ Exit code: `0` completo/preflight, `2` raccolta incompleta o errore argomenti, `
 
 ## Campione e annotazioni
 
-| Fonte | Casi | Campi | Testi distinti | Famiglie |
+Gold corrente: **`uniform-pilot-3`**, con 60 nuovi testi distinti rispetto ai 91 casi precedenti, conservati integralmente.
+
+| Fonte | Casi | Campi | Testi distinti | Famiglie dichiarate |
 |---|---:|---:|---:|---:|
 | Rizzo `clean/val` | 10 | 10 | 10 | 2 |
-| Gretel `Italian_test` | 18 | 18 | 18 | 4 |
+| Gretel `Italian_test` | 48 | 48 | 48 | 12 |
 | Mirati | 25 | 26 | 26 | 21 |
 | Legacy selezionati | 38 | 38 | 28 | 21 |
-| **Totale** | **91** | **92** | **82** | **48** |
+| AliasIT v5 `test` | 30 | 30 | 30 | 29 |
+| **Totale** | **151** | **152** | **142** | **85** |
 
-Il pilot prevede **546 POST**, 66 rifiuti e 25 accettazioni. Le 13 coppie detection `unknown` riguardano sei carte d'identità e sette patenti. Telefoni e documenti hanno portata italiana; email, IBAN e carte internazionale. Identificativi riconoscibili con checksum errato restano positivi.
+Un confronto completo sul gold corrente prevede **906 POST**, con **98 rifiuti e 53 accettazioni attesi**. Il confronto reale sui tre detector è stato completato con tutte le richieste riuscite. Le 13 coppie detection `unknown` precedenti restano invariate: sei carte d'identità e sette patenti. Telefoni e documenti hanno portata italiana; email, IBAN e carte internazionale. Identificativi riconoscibili con checksum errato restano positivi.
 
-I 53 casi originali sono conservati; 38 scenari sono importati da 28 testi letterali del ref `38360c8d7f776c075457e319bd957502a03c963b`, con ID, indice, scenario e motivo della selezione. Quattro vecchi negativi checksum sono stati riannotati positivi. Il sorgente legacy non offriva un esempio completo di omocodia o telefono estero da importare: questi gap restano dichiarati.
+Le aggiunte sono 30 testi Gretel e 30 AliasIT; `provenance.cohort = external-expansion-1` consente di identificarle anche nelle proiezioni dei nuovi risultati. Testi completi, whitespace e annotazioni upstream sono conservati senza generazione o tagli locali. Dataset, revisioni, indici, trasformazioni già presenti alla fonte e licenze sono documentati in [SOURCES.md](SOURCES.md). La componente Gretel comprende anche formati strutturati/inglesi e record frammentari già all'origine: non è interamente prosa italiana naturale.
 
-[REVIEW.md](REVIEW.md) documenta la revisione di tutti gli 82 testi, 91 scenari e 828 decisioni campo/categoria. Review indipendente di agente completata prima delle predizioni, senza correzioni richieste; nessuna validazione umana dichiarata. Gold, provenienza e annotazioni restano separati dalle risposte dei motori.
+La review indipendente del delta ha risolto sei casi inizialmente marcati incerti: forma IVA riconoscibile positiva, forme documentali non italiane negative. **I 60 nuovi casi sono difficili ma decidibili secondo il catalogo; non aggiungono nuove ambiguità intrinseche.** Non si usa `unknown` per mascherare un'annotazione errata. Nei confronti, le coppie effettivamente unknown restano escluse dalle matrici e un eventuale verdetto indeterminato resta escluso dalla policy.
+
+[REVIEW.md](REVIEW.md) distingue la revisione storica dei 91 scenari dalla review delle 540 nuove decisioni campo/categoria; copertura cumulativa: 142 testi, 151 scenari, 1.368 decisioni. Nessuna validazione umana dichiarata e nessuna selezione basata su predizioni. I conteggi di famiglia non attestano indipendenza: dieci wrapper AliasIT sono inoltre marcati con un gruppo di correlazione comune.
 
 ## Risultati e interpretazione
 
-Il run funzionale **16 novembre 2026** sul checkout `refactor/horizon-typescript` ha completato **546/546 richieste** con zero errori tecnici o contrattuali. Il checkout era dirty: commit e digest delle tre immagini sono registrati nel contesto, ma il commit da solo non identifica i sorgenti eseguiti.
+Il run **17 novembre 2026** sul commit applicativo `ce5d395818760f73e1ea17879d22cb158295f110` ha completato **906/906 richieste** sui tre motori, con zero errori tecnici o contrattuali e nessun retry selettivo. Le sei esportazioni sono state rigenerate offline byte-identiche:
 
-[Report corrente](results/horizon-typescript-2026-11-16/report.md) · [JSON](results/horizon-typescript-2026-11-16/results.json) · [Contesto del run](results/horizon-typescript-2026-11-16/run-context.json)
+[Report corrente](results/main-2026-11-17/report.md) · [JSON](results/main-2026-11-17/results.json) · [Contesto del run](results/main-2026-11-17/run-context.json)
 
-Sul verdetto HTTP, Horizon ha ottenuto TP=65, FP=1, FN=1, TN=24; Rizzo TP=63, FP=3, FN=3, TN=22; Presidio TP=51, FP=5, FN=15, TN=20. Nella matrice detection Horizon ha recall e precisione 1,0000 per CF, P.IVA e IBAN sul campione; gli IBAN hanno TP=8, FP=0, FN=0, TN=84. Sono risultati descrittivi non heldout, senza soglia di promozione.
+Sul verdetto HTTP, Horizon ha ottenuto TP=97, FP=7, FN=1, TN=46; Rizzo TP=94, FP=12, FN=4, TN=41; Presidio TP=78, FP=12, FN=20, TN=41. Sono risultati descrittivi non heldout, senza soglia di promozione. Le directory `horizon-typescript-2026-11-16` e `uniform-http` conservano i precedenti pilot a 91 scenari e non devono essere aggregate al run corrente.
 
-Il run precedente del **12 novembre 2026** aveva completato **546/546 richieste** con zero errori tecnici o contrattuali. Le sei esportazioni erano state rigenerate byte-identiche e le matrici ricontate indipendentemente:
+Il contesto registra commit applicativo, digest delle immagini effettivamente eseguite, hash di gold/runner/esportazioni e cleanup dei container. Il bundle non contiene i testi del corpus, span, score, note libere o body di errore.
 
-[Report precedente](results/uniform-http/report.md) · [JSON precedente](results/uniform-http/results.json) · [Contesto precedente](results/uniform-http/run-context.json) · [Audit precedente](results/uniform-http/audit.md)
-
-Gli artefatti precedenti descrivono lo snapshot funzionale pubblicato in `8dab3a9`; la successiva pulizia di documentazione e commenti conserva quei file. Gli hash dei sorgenti nel relativo contesto si riferiscono alla versione eseguita.
-
-Il campione è **non heldout**: gli input originali erano già stati valutati e Rizzo condivide provenienza con il modello. Varianti policy e famiglie sono correlate; le ripetizioni della prova detection per scenario pesano nelle matrici. La famiglia maggiore è Gretel CSV, con 11 testi; sette testi Rizzo sono thread correlati. Le percentuali descrivono questo campione. `accepted` resta un esito euristico; nessun tuning è stato effettuato sulle predizioni. Performance e memoria richiedono misure separate.
+Il campione è **non heldout**: gli input originali erano già stati valutati e Rizzo condivide provenienza con il modello. Varianti policy e famiglie sono correlate; le ripetizioni della prova detection per scenario pesano nelle matrici. La famiglia maggiore dichiarata è Gretel CSV, con 13 testi; sette testi Rizzo sono thread correlati. I wrapper AliasIT hanno correlazioni ulteriori documentate in REVIEW.md. Le percentuali descrivono questo campione. `accepted` resta un esito euristico; nessun tuning è stato effettuato sulle predizioni. Performance e memoria richiedono misure separate.
 
 Il renderer corrente supporta soltanto lo schema 2 e rifiuta i bundle schema 1.
