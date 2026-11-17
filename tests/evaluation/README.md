@@ -4,6 +4,20 @@
 
 [Contratto HTTP](../contract/README.md) · [Suite automatiche](../README.md) · [Attribuzioni minime](SOURCES.md)
 
+## Risultati pubblicati
+
+Il bundle corrente contiene 142 casi e 426 osservazioni complete. Positivo significa `rejected` atteso.
+
+| Motore | TP | FP | FN | TN | Verdetti corretti | Body esatti |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Horizon | 98 | 6 | 1 | 37 | 135/142 — 95,07% | 122/142 |
+| Rizzo | 97 | 9 | 2 | 34 | 131/142 — 92,25% | 113/142 |
+| Presidio | 79 | 8 | 20 | 35 | 114/142 — 80,28% | 101/142 |
+
+[Report completo](results/category-detection-v3-2026-11-17/report.md) · [Bundle JSON](results/category-detection-v3-2026-11-17/results.json) · [Sintesi di repository](../../REPORT.md)
+
+Le percentuali descrivono questo corpus di sviluppo. Il confronto misura la presenza delle categorie per testo e il body deny-all; non misura span, quantità di entità, policy con allowlist non vuote o rappresentatività produttiva.
+
 ## Validazione e test
 
 Dalla root del repository:

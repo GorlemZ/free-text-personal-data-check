@@ -1,6 +1,6 @@
 # Valutazione del servizio di controllo dei dati personali
 
-Aggiornamento: 17 novembre 2026.
+Aggiornamento: 17 novembre 2026. Risultati funzionali correnti: golden `category-detection-1`, 142 casi e 426 osservazioni complete nel [bundle v3](tests/evaluation/results/category-detection-v3-2026-11-17/results.json).
 
 ## Sintesi
 

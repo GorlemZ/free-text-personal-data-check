@@ -25,8 +25,12 @@ Attendere `GET /health/ready`. Il runtime usa un utente non privilegiato e conti
 - NER italiano `PER`/`ORG`/`LOC`, soglia `0.35`, riconoscitori predefiniti e relativi checksum. Il filtro business valida i risultati nativi prima di escludere gli extra conosciuti; label nuove o output malformati causano errore tecnico.
 - I documenti italiani usano le label native `IT_*`. I documenti esteri generici restano esclusi dalle categorie italiane.
 - `PHONE_NUMBER` richiede un involucro numerico completo compatibile con telefono italiano: mobile `3` e altre nove cifre oppure fisso `0`, cifra non zero e altre 4–9 cifre; prefissi `+39`/`0039` ammessi. Il filtro esclude prefissi esteri e sottostringhe di token più lunghi, senza creare detection mancanti.
-- I gate di validità del motore possono perdere identificativi riconoscibili con checksum errato: il pilot li conta come falsi negativi.
+- I gate di validità del motore possono perdere identificativi riconoscibili con checksum errato: il golden corrente mantiene questi identificativi tra i positivi attesi.
 - L'email validator usa il Public Suffix List incluso nel pacchetto, senza fetch runtime.
+
+## Risultato funzionale corrente
+
+Sul golden `category-detection-1`, Presidio restituisce il verdetto corretto in **114/142 casi (80,28%)** e il body completo esatto in **101/142 casi**. La matrice del verdetto è TP 79, FP 8, FN 20, TN 35. Le metriche per categoria e i limiti del campione sono nel [report di valutazione](../tests/evaluation/results/category-detection-v3-2026-11-17/report.md).
 
 ## Dettagli di protocollo
 

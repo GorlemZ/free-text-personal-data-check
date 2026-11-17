@@ -16,7 +16,7 @@ L'elaborazione avviene localmente. Rizzo e Horizon hanno sorgenti TypeScript com
 
 Il refactor di Rizzo e Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Candidate B ammette di default due richieste attive e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
 
-## Valutazione funzionale aggiornata
+## Valutazione funzionale corrente — 17 novembre 2026
 
 Il golden `category-detection-1` contiene **142 testi autonomi** e le sole categorie attese. Ogni testo viene inviato una volta a ciascun motore con tutte le categorie vietate. Il bundle pubblicato contiene **426 osservazioni complete**, senza errori tecnici o contrattuali; il runner non esegue retry. La migrazione non modifica codice o configurazione dei servizi.
 
@@ -38,7 +38,7 @@ La metrica misura la presenza della categoria nel testo, non il numero di entit�
 
 Il campione è di sviluppo e **non held-out**. Le percentuali descrivono questi 142 testi e non attestano generalizzazione o rappresentatività produttiva. Un verdetto `accepted` non prova l'assenza di dati personali.
 
-Il [report completo](tests/evaluation/results/category-detection-v3-2026-11-17/report.md) e il [bundle JSON](tests/evaluation/results/category-detection-v3-2026-11-17/results.json) contengono matrici, differenze e osservazioni sanificate. Il bundle esclude testi, provenance, span, score, note libere e body di errore. La rigenerazione offline dei sei file è byte-identica. I container usati dal run sono stati rimossi.
+Il [metodo di valutazione](tests/evaluation/README.md), il [report completo](tests/evaluation/results/category-detection-v3-2026-11-17/report.md) e il [bundle JSON](tests/evaluation/results/category-detection-v3-2026-11-17/results.json) contengono matrici, differenze e osservazioni sanificate. Il bundle esclude testi, provenance, span, score, note libere e body di errore. La rigenerazione offline dei sei file è byte-identica. I container usati dal run sono stati rimossi.
 
 ## Memoria e capacità
 

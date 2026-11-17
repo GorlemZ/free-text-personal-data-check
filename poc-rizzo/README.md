@@ -82,13 +82,17 @@ Il caricamento usa gli artefatti locali originali, verificati con il manifest. L
 
 Restano solo regole integrative per CIE e patenti, con formati italiani, confini Unicode e contesto nei 50 caratteri precedenti oppure valore standalone. Le regole email/CF/P.IVA/IBAN/carte/telefoni sono rimosse dal percorso, non tenute come fallback. La dipendenza inutilizzata `ibantools` e la fixture del decoder BIO storico sono rimosse. I test della pipeline standard mantengono casi sintetici di raggruppamento, token speciali, Unicode, soglia, output invalido, errori e budget senza eseguire il decoder ritirato. I test `legacy-config`, `legacy-manifest` e `legacy-prefetch` restano: verificano ancora confini CLI/configurazione correnti, non detection superata.
 
-Il modello può classificare telefoni esteri: `PHONE_NUMBER` non è una label specificamente italiana. Il gold italiano rimane invariato; la rimozione del filtro geografico può aumentare falsi positivi e la rimozione del recupero regole può aumentare omissioni. La matrice descrive responsabilità/mapping, non garantisce qualità né copertura empirica. La policy di allowlist è invariata.
+Il modello può classificare telefoni esteri: `PHONE_NUMBER` non è una label specificamente italiana. Il golden corrente include casi telefonici italiani; la rimozione del filtro geografico può aumentare falsi positivi e la rimozione del recupero regole può aumentare omissioni. La matrice descrive responsabilità/mapping, non garantisce qualità né copertura empirica. La policy di allowlist è invariata.
 
 Il pin `onnxruntime-node@1.30.0`, condiviso con Transformers.js, evita ABI native incompatibili. Una regressione sul lockfile ne verifica l'unicità.
 
 ## Modello e licenza
 
-Sorgente `rizzoaiacademy/rizzo-pii-0.3B`; export community `andrearuffini/local-privacy-runtime-pii-detector`. Revisioni e hash sono nel manifest, licenza dell'export in [MODEL_LICENSE](MODEL_LICENSE). La parità PyTorch/ONNX è dichiarata dall'autore. I testi Rizzo del pilot condividono provenienza con il modello: considerare questa dipendenza nell'interpretazione delle metriche.
+Sorgente `rizzoaiacademy/rizzo-pii-0.3B`; export community `andrearuffini/local-privacy-runtime-pii-detector`. Revisioni e hash sono nel manifest, licenza dell'export in [MODEL_LICENSE](MODEL_LICENSE). La parità PyTorch/ONNX è dichiarata dall'autore.
+
+## Risultato funzionale corrente
+
+Sul golden `category-detection-1`, Rizzo restituisce il verdetto corretto in **131/142 casi (92,25%)** e il body completo esatto in **113/142 casi**. La matrice del verdetto è TP 97, FP 9, FN 2, TN 34. Le metriche per categoria e i limiti del campione sono nel [report di valutazione](../tests/evaluation/results/category-detection-v3-2026-11-17/report.md).
 
 ## Confine HTTP, parsing standard e stato
 
