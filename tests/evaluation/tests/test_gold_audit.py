@@ -40,10 +40,10 @@ def vat_valid(value):
 class GoldAuditTests(unittest.TestCase):
     def setUp(self):
         self.gold = json.loads((ROOT / 'gold.json').read_text())
-        self.cases = self.gold['cases'][:53]  # Original pilot is preserved, not relabelled.
+        self.cases = self.gold['cases'][:53]  # Original texts and positive labels are preserved.
         self.fields = [f for c in self.cases for f in c['fields']]
 
-    def test_independent_inventory_and_unknowns(self):
+    def test_independent_inventory_is_fully_decidable(self):
         self.assertEqual(len(self.cases), 53)
         self.assertEqual(len(self.fields), 54)
         self.assertEqual(len({f['text'] for f in self.fields}), 54)
@@ -51,11 +51,10 @@ class GoldAuditTests(unittest.TestCase):
         self.assertEqual(Counter(x for f in self.fields for x in f['expected']),
             {'PERSON': 28, 'EMAIL_ADDRESS': 12, 'PHONE_NUMBER': 10, 'CREDIT_CARD': 10,
              'IT_FISCAL_CODE': 8, 'IT_VAT_CODE': 2, 'IBAN_CODE': 4, 'IT_IDENTITY_CARD': 2, 'IT_DRIVER_LICENSE': 2})
-        self.assertEqual(Counter(x for f in self.fields for x in f['unknown']),
-                         {'IT_IDENTITY_CARD': 6, 'IT_DRIVER_LICENSE': 7})
+        self.assertTrue(all(not f['unknown'] for c in self.gold['cases'] for f in c['fields']))
         for c in self.cases:
             if c['source'] == 'rizzo' and 'ID_DOC' in c['provenance']['upstreamLabels']:
-                self.assertEqual(c['fields'][0]['unknown'], ['IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE'])
+                self.assertEqual(c['fields'][0]['unknown'], [])
         self.assertEqual(max(len(f['text'].split()) for f in self.fields), 50)
         self.assertEqual(max(len(c['fields']) for c in self.cases), 2)
         self.assertTrue(all(1 <= len(c['fields']) <= 10 for c in self.cases))

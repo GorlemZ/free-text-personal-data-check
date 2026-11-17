@@ -70,19 +70,19 @@ Gold corrente: **`uniform-pilot-3`**, con 60 nuovi testi distinti rispetto ai 91
 | AliasIT v5 `test` | 30 | 30 | 30 | 29 |
 | **Totale** | **151** | **152** | **142** | **85** |
 
-Un confronto completo sul gold corrente prevede **906 POST**, con **98 rifiuti e 53 accettazioni attesi**. Il confronto reale sui tre detector è stato completato con tutte le richieste riuscite. Le 13 coppie detection `unknown` precedenti restano invariate: sei carte d'identità e sette patenti. Telefoni e documenti hanno portata italiana; email, IBAN e carte internazionale. Identificativi riconoscibili con checksum errato restano positivi.
+Un confronto completo sul gold corrente prevede **906 POST**, con **98 rifiuti e 53 accettazioni attesi**. Le 13 coppie detection precedentemente `unknown` sono state classificate manualmente come assenti: il gold corrente contiene zero `unknown`. Il confronto reale 906/906 pubblicato sotto resta riferito al gold precedente alla decisione; i suoi risultati storici non sono stati ricalcolati. Telefoni e documenti hanno portata italiana; email, IBAN e carte internazionale. Identificativi riconoscibili con checksum errato restano positivi.
 
 Le aggiunte sono 30 testi Gretel e 30 AliasIT; `provenance.cohort = external-expansion-1` consente di identificarle anche nelle proiezioni dei nuovi risultati. Testi completi, whitespace e annotazioni upstream sono conservati senza generazione o tagli locali. Dataset, revisioni, indici, trasformazioni già presenti alla fonte e licenze sono documentati in [SOURCES.md](SOURCES.md). La componente Gretel comprende anche formati strutturati/inglesi e record frammentari già all'origine: non è interamente prosa italiana naturale.
 
-La review indipendente del delta ha risolto sei casi inizialmente marcati incerti: forma IVA riconoscibile positiva, forme documentali non italiane negative. **I 60 nuovi casi sono difficili ma decidibili secondo il catalogo; non aggiungono nuove ambiguità intrinseche.** Non si usa `unknown` per mascherare un'annotazione errata. Nei confronti, le coppie effettivamente unknown restano escluse dalle matrici e un eventuale verdetto indeterminato resta escluso dalla policy.
+La review indipendente del delta ha risolto sei casi inizialmente marcati incerti: forma IVA riconoscibile positiva, forme documentali non italiane negative. **I 60 nuovi casi sono difficili ma decidibili secondo il catalogo; non aggiungono nuove ambiguità intrinseche.** Le 13 decisioni manuali successive riguardano i casi precedenti. Il runner esclude dalle matrici solo le coppie effettivamente `unknown` nel gold fornito: nel gold corrente sono zero.
 
 [REVIEW.md](REVIEW.md) distingue la revisione storica dei 91 scenari dalla review delle 540 nuove decisioni campo/categoria; copertura cumulativa: 142 testi, 151 scenari, 1.368 decisioni. Nessuna validazione umana dichiarata e nessuna selezione basata su predizioni. I conteggi di famiglia non attestano indipendenza: dieci wrapper AliasIT sono inoltre marcati con un gruppo di correlazione comune.
 
 ## Risultati e interpretazione
 
-Il run **17 novembre 2026** sul commit applicativo `ce5d395818760f73e1ea17879d22cb158295f110` ha completato **906/906 richieste** sui tre motori, con zero errori tecnici o contrattuali e nessun retry selettivo. Le sei esportazioni sono state rigenerate offline byte-identiche:
+Il run **17 novembre 2026**, eseguito prima della decisione manuale sulle 13 coppie, sul commit applicativo `ce5d395818760f73e1ea17879d22cb158295f110` ha completato **906/906 richieste** sui tre motori, con zero errori tecnici o contrattuali e nessun retry selettivo. Le sei esportazioni sono state rigenerate offline byte-identiche:
 
-[Report corrente](results/main-2026-11-17/report.md) · [JSON](results/main-2026-11-17/results.json) · [Contesto del run](results/main-2026-11-17/run-context.json)
+[Report storico del 17 novembre](results/main-2026-11-17/report.md) · [JSON](results/main-2026-11-17/results.json) · [Contesto del run](results/main-2026-11-17/run-context.json)
 
 Sul verdetto HTTP, Horizon ha ottenuto TP=97, FP=7, FN=1, TN=46; Rizzo TP=94, FP=12, FN=4, TN=41; Presidio TP=78, FP=12, FN=20, TN=41. Sono risultati descrittivi non heldout, senza soglia di promozione. Le directory `horizon-typescript-2026-11-16` e `uniform-http` conservano i precedenti pilot a 91 scenari e non devono essere aggregate al run corrente.
 

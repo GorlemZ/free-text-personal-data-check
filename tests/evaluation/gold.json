@@ -615,10 +615,7 @@
             "IT_FISCAL_CODE",
             "CREDIT_CARD"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -772,10 +769,7 @@
             "IT_FISCAL_CODE",
             "CREDIT_CARD"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -929,10 +923,7 @@
             "IT_FISCAL_CODE",
             "CREDIT_CARD"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -1086,10 +1077,7 @@
             "IT_FISCAL_CODE",
             "CREDIT_CARD"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -1232,10 +1220,7 @@
             "PHONE_NUMBER",
             "IT_FISCAL_CODE"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -1389,10 +1374,7 @@
             "IT_FISCAL_CODE",
             "CREDIT_CARD"
           ],
-          "unknown": [
-            "IT_IDENTITY_CARD",
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]
@@ -1714,9 +1696,7 @@
           "expected": [
             "PERSON"
           ],
-          "unknown": [
-            "IT_DRIVER_LICENSE"
-          ],
+          "unknown": [],
           "allowedCategories": []
         }
       ]

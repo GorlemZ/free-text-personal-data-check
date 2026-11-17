@@ -1,4 +1,5 @@
 """Regression checks for the literal external-corpus expansion, without inference."""
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -10,6 +11,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import runner
 
+HISTORICAL_UNKNOWNS = {
+    **{case_id: ['IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE'] for case_id in (
+        'rizzo-15085', 'rizzo-15127', 'rizzo-15224', 'rizzo-15261',
+        'rizzo-15265', 'rizzo-15285')},
+    'gretel-96': ['IT_DRIVER_LICENSE'],
+}
+
 
 class ExpansionTests(unittest.TestCase):
     def setUp(self):
@@ -17,8 +25,17 @@ class ExpansionTests(unittest.TestCase):
         self.original = self.gold['cases'][:91]
         self.added = self.gold['cases'][91:]
 
-    def test_previous_91_complete_case_objects_are_unchanged(self):
-        digest = hashlib.sha256(json.dumps(self.original, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    def test_previous_91_objects_change_only_manual_unknown_decisions(self):
+        historical = copy.deepcopy(self.original)
+        self.assertEqual(len(HISTORICAL_UNKNOWNS), 7)
+        found = set()
+        for case in historical:
+            if case['id'] in HISTORICAL_UNKNOWNS:
+                self.assertEqual(case['fields'][0]['unknown'], [])
+                case['fields'][0]['unknown'] = HISTORICAL_UNKNOWNS[case['id']]
+                found.add(case['id'])
+        self.assertEqual(found, set(HISTORICAL_UNKNOWNS))
+        digest = hashlib.sha256(json.dumps(historical, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
         self.assertEqual(digest, 'b8c29bdcd3a2c04c07d90acb7399df428d8558c581c9688f21da981779b69426')
 
     def test_at_least_50_new_complete_distinct_reviewed_literals(self):
@@ -54,10 +71,10 @@ class ExpansionTests(unittest.TestCase):
                 for span in provenance['upstreamSpans']:
                     self.assertTrue(0 <= span['start'] < span['end'] <= len(field['text']))
 
-    def test_uncertainty_remains_explicit_before_inference(self):
-        # Review resolved the proposed uncertain additions: do not manufacture unknowns.
+    def test_manual_decisions_leave_no_unknown_pairs(self):
+        # Later manual adjudication resolved the original 13 unknown pairs as absent.
         self.assertEqual(sum(len(f['unknown']) for c in self.added for f in c['fields']), 0)
-        self.assertEqual(sum(len(f['unknown']) for c in self.original for f in c['fields']), 13)
+        self.assertEqual(sum(len(f['unknown']) for c in self.original for f in c['fields']), 0)
         by_id = {c['id']: c for c in self.added}
         self.assertEqual(by_id['gretel-151']['fields'][0]['expected'], ['IT_VAT_CODE'])
         for case_id in ('gretel-180', 'aliasit-83', 'aliasit-90', 'aliasit-142', 'aliasit-3268'):

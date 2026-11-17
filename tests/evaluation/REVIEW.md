@@ -2,13 +2,13 @@
 
 ## Current expansion — uniform-pilot-3
 
-Added **60 distinct complete source literals**: 30 Gretel Italian_test and 30 AliasIT v5. All previous **91 case objects are unchanged**. Current corpus: **151 scenarios, 152 fields, 142 distinct texts**. Historical review below covers the prior 91 cases; independent delta review `deleg_7bdd75b5` read every added literal and all **540** new field/category decisions before inference. Cumulative review coverage is **1,368** field/category decisions. This is agent review, not human approval.
+Added **60 distinct complete source literals**: 30 Gretel Italian_test and 30 AliasIT v5. The expansion preserved the previous **91 case objects**; the later manual adjudication described below changed seven of their `unknown` lists. Current corpus: **151 scenarios, 152 fields, 142 distinct texts**. Historical review below covers the prior 91 cases; independent delta review `deleg_7bdd75b5` read every added literal and all **540** new field/category decisions before inference. Cumulative review coverage is **1,368** field/category decisions. This is agent review, not human approval.
 
 The review requested ten category corrections in six cases, applied exactly:
 - `gretel-151`: recognizable country-prefixed eleven-digit legal-entity VAT identifier becomes positive; no checksum gate.
 - `gretel-180`, `aliasit-83`, `aliasit-90`, `aliasit-142`, `aliasit-3268`: concrete non-Italian document forms are outside the restricted catalog, not intrinsically unknown.
 
-Consequently the additions supply difficult-but-decidable cases, **no newly established intrinsic ambiguity**. The **13 historical unknown category pairs remain unchanged**. Previously selected allowlists are retained as valid policy scenarios; the corrected cases no longer imply an indeterminate verdict. No annotation was selected using detector predictions, and no detector run accompanies this expansion.
+Consequently the additions supply difficult-but-decidable cases, **no newly established intrinsic ambiguity**. The 13 historical unknown category pairs were subsequently adjudicated manually as absent, as recorded below. Previously selected allowlists are retained as valid policy scenarios. No annotation was selected using detector predictions. The published run predates the manual adjudication.
 
 Literal text, whitespace, upstream spans and source row provenance were verified against pinned Parquet rows by the parent; the independent reviewer checked the candidate records and their embedded source rows. Original foreign-language fragments, formatting defects and upstream-truncated records are retained rather than repaired. See [SOURCES.md](SOURCES.md) for attribution, license notices and source limitations. Annotation rationale is stored per case in `review.note`.
 
@@ -21,8 +21,8 @@ All 82 distinct complete literals (54 preserved + 28 imported), all 91 scenarios
 
 ## Decisions and limits
 
-- The first 53 case objects, including their original annotations/provenance/review metadata, are unchanged. Their 54 texts were already measured: this is not heldout data. Original grammatical/anagraphic inconsistencies, XML/CSV formatting, masked Italian phones and known correlated threads are preserved rather than rewritten.
-- Six original generic ID_DOC cases retain both document categories as unknown; gretel-96 retains an unknown Italian licence. Unknown is not negative. A clear foreign licence mention without any value (import index 258) is negative, not an invented Italian identity.
+- The first 53 case objects retain their original texts, positive categories, provenance and review metadata. Seven `unknown` lists changed by manual adjudication: this is not heldout data. Original grammatical/anagraphic inconsistencies, XML/CSV formatting, masked Italian phones and known correlated threads are preserved rather than rewritten.
+- The user classified both document categories as absent in six original generic ID_DOC cases and the Italian licence category as absent in `gretel-96`. A clear foreign licence mention without any value (import index 258) is also negative for the Italian catalogue.
 - Four full-shape checksum failures imported from old negative scenarios (243, 266, 269, 274) are now positive. Independent arithmetic tests confirm CF/VAT/IBAN/Luhn failure without importing a detector.
 - Current scope: Italian phones and Italian document forms; international email/IBAN/cards; recognizable identifiers do not require valid checksum, issuance or assignment. Recognizable CF omocodia is allowed, but no complete omocodia or foreign-phone literal exists in this pinned source to import. No text was invented to fill those gaps. Existing foreign IBAN positives remain.
 - Whole-candidate boundaries and sufficient form matter: truncated phone/IBAN, an internal token containing a CIE-like substring, double-dot mailbox, street eponym, service name and colour adjective are negative. None of those selected confounders has an incidental positive in the nine-category catalog.
@@ -78,22 +78,24 @@ Pinned source: `38360c8d7f776c075457e319bd957502a03c963b`, `comparison/corpus.js
 
 P=PERSON; E=EMAIL_ADDRESS; T=PHONE_NUMBER; F=IT_FISCAL_CODE; V=IT_VAT_CODE; I=IBAN_CODE; C=CREDIT_CARD; D=IT_IDENTITY_CARD; L=IT_DRIVER_LICENSE. — means none. Every unlisted/non-unknown category was read as negative, not inferred merely from incomplete upstream spans. Policy is derived from these positives minus the field allowlist.
 
+The `Unknown` column reflects the current gold after the user's manual absent decisions for 13 pairs. The original audit and the published 17 November result bundle retain their historical annotations and metrics; a new three-engine run against this gold remains to be performed.
+
 | Case | Field | Positive | Unknown | Allowed | Expected policy |
 | --- | --- | --- | --- | --- | --- |
 | `rizzo-2266` | `description` | P E T D L | — | — | rejected |
 | `rizzo-2335` | `description` | P | — | — | rejected |
 | `rizzo-14989` | `description` | P E T C | — | — | rejected |
-| `rizzo-15085` | `description` | P E T F C | D L | — | rejected |
-| `rizzo-15127` | `description` | P E T F C | D L | — | rejected |
-| `rizzo-15224` | `description` | P E T F C | D L | — | rejected |
-| `rizzo-15261` | `description` | P E T F C | D L | — | rejected |
-| `rizzo-15265` | `description` | P T F | D L | — | rejected |
-| `rizzo-15285` | `description` | P E T F C | D L | — | rejected |
+| `rizzo-15085` | `description` | P E T F C | — | — | rejected |
+| `rizzo-15127` | `description` | P E T F C | — | — | rejected |
+| `rizzo-15224` | `description` | P E T F C | — | — | rejected |
+| `rizzo-15261` | `description` | P E T F C | — | — | rejected |
+| `rizzo-15265` | `description` | P T F | — | — | rejected |
+| `rizzo-15285` | `description` | P E T F C | — | — | rejected |
 | `rizzo-26377` | `description` | P | — | — | rejected |
 | `gretel-38` | `description` | P C | — | — | rejected |
 | `gretel-50` | `description` | P | — | — | rejected |
 | `gretel-60` | `description` | — | — | — | accepted |
-| `gretel-96` | `description` | P | L | — | rejected |
+| `gretel-96` | `description` | P | — | — | rejected |
 | `gretel-114` | `description` | — | — | — | accepted |
 | `gretel-128` | `description` | — | — | — | accepted |
 | `gretel-146` | `description` | P E | — | — | rejected |

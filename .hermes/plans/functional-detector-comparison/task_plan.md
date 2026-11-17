@@ -51,5 +51,9 @@ Confrontare, a parità di massimo 2 core e 4.000.000.000 byte RAM per replica: (
 
 Piano operativo: `.hermes/plans/2026-11-16_220013-memory-options-benchmark.md`.
 
+### Phase 7: Decisioni manuali sulle coppie `unknown`
+**Status:** in_progress — annotazioni concluse; nuovo confronto reale ancora da eseguire.
+L'utente ha classificato come assenti le 13 coppie `campo × categoria` prima indeterminate. Il gold esteso conserva 151 scenari e 152 campi, con zero `unknown`; README, registro REVIEW e test di audit riflettono le decisioni. Il bundle del 17 novembre conserva il gold e le metriche storiche precedenti; una nuova raccolta HTTP sui tre motori è necessaria per aggiornare le metriche. La pagina Confluence richiede autorizzazione separata per l'aggiornamento.
+
 ## Perimetro corrente
-Implementazione funzionale e refactoring HTTP completati e integrati in `main` tramite PR #5, merge commit `5d670dbe02e466c44692d9517f72da0b5d6fd71b`. I report del 12 e 16 novembre restano artefatti storici; il run funzionale corrente è il confronto totale a tre motori del 17 novembre in `tests/evaluation/results/main-2026-11-17/`. La Phase 4 su capacità, memoria, concorrenza e coda resta in corso sotto il budget produttivo dichiarato.
+Implementazione funzionale e refactoring HTTP completati e integrati in `main` tramite PR #5, merge commit `5d670dbe02e466c44692d9517f72da0b5d6fd71b`. I report del 12 e 16 novembre e il confronto totale a tre motori del 17 novembre in `tests/evaluation/results/main-2026-11-17/` sono artefatti storici. Il gold corrente ha zero `unknown` e attende un nuovo run per aggiornare le metriche. La Phase 4 su capacità, memoria, concorrenza e coda resta in corso sotto il budget produttivo dichiarato.

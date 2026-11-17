@@ -27,17 +27,17 @@ class PreflightTests(unittest.TestCase):
         runner.validate_cases(projected, with_text=False)
         self.assertEqual(projected[0]['provenance'], {'row': 3, 'split': 'test', 'revision': 'pinned-source'})
 
-    def test_single_static_gold_preserves_original_and_counts_selected_imports(self):
+    def test_single_static_gold_preserves_adjudicated_original_and_counts_selected_imports(self):
         gold = json.loads((ROOT / 'gold.json').read_text())
         runner.validate_gold(gold)
         original = gold['cases'][:53]
         self.assertEqual(hashlib.sha256(json.dumps(original, sort_keys=True, ensure_ascii=False).encode()).hexdigest(),
-                         '9aaaa5aa577571da9a13134b6eff7d4c32f191ff5bf64d497c9b5e2c9b74474f')
+                         'defa8d69faa59918e0bda23628bb8ee70cd0a461bc126fee460f26578e3a9d58')
         self.assertEqual(len({f['text'] for c in original for f in c['fields']}), 54)
         counts = runner.gold_counts(gold)
         self.assertEqual((counts['cases'], counts['fields'], counts['distinctTexts']), (151, 152, 142))
         self.assertEqual(counts['plannedHttpRequests'], 906)
-        self.assertEqual(counts['unknownPairs'], 13)
+        self.assertEqual(counts['unknownPairs'], 0)
         self.assertEqual(counts['sources']['legacy']['cases'], 38)
         self.assertEqual(counts['sources']['legacy']['distinctTexts'], 28)
         self.assertEqual({s: counts['sources'][s]['cases'] for s in runner.SOURCES},

@@ -29,7 +29,7 @@ Rizzo e Horizon eseguono l'intera detection nel processo Node.js e non contengon
 
 ## Metodo della valutazione funzionale
 
-Il golden `uniform-pilot-3` contiene:
+Il golden `uniform-pilot-3` valutato nel run del 17 novembre conteneva:
 
 | Voce | Totale |
 | --- | ---: |
@@ -37,7 +37,7 @@ Il golden `uniform-pilot-3` contiene:
 | Campi | 152 |
 | Testi distinti | 142 |
 | Famiglie dichiarate | 85 |
-| Coppie categoria ambigue | 13 |
+| Coppie categoria ambigue nel run | 13 |
 | Rifiuti attesi | 98 |
 | Accettazioni attese | 53 |
 
@@ -47,6 +47,8 @@ Per ogni scenario e motore il runner invia due richieste HTTP:
 - una richiesta di **policy**, con le allowlist annotate, per osservare il verdetto HTTP effettivo.
 
 Il run del 17 novembre ha completato **906 richieste su 906**, senza errori tecnici o contrattuali e senza retry selettivi. Le matrici usano soltanto richieste riuscite su tutti e tre i motori. Le 13 coppie ambigue sono escluse dalla detection e non vengono trasformate in veri negativi.
+
+Il gold è stato poi aggiornato con la classificazione manuale delle 13 coppie come assenti: ora contiene zero `unknown`. I risultati numerici di questo report restano quelli del run precedente; il confronto sul gold aggiornato richiede una nuova esecuzione.
 
 Il campione è di sviluppo e non è held-out. Contiene testi e scenari correlati; le percentuali descrivono il corpus valutato e non dimostrano generalizzazione su traffico produttivo.
 
@@ -138,7 +140,7 @@ Artefatti principali:
 
 ## Attività ancora necessarie
 
-La valutazione funzionale a tre motori è completa sul golden corrente. La caratterizzazione produttiva richiede ancora:
+La valutazione funzionale a tre motori è completa sul golden usato nel run del 17 novembre. La caratterizzazione produttiva richiede ancora:
 
 - curve open-loop omogenee al 50%, 75%, 100%, 125%, 150% e 200% della capacità stimata;
 - run prolungati e cold start ripetuti;
