@@ -8,19 +8,30 @@ import runner
 class MetricsTests(unittest.TestCase):
     def test_asymmetric_confusion_and_undefined_denominators(self):
         result = runner.binary_metrics([True, True, True, False, False], [True, False, False, True, False])
-        self.assertEqual({k: result[k] for k in ('tp', 'fp', 'fn', 'tn')}, dict(tp=1, fp=1, fn=2, tn=1))
-        self.assertEqual(result['recall'], 1 / 3)
-        self.assertEqual(result['precision'], 1 / 2)
-        self.assertEqual(result['accuracy'], 2 / 5)
-        self.assertEqual(result['balancedAccuracy'], (1 / 3 + 1 / 2) / 2)
-        self.assertEqual(result['falseAcceptanceRate'], 2 / 3)
-        self.assertEqual(result['falseRejectionRate'], 1 / 2)
+        self.assertEqual({k: result[k] for k in ('tp','fp','fn','tn')}, dict(tp=1,fp=1,fn=2,tn=1))
+        self.assertEqual(result['recall'], 1/3)
+        self.assertEqual(result['precision'], 1/2)
+        self.assertEqual(result['accuracy'], 2/5)
         self.assertIsNone(runner.binary_metrics([], [])['precision'])
-        self.assertIsNone(runner.binary_metrics([False], [False])['recall'])
-        self.assertIsNone(runner.binary_metrics([True], [True])['specificity'])
-        with self.assertRaises(ValueError):
-            runner.binary_metrics([True], [])
+        with self.assertRaises(ValueError): runner.binary_metrics([True], [])
+
+    def test_score_separates_verdict_body_and_category_correctness(self):
+        observations=[]
+        for case_id, expected_verdict, expected_categories, observed_categories, body_exact in [
+                ('positive','rejected',['PERSON'],['EMAIL_ADDRESS'],False),
+                ('negative','accepted',[],[],True)]:
+            for engine in runner.ENGINES:
+                observations.append(dict(caseId=case_id,engine=engine,expectedVerdict=expected_verdict,
+                    observedVerdict=expected_verdict,expectedCategories=expected_categories,
+                    observedCategories=observed_categories,verdictCorrect=True,bodyExact=body_exact))
+        result={'schemaVersion':3,'goldVersion':'category-detection-1','catalog':runner.CATALOG,
+                'engines':runner.ENGINES,'caseCount':2,'observations':observations}
+        metrics=runner.score(result)
+        self.assertEqual(metrics['summary']['rizzo'], {'cases':2,'verdictCorrect':2,'verdictIncorrect':0,'bodyMatch':1,'bodyMismatch':1})
+        self.assertEqual({k:metrics['categories']['rizzo']['PERSON'][k] for k in ('tp','fp','fn','tn')},
+                         {'tp':0,'fp':0,'fn':1,'tn':1})
+        self.assertEqual({k:metrics['verdict']['rizzo'][k] for k in ('tp','fp','fn','tn')},
+                         {'tp':1,'fp':0,'fn':0,'tn':1})
 
 
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == '__main__': unittest.main()

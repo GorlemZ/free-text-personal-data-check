@@ -53,4 +53,4 @@ Gli smoke dei README [Rizzo](../poc-rizzo/README.md) e [Horizon](../poc-horizon/
 
 Il [mini stress test delle risorse](resources/README.md) è un esperimento Docker opt-in, sequenziale e limitato nel tempo. Richiede immagini già costruite con provenienza verificata e una nuova directory risultati; supporta anche un gold esterno. La suite `resources` esegue soltanto test unitari e server HTTP finti, mai inferenza o container reali.
 
-Il [pilot comparativo](evaluation/README.md) invia due POST per caso e motore: detection deny-all e policy prevista. Le misure di qualità provengono da questa esecuzione con i detector reali, separata dai test del collector con server finti.
+Il [confronto golden](evaluation/README.md) invia una sola POST deny-all per caso e motore. Le misure pubblicate provengono dalle 426 osservazioni del bundle corrente; i test del runner usano server HTTP finti e non eseguono le suite locali dei PoC.
