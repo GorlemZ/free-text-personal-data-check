@@ -91,6 +91,7 @@ Sono massimi campionati dell'intero container in prove brevi e non omogenee e no
 
 ## Guide e utilizzo
 
+- [Report di valutazione per stakeholder tecnici e funzionali](REPORT.md).
 - PoC: [Rizzo](poc-rizzo/README.md), [Horizon](poc-horizon/README.md), [Presidio](poc-presidio/README.md).
 - [Installazione e test](tests/README.md).
 - [Interfaccia comune](tests/contract/README.md).
