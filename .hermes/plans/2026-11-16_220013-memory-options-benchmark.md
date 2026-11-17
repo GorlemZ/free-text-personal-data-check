@@ -87,6 +87,8 @@ Purpose: isolate inference state and event loops while using the same nominal tw
 
 If production permits only one process per container, run Candidate C as two containers behind the same load balancer and account memory at pod or replica-set scope.
 
+Status 2026-11-16: Rizzo excluded after an OOM kill while loading the second session under the shared 4,000,000,000-byte cap. Horizon passed process parity, routing and worker-failure gates; its preliminary screening reached 6.78 req/s at p90 469.6 ms. Cold-load `memory.current` reached 3,993,735,168 bytes, so Horizon is not promoted without repeated cold starts and open-loop curves.
+
 ## 4. Queue policy under test
 
 Extend admission from the current immediate-reject policy to explicit parameters:

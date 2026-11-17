@@ -73,6 +73,8 @@ Il [report Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/r
 
 Candidate B usa una sessione ONNX condivisa con intra-op/inter-op 1/1 e due richieste attive. Il gate di isolamento reale è passato su entrambi i motori, ma lo screening preliminare a due client ha superato il target p90: Horizon 5,12 req/s e p90 752,6 ms; Rizzo 5,02 req/s e p90 789,7 ms. Il [report Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) conserva risultati e caveat; le curve open-loop restano necessarie prima di una decisione finale.
 
+Candidate C usa due processi/sessioni con intra-op/inter-op 1/1, una richiesta attiva e due pending per worker nello stesso cgroup 2 CPU/4 GB. Rizzo è esclusa perché il secondo modello ha causato un OOM kill durante il caricamento. Horizon ha completato lo screening con 6,78 req/s e p90 469,6 ms, ma il cold start ha raggiunto 3.993.735.168 byte: il margine è troppo ridotto per promuoverla senza prove open-loop e cold-start ripetuti. Dettagli nel [report Candidate C](tests/resources/results/phase-c-candidate-c-2026-11-16/report.md).
+
 ### Misure storiche
 
 Le misure seguenti precedono le nuove versioni e **non ne certificano il consumo**. Rizzo e Horizon avevano completato una prova con 4 GB disponibili e 30 richieste ciascuno; Presidio era stato misurato con un carico diverso.
