@@ -11,23 +11,22 @@ uv sync --project poc-presidio --frozen --extra dev
 python3 tests/run.py
 ```
 
-La preparazione installa il modello spaCy previsto dal lockfile. Le suite Rizzo e Horizon non richiedono pesi ONNX; la suite Presidio include uno smoke del motore reale locale. Le fixture condivise sostituiscono l'output nativo prima dell'adapter e usano veri server HTTP.
+La preparazione installa il modello spaCy previsto dal lockfile. La suite Horizon non richiede pesi ONNX; la suite Presidio include uno smoke del motore reale locale. Le fixture condivise sostituiscono l'output nativo prima dell'adapter e usano veri server HTTP.
 
 `tests/run.py` esegue tutte le suite oppure quelle indicate, per esempio:
 
 ```sh
-python3 tests/run.py rizzo contract
+python3 tests/run.py horizon contract
 ```
 
 | Suite        | Percorso            | Che cosa verifica                                                                                  |
 | ------------ | ------------------- | -------------------------------------------------------------------------------------------------- |
-| `layout`     | `test_layout.py`    | Quattro cartelle operative e suite centralizzate                                                   |
-| `rizzo`      | `rizzo/`            | API, pipeline standard con inferenza sintetica, mapping, regole e dipendenze native                |
+| `layout`     | `test_layout.py`    | Cartelle operative e suite centralizzate                                                           |
 | `horizon`    | `horizon/`          | Build, pipeline, adapter e riconoscitori                                                           |
 | `presidio`   | `presidio/`         | API, adapter, routing reale e smoke locale                                                         |
 | `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering                                      |
 | `resources`  | `resources/tests/`  | Contabilità risorse, lifecycle Docker iniettato e HTTP loopback finto; nessun benchmark automatico |
-| `contract`   | `contract/`         | Stesse fixture HTTP contro i tre handler, con inferenza sostituita                                 |
+| `contract`   | `contract/`         | Stesse fixture HTTP contro i due handler, con inferenza sostituita                                 |
 
 Controlli statici aggiuntivi, dopo l'installazione:
 
@@ -38,18 +37,16 @@ uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pypro
 
 ## Suite Node senza pesi
 
-Per lavorare soltanto su Rizzo e Horizon, senza invocare il runner Python:
+Per lavorare soltanto su Horizon, senza invocare il runner Python:
 
 ```sh
 pnpm test
 pnpm check
 ```
 
-Le regressioni Rizzo esercitano la pipeline Transformers.js installata con tensori sintetici e i controlli sulle entità pubbliche. Non certificano caricamento degli artefatti reali, equivalenza con il decoder precedente o rispetto del limite di memoria; questi richiedono prove separate con il modello reale.
-
 ## Inferenza e confronto reali
 
-Gli smoke dei README [Rizzo](../poc-rizzo/README.md) e [Horizon](../poc-horizon/README.md) richiedono il prefetch dei modelli. Le [fixture del contratto](contract/README.md#verifiche-ripetibili) possono essere applicate anche ai container già avviati tramite `--base`.
+Lo smoke del README [Horizon](../poc-horizon/README.md) richiede il prefetch del modello. Le [fixture del contratto](contract/README.md#verifiche-ripetibili) possono essere applicate anche ai container già avviati tramite `--base`.
 
 Il [mini stress test delle risorse](resources/README.md) è un esperimento Docker opt-in, sequenziale e limitato nel tempo. Richiede immagini già costruite con provenienza verificata e una nuova directory risultati; supporta anche un gold esterno. La suite `resources` esegue soltanto test unitari e server HTTP finti, mai inferenza o container reali.
 

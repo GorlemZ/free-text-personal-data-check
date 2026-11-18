@@ -10,5 +10,5 @@
     "lib": ["ES2024"],
     "types": ["node"]
   },
-  "include": ["poc-horizon/src/**/*.ts", "poc-rizzo/src/**/*.ts"]
+  "include": ["poc-horizon/src/**/*.ts"]
 }

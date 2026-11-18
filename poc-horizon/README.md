@@ -39,7 +39,7 @@ docker run --rm --network none free-text-check:horizon-uniform node dist/scripts
 
 ## Detection e adapter
 
-Come [Rizzo](../poc-rizzo/README.md#pipeline-nlp-comune), Horizon usa `TokenClassificationPipeline` standard di Transformers.js, senza decoder applicativo. Le entità ricevute vengono validate e mappate nel servizio: non è un controllo dei logits dei token filtrati dalla libreria. Modelli, soglie e regole restano distinti; l'API comune non implica detection equivalente.
+Horizon usa `TokenClassificationPipeline` standard di Transformers.js, senza decoder applicativo. Le entità ricevute vengono validate e mappate nel servizio: non è un controllo dei logits dei token filtrati dalla libreria. Modelli, soglie e regole restano distinti; l'API comune non implica detection equivalente.
 
 Soglia sperimentale inclusiva `0.35`, aggregazione `simple`. La matrice statica `CATEGORY_SOURCES` decide la fonte **per categoria**, non per singola predizione: assenza o score basso del modello non attiva regole di recupero.
 
@@ -72,7 +72,7 @@ Gli helper storici di sola forma CF, carte e telefoni e l'alias `italian-phone` 
 
 Sul golden `category-detection-1`, Horizon restituisce il verdetto corretto in **135/142 casi (95,07%)** e il body completo esatto in **122/142 casi**. La matrice del verdetto è TP 98, FP 6, FN 1, TN 37. Le metriche per categoria e i limiti del campione sono nel [report di valutazione](../tests/evaluation/results/category-detection-v3-2026-11-17/report.md).
 
-`tests/horizon/detection-purity.test.mjs` visita tutti gli import transitivi delle entry point detection di entrambi i motori (inclusi collaboratori Rizzo iniettati e import di tipi), senza filtro sui file modificati. Verifica tramite AST assenza di `let`/`var`, riassegnazioni, incrementi e metodi mutanti noti, con controlli positivi del gate e inventario emesso. Non è una prova formale di purezza: adapter SDK, startup, HTTP/ammissione e budget restano confini esclusi esplicitamente; nessun file raggiunto dal nucleo è escluso.
+`tests/horizon/detection-purity.test.mjs` visita tutti gli import transitivi dell'entry point di detection di Horizon, inclusi gli import di tipi, senza filtro sui file modificati. Verifica tramite AST assenza di `let`/`var`, riassegnazioni, incrementi e metodi mutanti noti, con controlli positivi del gate e inventario emesso. Non è una prova formale di purezza: adapter SDK, startup, HTTP/ammissione e budget restano confini esclusi esplicitamente; nessun file raggiunto dal nucleo è escluso.
 
 ## Modello e attribuzioni
 

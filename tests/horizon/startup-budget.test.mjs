@@ -1,6 +1,6 @@
 import test from "node:test";
 import { budgetHttpTests } from "../contract/budget-runtime.mjs";
-budgetHttpTests("horizon");
+budgetHttpTests();
 import assert from "node:assert/strict";
 import { transformersAdapterBuilder } from "../../poc-horizon/dist/adapters/transformersAdapter.js";
 import { analysisServiceBuilder } from "../../poc-horizon/dist/services/analysisService.js";
