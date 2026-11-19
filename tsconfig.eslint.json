@@ -10,5 +10,5 @@
     "lib": ["ES2024"],
     "types": ["node"]
   },
-  "include": ["poc-horizon/src/**/*.ts", "poc-bardsai/src/**/*.ts"]
+  "include": ["poc-bardsai/src/**/*.ts"]
 }

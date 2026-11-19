@@ -1,131 +1,89 @@
-# Valutazione del servizio di controllo dei dati personali
-
-Aggiornamento: 17 novembre 2026. Risultati funzionali correnti: golden `category-detection-1`, 142 casi e 426 osservazioni complete nel [bundle v3](tests/evaluation/results/category-detection-v3-2026-11-17/results.json).
+# Rapporto tecnico — BardsAI v2
 
 ## Sintesi
 
-Il repository mantiene due implementazioni attive dello stesso servizio HTTP:
+Il repository contiene un solo detector: BardsAI v2. Il servizio conserva il contratto HTTP di validazione, readiness, lifecycle, admission control e risposta minimizzata, mentre l'inferenza usa il modello multilingue BardsAI in formato ONNX q8 su CPU.
 
-- **Horizon**, basato su un modello ONNX q8 eseguito in Node.js e regole per le categorie non coperte dal modello;
-- **Presidio**, usato come termine di confronto e basato sulla libreria Python con modello italiano.
+Modello e runtime:
 
-I due motori attivi ricevono gli stessi campi, applicano la stessa policy sulle categorie consentite e restituiscono lo stesso formato di risposta per le richieste valide. Il contratto documenta differenze di parsing sugli input malformati, in particolare UTF-8 non valido e chiavi JSON duplicate. Nel confronto funzionale sul golden `category-detection-1`, Horizon ha ottenuto l'accuratezza più alta sul verdetto business: **95,07%**, contro **80,28%** di Presidio.
+- modello `bardsai/eu-pii-anonimization-multilang-v2`;
+- revisione `07a9a69b0d75c551f5f9450b290f864bfc7dfb51`;
+- Transformers.js 4.3.2;
+- `dtype: "q8"`, `device: "cpu"`;
+- configurazione pubblicata `intraOpNumThreads: 1`, `interOpNumThreads: 1`;
+- asset locali verificati tramite SHA-256 e caricamento offline.
 
-Le tabelle seguenti conservano i risultati Rizzo prodotti prima della rimozione del PoC esclusivamente come evidenza storica. Rizzo è escluso dalle proposte e dalle valutazioni future.
+## Decoder e policy
 
-La parte prestazionale è ancora preliminare. Gli screening A, B e C misurano configurazioni diverse con carichi closed-loop brevi. Non sostituiscono le curve open-loop, i cold start ripetuti e i run prolungati necessari per stimare la capacità produttiva.
+Il port TypeScript del decoder ufficiale applica finestre da 512 token, corpo utile 510, overlap 128, softmax, pooling B/I, aggregazione subtoken/parola e merge tra finestre. Output vuoti o malformati, logits non finiti e cataloghi incompatibili falliscono chiusi.
 
-## Flusso del servizio
+Il mapping del modello è conservativo:
 
-Una richiesta contiene fino a 10 campi e fino a 50 parole per campo. Ogni campo dichiara le categorie consentite. Il servizio:
+- `PERSON_NAME` → `PERSON`;
+- `EMAIL_ADDRESS` → `EMAIL_ADDRESS`;
+- `PHONE_NUMBER` → `PHONE_NUMBER`;
+- `PAYMENT_CARD` → `CREDIT_CARD`.
 
-1. valida richiesta, identificativi dei campi e categorie;
-2. esegue la detection sul testo;
-3. confronta le categorie rilevate con quelle consentite per il campo;
-4. restituisce `accepted` se non trova categorie vietate, altrimenti `rejected` con le sole coppie `fieldId`/categoria.
+Le categorie italiane strutturate sono gestite da riconoscitori separati. La risposta pubblica contiene soltanto verdetto, `fieldId` e categoria; testo, offset, score e label native restano esclusi.
 
-Il contratto comprende nove categorie: persona, email, telefono, codice fiscale, partita IVA, IBAN, carta di pagamento, carta d'identità italiana e patente italiana. La risposta non include testo estratto, span, score o dettagli del modello. Errori di input e indisponibilità tecnica restano separati dal verdetto di business.
+## Valutazione funzionale
 
-Horizon esegue l'intera detection nel processo Node.js e non contiene Python nell'immagine. Usa il package HTTP condiviso, il parser JSON con limite di 1 MiB, la validazione Zod e una coda FIFO bounded. Presidio mantiene il proprio runtime Python ed è sottoposto allo stesso contratto esterno.
+Golden `category-detection-1`, 142 casi, eseguito con policy deny-all:
 
-## Metodo della valutazione funzionale
+| Misura            |        Risultato |
+| ----------------- | ---------------: |
+| Verdetti corretti | 132/142 — 92,96% |
+| Body esatti       | 125/142 — 88,03% |
+| TP                |               96 |
+| FP                |                7 |
+| FN                |                3 |
+| TN                |               36 |
+| Recall            |           96,97% |
+| Precisione        |           93,20% |
 
-Il golden `category-detection-1` contiene 142 casi autonomi nella forma `{id, text, expected}`. Provenance, policy annotate, span, offset, note di review e configurazioni di limite/memoria sono esclusi dal corpus.
+Metriche per categoria:
 
-Per ogni caso il runner storico ha inviato una sola richiesta HTTP ai motori allora presenti con `allowedCategories: []`. Il confronto misura:
+| Categoria         | Recall | Precisione |
+| ----------------- | -----: | ---------: |
+| PERSON            | 95,08% |     98,31% |
+| EMAIL_ADDRESS     |   100% |       100% |
+| PHONE_NUMBER      |   100% |     72,73% |
+| IT_FISCAL_CODE    |   100% |       100% |
+| IT_VAT_CODE       |   100% |     85,71% |
+| IBAN_CODE         |   100% |     88,89% |
+| CREDIT_CARD       |   100% |     82,35% |
+| IT_IDENTITY_CARD  |    75% |       100% |
+| IT_DRIVER_LICENSE |    80% |       100% |
 
-1. verdetto business `accepted`/`rejected` restituito via HTTP;
-2. uguaglianza del body completo `{verdict, findings}`;
-3. presenza di ciascuna delle nove categorie.
+Il [bundle pubblicato](tests/evaluation/results/bardsai-v2-category-detection-2026-11-18/) conserva categorie e contatori senza testi, span o score.
 
-Il bundle contiene **426 osservazioni complete su 426 previste**, senza errori tecnici o contrattuali. Il runner non esegue retry. La migrazione non modifica codice, configurazioni o test propri dei servizi. Errori HTTP, trasporto o schema interrompono la raccolta e non vengono conteggiati come errori di classificazione.
+## Memoria e performance
 
-Il golden contiene 99 casi da rifiutare e 43 da accettare. Il campione è di sviluppo e non è held-out; le percentuali descrivono questo corpus e non dimostrano generalizzazione.
+Protocollo locale di screening: Docker Desktop ARM64, limite 2 CPU, limite memoria 4.000.000.000 byte, workload fisso di 12 casi, stage da 15 secondi e campionamento ogni 500 ms.
 
-## Correttezza del verdetto e del body
+### ONNX 1/1
 
-Positivo significa "rifiuto atteso". Un falso negativo è un testo accettato per errore; un falso positivo è un testo rifiutato per errore.
+Il throughput closed-loop raggiunge un plateau vicino a 8,7 risposte/s. Il massimo campionato di `memory.current` è circa 1.027 MiB e l'RSS del processo circa 1.085 MiB.
 
-| Motore   |  TP |  FP |  FN |  TN | Accuratezza | Body esatti |
-| -------- | --: | --: | --: | --: | ----------: | ----------: |
-| Horizon  |  98 |   6 |   1 |  37 |  **95,07%** | **122/142** |
-| Rizzo    |  97 |   9 |   2 |  34 |  **92,25%** | **113/142** |
-| Presidio |  79 |   8 |  20 |  35 |  **80,28%** | **101/142** |
+### ONNX 2/1
 
-Horizon accetta per errore 1 caso sui 99 da rifiutare; Rizzo 2 e Presidio 20. Sui 43 casi da accettare, Horizon ne rifiuta 6, Rizzo 9 e Presidio 8. Il body esatto è un criterio più forte del verdetto: richiede le categorie corrette e nessun finding aggiuntivo.
+Il throughput closed-loop osservato è 13,47/14,93/15,13/15,07 risposte/s con 1/2/4/8 client. L'uso CPU medio sale da circa 0,97 a 1,92 core; `memory.current` resta circa 997 MiB e l'RSS circa 1.057 MiB. Lo stage open-loop più alto raggiunge il limite client e resta inconclusivo come misura isolata del servizio.
 
-## Detection per categoria
+Il confronto mostra che il parallelismo intra-op incide materialmente sul throughput locale. La configurazione pubblicata resta 1/1 in assenza di soglie produttive e misure su un ambiente rappresentativo.
 
-La sensibilità misura quanti positivi attesi vengono trovati. La precisione misura quante segnalazioni appartengono alla categoria attesa. L'unità è la presenza della categoria nel testo, non il numero di entità o lo span.
+## Limiti
 
-| Categoria                 | Positivi | Rizzo sens. | Rizzo prec. | Horizon sens. | Horizon prec. | Presidio sens. | Presidio prec. |
-| ------------------------- | -------: | ----------: | ----------: | ------------: | ------------: | -------------: | -------------: |
-| Persona                   |       61 |      96,72% |        100% |        96,72% |          100% |         77,05% |         79,66% |
-| Email                     |       22 |        100% |        100% |          100% |        95,65% |           100% |           100% |
-| Telefono                  |       16 |         75% |         75% |          100% |        76,19% |         81,25% |         86,67% |
-| Codice fiscale            |       14 |        100% |      82,35% |          100% |          100% |           100% |           100% |
-| Partita IVA               |        6 |      83,33% |      55,56% |          100% |        85,71% |            50% |            75% |
-| IBAN                      |        8 |        100% |      33,33% |          100% |        88,89% |         62,50% |           100% |
-| Carta di credito          |       14 |        100% |      77,78% |          100% |        63,64% |         64,29% |           100% |
-| Carta d'identità italiana |        4 |         75% |        100% |           75% |          100% |           100% |           100% |
-| Patente italiana          |        5 |         80% |        100% |           80% |          100% |            60% |           100% |
+- Il golden copre 142 casi e non rappresenta tutti i testi reali.
+- Gli screening risorse sono brevi e locali.
+- Docker Desktop non espone `memory.peak`; i picchi riportati sono massimi campionati.
+- Mancano soglie produttive ufficiali di memoria, latenza e throughput.
+- `accepted` è un esito euristico, non una prova di assenza di dati personali.
 
-I risultati evidenziano compromessi diversi. Horizon trova tutti i positivi per telefono, partita IVA, IBAN e carta di credito, con falsi positivi soprattutto su telefono e carte. Rizzo trova tutti gli IBAN ma aggiunge 16 falsi positivi nella categoria. Presidio mantiene precisione piena su diverse categorie strutturate, con minore sensibilità su persona, partita IVA, IBAN, carte e patente.
+## Verifiche tecniche
 
-Il corpus conserva positivi, negativi, near-miss, checksum errati riconoscibili, overlap e formati insoliti. Non misura policy con allowlist non vuote, error handling, limiti, memoria o prestazioni. Un esito `accepted` resta euristico e non prova l'assenza di dati personali.
-
-## Configurazioni tecniche valutate
-
-Gli screening usano una replica limitata a 2 CPU e `4_000_000_000` byte di RAM. La quota CPU limita il tempo disponibile e non equivale al pinning di due core fisici.
-
-| Configurazione | Motore  | Struttura                               | Risultato breve            |                 Memoria osservata |
-| -------------- | ------- | --------------------------------------- | -------------------------- | --------------------------------: |
-| Candidate A    | Horizon | 1 processo, ORT 2/1, 1 richiesta attiva | 8,65 req/s; p90 267,3 ms   |         2.304.770.048 B post-load |
-| Candidate A    | Rizzo   | 1 processo, ORT 2/1, 1 richiesta attiva | 6,84 req/s; p90 313,2 ms   |         2.307.670.016 B post-load |
-| Candidate B    | Horizon | 1 processo, ORT 1/1, 2 richieste attive | 5,12 req/s; p90 752,6 ms   | 2.363.596.800 B, massimo campione |
-| Candidate B    | Rizzo   | 1 processo, ORT 1/1, 2 richieste attive | 5,02 req/s; p90 789,7 ms   | 2.962.227.200 B, massimo campione |
-| Candidate C    | Horizon | 2 processi, ORT 1/1 per processo        | 6,78 req/s; p90 469,6 ms   |      3.993.735.168 B al cold load |
-| Candidate C    | Rizzo   | 2 processi, ORT 1/1 per processo        | caricamento non completato |                    OOM del cgroup |
-
-Candidate A è lo screening seriale con il miglior throughput osservato per entrambi i motori. Candidate B supera il target p90 di 500 ms. Candidate C raggiunge quel target per Horizon nel singolo run, ma durante il cold start rimane a circa 6,3 MB dal limite; Rizzo non riesce a caricare due modelli nel cap.
-
-I carichi non sono omogenei: Candidate A usa un client seriale, mentre B e C usano due client closed-loop. Le differenze di throughput e latenza sono diagnostiche. Non costituiscono una graduatoria di capacità sostenibile.
-
-## Coda, concorrenza e comportamento in errore
-
-La configurazione attuale ammette due richieste attive e quattro pending per processo, con attesa massima di 500 ms. La coda è FIFO e bounded. Una richiesta in eccesso o scaduta riceve `503 detector_unavailable`; il servizio rimuove dalla coda il lavoro scaduto e non avvia la relativa inferenza.
-
-Il gate di Candidate B ha confrontato 40 risposte concorrenti con quattro baseline seriali per ciascun motore. Tutte le risposte sono rimaste equivalenti e una richiesta valida ha conservato il proprio risultato mentre una richiesta parallela falliva per overflow del budget token.
-
-Il timeout di coda resta best-effort quando l'event loop Node è occupato da inferenza CPU-bound. Manca inoltre la cancellazione dell'inferenza già avviata e la rimozione immediata dei pending quando il client si disconnette.
-
-## Confini di sicurezza e privacy
-
-I PoC non implementano autenticazione o autorizzazione. Devono restare su loopback o dietro una rete protetta e un controllo di accesso esplicito. Le `allowedCategories` devono provenire da una configurazione fidata: accettare dal chiamante categorie arbitrarie può indebolire la policy.
-
-Il campo `fieldId` deve essere un identificativo tecnico e non deve contenere dati personali. Log, metriche e tracing devono escludere i testi analizzati e i dettagli che potrebbero ricostruirli. Un verdetto `accepted` significa soltanto che il motore non ha rilevato categorie vietate nel campione ricevuto; non prova che il testo sia privo di dati personali.
-
-## Evidenze e riproducibilità
-
-La raccolta usa i tre endpoint containerizzati già disponibili, senza modifiche né esecuzione delle suite locali dei servizi. Le prove della suite golden sono passate. Il bundle contiene 426/426 osservazioni e il renderer offline riproduce byte per byte le sei esportazioni.
-
-Il bundle pubblicato esclude testi, provenance, span, score, note libere e body di errore. Il test del bundle riconta osservazioni e matrici, verifica gli invarianti per motore/categoria e impedisce la pubblicazione di testi del golden.
-
-Artefatti principali:
-
-- [metodo e comandi](tests/evaluation/README.md);
-- [report funzionale completo](tests/evaluation/results/category-detection-v3-2026-11-17/report.md);
-- [risultati machine-readable](tests/evaluation/results/category-detection-v3-2026-11-17/results.json);
-- [Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md), [Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) e [Candidate C](tests/resources/results/phase-c-candidate-c-2026-11-16/report.md).
-
-## Attività ancora necessarie
-
-La valutazione funzionale a tre motori è completa sul golden `category-detection-1`. La caratterizzazione produttiva richiede ancora:
-
-- curve open-loop omogenee al 50%, 75%, 100%, 125%, 150% e 200% della capacità stimata;
-- run prolungati e cold start ripetuti;
-- serie temporali di memoria, profondità della coda, CPU throttling ed event-loop lag;
-- prove di recovery dopo burst, timeout, crash e OOM;
-- una scelta verificata del routing quando una replica usa più processi.
-
-Finché queste misure non saranno disponibili, i dati A/B/C restano screening tecnici e non una dichiarazione di capacità produttiva.
+- test BardsAI: 14/14;
+- contratto HTTP: 114 fixture sul solo servizio BardsAI;
+- layout repository: solo BardsAI come detector;
+- typecheck, ESLint, Prettier e `git diff --check`;
+- prefetch offline, smoke locale e smoke Docker;
+- test differenziale tra port TypeScript e snapshot ufficiale del decoder.

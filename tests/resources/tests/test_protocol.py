@@ -20,7 +20,7 @@ class ProtocolTests(unittest.TestCase):
         cases = [dict(id='case-a', source='aliasit', fields=1, characters=1, words=1)]
         self.assertIsNone(r.stage_metrics(stage, cases)['throughput'])
         receipt = dict(schemaVersion=1, config={'cpus': 2, 'memory': 4294967296, 'budget_seconds': 300},
-            cases=cases, order=['case-a'], engines={'rizzo': dict(
+            cases=cases, order=['case-a'], engines={'bardsai': dict(
                 image={'id': 'sha256:test', 'logical_bytes': 100}, static_disk={'paths': []},
                 post_disk={'paths': None, 'reason': 'budget_exhausted'}, stop_reason='stage_budget_exhausted',
                 cleanup=True, samples=[], coverage={'complete': False}, stages=[stage])},
@@ -28,12 +28,12 @@ class ProtocolTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / 'unmeasured'
             r.render(receipt, target)
-            self.assertIn('| rizzo | null |', (target / 'report.md').read_text())
+            self.assertIn('| bardsai | null |', (target / 'report.md').read_text())
             stage.update(end=2., drain_end=2., stop_reason=None, drained=True)
             self.assertEqual(r.stage_metrics(stage, cases)['throughput'], 0.)
             target = Path(tmp) / 'measured'
             r.render(receipt, target)
-            self.assertIn('| rizzo | 0 |', (target / 'report.md').read_text())
+            self.assertIn('| bardsai | 0 |', (target / 'report.md').read_text())
 
     def test_failed_collector_shutdown_marks_partial_and_skips_disk(self):
         import run as r
@@ -69,7 +69,7 @@ class ProtocolTests(unittest.TestCase):
         self.assertTrue(all(e['stop_reason'] == 'collector_shutdown_failed' for e in receipt['engines'].values()))
         self.assertEqual(fake.objects, {})
 
-    def test_safety_stop_cleanup_failure_never_starts_next_engine(self):
+    def test_safety_stop_marks_single_engine_run_incomplete(self):
         import run as r
         import telemetry as t
         fake = FakeDocker()
@@ -98,9 +98,9 @@ class ProtocolTests(unittest.TestCase):
             {e: 'sha256:' + '1' * 64 for e in r.ENGINES}, 2, 4 * 1024**3, 10,
             docker=Docker('fake', command=command), collector_factory=Collector,
             protocol=r.Protocol(reserve=1, socket_timeout=.1))
-        self.assertEqual(len(starts), 1, 'never overlap engines after unverified cleanup')
+        self.assertEqual(len(starts), 1)
         self.assertFalse(receipt['complete'])
-        self.assertEqual(receipt['stop_reason'], 'cleanup_failed_no_next_engine')
+        self.assertEqual(receipt['engines']['bardsai']['stop_reason'], 'memory_guard')
 
     def test_report_offline_rerender_is_deterministic_and_validated(self):
         import run as r
@@ -108,7 +108,7 @@ class ProtocolTests(unittest.TestCase):
         self.assertTrue(hasattr(r, 'render'), 'offline report missing')
         receipt = dict(schemaVersion=1, config={'cpus': 2, 'memory': 4294967296, 'budget_seconds': 300},
             cases=[dict(id='case-a', source='aliasit', fields=2, characters=15, words=4)], order=['case-a'],
-            engines={'rizzo': dict(image={'id': 'sha256:test', 'logical_bytes': 100},
+            engines={'bardsai': dict(image={'id': 'sha256:test', 'logical_bytes': 100},
                 static_disk={'paths': []}, post_disk={'paths': None, 'reason': 'budget_exhausted'},
                 stop_reason=None, cleanup=True, samples=[], coverage={'complete': False}, stages=[dict(
                     phase='load', concurrency=1, start=1., end=2., drain_end=2.1, max_inflight=1,
@@ -127,7 +127,7 @@ class ProtocolTests(unittest.TestCase):
             self.assertIn('sampled', (a / 'report.md').read_text())
             with self.assertRaises(FileExistsError):
                 r.render(raw, a)
-            raw['engines']['rizzo']['stages'][0]['observations'][0]['finish'] = .5
+            raw['engines']['bardsai']['stages'][0]['observations'][0]['finish'] = .5
             with self.assertRaises(ValueError):
                 r.render(raw, Path(tmp) / 'bad')
 
@@ -192,8 +192,8 @@ class ProtocolTests(unittest.TestCase):
             server.shutdown()
             server.server_close()
             thread.join()
-        self.assertEqual(order[:3], ['static'] * 3)
-        self.assertEqual(order[3:], ['start', 'collector_stop', 'post'] * 3)
+        self.assertEqual(order[:len(r.ENGINES)], ['static'] * len(r.ENGINES))
+        self.assertEqual(order[len(r.ENGINES):], ['start', 'collector_stop', 'post'] * len(r.ENGINES))
         self.assertEqual(set(receipt['engines']), set(r.ENGINES))
         self.assertTrue(receipt['complete'], receipt)
         for engine in receipt['engines'].values():

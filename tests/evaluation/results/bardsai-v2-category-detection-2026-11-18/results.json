@@ -1,12 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 3,
   "goldVersion": "category-detection-1",
-  "goldSha256": "fcd165520fdd53ba6e9335d7a174a4ab7cb9dfe4e754bd6c60b4cbb8e653cb73",
-  "engine": "bardsai-v2",
-  "model": "bardsai/eu-pii-anonimization-multilang-v2",
-  "modelRevision": "07a9a69b0d75c551f5f9450b290f864bfc7dfb51",
-  "runtime": "transformers.js-4.3.2-onnx-q8-cpu",
-  "imageId": "sha256:8b7c462f0a868726e5ebab32674f192cfbb5f036a2625589f509a46e49ebcb83",
   "catalog": [
     "PERSON",
     "EMAIL_ADDRESS",
@@ -17,6 +11,9 @@
     "CREDIT_CARD",
     "IT_IDENTITY_CARD",
     "IT_DRIVER_LICENSE"
+  ],
+  "engines": [
+    "bardsai"
   ],
   "caseCount": 142,
   "observations": [
@@ -39,7 +36,8 @@
         "IT_DRIVER_LICENSE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-2335",
@@ -52,7 +50,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-14989",
@@ -71,7 +70,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15085",
@@ -92,7 +92,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15127",
@@ -113,7 +114,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15224",
@@ -134,7 +136,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15261",
@@ -155,7 +158,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15265",
@@ -172,7 +176,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-15285",
@@ -193,7 +198,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "rizzo-26377",
@@ -206,7 +212,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-38",
@@ -221,7 +228,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-50",
@@ -234,7 +242,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-60",
@@ -243,7 +252,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-96",
@@ -256,7 +266,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-114",
@@ -265,7 +276,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-128",
@@ -274,7 +286,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-146",
@@ -289,7 +302,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-256",
@@ -302,7 +316,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-282",
@@ -315,7 +330,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-311",
@@ -324,7 +340,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-313",
@@ -333,7 +350,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-321",
@@ -346,7 +364,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-328",
@@ -361,7 +380,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-364",
@@ -374,7 +394,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-382",
@@ -387,7 +408,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-421",
@@ -400,7 +422,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-431",
@@ -413,7 +436,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-443",
@@ -426,7 +450,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-00",
@@ -439,7 +464,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-01",
@@ -452,7 +478,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-02",
@@ -465,7 +492,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-03",
@@ -478,7 +506,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-04",
@@ -491,7 +520,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-05",
@@ -504,7 +534,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-06",
@@ -517,7 +548,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-07",
@@ -528,7 +560,8 @@
       ],
       "observedCategories": [],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-08",
@@ -541,7 +574,8 @@
         "IT_DRIVER_LICENSE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-09",
@@ -554,7 +588,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-10",
@@ -567,7 +602,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-11",
@@ -580,7 +616,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-12",
@@ -593,7 +630,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-13",
@@ -602,7 +640,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-14",
@@ -611,7 +650,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-15",
@@ -620,7 +660,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-16",
@@ -629,7 +670,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-17",
@@ -638,7 +680,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-18",
@@ -651,7 +694,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-19",
@@ -664,7 +708,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-20",
@@ -679,7 +724,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-21",
@@ -694,7 +740,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-22",
@@ -707,7 +754,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-23",
@@ -720,7 +768,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-24",
@@ -733,7 +782,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "targeted-24-2",
@@ -746,7 +796,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-fiscal-code-s01",
@@ -759,7 +810,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-driver-license-s01",
@@ -772,7 +824,8 @@
         "IT_DRIVER_LICENSE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-phone-number-s01",
@@ -785,7 +838,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-vat-code-s01",
@@ -798,7 +852,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-iban-code-s01",
@@ -811,7 +866,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-fiscal-code-s02",
@@ -824,7 +880,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-identity-card-s02",
@@ -837,7 +894,8 @@
         "IT_IDENTITY_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-iban-code-s02",
@@ -850,7 +908,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-credit-card-s03",
@@ -863,7 +922,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-phone-number-s04",
@@ -876,7 +936,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-email-address-s05",
@@ -889,7 +950,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-person-s06",
@@ -902,7 +964,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-person-negative-01",
@@ -913,7 +976,8 @@
         "PERSON"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-person-negative-02",
@@ -922,7 +986,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-person-negative-03",
@@ -931,7 +996,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-email-address-negative-04",
@@ -940,7 +1006,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-fiscal-code-negative-02",
@@ -953,7 +1020,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-identity-card-negative-03",
@@ -962,7 +1030,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-driver-license-negative-05",
@@ -971,7 +1040,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-phone-number-negative-04",
@@ -980,7 +1050,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-vat-code-negative-03",
@@ -993,7 +1064,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-iban-code-negative-02",
@@ -1006,7 +1078,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-iban-code-negative-04",
@@ -1015,7 +1088,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-credit-card-negative-03",
@@ -1028,7 +1102,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-credit-card-isolated",
@@ -1041,7 +1116,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-it-driver-license-isolated",
@@ -1054,7 +1130,8 @@
         "IT_DRIVER_LICENSE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-mixture-01",
@@ -1074,7 +1151,8 @@
         "IT_IDENTITY_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "legacy-phone-vat-overlap",
@@ -1089,7 +1167,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-5",
@@ -1103,7 +1182,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-17",
@@ -1116,7 +1196,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-61",
@@ -1127,7 +1208,8 @@
       ],
       "observedCategories": [],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-77",
@@ -1140,7 +1222,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-93",
@@ -1149,7 +1232,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-127",
@@ -1158,7 +1242,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-138",
@@ -1171,7 +1256,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-141",
@@ -1184,7 +1270,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-151",
@@ -1197,7 +1284,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-154",
@@ -1210,7 +1298,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-165",
@@ -1225,7 +1314,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-177",
@@ -1234,7 +1324,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-180",
@@ -1249,7 +1340,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-184",
@@ -1260,7 +1352,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-198",
@@ -1273,7 +1366,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-225",
@@ -1286,7 +1380,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-238",
@@ -1295,7 +1390,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-248",
@@ -1308,7 +1404,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-274",
@@ -1317,7 +1414,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-289",
@@ -1330,7 +1428,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-294",
@@ -1344,7 +1443,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-340",
@@ -1357,7 +1457,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-353",
@@ -1370,7 +1471,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-355",
@@ -1379,7 +1481,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-360",
@@ -1395,7 +1498,8 @@
         "IBAN_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-365",
@@ -1404,7 +1508,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-374",
@@ -1417,7 +1522,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-390",
@@ -1430,7 +1536,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-392",
@@ -1441,7 +1548,8 @@
       ],
       "observedCategories": [],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "gretel-439",
@@ -1450,7 +1558,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-50",
@@ -1465,7 +1574,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-57",
@@ -1476,7 +1586,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-65",
@@ -1489,7 +1600,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-70",
@@ -1502,7 +1614,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-83",
@@ -1513,7 +1626,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-90",
@@ -1526,7 +1640,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-95",
@@ -1540,7 +1655,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-106",
@@ -1551,7 +1667,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-119",
@@ -1560,7 +1677,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-137",
@@ -1575,7 +1693,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-142",
@@ -1588,7 +1707,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-150",
@@ -1599,7 +1719,8 @@
         "CREDIT_CARD"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-154",
@@ -1613,7 +1734,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-172",
@@ -1628,7 +1750,8 @@
         "EMAIL_ADDRESS"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-176",
@@ -1644,7 +1767,8 @@
         "PHONE_NUMBER"
       ],
       "verdictCorrect": true,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3298",
@@ -1661,7 +1785,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3333",
@@ -1678,7 +1803,8 @@
         "IT_FISCAL_CODE"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3086",
@@ -1691,7 +1817,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3087",
@@ -1704,7 +1831,8 @@
         "PERSON"
       ],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3088",
@@ -1713,7 +1841,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3205",
@@ -1722,7 +1851,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3208",
@@ -1731,7 +1861,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3254",
@@ -1742,7 +1873,8 @@
         "IT_VAT_CODE"
       ],
       "verdictCorrect": false,
-      "bodyExact": false
+      "bodyExact": false,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3268",
@@ -1751,7 +1883,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3277",
@@ -1760,7 +1893,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3283",
@@ -1769,7 +1903,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3286",
@@ -1778,7 +1913,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3110",
@@ -1787,7 +1923,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3113",
@@ -1796,7 +1933,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     },
     {
       "caseId": "aliasit-3125",
@@ -1805,178 +1943,8 @@
       "expectedCategories": [],
       "observedCategories": [],
       "verdictCorrect": true,
-      "bodyExact": true
+      "bodyExact": true,
+      "engine": "bardsai"
     }
-  ],
-  "metrics": {
-    "summary": {
-      "cases": 142,
-      "verdictCorrect": 132,
-      "verdictIncorrect": 10,
-      "bodyMatch": 125,
-      "bodyMismatch": 17
-    },
-    "verdict": {
-      "n": 142,
-      "positive": 99,
-      "negative": 43,
-      "tp": 96,
-      "fp": 7,
-      "fn": 3,
-      "tn": 36,
-      "recall": 0.9696969696969697,
-      "precision": 0.9320388349514563,
-      "specificity": 0.8372093023255814,
-      "accuracy": 0.9295774647887324,
-      "balancedAccuracy": 0.9034531360112756,
-      "falseAcceptanceRate": 0.030303030303030304,
-      "falseRejectionRate": 0.16279069767441862
-    },
-    "categories": {
-      "PERSON": {
-        "n": 142,
-        "positive": 61,
-        "negative": 81,
-        "tp": 58,
-        "fp": 1,
-        "fn": 3,
-        "tn": 80,
-        "recall": 0.9508196721311475,
-        "precision": 0.9830508474576272,
-        "specificity": 0.9876543209876543,
-        "accuracy": 0.971830985915493,
-        "balancedAccuracy": 0.9692369965594009,
-        "falseAcceptanceRate": 0.04918032786885246,
-        "falseRejectionRate": 0.012345679012345678
-      },
-      "EMAIL_ADDRESS": {
-        "n": 142,
-        "positive": 22,
-        "negative": 120,
-        "tp": 22,
-        "fp": 0,
-        "fn": 0,
-        "tn": 120,
-        "recall": 1.0,
-        "precision": 1.0,
-        "specificity": 1.0,
-        "accuracy": 1.0,
-        "balancedAccuracy": 1.0,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.0
-      },
-      "PHONE_NUMBER": {
-        "n": 142,
-        "positive": 16,
-        "negative": 126,
-        "tp": 16,
-        "fp": 6,
-        "fn": 0,
-        "tn": 120,
-        "recall": 1.0,
-        "precision": 0.7272727272727273,
-        "specificity": 0.9523809523809523,
-        "accuracy": 0.9577464788732394,
-        "balancedAccuracy": 0.9761904761904762,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.047619047619047616
-      },
-      "IT_FISCAL_CODE": {
-        "n": 142,
-        "positive": 14,
-        "negative": 128,
-        "tp": 14,
-        "fp": 0,
-        "fn": 0,
-        "tn": 128,
-        "recall": 1.0,
-        "precision": 1.0,
-        "specificity": 1.0,
-        "accuracy": 1.0,
-        "balancedAccuracy": 1.0,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.0
-      },
-      "IT_VAT_CODE": {
-        "n": 142,
-        "positive": 6,
-        "negative": 136,
-        "tp": 6,
-        "fp": 1,
-        "fn": 0,
-        "tn": 135,
-        "recall": 1.0,
-        "precision": 0.8571428571428571,
-        "specificity": 0.9926470588235294,
-        "accuracy": 0.9929577464788732,
-        "balancedAccuracy": 0.9963235294117647,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.007352941176470588
-      },
-      "IBAN_CODE": {
-        "n": 142,
-        "positive": 8,
-        "negative": 134,
-        "tp": 8,
-        "fp": 1,
-        "fn": 0,
-        "tn": 133,
-        "recall": 1.0,
-        "precision": 0.8888888888888888,
-        "specificity": 0.9925373134328358,
-        "accuracy": 0.9929577464788732,
-        "balancedAccuracy": 0.9962686567164178,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.007462686567164179
-      },
-      "CREDIT_CARD": {
-        "n": 142,
-        "positive": 14,
-        "negative": 128,
-        "tp": 14,
-        "fp": 3,
-        "fn": 0,
-        "tn": 125,
-        "recall": 1.0,
-        "precision": 0.8235294117647058,
-        "specificity": 0.9765625,
-        "accuracy": 0.9788732394366197,
-        "balancedAccuracy": 0.98828125,
-        "falseAcceptanceRate": 0.0,
-        "falseRejectionRate": 0.0234375
-      },
-      "IT_IDENTITY_CARD": {
-        "n": 142,
-        "positive": 4,
-        "negative": 138,
-        "tp": 3,
-        "fp": 0,
-        "fn": 1,
-        "tn": 138,
-        "recall": 0.75,
-        "precision": 1.0,
-        "specificity": 1.0,
-        "accuracy": 0.9929577464788732,
-        "balancedAccuracy": 0.875,
-        "falseAcceptanceRate": 0.25,
-        "falseRejectionRate": 0.0
-      },
-      "IT_DRIVER_LICENSE": {
-        "n": 142,
-        "positive": 5,
-        "negative": 137,
-        "tp": 4,
-        "fp": 0,
-        "fn": 1,
-        "tn": 137,
-        "recall": 0.8,
-        "precision": 1.0,
-        "specificity": 1.0,
-        "accuracy": 0.9929577464788732,
-        "balancedAccuracy": 0.9,
-        "falseAcceptanceRate": 0.2,
-        "falseRejectionRate": 0.0
-      }
-    }
-  }
+  ]
 }

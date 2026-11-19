@@ -27,10 +27,10 @@ class MetricsTests(unittest.TestCase):
         result={'schemaVersion':3,'goldVersion':'category-detection-1','catalog':runner.CATALOG,
                 'engines':runner.ENGINES,'caseCount':2,'observations':observations}
         metrics=runner.score(result)
-        self.assertEqual(metrics['summary']['rizzo'], {'cases':2,'verdictCorrect':2,'verdictIncorrect':0,'bodyMatch':1,'bodyMismatch':1})
-        self.assertEqual({k:metrics['categories']['rizzo']['PERSON'][k] for k in ('tp','fp','fn','tn')},
+        self.assertEqual(metrics['summary']['bardsai'], {'cases':2,'verdictCorrect':2,'verdictIncorrect':0,'bodyMatch':1,'bodyMismatch':1})
+        self.assertEqual({k:metrics['categories']['bardsai']['PERSON'][k] for k in ('tp','fp','fn','tn')},
                          {'tp':0,'fp':0,'fn':1,'tn':1})
-        self.assertEqual({k:metrics['verdict']['rizzo'][k] for k in ('tp','fp','fn','tn')},
+        self.assertEqual({k:metrics['verdict']['bardsai'][k] for k in ('tp','fp','fn','tn')},
                          {'tp':1,'fp':0,'fn':0,'tn':1})
 
 

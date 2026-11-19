@@ -87,12 +87,12 @@ class LifecycleTests(unittest.TestCase):
                             'Entrypoint': ['node'], 'Cmd': ['server.mjs']})])
             raise AssertionError(args)
         docker = t.Docker('token', command=command)
-        result = docker.preflight({e: 'tag' for e in ('rizzo', 'horizon', 'presidio')}, 2, 4 * 1024**3, time.monotonic() + 5)
-        self.assertEqual(result['images']['rizzo']['cache_paths'], ['/models/cache'])
+        result = docker.preflight({'bardsai': 'tag'}, 2, 4 * 1024**3, time.monotonic() + 5)
+        self.assertEqual(result['images']['bardsai']['cache_paths'], ['/models/cache'])
         self.assertNotIn('not-recorded', json.dumps(result))
         interfering = True
         with self.assertRaisesRegex(ValueError, 'INTERFERING'):
-            docker.preflight({e: 'tag' for e in ('rizzo', 'horizon', 'presidio')}, 2, 4 * 1024**3, time.monotonic() + 5)
+            docker.preflight({'bardsai': 'tag'}, 2, 4 * 1024**3, time.monotonic() + 5)
         self.assertFalse(any(a[0] in ('stop', 'rm') for a in calls))
 
     def test_static_tar_inventory_and_post_scan_gates(self):
@@ -127,7 +127,7 @@ class LifecycleTests(unittest.TestCase):
         self.assertTrue(hasattr(t, 'Docker'), 'Docker lifecycle missing')
         fake = FakeDocker()
         docker = t.Docker('test-token', command=fake)
-        cid = docker.create('rizzo', 'sha256:' + '1' * 64, 2, 4294967296, time.monotonic() + 10)
+        cid = docker.create('bardsai', 'sha256:' + '1' * 64, 2, 4294967296, time.monotonic() + 10)
         args = fake.calls[0][0]
         self.assertIn('--pull=never', args)
         self.assertIn('127.0.0.1::8000', args)

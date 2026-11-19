@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "goldVersion": "category-detection-1",
+  "goldSha256": "fcd165520fdd53ba6e9335d7a174a4ab7cb9dfe4e754bd6c60b4cbb8e653cb73",
+  "engine": "bardsai-v2",
+  "model": "bardsai/eu-pii-anonimization-multilang-v2",
+  "modelRevision": "07a9a69b0d75c551f5f9450b290f864bfc7dfb51",
+  "runtime": "transformers.js-4.3.2-onnx-q8-cpu",
+  "imageId": "sha256:8b7c462f0a868726e5ebab32674f192cfbb5f036a2625589f509a46e49ebcb83"
+}
