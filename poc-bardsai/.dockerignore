@@ -1,7 +1,14 @@
-node_modules
-dist
 .git
 .hermes
+node_modules
+**/node_modules
+**/dist
+tests
+results
+**/results
+evidence
+**/evidence
+
 .env
 .env.*
 *.log

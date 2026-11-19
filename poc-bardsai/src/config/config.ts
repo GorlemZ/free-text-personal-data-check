@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { parsePort } from "@pagopa/detector-http";
+import { z } from "zod";
 
 // Stable local assets, independent of cwd and source/dist directory layout.
 export const MODEL_CONFIG = Object.freeze({
@@ -35,68 +35,32 @@ export const HTTP_LIMITS = Object.freeze({
   requestTimeout: 10000,
 });
 
-export type HttpConfig = Readonly<{
-  port: number;
-  bindHost: string;
-  concurrency: number;
-  maxPendingRequests: number;
-  maxQueueWaitMs: number;
-  tokenBudget: number;
-}>;
-
-function positiveInteger(
-  value: string | undefined,
-  fallback: number,
-  name: string,
-): number {
-  const parsed = value === undefined ? fallback : Number(value);
-  if (!Number.isSafeInteger(parsed) || parsed <= 0)
-    throw new TypeError("INVALID_" + name);
-  return parsed;
-}
-
-function nonNegativeInteger(
-  value: string | undefined,
-  fallback: number,
-  name: string,
-): number {
-  if (value !== undefined && value.trim() === "")
-    throw new TypeError("INVALID_" + name);
-  const parsed = value === undefined ? fallback : Number(value);
-  if (!Number.isSafeInteger(parsed) || parsed < 0)
-    throw new TypeError("INVALID_" + name);
-  return parsed;
-}
-
-// Read once at the composition root, never at import or during requests.
-export function loadConfig(
-  environment: Readonly<NodeJS.ProcessEnv>,
-): HttpConfig {
-  const tokenBudget = positiveInteger(
-    environment.ANALYZER_TOKEN_BUDGET,
-    MODEL_CONFIG.tokenBudget,
-    "TOKEN_BUDGET",
-  );
-  if (tokenBudget > MODEL_CONFIG.tokenBudget)
-    throw new TypeError("INVALID_TOKEN_BUDGET");
+const integer = (min: number, max: number) =>
+  z
+    .string()
+    .trim()
+    .min(1)
+    .regex(/^[0-9]+$/)
+    .transform(Number)
+    .pipe(z.number().int().safe().min(min).max(max));
+const envSchema = z.object({
+  ANALYZER_PORT: integer(0, 65535).default("8000"),
+  ANALYZER_BIND_HOST: z.string().trim().min(1).default("127.0.0.1"),
+  ANALYZER_CONCURRENCY: integer(1, Number.MAX_SAFE_INTEGER).default("2"),
+  ANALYZER_MAX_PENDING_REQUESTS: integer(0, Number.MAX_SAFE_INTEGER).default(
+    "4",
+  ),
+  ANALYZER_MAX_QUEUE_WAIT_MS: integer(1, 2147483647).default("500"),
+  ANALYZER_TOKEN_BUDGET: integer(1, MODEL_CONFIG.tokenBudget).default("512"),
+});
+export function loadConfig(environment: Readonly<NodeJS.ProcessEnv>) {
+  const env = envSchema.parse(environment);
   return {
-    port: parsePort(environment.ANALYZER_PORT),
-    bindHost: environment.ANALYZER_BIND_HOST ?? "127.0.0.1",
-    concurrency: positiveInteger(
-      environment.ANALYZER_CONCURRENCY,
-      2,
-      "CONCURRENCY",
-    ),
-    maxPendingRequests: nonNegativeInteger(
-      environment.ANALYZER_MAX_PENDING_REQUESTS,
-      4,
-      "MAX_PENDING_REQUESTS",
-    ),
-    maxQueueWaitMs: positiveInteger(
-      environment.ANALYZER_MAX_QUEUE_WAIT_MS,
-      500,
-      "MAX_QUEUE_WAIT_MS",
-    ),
-    tokenBudget,
+    port: env.ANALYZER_PORT,
+    bindHost: env.ANALYZER_BIND_HOST,
+    concurrency: env.ANALYZER_CONCURRENCY,
+    maxPendingRequests: env.ANALYZER_MAX_PENDING_REQUESTS,
+    maxQueueWaitMs: env.ANALYZER_MAX_QUEUE_WAIT_MS,
+    tokenBudget: env.ANALYZER_TOKEN_BUDGET,
   };
 }

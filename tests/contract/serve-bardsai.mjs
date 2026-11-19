@@ -9,12 +9,11 @@ const entity = (label, text) => ({
 });
 const server = createServer(
   createHandler({
-    prepare: (text) => ({ text }),
     ready: async () => {
       if (unavailable) throw Error("fixture unavailable");
       return true;
     },
-    infer: async ({ text }) => {
+    analyzeText: async (text) => {
       if (unavailable || text === "fixture:throw")
         throw Error("fixture unavailable");
       switch (text) {

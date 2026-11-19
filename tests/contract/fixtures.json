@@ -2050,6 +2050,20 @@
             "verdict": "accepted",
             "findings": []
           }
+        },
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
         }
       },
       "mode": "ready",
@@ -2074,6 +2088,20 @@
             "verdict": "accepted",
             "findings": []
           }
+        },
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
         }
       },
       "mode": "ready",
@@ -2093,6 +2121,20 @@
       "name": "invalid-json-2",
       "expectedByEngine": {
         "bardsai": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
           "status": 200,
           "expected": {
             "verdict": "accepted",
@@ -2202,6 +2244,20 @@
       },
       "expectedByEngine": {
         "bardsai": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "horizon": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
+        "rizzo": {
           "status": 200,
           "expected": {
             "verdict": "accepted",

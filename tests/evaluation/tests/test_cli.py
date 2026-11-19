@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import runner
 
-ENGINES = ['bardsai']
+ENGINES = runner.ENGINES
 
 
 def case_fixture(case_id='fixture-1', expected=None):
@@ -90,8 +90,8 @@ class CliTests(unittest.TestCase):
             self.assertEqual(set(result), {'schemaVersion','goldVersion','catalog','engines','caseCount','observations'})
             self.assertEqual(result['schemaVersion'], 3)
             self.assertEqual(result['caseCount'], 2)
-            self.assertEqual(len(requests), 2)
-            self.assertEqual(len(result['observations']), 2)
+            self.assertEqual(len(requests), 2 * len(ENGINES))
+            self.assertEqual(len(result['observations']), 2 * len(ENGINES))
             self.assertNotIn('text', json.dumps(result))
             rendered = root / 'rendered'
             completed = cli('--render', output / 'results.json', '--output', rendered)
@@ -99,9 +99,9 @@ class CliTests(unittest.TestCase):
             for path in output.iterdir():
                 self.assertEqual(path.read_bytes(), (rendered / path.name).read_bytes())
             with (output / 'category.csv').open() as stream:
-                self.assertEqual(len(list(csv.DictReader(stream))), 9)
+                self.assertEqual(len(list(csv.DictReader(stream))), 9 * len(ENGINES))
 
-    def test_full_checked_in_gold_uses_exactly_142_posts(self):
+    def test_full_checked_in_gold_uses_exactly_568_fake_posts(self):
         gold = json.loads((ROOT / 'gold.json').read_text())
         oracle = {c['text']: c['expected'] for c in gold['cases']}
         def respond(engine, payload):
@@ -115,8 +115,8 @@ class CliTests(unittest.TestCase):
             self.assertEqual(completed.returncode, 0, completed.stderr)
             result = json.loads((output / 'results.json').read_text())
             self.assertEqual(len(gold['cases']), 142)
-            self.assertEqual(len(requests), 142)
-            self.assertEqual(len(result['observations']), 142)
+            self.assertEqual(len(requests), 142 * len(ENGINES))
+            self.assertEqual(len(result['observations']), 142 * len(ENGINES))
             self.assertTrue(all(o['bodyExact'] and o['verdictCorrect'] for o in result['observations']))
             expected_requests = [(engine, '/v1/analyze', {'fields': [{
                 'fieldId': 'text', 'text': case['text'], 'allowedCategories': []}]})

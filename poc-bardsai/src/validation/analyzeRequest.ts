@@ -2,7 +2,7 @@ import { z } from "zod";
 import { isCategory } from "../model/categories.js";
 import type { Field } from "../model/contracts.js";
 import { HTTP_LIMITS } from "../config/config.js";
-import { InvalidRequest } from "../model/errors.js";
+import { InvalidRequest } from "../http/errors.js";
 
 const categorySchema = z.custom<Field["allowedCategories"][number]>(isCategory);
 const isWellFormed = (value: string): boolean => value.isWellFormed();

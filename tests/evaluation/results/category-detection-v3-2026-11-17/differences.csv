@@ -1,0 +1,91 @@
+caseId,engine,expectedVerdict,observedVerdict,expectedCategories,observedCategories,verdictCorrect,bodyExact
+gretel-38,presidio,rejected,rejected,"['PERSON', 'CREDIT_CARD']",['PERSON'],True,False
+gretel-96,presidio,rejected,accepted,['PERSON'],[],False,False
+gretel-128,presidio,accepted,rejected,[],['PERSON'],False,False
+gretel-282,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IT_VAT_CODE']",True,False
+gretel-282,presidio,rejected,accepted,['PERSON'],[],False,False
+gretel-311,rizzo,accepted,rejected,[],['IBAN_CODE'],False,False
+gretel-311,presidio,accepted,rejected,[],['PERSON'],False,False
+gretel-313,rizzo,accepted,rejected,[],['IT_VAT_CODE'],False,False
+gretel-313,presidio,accepted,rejected,[],['PERSON'],False,False
+gretel-328,horizon,rejected,rejected,"['PERSON', 'IBAN_CODE']","['PERSON', 'IBAN_CODE', 'CREDIT_CARD']",True,False
+gretel-364,presidio,rejected,accepted,['PERSON'],[],False,False
+gretel-382,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IT_VAT_CODE', 'IBAN_CODE']",True,False
+gretel-382,presidio,rejected,rejected,['PERSON'],"['PERSON', 'PHONE_NUMBER']",True,False
+gretel-431,presidio,rejected,accepted,['PERSON'],[],False,False
+targeted-00,presidio,rejected,accepted,['PERSON'],[],False,False
+targeted-02,rizzo,rejected,rejected,['PHONE_NUMBER'],['IBAN_CODE'],True,False
+targeted-02,presidio,rejected,accepted,['PHONE_NUMBER'],[],False,False
+targeted-07,rizzo,rejected,accepted,['IT_IDENTITY_CARD'],[],False,False
+targeted-07,horizon,rejected,accepted,['IT_IDENTITY_CARD'],[],False,False
+targeted-10,presidio,rejected,accepted,['IT_VAT_CODE'],[],False,False
+targeted-11,presidio,rejected,accepted,['IBAN_CODE'],[],False,False
+targeted-12,presidio,rejected,accepted,['CREDIT_CARD'],[],False,False
+targeted-21,presidio,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']",['EMAIL_ADDRESS'],True,False
+targeted-22,horizon,rejected,rejected,['IBAN_CODE'],"['IBAN_CODE', 'CREDIT_CARD']",True,False
+legacy-it-driver-license-s01,presidio,rejected,rejected,['IT_DRIVER_LICENSE'],"['PERSON', 'IT_DRIVER_LICENSE']",True,False
+legacy-phone-number-s01,rizzo,rejected,rejected,['PHONE_NUMBER'],['IBAN_CODE'],True,False
+legacy-iban-code-s01,presidio,rejected,rejected,['IBAN_CODE'],"['PERSON', 'IBAN_CODE']",True,False
+legacy-iban-code-s02,presidio,rejected,rejected,['IBAN_CODE'],"['PERSON', 'IBAN_CODE']",True,False
+legacy-phone-number-s04,rizzo,rejected,accepted,['PHONE_NUMBER'],[],False,False
+legacy-phone-number-s04,presidio,rejected,accepted,['PHONE_NUMBER'],[],False,False
+legacy-email-address-s05,presidio,rejected,rejected,['EMAIL_ADDRESS'],"['PERSON', 'EMAIL_ADDRESS']",True,False
+legacy-person-negative-01,presidio,accepted,rejected,[],['PERSON'],False,False
+legacy-email-address-negative-04,horizon,accepted,rejected,[],['EMAIL_ADDRESS'],False,False
+legacy-it-vat-code-negative-03,presidio,rejected,accepted,['IT_VAT_CODE'],[],False,False
+legacy-iban-code-negative-02,presidio,rejected,rejected,['IBAN_CODE'],['PERSON'],True,False
+legacy-iban-code-negative-04,rizzo,accepted,rejected,[],['IBAN_CODE'],False,False
+legacy-credit-card-negative-03,presidio,rejected,accepted,['CREDIT_CARD'],[],False,False
+legacy-credit-card-isolated,presidio,rejected,accepted,['CREDIT_CARD'],[],False,False
+legacy-it-driver-license-isolated,presidio,rejected,accepted,['IT_DRIVER_LICENSE'],[],False,False
+legacy-mixture-01,rizzo,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']","['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD']",True,False
+legacy-mixture-01,horizon,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']","['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD']",True,False
+legacy-mixture-01,presidio,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']","['PERSON', 'EMAIL_ADDRESS', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD']",True,False
+legacy-phone-vat-overlap,rizzo,rejected,rejected,"['PHONE_NUMBER', 'IT_VAT_CODE']",['PHONE_NUMBER'],True,False
+gretel-5,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IBAN_CODE']",True,False
+gretel-5,horizon,rejected,rejected,['PERSON'],"['PERSON', 'PHONE_NUMBER']",True,False
+gretel-5,presidio,rejected,rejected,['PERSON'],['IT_VAT_CODE'],True,False
+gretel-17,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IBAN_CODE', 'CREDIT_CARD']",True,False
+gretel-17,horizon,rejected,rejected,['PERSON'],"['PERSON', 'CREDIT_CARD']",True,False
+gretel-61,rizzo,rejected,rejected,['PERSON'],['IBAN_CODE'],True,False
+gretel-127,rizzo,accepted,rejected,[],"['IT_FISCAL_CODE', 'IBAN_CODE']",False,False
+gretel-151,presidio,rejected,accepted,['IT_VAT_CODE'],[],False,False
+gretel-248,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'CREDIT_CARD']",True,False
+gretel-248,horizon,rejected,rejected,['PERSON'],"['PERSON', 'CREDIT_CARD']",True,False
+gretel-294,rizzo,rejected,rejected,"['PERSON', 'IBAN_CODE']",['IBAN_CODE'],True,False
+gretel-294,horizon,rejected,rejected,"['PERSON', 'IBAN_CODE']",['IBAN_CODE'],True,False
+gretel-294,presidio,rejected,accepted,"['PERSON', 'IBAN_CODE']",[],False,False
+gretel-355,presidio,accepted,rejected,[],['PERSON'],False,False
+gretel-360,rizzo,rejected,rejected,"['PERSON', 'PHONE_NUMBER']","['PERSON', 'IBAN_CODE']",True,False
+gretel-360,horizon,rejected,rejected,"['PERSON', 'PHONE_NUMBER']","['PERSON', 'PHONE_NUMBER', 'IBAN_CODE']",True,False
+gretel-360,presidio,rejected,rejected,"['PERSON', 'PHONE_NUMBER']",['PERSON'],True,False
+gretel-374,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IT_FISCAL_CODE', 'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD']",True,False
+gretel-374,horizon,rejected,rejected,['PERSON'],"['PERSON', 'CREDIT_CARD']",True,False
+gretel-390,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IBAN_CODE']",True,False
+gretel-392,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'IBAN_CODE', 'CREDIT_CARD']",True,False
+gretel-439,rizzo,accepted,rejected,[],['IT_FISCAL_CODE'],False,False
+gretel-439,presidio,accepted,rejected,[],['PERSON'],False,False
+aliasit-50,rizzo,rejected,rejected,"['PERSON', 'CREDIT_CARD']","['PERSON', 'IBAN_CODE', 'CREDIT_CARD']",True,False
+aliasit-50,presidio,rejected,accepted,"['PERSON', 'CREDIT_CARD']",[],False,False
+aliasit-57,horizon,accepted,rejected,[],['CREDIT_CARD'],False,False
+aliasit-83,rizzo,accepted,rejected,[],['PHONE_NUMBER'],False,False
+aliasit-83,horizon,accepted,rejected,[],['PHONE_NUMBER'],False,False
+aliasit-83,presidio,accepted,rejected,[],['PERSON'],False,False
+aliasit-95,horizon,rejected,rejected,['PERSON'],"['PERSON', 'CREDIT_CARD']",True,False
+aliasit-95,presidio,rejected,accepted,['PERSON'],[],False,False
+aliasit-106,rizzo,accepted,rejected,[],['PHONE_NUMBER'],False,False
+aliasit-106,horizon,accepted,rejected,[],['PHONE_NUMBER'],False,False
+aliasit-137,presidio,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']",['EMAIL_ADDRESS'],True,False
+aliasit-150,horizon,accepted,rejected,[],['CREDIT_CARD'],False,False
+aliasit-154,rizzo,rejected,rejected,['PERSON'],"['PERSON', 'PHONE_NUMBER']",True,False
+aliasit-154,horizon,rejected,rejected,['PERSON'],"['PERSON', 'PHONE_NUMBER']",True,False
+aliasit-154,presidio,rejected,accepted,['PERSON'],[],False,False
+aliasit-172,horizon,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']",['EMAIL_ADDRESS'],True,False
+aliasit-172,presidio,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']",['EMAIL_ADDRESS'],True,False
+aliasit-176,rizzo,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']","['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER']",True,False
+aliasit-176,horizon,rejected,rejected,"['PERSON', 'EMAIL_ADDRESS']","['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER']",True,False
+aliasit-3086,presidio,rejected,accepted,['PERSON'],[],False,False
+aliasit-3205,rizzo,accepted,rejected,[],['IBAN_CODE'],False,False
+aliasit-3208,presidio,accepted,rejected,[],['PHONE_NUMBER'],False,False
+aliasit-3254,horizon,accepted,rejected,[],['IT_VAT_CODE'],False,False
+aliasit-3125,rizzo,accepted,rejected,[],['IBAN_CODE'],False,False

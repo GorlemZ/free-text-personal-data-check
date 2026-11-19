@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bardsAiAdapterBuilder } from "../../poc-bardsai/dist/adapters/bardsAiAdapter.js";
+import { bardsAiAdapterBuilder } from "../../poc-bardsai/dist/bardsai/model.js";
 
 function tokenizer() {
   return {
@@ -30,11 +30,12 @@ test("adapter enforces the configured token budget before inference", async () =
     loadModel: async () => model,
   });
 
-  assert.deepEqual(await adapter.prepare("512"), { text: "512" });
-  await assert.rejects(
-    Promise.resolve().then(() => adapter.prepare("513")),
-    { message: "TOKEN_BUDGET_EXCEEDED" },
-  );
+  await assert.rejects(adapter.analyzeText("513"), {
+    message: "TOKEN_BUDGET_EXCEEDED",
+  });
+  await assert.rejects(adapter.analyzeText("512"), {
+    message: "inference must not run during preflight",
+  });
 });
 
 test("adapter rejects invalid token budget overrides", async () => {

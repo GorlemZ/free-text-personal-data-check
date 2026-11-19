@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
-import { BardsAiDecoder } from "../../poc-bardsai/dist/decoder/bardsaiDecoder.js";
+import { BardsAiDecoder } from "../../poc-bardsai/dist/bardsai/decoder.js";
 
 const requireFromPackage = createRequire(
   new URL("../../poc-bardsai/package.json", import.meta.url),

@@ -5,5 +5,5 @@
 **/evidence
 .hermes
 pnpm-lock.yaml
-poc-*/model-manifest.json
+model-manifest.json
 tests/evaluation

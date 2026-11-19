@@ -1,19 +1,19 @@
-import { startServer } from "@pagopa/detector-http";
+import { startServer } from "./http/server.js";
 import { createApp } from "./app.js";
-import { bardsAiAdapterBuilder } from "./adapters/bardsAiAdapter.js";
+import { bardsAiAdapterBuilder } from "./bardsai/model.js";
 import { loadConfig, HTTP_LIMITS } from "./config/config.js";
-import { analysisServiceBuilder } from "./services/analysisService.js";
+import { analysisServiceBuilder } from "./analysis.js";
 
 try {
   const config = loadConfig(process.env);
-  const adapter = await bardsAiAdapterBuilder({
+  const model = await bardsAiAdapterBuilder({
     tokenBudget: config.tokenBudget,
   });
-  const analysisService = analysisServiceBuilder({ adapter });
+  const analysisService = analysisServiceBuilder({ model });
   await startServer(
     createApp({
       analysisService,
-      ready: adapter.ready,
+      ready: () => true,
       concurrency: config.concurrency,
       maxPendingRequests: config.maxPendingRequests,
       maxQueueWaitMs: config.maxQueueWaitMs,

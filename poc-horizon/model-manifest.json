@@ -1,0 +1,11 @@
+{
+  "model": "Horizon-Labs/pii-redactor-base",
+  "revision": "ef0eff8e63c1711ec0c997c5ca9ea3b78a068684",
+  "files": [
+    {"path":"config.json","size":4759},
+    {"path":"tokenizer_config.json","size":46440},
+    {"path":"special_tokens_map.json","size":636},
+    {"path":"tokenizer.json","size":34363288,"sha256":"ac6fc8196d1db9ef82e68f6088e8d77d711b8c6f07589cec7d9d59c4adfc9a1e"},
+    {"path":"onnx/model_quantized.onnx","size":641300235,"sha256":"ceaeb170adb26d595d9061fe6be8a63239dd5bbffd23bb135ebd308ea8ceac35"}
+  ]
+}

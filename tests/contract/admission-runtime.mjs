@@ -36,10 +36,10 @@ export async function verifyBurst(createAdmission) {
   assert.equal(await admission.run(async () => 42), 42, "ERROR_RECOVERY");
 }
 
-export function admissionTests(engine) {
+export function admissionTests() {
   test("same-turn burst reserves pending slots, rejects every excess and recovers after errors", async () => {
     const { createAdmission } = await import(
-      `../../poc-${engine}/dist/utilities/admission.js`
+      `../../poc-bardsai/dist/http/admission.js`
     );
     for (const value of [
       0,
@@ -54,7 +54,7 @@ export function admissionTests(engine) {
   });
   test("default admission provides one active and four bounded pending slots", async () => {
     const { createAdmission } = await import(
-      `../../poc-${engine}/dist/utilities/admission.js`
+      `../../poc-bardsai/dist/http/admission.js`
     );
     const gate = Promise.withResolvers();
     const admission = createAdmission();
@@ -75,7 +75,7 @@ export function admissionTests(engine) {
   });
   test("bounded pending admission executes within the wait budget, rejects overflow and skips expired work", async () => {
     const { createAdmission } = await import(
-      `../../poc-${engine}/dist/utilities/admission.js`
+      `../../poc-bardsai/dist/http/admission.js`
     );
     const gate = Promise.withResolvers();
     const entered = Promise.withResolvers();
@@ -130,7 +130,7 @@ export function admissionTests(engine) {
   });
   test("queue deadline stops at admission start and an expired entry releases pending capacity", async () => {
     const { createAdmission } = await import(
-      `../../poc-${engine}/dist/utilities/admission.js`
+      `../../poc-bardsai/dist/http/admission.js`
     );
 
     const activeGate = Promise.withResolvers();
@@ -173,7 +173,7 @@ export function admissionTests(engine) {
     assert.equal(await replacement, "replacement");
   });
   test("HTTP maps overflow and queue expiry to 503 without executing expired work", async (t) => {
-    const { createApp } = await import(`../../poc-${engine}/dist/app.js`);
+    const { createApp } = await import(`../../poc-bardsai/dist/app.js`);
     const gate = Promise.withResolvers();
     const entered = Promise.withResolvers();
     let calls = 0;
@@ -185,7 +185,7 @@ export function admissionTests(engine) {
       }
       return [];
     };
-    const analysisService = analyze;
+    const analysisService = { analyze };
     const server = createServer(
       createApp({
         analysisService,
@@ -231,9 +231,9 @@ export function admissionTests(engine) {
     "client disconnect and timeout do not release a whole multi-field request",
     { timeout: 10000 },
     async (t) => {
-      const { createApp } = await import(`../../poc-${engine}/dist/app.js`);
+      const { createApp } = await import(`../../poc-bardsai/dist/app.js`);
       const { analysisServiceBuilder } = await import(
-        `../../poc-${engine}/dist/services/analysisService.js`
+        `../../poc-bardsai/dist/analysis.js`
       );
       const first = Promise.withResolvers(),
         second = Promise.withResolvers(),
@@ -254,11 +254,11 @@ export function admissionTests(engine) {
           enteredSecond.resolve();
           await second.promise;
         }
-        return new Set();
+        return [];
       };
       const analysisService = analysisServiceBuilder({
-        modelDetectionService: infer,
-        ruleDetectionService: () => new Set(),
+        model: { analyzeText: infer },
+        recognize: () => new Set(),
       });
       const server = createServer(
         createApp({

@@ -4,13 +4,14 @@ RUN corepack enable && corepack prepare pnpm@10.29.3 --activate
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY packages/detector-http/package.json ./packages/detector-http/package.json
 COPY poc-bardsai/package.json ./poc-bardsai/package.json
+COPY poc-horizon/package.json ./poc-horizon/package.json
+COPY poc-rizzo/package.json ./poc-rizzo/package.json
 RUN pnpm install --frozen-lockfile --filter poc-bardsai-pii-check...
 COPY poc-bardsai/tsconfig.json ./poc-bardsai/tsconfig.json
 COPY packages/detector-http/tsconfig.json ./packages/detector-http/tsconfig.json
 COPY packages/detector-http/src ./packages/detector-http/src
 COPY poc-bardsai/src ./poc-bardsai/src
-RUN pnpm --filter @pagopa/detector-http build && \
-    pnpm --filter poc-bardsai-pii-check build && \
+RUN pnpm --filter poc-bardsai-pii-check build && \
     pnpm --filter poc-bardsai-pii-check deploy --prod --legacy /opt/app
 
 FROM node:24-bookworm-slim

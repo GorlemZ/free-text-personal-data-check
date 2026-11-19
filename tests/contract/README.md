@@ -1,6 +1,6 @@
-# Contratto HTTP BardsAI
+# Contratto HTTP condiviso
 
-La suite esercita il servizio BardsAI tramite un server HTTP reale con inferenza sostituita da fixture deterministiche.
+La suite esercita BardsAI, Horizon, Rizzo e Presidio tramite server HTTP reali con inferenza sostituita da fixture deterministiche.
 
 ## Endpoint
 
@@ -64,4 +64,4 @@ python3 tests/contract/run.py --engine bardsai
 python3 tests/contract/run.py --base bardsai=http://127.0.0.1:18084
 ```
 
-La prima forma avvia la fixture BardsAI. `--base` usa un servizio già avviato. Le fixture contengono 114 casi e non richiedono i pesi del modello.
+La prima forma avvia la fixture BardsAI; senza `--engine` vengono verificati tutti e quattro i motori. `--base` usa un servizio già avviato. Le fixture contengono 114 casi e non richiedono i pesi del modello.

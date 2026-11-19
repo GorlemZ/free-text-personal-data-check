@@ -9,6 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SUITES = {
     'layout': [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_layout.py', '-v'],
     'bardsai': ['pnpm', 'test:bardsai'],
+    'horizon': ['pnpm', 'test:horizon'],
+    'rizzo': ['pnpm', 'test:rizzo'],
+    'presidio': ['uv', 'run', '--project', 'poc-presidio', '--extra', 'dev', 'pytest', 'tests/presidio'],
     'evaluation': [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests/evaluation/tests', '-v'],
     'resources': [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests/resources/tests', '-v'],
     'contract': [sys.executable, 'tests/contract/run.py'],

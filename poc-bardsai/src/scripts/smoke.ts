@@ -3,8 +3,8 @@ import type { RequestListener } from "node:http";
 import type { AddressInfo } from "node:net";
 import { isRecord } from "../model/contracts.js";
 import { createApp } from "../app.js";
-import { bardsAiAdapterBuilder } from "../adapters/bardsAiAdapter.js";
-import { analysisServiceBuilder } from "../services/analysisService.js";
+import { bardsAiAdapterBuilder } from "../bardsai/model.js";
+import { analysisServiceBuilder } from "../analysis.js";
 import { pathToFileURL } from "node:url";
 
 type DetectText = (text: string) => Promise<unknown>;
@@ -80,10 +80,10 @@ if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
-  const adapter = await bardsAiAdapterBuilder();
-  const analysisService = analysisServiceBuilder({ adapter });
-  const handler = createApp({ ready: adapter.ready, analysisService });
+  const model = await bardsAiAdapterBuilder();
+  const analysisService = analysisServiceBuilder({ model });
+  const handler = createApp({ ready: () => true, analysisService });
   const detectText = async (text: string): Promise<unknown> =>
-    adapter.infer(await adapter.prepare(text));
+    model.analyzeText(text);
   console.log(JSON.stringify(await smoke({ handler, detectText })));
 }

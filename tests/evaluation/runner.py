@@ -12,7 +12,7 @@ import urllib.request
 
 CATALOG = ['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER', 'IT_FISCAL_CODE',
            'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']
-ENGINES = ['bardsai']
+ENGINES = ['rizzo', 'horizon', 'presidio', 'bardsai']
 GOLD_VERSION = 'category-detection-1'
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_NAMES = ('results.json', 'summary.csv', 'verdict.csv', 'category.csv',
@@ -119,12 +119,13 @@ def request_once(endpoint, case, timeout):
 
 def collect(cases, endpoints, timeout=30.0):
     validate_cases(cases)
-    require(set(endpoints) == set(ENGINES) and all(valid_string(endpoints[e]) for e in ENGINES), 'COLLECT_CONFIG')
+    require(bool(endpoints) and set(endpoints) <= set(ENGINES) and all(valid_string(v) for v in endpoints.values()), 'COLLECT_CONFIG')
+    engines = [engine for engine in ENGINES if engine in endpoints]
     require(isinstance(timeout, (int, float)) and math.isfinite(timeout) and timeout > 0, 'COLLECT_CONFIG')
     observations = []
     for case in cases:
         expected = expected_response(case)
-        for engine in ENGINES:
+        for engine in engines:
             body = request_once(endpoints[engine], case, timeout)
             observed_categories = project_response(body)
             observations.append({
@@ -138,7 +139,7 @@ def collect(cases, endpoints, timeout=30.0):
                 'bodyExact': body == expected,
             })
     result = {'schemaVersion': 3, 'goldVersion': GOLD_VERSION, 'catalog': CATALOG,
-              'engines': ENGINES, 'caseCount': len(cases), 'observations': observations}
+              'engines': engines, 'caseCount': len(cases), 'observations': observations}
     validate_result(result)
     return result
 
@@ -147,16 +148,17 @@ def validate_result(result):
     root = {'schemaVersion', 'goldVersion', 'catalog', 'engines', 'caseCount', 'observations'}
     require(isinstance(result, dict) and set(result) == root, 'RESULT_SCHEMA')
     require(result['schemaVersion'] == 3 and result['goldVersion'] == GOLD_VERSION, 'RESULT_VERSION')
-    require(result['catalog'] == CATALOG and result['engines'] == ENGINES, 'RESULT_CATALOG')
+    require(result['catalog'] == CATALOG and isinstance(result['engines'], list) and bool(result['engines']) and result['engines'] == [e for e in ENGINES if e in result['engines']], 'RESULT_CATALOG')
+    engines = result['engines']
     require(type(result['caseCount']) is int and result['caseCount'] > 0, 'CASE_COUNT')
     observations = result['observations']
-    require(isinstance(observations, list) and len(observations) == result['caseCount'] * len(ENGINES), 'OBSERVATION_COUNT')
+    require(isinstance(observations, list) and len(observations) == result['caseCount'] * len(engines), 'OBSERVATION_COUNT')
     keys = {'caseId', 'engine', 'expectedVerdict', 'observedVerdict', 'expectedCategories',
             'observedCategories', 'verdictCorrect', 'bodyExact'}
     case_ids = set()
     for index in range(result['caseCount']):
-        block = observations[index * len(ENGINES):(index + 1) * len(ENGINES)]
-        require([o.get('engine') for o in block if isinstance(o, dict)] == ENGINES, 'OBSERVATION_ORDER')
+        block = observations[index * len(engines):(index + 1) * len(engines)]
+        require([o.get('engine') for o in block if isinstance(o, dict)] == engines, 'OBSERVATION_ORDER')
         require(all(isinstance(o, dict) and set(o) == keys for o in block), 'OBSERVATION_SCHEMA')
         case_id = block[0]['caseId']
         require(valid_string(case_id) and case_id not in case_ids and all(o['caseId'] == case_id for o in block), 'OBSERVATION_ID')
@@ -195,7 +197,7 @@ def binary_metrics(expected, observed):
 def score(result):
     validate_result(result)
     metrics = {'summary': {}, 'verdict': {}, 'categories': {}}
-    for engine in ENGINES:
+    for engine in result['engines']:
         own = [o for o in result['observations'] if o['engine'] == engine]
         verdict_correct = sum(o['verdictCorrect'] for o in own)
         body_match = sum(o['bodyExact'] for o in own)
@@ -288,11 +290,11 @@ def main(argv=None):
     parser.add_argument('--render', type=Path, help='Offline render of result schema version 3')
     parser.add_argument('--validate-only', action='store_true', help='Read-only offline gold preflight')
     args = parser.parse_args(argv)
-    endpoints = {engine: getattr(args, engine + '_url') for engine in ENGINES}
+    endpoints = {engine: value for engine in ENGINES if (value := getattr(args, engine + '_url')) is not None}
     if args.validate_only and (args.render or any(endpoints.values()) or args.output): parser.error('--validate-only is standalone')
     if args.render and any(endpoints.values()): parser.error('--render is offline')
     if not args.validate_only and not args.output: parser.error('--output is required')
-    if not args.render and not args.validate_only and not all(endpoints.values()): parser.error('All three engine URLs are required')
+    if not args.render and not args.validate_only and not endpoints: parser.error('At least one engine URL is required')
     if not math.isfinite(args.timeout) or args.timeout <= 0: parser.error('--timeout must be positive and finite')
     try:
         if args.validate_only:

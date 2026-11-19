@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import {
   BardsAiDecoder,
   tokenOffsets,
-} from "../../poc-bardsai/dist/decoder/bardsaiDecoder.js";
-import { categoriesOf } from "../../poc-bardsai/dist/model/modelInterpretation.js";
+} from "../../poc-bardsai/dist/bardsai/decoder.js";
+import { categoriesOf } from "../../poc-bardsai/dist/bardsai/interpretation.js";
 
 function fixture({ text, tokens, labels, winningLabel, calls = [] }) {
   const ids = tokens.map((_, index) => index + 10);

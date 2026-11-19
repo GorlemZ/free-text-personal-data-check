@@ -2,19 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { createHandler } from "./create-test-app.mjs";
-import { bardsAiAdapterBuilder } from "../../poc-bardsai/dist/adapters/bardsAiAdapter.js";
+import { bardsAiAdapterBuilder } from "../../poc-bardsai/dist/bardsai/model.js";
 
-async function serve(
-  t,
-  infer,
-  recognize = () => new Set(),
-  prepare = (text) => ({ text }),
-) {
+async function serve(t, analyzeText, recognize = () => new Set()) {
   const server = createServer(
     createHandler({
       ready: () => true,
-      prepare,
-      infer,
+      analyzeText,
       recognize,
     }),
   );
@@ -99,7 +93,7 @@ test("malformed raw logits fail closed at the HTTP boundary", async (t) => {
     loadTokenizer: async () => tokenizer,
     loadModel: async () => model,
   });
-  const url = await serve(t, adapter.infer, () => new Set(), adapter.prepare);
+  const url = await serve(t, adapter.analyzeText, () => new Set());
   const response = await fetch(url + "/v1/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

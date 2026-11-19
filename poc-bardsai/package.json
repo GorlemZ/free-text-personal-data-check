@@ -1,31 +1,37 @@
 {
   "name": "poc-bardsai-pii-check",
   "private": true,
+  "packageManager": "pnpm@10.29.3",
+  "scripts": {
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\" && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check",
+    "test": "pnpm build && node --test ../tests/bardsai/*.test.mjs",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix --max-warnings 0",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "prefetch": "node dist/scripts/prefetch.js",
+    "smoke": "pnpm build && node dist/scripts/smoke.js",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.2",
+    "eslint": "9.39.2",
+    "prettier": "3.8.1",
+    "typescript-eslint": "8.46.4",
+    "@types/node": "24.10.1",
+    "@types/express": "4.17.21",
+    "typescript": "5.9.3"
+  },
   "version": "0.1.0",
   "type": "module",
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.29.3",
-  "scripts": {
-    "prebuild": "pnpm --filter @pagopa/detector-http build",
-    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\" && tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "check": "pnpm typecheck",
-    "prefetch": "node dist/scripts/prefetch.js",
-    "smoke": "pnpm build && node dist/scripts/smoke.js",
-    "start": "node dist/index.js",
-    "test": "pnpm build && node --test ../tests/bardsai/*.test.mjs"
-  },
   "dependencies": {
     "@huggingface/transformers": "4.3.2",
-    "@pagopa/detector-http": "workspace:*",
     "express": "4.20.0",
     "zod": "3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "24.10.1",
-    "@types/express": "4.17.21",
-    "typescript": "5.9.3"
   }
 }

@@ -42,4 +42,4 @@ export const CATEGORY_SOURCES: Readonly<Record<Category, "model" | "rule">> =
 
 // Compatibility exports keep the public PoC test surface stable while the
 // implementation remains owned by the model adapter boundary.
-export { categoriesOf, LABEL_MAP } from "./modelInterpretation.js";
+export { categoriesOf, LABEL_MAP } from "../bardsai/interpretation.js";

@@ -1,52 +1,9 @@
 # Test e valutazione
 
-Tutti i comandi partono dalla root del repository. Servono Node.js, Corepack, pnpm 10.29.3 e Python 3 per i runner standard-library.
+Dalla root: `pnpm install --frozen-lockfile`, `pnpm build`, `python3 tests/run.py`. Node >=24 e pnpm 10.29.3 servono ai servizi TypeScript; `uv` e Python servono a Presidio. Selezionare singole suite con `python3 tests/run.py bardsai horizon rizzo presidio evaluation resources contract`. `pnpm check` esegue typecheck, lint e formattazione.
 
-```sh
-corepack enable
-pnpm install --frozen-lockfile
-pnpm test
-python3 tests/run.py
-```
+La regressione del contesto Docker si esegue separatamente con `python3 -m unittest discover -s tests -p test_docker_context.py -v`: richiede la CLI Docker, ma non il daemon; invia solo fixture sintetiche a uno stub loopback. Verifica il packing delle regole Dockerfile-specifiche selezionate come fa BuildKit e il fail-closed legacy, non costruisce immagini.
 
-`tests/run.py` esegue tutte le suite oppure quelle indicate:
+Il contratto esercita quattro handler con inferenza simulata. Le suite evaluation e resources usano server finti; non eseguono nuovi benchmark né inferenza golden. `pnpm --filter poc-bardsai-pii-check smoke` usa invece il modello reale disponibile localmente.
 
-```sh
-python3 tests/run.py bardsai contract layout
-python3 tests/run.py evaluation resources
-```
-
-| Suite        | Percorso            | Copertura                                                       |
-| ------------ | ------------------- | --------------------------------------------------------------- |
-| `layout`     | `test_layout.py`    | struttura del repository e wiring degli script                  |
-| `bardsai`    | `bardsai/`          | decoder, mapping, regole, HTTP, Docker e differenziale upstream |
-| `contract`   | `contract/`         | contratto HTTP completo sul solo servizio BardsAI               |
-| `evaluation` | `evaluation/tests/` | golden, collector, metriche, errori e rendering                 |
-| `resources`  | `resources/tests/`  | contabilità, lifecycle Docker e HTTP loopback finto             |
-
-## Gate statici
-
-```sh
-pnpm check
-```
-
-Il comando esegue typecheck, ESLint e Prettier sull'applicazione BardsAI e sul package HTTP.
-
-## Modello reale
-
-I test ordinari non scaricano pesi. Per eseguire inferenza reale:
-
-```sh
-pnpm --filter poc-bardsai-pii-check prefetch:model
-pnpm --filter poc-bardsai-pii-check smoke
-```
-
-Gli asset finiscono in `poc-bardsai/models/`, sono esclusi da Git e vengono verificati contro `poc-bardsai/model-manifest.json`.
-
-## Contratto, golden e risorse
-
-- [`contract/README.md`](contract/README.md): schema e comandi del contratto HTTP.
-- [`evaluation/README.md`](evaluation/README.md): golden da 142 casi e bundle sanificato.
-- [`resources/README.md`](resources/README.md): protocollo opt-in e risultati closed/open loop.
-
-I bundle pubblicabili non contengono testo originale, span, score o body grezzi. I test delle risorse usano finti server locali; container e benchmark reali restano opt-in.
+Il [report storico](evaluation/results/category-detection-v3-2026-11-17/report.md) copre soltanto Horizon, Rizzo e Presidio: 142 casi, 426 risposte. La valutazione BardsAI è un [run distinto](evaluation/results/bardsai-v2-category-detection-2026-11-18/report.md).

@@ -26,7 +26,7 @@ class CurrentBundleTests(unittest.TestCase):
         exported=json.dumps(result,ensure_ascii=False)
         self.assertTrue(all(case['text'] not in exported for case in gold['cases']))
         expected_projection=[(case['id'],case['expected'],'rejected' if case['expected'] else 'accepted')
-                             for case in gold['cases'] for _ in runner.ENGINES]
+                             for case in gold['cases'] for _ in result['engines']]
         observed_projection=[(item['caseId'],item['expectedCategories'],item['expectedVerdict'])
                              for item in result['observations']]
         self.assertEqual(observed_projection,expected_projection)

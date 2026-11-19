@@ -1,0 +1,3 @@
+# Fail closed for the legacy builder, which ignores Dockerfile-specific rules.
+# Root-context service builds require BuildKit and their Dockerfile.dockerignore.
+*

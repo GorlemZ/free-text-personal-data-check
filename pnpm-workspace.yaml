@@ -1,3 +1,5 @@
 packages:
   - packages/*
   - poc-bardsai
+  - poc-horizon
+  - poc-rizzo

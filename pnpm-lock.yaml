@@ -45,12 +45,74 @@ importers:
       '@huggingface/transformers':
         specifier: 4.3.2
         version: 4.3.2(@types/node@24.10.1)
+      express:
+        specifier: 4.20.0
+        version: 4.20.0
+      zod:
+        specifier: 3.23.8
+        version: 3.23.8
+    devDependencies:
+      '@eslint/js':
+        specifier: 9.39.2
+        version: 9.39.2
+      '@types/express':
+        specifier: 4.17.21
+        version: 4.17.21
+      '@types/node':
+        specifier: 24.10.1
+        version: 24.10.1
+      eslint:
+        specifier: 9.39.2
+        version: 9.39.2
+      prettier:
+        specifier: 3.8.1
+        version: 3.8.1
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.4
+        version: 8.46.4(eslint@9.39.2)(typescript@5.9.3)
+
+  poc-horizon:
+    dependencies:
+      '@huggingface/transformers':
+        specifier: 4.3.2
+        version: 4.3.2(@types/node@24.10.1)
       '@pagopa/detector-http':
         specifier: workspace:*
         version: link:../packages/detector-http
       express:
         specifier: 4.20.0
         version: 4.20.0
+      zod:
+        specifier: 3.23.8
+        version: 3.23.8
+    devDependencies:
+      '@types/express':
+        specifier: 4.17.21
+        version: 4.17.21
+      '@types/node':
+        specifier: 24.10.1
+        version: 24.10.1
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  poc-rizzo:
+    dependencies:
+      '@huggingface/transformers':
+        specifier: 4.3.2
+        version: 4.3.2(@types/node@24.10.1)
+      '@pagopa/detector-http':
+        specifier: workspace:*
+        version: link:../packages/detector-http
+      express:
+        specifier: 4.20.0
+        version: 4.20.0
+      onnxruntime-node:
+        specifier: 1.30.0
+        version: 1.30.0
       zod:
         specifier: 3.23.8
         version: 3.23.8

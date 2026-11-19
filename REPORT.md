@@ -2,7 +2,7 @@
 
 ## Sintesi
 
-Il repository contiene un solo detector: BardsAI v2. Il servizio conserva il contratto HTTP di validazione, readiness, lifecycle, admission control e risposta minimizzata, mentre l'inferenza usa il modello multilingue BardsAI in formato ONNX q8 su CPU.
+Questo report storico riguarda soltanto il detector BardsAI v2; il repository comprende anche Horizon, Rizzo e Presidio. Il servizio conserva il contratto HTTP di validazione, readiness, lifecycle, admission control e risposta minimizzata, mentre l'inferenza usa il modello multilingue BardsAI in formato ONNX q8 su CPU.
 
 Modello e runtime:
 
@@ -83,7 +83,7 @@ Il confronto mostra che il parallelismo intra-op incide materialmente sul throug
 
 - test BardsAI: 14/14;
 - contratto HTTP: 114 fixture sul solo servizio BardsAI;
-- layout repository: solo BardsAI come detector;
+- layout storico al momento della verifica: solo BardsAI come detector;
 - typecheck, ESLint, Prettier e `git diff --check`;
 - prefetch offline, smoke locale e smoke Docker;
 - test differenziale tra port TypeScript e snapshot ufficiale del decoder.

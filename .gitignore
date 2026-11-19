@@ -5,6 +5,8 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 node_modules/
+/models/
+/dist/
 poc-bardsai/models/
 poc-bardsai/dist/
 tests/evaluation/**/.downloads/

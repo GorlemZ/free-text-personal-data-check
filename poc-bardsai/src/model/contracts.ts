@@ -15,13 +15,6 @@ export type FieldAnalysis = Detection &
     fieldId: string;
     denied: ReadonlySet<Category>;
   }>;
-export type Prepared = Readonly<{ text: string }>;
-// External model output remains opaque until interpretation.
-export type ModelAdapter = Readonly<{
-  ready(): unknown | Promise<unknown>;
-  prepare(text: string): Prepared | Promise<Prepared>;
-  infer(prepared: Prepared): unknown | Promise<unknown>;
-}>;
 export type Recognizer = (text: string) => ReadonlySet<Category>;
 export type Readiness = () => unknown | Promise<unknown>;
 export type DecoderPrediction = Readonly<{
