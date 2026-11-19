@@ -2044,6 +2044,10 @@
     {
       "name": "invalid-json-0",
       "expectedByEngine": {
+        "bardsai": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
         "horizon": {
           "status": 200,
           "expected": { "verdict": "accepted", "findings": [] }
@@ -2069,6 +2073,10 @@
     {
       "name": "invalid-json-1",
       "expectedByEngine": {
+        "bardsai": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
         "horizon": {
           "status": 200,
           "expected": { "verdict": "accepted", "findings": [] }
@@ -2094,6 +2102,10 @@
     {
       "name": "invalid-json-2",
       "expectedByEngine": {
+        "bardsai": {
+          "status": 200,
+          "expected": { "verdict": "accepted", "findings": [] }
+        },
         "horizon": {
           "status": 200,
           "expected": { "verdict": "accepted", "findings": [] }
@@ -2204,6 +2216,13 @@
         "code": "invalid_request"
       },
       "expectedByEngine": {
+        "bardsai": {
+          "status": 200,
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
+        },
         "horizon": {
           "status": 200,
           "expected": {

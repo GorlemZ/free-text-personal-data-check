@@ -1,0 +1,18 @@
+{
+  "model": "bardsai/eu-pii-anonimization-multilang-v2",
+  "revision": "07a9a69b0d75c551f5f9450b290f864bfc7dfb51",
+  "files": [
+    { "path": "config.json", "size": 6269 },
+    { "path": "tokenizer_config.json", "size": 574 },
+    {
+      "path": "tokenizer.json",
+      "size": 34363188,
+      "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f"
+    },
+    {
+      "path": "onnx/model_quantized.onnx",
+      "size": 308618574,
+      "sha256": "1ee975af537a3ae507769703c03fc83880cce7e2706bc6d2dc1fd9db861acfa1"
+    }
+  ]
+}

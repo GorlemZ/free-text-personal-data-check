@@ -17,11 +17,13 @@ La preparazione installa il modello spaCy previsto dal lockfile. La suite Horizo
 
 ```sh
 python3 tests/run.py horizon contract
+python3 tests/run.py bardsai contract
 ```
 
 | Suite        | Percorso            | Che cosa verifica                                                                                  |
 | ------------ | ------------------- | -------------------------------------------------------------------------------------------------- |
 | `layout`     | `test_layout.py`    | Cartelle operative e suite centralizzate                                                           |
+| `bardsai`    | `bardsai/`          | Decoder ufficiale portato, mapping conservativo e boundary HTTP                                    |
 | `horizon`    | `horizon/`          | Build, pipeline, adapter e riconoscitori                                                           |
 | `presidio`   | `presidio/`         | API, adapter, routing reale e smoke locale                                                         |
 | `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering                                      |

@@ -1,0 +1,147 @@
+// Port of pii_detector.py (word_re decoder) for transformers.js.
+// Predictions follow the Python decoder: 512-token windows with 128 overlap, mean sub-token probabilities per word,
+// B/I pooled per type, merge of adjacent same-type words, format checks, regex emails.
+import { AutoTokenizer, AutoModelForTokenClassification, Tensor, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1";
+
+const W = "[\\p{L}\\p{N}_]";  // Python's Unicode \w
+const EMAIL = new RegExp(`(?<![\\p{L}\\p{N}_.+-])[\\p{L}\\p{N}_.+-]+@[\\p{L}\\p{N}_-]+(?:\\.[\\p{L}\\p{N}_-]+)*\\.[A-Za-z]{2,}(?![\\p{L}\\p{N}_-])`, "gu");
+const URLISH = new RegExp(`(https?://|www\\.|${W}\\.[a-z]{2,}(?!${W})|/${W})`, "iu");
+const WORD = /[^\s,;|"<>()\[\]{}*^]+/gu;
+const ID_TYPES = new Set(["PERSON_IDENTIFIER", "BANK_ACCOUNT_IDENTIFIER", "PAYMENT_CARD", "ACCOUNT_IDENTIFIER",
+  "DOCUMENT_IDENTIFIER", "VEHICLE_IDENTIFIER"]);
+const isSpace = c => /\s/u.test(c);
+const isDigit = c => /\p{Nd}/u.test(c);
+
+function valid(text, s, e, t) {
+  const v = text.slice(s, e); let dg = 0;
+  for (const c of v) if (isDigit(c)) dg++;
+  if (t === "IDENTIFYING_LINK") return URLISH.test(v);
+  if (t === "PHONE_NUMBER") return dg >= 5;
+  if (ID_TYPES.has(t)) return dg >= 2;
+  return true;
+}
+
+function stripChars(s, chars) {
+  let a = 0, b = s.length;
+  while (a < b && chars.includes(s[a])) a++;
+  while (b > a && chars.includes(s[b - 1])) b--;
+  return s.slice(a, b);
+}
+
+const utf8len = cp => cp < 0x80 ? 1 : cp < 0x800 ? 2 : cp < 0x10000 ? 3 : 4;
+
+// Character offsets (UTF-16) for each token, the way HF tokenizers reports them for this Metaspace/BPE tokenizer.
+export function tokenOffsets(text, tokens) {
+  const offs = []; let pos = 0, bytesLeft = 0, byteSpan = null;
+  for (const t of tokens) {
+    const bm = /^<0x([0-9A-Fa-f]{2})>$/.exec(t);
+    if (bm) {  // byte fallback: every byte token of a character gets that character's span
+      if (bytesLeft === 0) {
+        const cp = text.codePointAt(pos) ?? 0x20, w = cp > 0xffff ? 2 : 1;
+        byteSpan = [pos, pos + w]; bytesLeft = utf8len(cp);
+      }
+      offs.push(byteSpan); bytesLeft--;
+      if (bytesLeft === 0) pos = byteSpan[1];
+      continue;
+    }
+    const start = pos; let i = 0;
+    while (i < t.length && t[i] === "▁") { if (text[pos] === " ") pos++; i++; }
+    const rest = t.slice(i).replaceAll("▁", " ");
+    if (rest) {
+      if (text.startsWith(rest, pos)) pos += rest.length;
+      else { const k = text.indexOf(rest, pos); if (k >= 0) pos = k + rest.length; }
+    }
+    offs.push(pos > start ? [start, pos] : [start, Math.min(start + 1, text.length)]);
+  }
+  return offs;
+}
+
+export class PIIDetector {
+  static async load(repo, { dtype = "q8", progress_callback } = {}) {
+    const d = new PIIDetector();
+    d.tok = await AutoTokenizer.from_pretrained(repo, { progress_callback });
+    d.model = await AutoModelForTokenClassification.from_pretrained(repo, { dtype, device: "wasm", progress_callback });
+    const id2label = d.model.config.id2label;
+    d.labels = Object.keys(id2label).map(Number).sort((a, b) => a - b).map(k => id2label[k]);
+    d.types = [...new Set(d.labels.filter(l => l !== "O").map(l => l.split("-").slice(1).join("-")))].sort();
+    const tix = Object.fromEntries(d.types.map((t, i) => [t, i]));
+    d.colOf = d.labels.map(l => l === "O" ? d.types.length : tix[l.split("-").slice(1).join("-")]);
+    d.isB = d.labels.map(l => l.startsWith("B-") || l.startsWith("S-"));
+    const vocab = d.tok.get_vocab(), entries = vocab instanceof Map ? [...vocab] : Object.entries(vocab);
+    d.id2tok = []; for (const [t, i] of entries) d.id2tok[i] = t;
+    const t2i = new Map(entries);
+    d.bos = t2i.get("<bos>"); d.eos = t2i.get("<eos>");
+    return d;
+  }
+
+  async charProbs(text) {
+    const ids = this.tok.encode(text, { add_special_tokens: false });
+    const toks = ids.map(i => this.id2tok[i] ?? "");
+    const offs = tokenOffsets(text, toks);
+    const n = text.length, T = this.types.length + 1, L = this.labels.length;
+    const acc = new Float64Array(n * T), cnt = new Float64Array(n), bmass = new Float64Array(n);
+    const body = 510, step = 510 - 128;
+    for (let st = 0; ; st += step) {
+      const chunk = ids.slice(st, st + body);
+      const inp = [this.bos, ...chunk, this.eos].map(BigInt);
+      const shape = [1, inp.length];
+      const out = await this.model({
+        input_ids: new Tensor("int64", BigInt64Array.from(inp), shape),
+        attention_mask: new Tensor("int64", new BigInt64Array(inp.length).fill(1n), shape),
+      });
+      const lg = out.logits.data;
+      for (let j = 0; j < chunk.length; j++) {
+        let [s, e] = offs[st + j];
+        if (e <= s) continue;
+        while (s < e - 1 && isSpace(text[s])) s++;
+        const row = (j + 1) * L; let mx = -Infinity;
+        for (let c = 0; c < L; c++) mx = Math.max(mx, lg[row + c]);
+        let z = 0; const p = new Float64Array(L);
+        for (let c = 0; c < L; c++) { p[c] = Math.exp(lg[row + c] - mx); z += p[c]; }
+        let pb = 0;
+        for (let c = 0; c < L; c++) { const q = p[c] / z; acc[s * T + this.colOf[c]] += q; if (this.isB[c]) pb += q; }
+        cnt[s] += 1; bmass[s] += pb;
+      }
+      if (st + body >= ids.length) break;
+    }
+    return { acc, cnt, bmass, T };
+  }
+
+  async wordSpans(text) {
+    const { acc, cnt, bmass, T } = await this.charProbs(text);
+    const spans = [];
+    for (const m of text.matchAll(WORD)) {
+      let ws = m.index, we = m.index + m[0].length;
+      while (ws < we && "([{<\"'«„".includes(text[ws])) ws++;
+      while (we > ws && ")]}>\"'».,;:!?".includes(text[we - 1])) we--;
+      if (we <= ws) continue;
+      const v = new Float64Array(T); let tot = 0, first = -1;
+      for (let i = ws; i < we; i++) {
+        if (cnt[i] <= 0) continue;
+        if (first < 0) first = i;
+        for (let c = 0; c < T; c++) v[c] += acc[i * T + c];
+        tot += cnt[i];
+      }
+      if (first < 0) continue;
+      let k = 0;
+      for (let c = 1; c < T; c++) if (v[c] / tot > v[k] / tot) k = c;
+      if (k === this.types.length) continue;
+      const startb = bmass[first] / Math.max(cnt[first], 1), t = this.types[k], prev = spans[spans.length - 1];
+      if (prev && prev[2] === t && stripChars(text.slice(prev[1], ws), " ,-/.()") === ""
+          && !text.slice(prev[1], ws).includes("\n\n") && startb < 0.5) prev[1] = we;
+      else spans.push([ws, we, t]);
+    }
+    return spans;
+  }
+
+  async predict(text) {
+    if (!text.trim()) return [];
+    let spans = (await this.wordSpans(text)).filter(s => valid(text, ...s));
+    const em = [...text.matchAll(EMAIL)].map(m => [m.index, m.index + m[0].length]);
+    if (em.length) spans = spans.filter(s => !em.some(([a, b]) => s[0] < b && a < s[1])).concat(em.map(([a, b]) => [a, b, "EMAIL_ADDRESS"]));
+    spans.sort((x, y) => x[0] - y[0] || x[1] - y[1]);
+    return spans.map(([start, end, label]) => ({ start, end, label, text: text.slice(start, end) }));
+  }
+}
+
+export { env };

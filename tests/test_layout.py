@@ -11,10 +11,10 @@ class LayoutTests(unittest.TestCase):
             p.name for p in ROOT.iterdir()
             if p.is_dir() and not p.name.startswith('.') and p.name != 'node_modules'
         }
-        self.assertEqual(actual, {'tests', 'packages', 'poc-horizon', 'poc-presidio'})
+        self.assertEqual(actual, {'docs', 'tests', 'packages', 'poc-bardsai', 'poc-horizon', 'poc-presidio'})
 
     def test_test_suites_are_centralized(self):
-        for name in ('horizon', 'presidio'):
+        for name in ('bardsai', 'horizon', 'presidio'):
             self.assertTrue((ROOT / 'tests' / name).is_dir(), name)
             self.assertFalse((ROOT / ('poc-' + name) / 'tests').exists(), name)
         self.assertTrue((ROOT / 'tests' / 'evaluation' / 'runner.py').is_file())
@@ -27,14 +27,15 @@ class LayoutTests(unittest.TestCase):
         package = json.loads((ROOT / 'package.json').read_text())
         self.assertEqual(package['packageManager'], 'pnpm@10.29.3')
         self.assertEqual((ROOT / 'pnpm-workspace.yaml').read_text(),
-                         'packages:\n  - packages/*\n  - poc-horizon\n')
+                         'packages:\n  - packages/*\n  - poc-horizon\n  - poc-bardsai\n')
         self.assertTrue((ROOT / 'packages' / 'detector-http' / 'package.json').is_file())
         self.assertTrue((ROOT / 'pnpm-lock.yaml').is_file())
         self.assertFalse((ROOT / 'poc-horizon' / 'package-lock.json').exists())
+        self.assertFalse((ROOT / 'poc-bardsai' / 'package-lock.json').exists())
 
 
     def test_typescript_dockerfiles_use_root_pnpm_context(self):
-        for engine, package in (('horizon', 'poc-horizon-pii-check'),):
+        for engine, package in (('horizon', 'poc-horizon-pii-check'), ('bardsai', 'poc-bardsai-pii-check')):
             directory = ROOT / ('poc-' + engine)
             dockerfile = (directory / 'Dockerfile').read_text()
             ignore = (directory / 'Dockerfile.dockerignore').read_text()
@@ -50,7 +51,7 @@ class LayoutTests(unittest.TestCase):
 
 
     def test_typescript_documentation_uses_workspace_commands(self):
-        for engine, package in (('horizon', 'poc-horizon-pii-check'),):
+        for engine, package in (('horizon', 'poc-horizon-pii-check'), ('bardsai', 'poc-bardsai-pii-check')):
             readme = (ROOT / ('poc-' + engine) / 'README.md').read_text()
             self.assertNotIn('npm --prefix', readme)
             self.assertNotIn('npm test', readme)
@@ -68,6 +69,7 @@ class LayoutTests(unittest.TestCase):
         runner = (ROOT / 'tests' / 'run.py').read_text()
         self.assertNotIn("['npm', '--prefix'", runner)
         self.assertIn("['pnpm', 'test:horizon']", runner)
+        self.assertIn("['pnpm', 'test:bardsai']", runner)
 
 if __name__ == '__main__':
     unittest.main()

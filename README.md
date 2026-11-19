@@ -4,14 +4,15 @@ Stato al 17 novembre 2026.
 
 ## Stato attuale
 
-Due prototipi (PoC) confrontano il riconoscimento di dati personali nei testi liberi. Condividono il contratto business e le categorie considerate: per ogni campo si indicano le categorie consentite; le altre categorie rilevate causano il rifiuto della richiesta. I criteri di riconoscimento restano specifici di ogni motore.
+Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi liberi. Condividono il contratto business e le categorie considerate: per ogni campo si indicano le categorie consentite; le altre categorie rilevate causano il rifiuto della richiesta. I criteri di riconoscimento restano specifici di ogni motore.
 
-| PoC      | Come riconosce i dati                                                  |
-| -------- | ---------------------------------------------------------------------- |
-| Horizon  | Modello più compatto, con regole integrative per categorie non coperte |
-| Presidio | Libreria di riconoscimento con un modello per la lingua italiana       |
+| PoC      | Come riconosce i dati                                                   |
+| -------- | ----------------------------------------------------------------------- |
+| BardsAI  | Modello multilingue ONNX q8 con decoder ufficiale portato in TypeScript |
+| Horizon  | Modello più compatto, con regole integrative per categorie non coperte  |
+| Presidio | Libreria di riconoscimento con un modello per la lingua italiana        |
 
-L'elaborazione avviene localmente. Horizon ha sorgenti TypeScript compilati in JavaScript e usa Transformers.js; Presidio usa Python. Horizon usa `@pagopa/detector-http`, il package infrastrutturale che monta routing Express, abilita il parser JSON standard con limite 1 MiB, valida la porta e gestisce listen/segnali/shutdown. Valida `req.body` con Zod e delega a Express la serializzazione JSON.
+L'elaborazione avviene localmente. BardsAI e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python. Entrambi i servizi Node usano `@pagopa/detector-http`, il package infrastrutturale che monta routing Express, abilita il parser JSON standard con limite 1 MiB, valida la porta e gestisce listen/segnali/shutdown. BardsAI è sperimentale e non è incluso nei risultati storici pubblicati qui sotto.
 
 Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Candidate B ammette di default due richieste attive e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
 
@@ -62,7 +63,7 @@ Sono massimi campionati dell'intero container in prove brevi e non omogenee e no
 ## Guide e utilizzo
 
 - [Report di valutazione per stakeholder tecnici e funzionali](REPORT.md).
-- PoC: [Horizon](poc-horizon/README.md), [Presidio](poc-presidio/README.md).
+- PoC: [BardsAI](poc-bardsai/README.md), [Horizon](poc-horizon/README.md), [Presidio](poc-presidio/README.md).
 - [Installazione e test](tests/README.md).
 - [Interfaccia comune](tests/contract/README.md).
 - [Metodo e limiti dei test sulle risorse](tests/resources/README.md).

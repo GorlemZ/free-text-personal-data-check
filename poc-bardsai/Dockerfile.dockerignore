@@ -1,0 +1,10 @@
+.git
+.hermes
+node_modules
+**/node_modules
+**/dist
+tests
+results
+**/results
+evidence
+**/evidence
