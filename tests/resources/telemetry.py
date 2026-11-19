@@ -123,7 +123,7 @@ class Docker:
         args = ['create', '--pull=never', '--name', name, '--label', self.label + '=' + self.token,
                 '--cpus', str(cpus), '--memory', str(memory), '--memory-swap', str(memory),
                 '--restart=no', '-p', '127.0.0.1::8000']
-        if engine in ('horizon', 'presidio'):
+        if engine == 'bardsai':
             args += ['-e', 'ANALYZER_BIND_HOST=0.0.0.0']
         cid = self.call([*args, image], deadline).strip()
         if not re.fullmatch(r'[0-9a-f]{64}', cid):

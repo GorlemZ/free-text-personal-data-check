@@ -2046,15 +2046,10 @@
       "expectedByEngine": {
         "bardsai": {
           "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "horizon": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "rizzo": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
         }
       },
       "mode": "ready",
@@ -2075,15 +2070,10 @@
       "expectedByEngine": {
         "bardsai": {
           "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "horizon": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "rizzo": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
         }
       },
       "mode": "ready",
@@ -2104,15 +2094,10 @@
       "expectedByEngine": {
         "bardsai": {
           "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "horizon": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
-        },
-        "rizzo": {
-          "status": 200,
-          "expected": { "verdict": "accepted", "findings": [] }
+          "expected": {
+            "verdict": "accepted",
+            "findings": []
+          }
         }
       },
       "mode": "ready",
@@ -2217,20 +2202,6 @@
       },
       "expectedByEngine": {
         "bardsai": {
-          "status": 200,
-          "expected": {
-            "verdict": "accepted",
-            "findings": []
-          }
-        },
-        "horizon": {
-          "status": 200,
-          "expected": {
-            "verdict": "accepted",
-            "findings": []
-          }
-        },
-        "rizzo": {
           "status": 200,
           "expected": {
             "verdict": "accepted",

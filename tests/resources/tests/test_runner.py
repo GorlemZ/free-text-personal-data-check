@@ -41,17 +41,16 @@ class Contracts(unittest.TestCase):
         self.assertEqual(config.memory, 4294967296)
         self.assertEqual(config.images, {e: 'tag' for e in r.ENGINES})
         for bad in (args, args + images + ['--cpus', 'nan'], args + images + ['--budget-seconds', '301'],
-                    args + images + ['--image', 'rizzo=other'], args + images + ['--memory', '-1g']):
+                    args + images + ['--image', 'bardsai=other'], args + images + ['--memory', '-1g']):
             with self.subTest(args=bad), contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 r.parse_args(bad)
         offline = r.parse_args(['--rerender', 'receipt.json', '--output', 'newdir'])
         self.assertIsNotNone(offline.rerender)
 
-    def test_external_sources_literal_payload_and_common_order(self):
+    def test_gold_projection_literal_payload_and_common_order(self):
         self.assertTrue((ROOT / 'tests/resources/run.py').exists(), 'resource runner missing')
         r = harness()
         gold = json.loads((ROOT / 'tests/evaluation/gold.json').read_text())
-        gold['cases'][0]['source'] = 'aliasit'
         before = copy.deepcopy(gold)
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'gold.json'
@@ -60,10 +59,9 @@ class Contracts(unittest.TestCase):
         self.assertEqual(gold, before)
         self.assertEqual([c['id'] for c in cases], [c['id'] for c in r.ordered_cases(gold['cases'])])
         self.assertEqual(r.payload(cases[0]), {'fields': [dict(fieldId=f['fieldId'], text=f['text'], allowedCategories=[]) for f in cases[0]['fields']]})
-        self.assertEqual(r.evaluation.SOURCES, ['rizzo', 'gretel', 'targeted', 'legacy'])
         self.assertNotIn('text', json.dumps(r.case_metadata(cases)))
         bad = copy.deepcopy(gold)
-        bad['cases'][0]['fields'][0]['text'] = 'word ' * 51
+        bad['cases'][0]['text'] = 'word ' * 51
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'gold.json'
             path.write_text(json.dumps(bad))

@@ -35,10 +35,10 @@ export default tseslint.config(
   },
   ...tseslint.configs.strictTypeChecked.map((config) => ({
     ...config,
-    files: ["poc-horizon/src/**/*.ts", "poc-bardsai/src/**/*.ts"],
+    files: ["poc-bardsai/src/**/*.ts"],
   })),
   {
-    files: ["poc-horizon/src/**/*.ts", "poc-bardsai/src/**/*.ts"],
+    files: ["poc-bardsai/src/**/*.ts"],
     languageOptions: {
       parserOptions: {
         project: "./tsconfig.eslint.json",

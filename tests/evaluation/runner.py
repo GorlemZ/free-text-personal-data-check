@@ -1,4 +1,4 @@
-"""Three-engine category-detection golden runner; standard library only."""
+"""BardsAI category-detection golden runner; standard library only."""
 import argparse
 import csv
 import http.client
@@ -12,7 +12,7 @@ import urllib.request
 
 CATALOG = ['PERSON', 'EMAIL_ADDRESS', 'PHONE_NUMBER', 'IT_FISCAL_CODE',
            'IT_VAT_CODE', 'IBAN_CODE', 'CREDIT_CARD', 'IT_IDENTITY_CARD', 'IT_DRIVER_LICENSE']
-ENGINES = ['rizzo', 'horizon', 'presidio']
+ENGINES = ['bardsai']
 GOLD_VERSION = 'category-detection-1'
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_NAMES = ('results.json', 'summary.csv', 'verdict.csv', 'category.csv',

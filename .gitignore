@@ -5,12 +5,8 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 node_modules/
-poc-horizon/models/
-poc-horizon/dist/
 poc-bardsai/models/
 poc-bardsai/dist/
-poc-rizzo/**/models/
-poc-rizzo/**/*.log
 tests/evaluation/**/.downloads/
 tests/evaluation/**/.test-output/
 *.partial

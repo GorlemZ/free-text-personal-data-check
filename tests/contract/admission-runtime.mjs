@@ -185,7 +185,7 @@ export function admissionTests(engine) {
       }
       return [];
     };
-    const analysisService = engine === "horizon" ? { analyze } : analyze;
+    const analysisService = analyze;
     const server = createServer(
       createApp({
         analysisService,
@@ -254,22 +254,12 @@ export function admissionTests(engine) {
           enteredSecond.resolve();
           await second.promise;
         }
-        return engine === "horizon" ? [] : new Set();
+        return new Set();
       };
-      const analysisService =
-        engine === "horizon"
-          ? analysisServiceBuilder({
-              adapter: {
-                ready: () => true,
-                prepare: (text) => ({ text }),
-                infer: ({ text }) => infer(text),
-              },
-              recognize: () => new Set(),
-            })
-          : analysisServiceBuilder({
-              modelDetectionService: infer,
-              ruleDetectionService: () => new Set(),
-            });
+      const analysisService = analysisServiceBuilder({
+        modelDetectionService: infer,
+        ruleDetectionService: () => new Set(),
+      });
       const server = createServer(
         createApp({
           analysisService,

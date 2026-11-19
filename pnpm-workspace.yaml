@@ -1,4 +1,3 @@
 packages:
   - packages/*
-  - poc-horizon
   - poc-bardsai

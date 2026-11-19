@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 import runner
 
-RESULTS=ROOT/'results'/'category-detection-v3-2026-11-17'
+RESULTS=ROOT/'results'/'bardsai-v2-category-detection-2026-11-18'
 
 
 class CurrentBundleTests(unittest.TestCase):
@@ -16,9 +16,12 @@ class CurrentBundleTests(unittest.TestCase):
         result=json.loads((RESULTS/'results.json').read_text())
         runner.validate_result(result)
         self.assertEqual(result['caseCount'],142)
-        self.assertEqual(len(result['observations']),426)
+        self.assertEqual(len(result['observations']),142)
         self.assertEqual(set(path.name for path in RESULTS.iterdir()),
-                         {'results.json','summary.csv','verdict.csv','category.csv','differences.csv','report.md'})
+                         {'results.json','summary.csv','verdict.csv','category.csv','differences.csv','report.md','provenance.json'})
+        provenance=json.loads((RESULTS/'provenance.json').read_text())
+        self.assertEqual(provenance['modelRevision'],'07a9a69b0d75c551f5f9450b290f864bfc7dfb51')
+        self.assertEqual(provenance['goldSha256'],'fcd165520fdd53ba6e9335d7a174a4ab7cb9dfe4e754bd6c60b4cbb8e653cb73')
         gold=json.loads((ROOT/'gold.json').read_text())
         exported=json.dumps(result,ensure_ascii=False)
         self.assertTrue(all(case['text'] not in exported for case in gold['cases']))
@@ -28,9 +31,7 @@ class CurrentBundleTests(unittest.TestCase):
                              for item in result['observations']]
         self.assertEqual(observed_projection,expected_projection)
         expected={
-            'rizzo': {'verdict':(97,9,2,34),'bodyExact':113},
-            'horizon': {'verdict':(98,6,1,37),'bodyExact':122},
-            'presidio': {'verdict':(79,8,20,35),'bodyExact':101},
+            'bardsai': {'verdict':(96,7,3,36),'bodyExact':125},
         }
         metrics=runner.score(result)
         for engine, values in expected.items():
@@ -45,8 +46,8 @@ class CurrentBundleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             rendered=Path(temp)/'rendered'
             runner.write_reports(result,rendered)
-            for path in RESULTS.iterdir():
-                self.assertEqual(path.read_bytes(),(rendered/path.name).read_bytes(),path.name)
+            for filename in runner.OUTPUT_NAMES:
+                self.assertEqual((RESULTS/filename).read_bytes(),(rendered/filename).read_bytes(),filename)
 
 
 if __name__=='__main__': unittest.main()

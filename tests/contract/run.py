@@ -20,9 +20,6 @@ ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = Path(__file__).with_name('fixtures.json')
 COMMANDS = {
     'bardsai': ['node', 'tests/contract/serve-bardsai.mjs'],
-    'horizon': ['node', 'tests/contract/serve-horizon.mjs'],
-    'presidio': ['uv', 'run', '--project', 'poc-presidio', '--extra', 'dev',
-                 'python', 'tests/contract/serve-presidio.py'],
 }
 
 

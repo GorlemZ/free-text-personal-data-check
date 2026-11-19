@@ -12,7 +12,6 @@ import importlib.util
 import json
 from pathlib import Path
 import re
-import types
 from dataclasses import dataclass, asdict
 import uuid
 import csv
@@ -37,7 +36,11 @@ ROOT = Path(__file__).resolve().parents[2]
 _spec = importlib.util.spec_from_file_location('resource_evaluation', ROOT / 'tests/evaluation/runner.py')
 evaluation = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(evaluation)
-ENGINES = ('rizzo', 'horizon', 'presidio')
+ENGINES = ('bardsai',)
+
+
+def words(text):
+    return len(re.findall(r'\S+', text))
 
 
 def ordered_cases(cases):
@@ -46,20 +49,22 @@ def ordered_cases(cases):
 
 def load_gold(path):
     gold = json.loads(Path(path).read_text(encoding='utf-8'), object_pairs_hook=evaluation.unique_object)
-    # Reuse every structural/annotation check without changing the shared loader,
-    # its globals, or the input. Sources are corpus metadata, not engine names.
-    sources = {c['source'] for c in gold.get('cases', [])}
-    if not all(isinstance(s, str) and re.fullmatch(r'[a-z][a-z0-9_-]{0,63}', s) for s in sources):
-        raise ValueError('SOURCE')
-    scope = dict(evaluation.__dict__, SOURCES=sorted(sources))
-    scope['validate_cases'] = types.FunctionType(evaluation.validate_cases.__code__, scope,
-                                                argdefs=evaluation.validate_cases.__defaults__)
-    types.FunctionType(evaluation.validate_gold.__code__, scope)(gold)
-    return ordered_cases(gold['cases'])
+    evaluation.validate_gold(gold)
+    cases = []
+    for case in gold['cases']:
+        source = case['id'].partition('-')[0]
+        if not re.fullmatch(r'[a-z][a-z0-9_-]{0,63}', source):
+            raise ValueError('SOURCE')
+        if words(case['text']) > 50:
+            raise ValueError('WORDS')
+        cases.append(dict(id=case['id'], source=source, expected=case['expected'],
+                          fields=[dict(fieldId='text', text=case['text'])]))
+    return ordered_cases(cases)
 
 
 def payload(case):
-    return evaluation.payload_for(case, 'detection')
+    return {'fields': [dict(fieldId=field['fieldId'], text=field['text'], allowedCategories=[])
+                       for field in case['fields']]}
 
 
 def stage_admissible(now, deadline, socket_timeout=5.):
@@ -103,7 +108,7 @@ def _load_child(pipe, host, port, cases, concurrency, timeout):
                             value = json.loads(body, object_pairs_hook=evaluation.unique_object)
                         except (ValueError, UnicodeError):
                             raise ValueError('INVALID_JSON') from None
-                        evaluation.project_response(value, case)
+                        evaluation.project_response(value)
                 except (socket.timeout, TimeoutError):
                     status, code = 'timeout', 'SOCKET_TIMEOUT'
                     stopped.set()
@@ -560,7 +565,7 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
         receipt['elapsed'] = time.monotonic() - started if started else 0.
         if hard_end and time.monotonic() > hard_end:
             receipt['incidents'].append('deadline_overrun_cleanup')
-        receipt['complete'] = (not receipt['stop_reason'] and not receipt['incidents'] and len(receipt['engines']) == 3 and
+        receipt['complete'] = (not receipt['stop_reason'] and not receipt['incidents'] and len(receipt['engines']) == len(ENGINES) and
                                all(e['coverage']['complete'] and e['cleanup'] for e in receipt['engines'].values()))
     return receipt
 
@@ -688,7 +693,7 @@ def render(receipt, output, *, reserved=False):
     report += ['', '## Mix and interpretation', '',
         'Per-case/source completion mix and total fields/characters/words are in stages.csv. Only in-window compliant successes enter throughput/mix; drain belongs to the submitting stage. Success latency includes drain; window_p95 is used for plateau.',
         'Plateau: >=30 in-window successes in both windows, no errors, <=10% gain on doubled clients and increasing window p95; confirmation within +/-10%, total variation <=0.10 for both comparisons. These are exploratory diagnostics, not statistical proof or an SLA.',
-        'Different engines may complete different prefixes even with a common case order. HTTP clients are not simultaneous inference workers; Horizon serializes inference with a bounded queue.',
+        'A single engine may cover only a prefix of the shared case order. HTTP clients are not simultaneous inference workers; BardsAI uses bounded admission around inference.',
         'Memory file includes shmem: do not add them. Do not add RSS or file cache to memory.current. Per-process PID/PPid/RSS and missing-field reasons are in samples.csv; RSS is not summed.',
         'memory.peak is since container startup when available; per-phase maxima are sampled at about 1 Hz, not exact peaks. CPU includes collector and other container processes; cores = delta usage_usec / delta cgroup monotonic microseconds, quota% = cores / assigned CPUs * 100.',
         'Static exports can warm VM page cache. Post du runs only after collector shutdown; image/model/cache bytes overlap, shared layers are not exclusive recoverable disk, builder cache is out of scope.',
@@ -701,7 +706,7 @@ def render(receipt, output, *, reserved=False):
 def case_metadata(cases):
     return [{'id': c['id'], 'source': c['source'], 'fields': len(c['fields']),
              'characters': sum(len(f['text']) for f in c['fields']),
-             'words': sum(evaluation.words(f['text']) for f in c['fields'])} for c in cases]
+             'words': sum(words(f['text']) for f in c['fields'])} for c in cases]
 
 
 def parse_args(argv=None):
@@ -730,7 +735,7 @@ def parse_args(argv=None):
         if args.gold or args.image:
             parser.error('--rerender cannot be combined with --gold or --image')
     elif not args.gold or set(args.images) != set(ENGINES):
-        parser.error('--gold and --image for rizzo, horizon and presidio are required')
+        parser.error('--gold and --image for bardsai are required')
     return args
 
 

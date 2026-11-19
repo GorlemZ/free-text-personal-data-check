@@ -1,74 +1,67 @@
-# Contratto comune dei servizi
+# Contratto HTTP BardsAI
 
-## Richiesta e risposta
+La suite esercita il servizio BardsAI tramite un server HTTP reale con inferenza sostituita da fixture deterministiche.
 
-- `GET /health/ready`: `200 {"status":"ready"}` soltanto quando il detector è pronto; altrimenti `503 {"code":"detector_unavailable"}`. Un processo che fallisce prima del bind non espone un endpoint pronto.
-- `POST /v1/analyze`, `Content-Type: application/json` (case-insensitive, parametri consentiti). Horizon usa la decodifica UTF-8 standard di Express, che sostituisce sequenze invalide; Presidio conserva la decodifica UTF-8 rigorosa.
-- Metodo e path devono coincidere esattamente: query string, slash finale, path percent-encoded alternativo e metodi diversi ricevono 404, senza redirect.
+## Endpoint
+
+- `GET /health/ready`: `200 {"status":"ready"}` quando modello e servizio sono pronti; altrimenti `503 {"code":"detector_unavailable"}`.
+- `POST /v1/analyze`: richiede `Content-Type: application/json`; parametri del media type e case differenti sono consentiti.
+- Path, slash finali, query string, path percent-encoded alternativi e metodi diversi ricevono 404.
+
+## Richiesta
 
 ```json
 {
   "fields": [
     {
-      "fieldId": "descrizione",
-      "text": "Vorrei informazioni.",
+      "fieldId": "description",
+      "text": "testo da analizzare",
       "allowedCategories": []
     }
   ]
 }
 ```
 
-Da 1 a 10 campi; `fieldId` univoco e lungo 1–128 unità UTF-16. `text` può essere vuoto e contiene al massimo 50 unità separate dalla proprietà Unicode `White_Space`. ID e testo devono essere stringhe Unicode ben formate, senza surrogate isolate. Non si tronca l'input. Body massimo 1 MiB UTF-8. Lo schema è chiuso; tipi errati e membri ignoti sono invalidi. Horizon usa `JSON.parse`: chiavi duplicate, anche con escape equivalenti, hanno semantica last-wins; si valida solo il risultato, incluse le stringhe finali ben formate. I valori precedenti scartati non sono ispezionati. `fieldId` ripetuti restano vietati. Presidio conserva il rifiuto dei duplicati: `expectedByEngine` nelle tre fixture pertinenti rende esplicita questa differenza senza modificarne il parser.
+Vincoli principali:
 
-`fieldId` viene restituito nella risposta: usare identificatori tecnici, senza dati personali. La policy `allowedCategories` deve provenire da un chiamante fidato; validare i nomi delle categorie non autorizza un utente finale a scegliere le eccezioni.
+- da 1 a 10 campi;
+- `fieldId` univoco, da 1 a 128 unità UTF-16;
+- testo al massimo di 50 parole Unicode;
+- stringhe Unicode ben formate;
+- body massimo 1 MiB UTF-8;
+- schema chiuso, senza proprietà ignote;
+- `allowedCategories` omesso significa deny-all; `[]` esplicito ha la stessa semantica.
 
-`allowedCategories` è facoltativo: omesso o vuoto vieta tutte le categorie. I duplicati non cambiano la policy. Catalogo chiuso:
-
-`PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD`, `IT_DRIVER_LICENSE`.
-
-Risposta business esclusivamente HTTP 200:
-
-```json
-{ "verdict": "accepted", "findings": [] }
-```
+## Risposta
 
 ```json
 {
   "verdict": "rejected",
-  "findings": [{ "fieldId": "descrizione", "category": "PERSON" }]
+  "findings": [{ "fieldId": "description", "category": "PERSON" }]
 }
 ```
 
-Ogni coppia vietata viene restituita una volta; ordine lessicografico per unità UTF-16 su `fieldId`, poi `category`. Le categorie consentite sono omesse. Un solo finding vietato basta al rifiuto. Nessun testo, valore estratto, span, score, etichetta nativa o versione del modello nella risposta.
+I finding sono deduplicati e ordinati per campo e catalogo. Il servizio non restituisce testo, span, score o label native.
 
-## Errori e precedenza
+Categorie: `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD`, `IT_DRIVER_LICENSE`.
 
-| HTTP | Body                              | Condizione                                               |
-| ---- | --------------------------------- | -------------------------------------------------------- |
-| 404  | `{"code":"not_found"}`            | Metodo/path non ammessi                                  |
-| 400  | `{"code":"invalid_request"}`      | Content-Type non ammesso                                 |
-| 413  | `{"code":"body_too_large"}`       | Body oltre 1 MiB                                         |
-| 400  | `{"code":"invalid_request"}`      | JSON, Unicode risultante o schema invalido               |
-| 503  | `{"code":"detector_unavailable"}` | Detector indisponibile, output invalido o limite tecnico |
+## Errori
 
-La tabella è nell'ordine di precedenza. In Presidio una sequenza UTF-8 invalida rientra nel 400; in Horizon può diventare replacement character e la richiesta prosegue se JSON e schema risultanti sono validi. Si valida l'intera richiesta prima dell'inferenza: input invalido resta 400 anche quando il detector non è disponibile. Gli errori non espongono verdetti o finding parziali. Un limite token può essere superato anche sotto 50 parole e produce 503. Horizon valida prima dell’ammissione: una richiesta valida eccedente la capacità configurata riceve 503 senza attendere o eseguire inferenza; health non occupa capacità. Il budget include token speciali ed è verificato per campo sequenzialmente, senza risultati parziali.
+| HTTP | Body                              | Significato                                |
+| ---: | --------------------------------- | ------------------------------------------ |
+|  400 | `{"code":"invalid_request"}`      | input, JSON o media type non valido        |
+|  404 | `{"code":"not_found"}`            | endpoint non riconosciuto                  |
+|  413 | `{"code":"body_too_large"}`       | body oltre 1 MiB                           |
+|  503 | `{"code":"detector_unavailable"}` | modello, output o capacità non disponibile |
 
-## Semantica e limiti
+La validazione precede l'ammissione. La coda bounded mappa overflow e scadenze a 503. Errori tecnici e output malformati falliscono chiusi e non espongono risultati parziali.
 
-Il servizio proietta internamente le etichette native nel catalogo comune **prima** della policy. Extra nativi conosciuti, come luoghi e date, non causano un rifiuto. Etichette sconosciute alla versione del motore e risultati malformati sono errori tecnici.
-
-Il gold considera telefoni italiani e documenti italiani; email, carte e IBAN hanno portata internazionale. Un documento generico non diventa automaticamente CIE o patente italiana. Identificativi riconoscibili con checksum errato sono positivi nel gold: i filtri di validità dei singoli motori possono quindi causare falsi negativi misurati. Il contratto uniforme non implica detection equivalente. Nel nucleo Horizon semplificato le categorie coperte dipendono esclusivamente dal modello: niente veto di checksum, forma, offset o geografia; le regole integrano solo categorie non coperte secondo la matrice statica nel README. Il gold (inclusa la portata italiana dei telefoni) non cambia; le nuove differenze richiedono una valutazione reale separata.
-
-`accepted` è un esito euristico, non una certificazione di assenza di dati personali. Servizi sperimentali locali, senza autenticazione: pubblicare solo su loopback.
-
-## Verifiche ripetibili
-
-Dalla root, dopo l’[installazione delle dipendenze di test](../README.md#installazione-ed-esecuzione):
+## Esecuzione
 
 ```sh
 python3 tests/contract/run.py
-python3 tests/contract/run.py --engine horizon
-python3 tests/contract/run.py --base horizon=http://127.0.0.1:18082
+python3 tests/contract/run.py --engine bardsai
+python3 tests/contract/run.py --base bardsai=http://127.0.0.1:18084
 ```
 
-`fixtures.json` è condiviso dai due handler. I server `serve-*` sostituiscono soltanto l'output nativo prima di adapter e policy; non provano la qualità dei modelli. `--base` usa solo i casi marcati `realSmoke` contro un servizio già avviato con detector reale, senza iniezione. Non avvia né ferma container esterni. Il confronto di qualità è separato in `../evaluation/`.
+La prima forma avvia la fixture BardsAI. `--base` usa un servizio già avviato. Le fixture contengono 114 casi e non richiedono i pesi del modello.

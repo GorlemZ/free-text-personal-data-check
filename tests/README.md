@@ -1,55 +1,52 @@
 # Test e valutazione
 
-Tutti i comandi partono dalla root del repository. Node.js 24, Corepack e pnpm 10.29.3 servono ai PoC TypeScript; Python 3.11–3.12 e `uv` al PoC Presidio. Il runner di valutazione usa soltanto la standard library Python.
-
-## Installazione ed esecuzione
+Tutti i comandi partono dalla root del repository. Servono Node.js, Corepack, pnpm 10.29.3 e Python 3 per i runner standard-library.
 
 ```sh
 corepack enable
 pnpm install --frozen-lockfile
-uv sync --project poc-presidio --frozen --extra dev
+pnpm test
 python3 tests/run.py
 ```
 
-La preparazione installa il modello spaCy previsto dal lockfile. La suite Horizon non richiede pesi ONNX; la suite Presidio include uno smoke del motore reale locale. Le fixture condivise sostituiscono l'output nativo prima dell'adapter e usano veri server HTTP.
-
-`tests/run.py` esegue tutte le suite oppure quelle indicate, per esempio:
+`tests/run.py` esegue tutte le suite oppure quelle indicate:
 
 ```sh
-python3 tests/run.py horizon contract
-python3 tests/run.py bardsai contract
+python3 tests/run.py bardsai contract layout
+python3 tests/run.py evaluation resources
 ```
 
-| Suite        | Percorso            | Che cosa verifica                                                                                  |
-| ------------ | ------------------- | -------------------------------------------------------------------------------------------------- |
-| `layout`     | `test_layout.py`    | Cartelle operative e suite centralizzate                                                           |
-| `bardsai`    | `bardsai/`          | Decoder ufficiale portato, mapping conservativo e boundary HTTP                                    |
-| `horizon`    | `horizon/`          | Build, pipeline, adapter e riconoscitori                                                           |
-| `presidio`   | `presidio/`         | API, adapter, routing reale e smoke locale                                                         |
-| `evaluation` | `evaluation/tests/` | Gold, collector con server finti, matrici, errori e rendering                                      |
-| `resources`  | `resources/tests/`  | Contabilità risorse, lifecycle Docker iniettato e HTTP loopback finto; nessun benchmark automatico |
-| `contract`   | `contract/`         | Stesse fixture HTTP contro i due handler, con inferenza sostituita                                 |
+| Suite        | Percorso            | Copertura                                                       |
+| ------------ | ------------------- | --------------------------------------------------------------- |
+| `layout`     | `test_layout.py`    | struttura del repository e wiring degli script                  |
+| `bardsai`    | `bardsai/`          | decoder, mapping, regole, HTTP, Docker e differenziale upstream |
+| `contract`   | `contract/`         | contratto HTTP completo sul solo servizio BardsAI               |
+| `evaluation` | `evaluation/tests/` | golden, collector, metriche, errori e rendering                 |
+| `resources`  | `resources/tests/`  | contabilità, lifecycle Docker e HTTP loopback finto             |
 
-Controlli statici aggiuntivi, dopo l'installazione:
+## Gate statici
 
 ```sh
-pnpm typecheck
-uv run --project poc-presidio --extra dev ruff check --config poc-presidio/pyproject.toml poc-presidio/src tests/presidio tests/contract/serve-presidio.py
-```
-
-## Suite Node senza pesi
-
-Per lavorare soltanto su Horizon, senza invocare il runner Python:
-
-```sh
-pnpm test
 pnpm check
 ```
 
-## Inferenza e confronto reali
+Il comando esegue typecheck, ESLint e Prettier sull'applicazione BardsAI e sul package HTTP.
 
-Lo smoke del README [Horizon](../poc-horizon/README.md) richiede il prefetch del modello. Le [fixture del contratto](contract/README.md#verifiche-ripetibili) possono essere applicate anche ai container già avviati tramite `--base`.
+## Modello reale
 
-Il [mini stress test delle risorse](resources/README.md) è un esperimento Docker opt-in, sequenziale e limitato nel tempo. Richiede immagini già costruite con provenienza verificata e una nuova directory risultati; supporta anche un gold esterno. La suite `resources` esegue soltanto test unitari e server HTTP finti, mai inferenza o container reali.
+I test ordinari non scaricano pesi. Per eseguire inferenza reale:
 
-Il [confronto golden](evaluation/README.md) invia una sola POST deny-all per caso e motore. Le misure pubblicate provengono dalle 426 osservazioni del bundle corrente; i test del runner usano server HTTP finti e non eseguono le suite locali dei PoC.
+```sh
+pnpm --filter poc-bardsai-pii-check prefetch:model
+pnpm --filter poc-bardsai-pii-check smoke
+```
+
+Gli asset finiscono in `poc-bardsai/models/`, sono esclusi da Git e vengono verificati contro `poc-bardsai/model-manifest.json`.
+
+## Contratto, golden e risorse
+
+- [`contract/README.md`](contract/README.md): schema e comandi del contratto HTTP.
+- [`evaluation/README.md`](evaluation/README.md): golden da 142 casi e bundle sanificato.
+- [`resources/README.md`](resources/README.md): protocollo opt-in e risultati closed/open loop.
+
+I bundle pubblicabili non contengono testo originale, span, score o body grezzi. I test delle risorse usano finti server locali; container e benchmark reali restano opt-in.

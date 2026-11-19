@@ -1,71 +1,82 @@
-# Controllo dei dati personali nei campi liberi
+# Free-text personal-data check — BardsAI v2
 
-Stato al 17 novembre 2026.
+Repository sperimentale per valutare un unico detector di dati personali basato su [`bardsai/eu-pii-anonimization-multilang-v2`](https://huggingface.co/bardsai/eu-pii-anonimization-multilang-v2), fissato alla revisione `07a9a69b0d75c551f5f9450b290f864bfc7dfb51`.
 
-## Stato attuale
+Il servizio usa Node.js, TypeScript, Transformers.js 4.3.2 e ONNX q8 su CPU. Il decoder JavaScript ufficiale BardsAI è portato in TypeScript e mantiene windowing, softmax, pooling BIO, aggregazione e merge. Modello e tokenizer vengono caricati da asset locali verificati tramite SHA-256; l'avvio runtime è offline/local-only.
 
-Tre prototipi (PoC) confrontano il riconoscimento di dati personali nei testi liberi. Condividono il contratto business e le categorie considerate: per ogni campo si indicano le categorie consentite; le altre categorie rilevate causano il rifiuto della richiesta. I criteri di riconoscimento restano specifici di ogni motore.
+## Contratto HTTP
 
-| PoC      | Come riconosce i dati                                                   |
-| -------- | ----------------------------------------------------------------------- |
-| BardsAI  | Modello multilingue ONNX q8 con decoder ufficiale portato in TypeScript |
-| Horizon  | Modello più compatto, con regole integrative per categorie non coperte  |
-| Presidio | Libreria di riconoscimento con un modello per la lingua italiana        |
+- `GET /health/ready`
+- `POST /v1/analyze`
+- massimo 10 campi e 50 parole per campo
+- risposta minimizzata con solo verdetto e categorie
+- errori tecnici separati dal verdetto business
+- ammissione bounded con coda FIFO e timeout
 
-L'elaborazione avviene localmente. BardsAI e Horizon hanno sorgenti TypeScript compilati in JavaScript e usano Transformers.js; Presidio usa Python. Entrambi i servizi Node usano `@pagopa/detector-http`, il package infrastrutturale che monta routing Express, abilita il parser JSON standard con limite 1 MiB, valida la porta e gestisce listen/segnali/shutdown. BardsAI è sperimentale e non è incluso nei risultati storici pubblicati qui sotto.
+Esempio:
 
-Horizon usa l'inferenza come fonte primaria, senza veto basati sugli offset o controlli strutturali aggiuntivi sulle predizioni. Le regole integrano soltanto categorie non coperte dal modello. Il budget di token, le analisi contemporanee e la coda pending sono configurabili. Candidate B ammette di default due richieste attive e quattro pending in FIFO per un massimo di 500 ms; overflow e scadenza mantengono il `503 detector_unavailable` esistente. Il parsing JSON standard conserva l'ultimo valore delle chiavi duplicate; gli identificatori di campo duplicati restano vietati.
+```json
+{
+  "fields": [
+    {
+      "fieldId": "description",
+      "text": "testo da analizzare",
+      "allowedCategories": []
+    }
+  ]
+}
+```
 
-## Valutazione funzionale corrente — 17 novembre 2026
+Le categorie pubbliche sono `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `IT_FISCAL_CODE`, `IT_VAT_CODE`, `IBAN_CODE`, `CREDIT_CARD`, `IT_IDENTITY_CARD` e `IT_DRIVER_LICENSE`.
 
-Il golden `category-detection-1` contiene **142 testi autonomi** e le sole categorie attese. Ogni testo viene inviato una volta a ciascun motore con tutte le categorie vietate. Il bundle pubblicato contiene **426 osservazioni complete**, senza errori tecnici o contrattuali; il runner non esegue retry. La migrazione non modifica codice o configurazione dei servizi.
+## Installazione e verifiche
 
-### Correttezza dei verdetti e del body
+```sh
+corepack enable
+pnpm install --frozen-lockfile
+pnpm check
+python3 tests/run.py
+```
 
-Il golden prevede 99 rifiuti e 43 accettazioni. Il verdetto è quello restituito nel body HTTP; `body esatto` richiede anche findings e categorie identici all'oracolo.
+Il modello non è versionato nel repository. Il prefetch verifica il manifest e prepara `poc-bardsai/models/`:
 
-| PoC      | Verdetti corretti |  TP |  FP |  FN |  TN | Body esatti |
-| -------- | ----------------: | --: | --: | --: | --: | ----------: |
-| Horizon  |  135/142 — 95,07% |  98 |   6 |   1 |  37 |     122/142 |
-| Presidio |  114/142 — 80,28% |  79 |   8 |  20 |  35 |     101/142 |
+```sh
+pnpm --filter poc-bardsai-pii-check prefetch:model
+pnpm --filter poc-bardsai-pii-check smoke
+```
 
-Horizon ha il maggior numero di verdetti corretti e di body esatti tra i PoC attivi in questo campione. La correttezza del solo verdetto resta distinta dalla correttezza delle categorie: un rifiuto può essere causato da una categoria diversa da quella attesa.
+## Valutazione
 
-### Metodo e limiti
+Golden `category-detection-1`, 142 casi:
 
-La metrica misura la presenza della categoria nel testo, non il numero di entità o gli span. Il corpus conserva positivi, negativi, near-miss, identificativi riconoscibili con checksum errato, overlap e formati insoliti. Non misura policy con allowlist non vuote, error handling, limiti, memoria o prestazioni.
+| Misura            |        Risultato |
+| ----------------- | ---------------: |
+| Verdetti corretti | 132/142 — 92,96% |
+| Body esatti       | 125/142 — 88,03% |
+| TP / FP / FN / TN |  96 / 7 / 3 / 36 |
+| Recall            |           96,97% |
+| Precisione        |           93,20% |
 
-Il campione è di sviluppo e **non held-out**. Le percentuali descrivono questi 142 testi e non attestano generalizzazione o rappresentatività produttiva. Un verdetto `accepted` non prova l'assenza di dati personali.
+Il [bundle sanificato](tests/evaluation/results/bardsai-v2-category-detection-2026-11-18/) non contiene testo originale, span o score. Un esito `accepted` resta euristico e non certifica l'assenza di dati personali.
 
-Il [metodo di valutazione](tests/evaluation/README.md), il [report completo](tests/evaluation/results/category-detection-v3-2026-11-17/report.md) e il [bundle JSON](tests/evaluation/results/category-detection-v3-2026-11-17/results.json) contengono matrici, differenze e osservazioni sanificate. Il bundle esclude testi, provenance, span, score, note libere e body di errore. La rigenerazione offline dei sei file è byte-identica. I container usati dal run sono stati rimossi.
+## Risorse
 
-## Memoria e capacità
+Screening locale Docker Desktop ARM64, 2 CPU e 4 GB:
 
-Candidate A è stata verificata su Horizon con una replica limitata a 2 CPU e `4_000_000_000` byte, ORT intra-op 2/inter-op 1, una richiesta attiva e quattro pending. Nello screening seriale preliminare Horizon ha elaborato 8,65 req/s con p95 271,1 ms e circa 2.198,0 MiB post-load, completando 30/30 richieste.
+- configurazione pubblicata ONNX 1/1: plateau closed-loop circa 8,7 risposte/s;
+- esperimento ONNX 2/1: plateau closed-loop circa 15,1 risposte/s;
+- memoria osservata circa 0,93–1,03 GiB per `memory.current` e circa 1,06 GiB RSS.
 
-Il [report Candidate A](tests/resources/results/phase-a-candidate-a-2026-11-16/report.md) contiene configurazione, metodo, gate e limiti. È uno screening breve closed-loop: non certifica capacità produttiva, RAM minima o stabilità prolungata; restano da eseguire le curve open-loop e il confronto Candidate B/C.
+Sono prove locali brevi, utili per confronto e dimensionamento iniziale; non costituiscono garanzie di capacità produttiva.
 
-Candidate B usa una sessione ONNX condivisa con intra-op/inter-op 1/1 e due richieste attive. Il gate di isolamento reale è passato su Horizon, ma lo screening preliminare a due client ha superato il target p90: 5,12 req/s e p90 752,6 ms. Il [report Candidate B](tests/resources/results/phase-b-candidate-b-2026-11-16/report.md) conserva risultati e caveat storici; le curve open-loop restano necessarie prima di una decisione finale.
+## Struttura
 
-Candidate C usa due processi/sessioni con intra-op/inter-op 1/1, una richiesta attiva e due pending per worker nello stesso cgroup 2 CPU/4 GB. Horizon ha completato lo screening con 6,78 req/s e p90 469,6 ms, ma il cold start ha raggiunto 3.993.735.168 byte: il margine è troppo ridotto per promuoverla senza prove open-loop e cold-start ripetuti. Dettagli nel [report Candidate C](tests/resources/results/phase-c-candidate-c-2026-11-16/report.md).
+- [`poc-bardsai/`](poc-bardsai/README.md): servizio, decoder, prefetch e Dockerfile.
+- [`packages/detector-http/`](packages/detector-http/): infrastruttura HTTP condivisa dal servizio.
+- [`tests/bardsai/`](tests/bardsai/): unità, integrazione, decoder differenziale e smoke.
+- [`tests/contract/`](tests/contract/README.md): contratto HTTP ripetibile.
+- [`tests/evaluation/`](tests/evaluation/README.md): golden e risultati funzionali.
+- [`tests/resources/`](tests/resources/README.md): protocollo e risultati di memoria/performance.
+- [`REPORT.md`](REPORT.md): sintesi tecnica.
 
-### Misure storiche
-
-Le misure seguenti precedono la versione corrente e **non ne certificano il consumo**. Horizon aveva completato una prova con 4 GB disponibili e 30 richieste; Presidio era stato misurato con un carico diverso.
-
-| PoC      | Massimo di RAM osservato nella prova storica | Esito storico                        |
-| -------- | -------------------------------------------: | ------------------------------------ |
-| Horizon  |                                Circa 2,36 GB | Test a 4 GB completato               |
-| Presidio |                                Circa 0,16 GB | Misura precedente con carico diverso |
-
-Sono massimi campionati dell'intero container in prove brevi e non omogenee e non vanno confrontati direttamente con Candidate A. Il run funzionale non è un benchmark di risorse.
-
-## Guide e utilizzo
-
-- [Report di valutazione per stakeholder tecnici e funzionali](REPORT.md).
-- PoC: [BardsAI](poc-bardsai/README.md), [Horizon](poc-horizon/README.md), [Presidio](poc-presidio/README.md).
-- [Installazione e test](tests/README.md).
-- [Interfaccia comune](tests/contract/README.md).
-- [Metodo e limiti dei test sulle risorse](tests/resources/README.md).
-
-I PoC sono per prove locali con dati di test. Prima dell'integrazione servono accessi controllati, rete protetta e regole sui dati consentiti definite da una fonte fidata. Alcuni dati personali possono sfuggire anche con un esito di accettazione.
+Uso sperimentale locale, senza autenticazione. Esporre soltanto su loopback o dietro controlli di accesso adeguati.

@@ -17,7 +17,6 @@ class FailureTests(unittest.TestCase):
     def test_http_or_contract_failure_aborts_without_final_bundle(self):
         for mode in ('http','json','schema'):
             def respond(engine,payload):
-                if engine!='horizon': return 200, {'verdict':'accepted','findings':[]}
                 if mode=='http': return 503, {}
                 if mode=='json': return 200, b'INVALID SECRET RESPONSE'
                 return 200, {'verdict':'accepted','findings':[],'extra':True}
