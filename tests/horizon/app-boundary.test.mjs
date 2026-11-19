@@ -39,16 +39,12 @@ test("HTTP boundary has mandatory DI and no transitive runtime model dependency"
   assert.doesNotMatch(source, /\.listen\(|process\.env/);
 });
 
-test("both PoCs delegate method and path matching to a router framework", () => {
-  for (const relative of [
-    "../../poc-horizon/src/app.ts",
-    "../../poc-rizzo/src/app.ts",
-  ]) {
-    const source = readFileSync(new URL(relative, import.meta.url), "utf8");
-    assert.match(source, /from ["']@pagopa\/detector-http["']/, relative);
-    assert.doesNotMatch(source, /request\.method|req\.method/, relative);
-    assert.doesNotMatch(source, /request\.url|req\.url/, relative);
-  }
+test("Horizon delegates method and path matching to a router framework", () => {
+  const relative = "../../poc-horizon/src/app.ts";
+  const source = readFileSync(new URL(relative, import.meta.url), "utf8");
+  assert.match(source, /from ["']@pagopa\/detector-http["']/, relative);
+  assert.doesNotMatch(source, /request\.method|req\.method/, relative);
+  assert.doesNotMatch(source, /request\.url|req\.url/, relative);
 });
 
 test("Horizon uses standard JSON parsing, Zod validation and framework serialization", () => {
@@ -79,14 +75,10 @@ test("Horizon uses standard JSON parsing, Zod validation and framework serializa
   assert.doesNotMatch(validator, /JSON\.parse/);
 });
 
-test("both composition roots delegate server lifecycle to the shared infrastructure package", () => {
-  for (const relative of [
-    "../../poc-horizon/src/index.ts",
-    "../../poc-rizzo/src/index.ts",
-  ]) {
-    const source = readFileSync(new URL(relative, import.meta.url), "utf8");
-    assert.match(source, /startServer/);
-    assert.match(source, /from ["']@pagopa\/detector-http["']/);
-    assert.doesNotMatch(source, /createServer|server\.listen|process\.once/);
-  }
+test("Horizon delegates server lifecycle to the shared infrastructure package", () => {
+  const relative = "../../poc-horizon/src/index.ts";
+  const source = readFileSync(new URL(relative, import.meta.url), "utf8");
+  assert.match(source, /startServer/);
+  assert.match(source, /from ["']@pagopa\/detector-http["']/);
+  assert.doesNotMatch(source, /createServer|server\.listen|process\.once/);
 });

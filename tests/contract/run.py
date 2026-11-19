@@ -19,7 +19,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = Path(__file__).with_name('fixtures.json')
 COMMANDS = {
-    'rizzo': ['node', 'tests/contract/serve-rizzo.mjs'],
+    'bardsai': ['node', 'tests/contract/serve-bardsai.mjs'],
     'horizon': ['node', 'tests/contract/serve-horizon.mjs'],
     'presidio': ['uv', 'run', '--project', 'poc-presidio', '--extra', 'dev',
                  'python', 'tests/contract/serve-presidio.py'],
@@ -110,7 +110,7 @@ def local_checks(engine, cases):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--engine', action='append', choices=tuple(COMMANDS), help='Default: all three')
+    parser.add_argument('--engine', action='append', choices=tuple(COMMANDS), help='Default: all engines')
     parser.add_argument('--base', action='append', default=[], metavar='ENGINE=URL', help='Real-service smoke only; no child process')
     args = parser.parse_args()
     cases = json.loads(FIXTURES.read_text())['cases']

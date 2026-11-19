@@ -4,13 +4,14 @@ Aggiornamento: 17 novembre 2026. Risultati funzionali correnti: golden `category
 
 ## Sintesi
 
-Il repository confronta tre implementazioni dello stesso servizio HTTP:
+Il repository mantiene due implementazioni attive dello stesso servizio HTTP:
 
 - **Horizon**, basato su un modello ONNX q8 eseguito in Node.js e regole per le categorie non coperte dal modello;
-- **Rizzo**, basato su un modello ONNX fp32 eseguito in Node.js e regole integrative;
 - **Presidio**, usato come termine di confronto e basato sulla libreria Python con modello italiano.
 
-I tre motori ricevono gli stessi campi, applicano la stessa policy sulle categorie consentite e restituiscono lo stesso formato di risposta per le richieste valide. Il contratto documenta differenze di parsing sugli input malformati, in particolare UTF-8 non valido e chiavi JSON duplicate. Nel confronto funzionale sul golden `category-detection-1`, Horizon ha ottenuto l'accuratezza più alta sul verdetto business: **95,07%**, contro **92,25%** di Rizzo e **80,28%** di Presidio.
+I due motori attivi ricevono gli stessi campi, applicano la stessa policy sulle categorie consentite e restituiscono lo stesso formato di risposta per le richieste valide. Il contratto documenta differenze di parsing sugli input malformati, in particolare UTF-8 non valido e chiavi JSON duplicate. Nel confronto funzionale sul golden `category-detection-1`, Horizon ha ottenuto l'accuratezza più alta sul verdetto business: **95,07%**, contro **80,28%** di Presidio.
+
+Le tabelle seguenti conservano i risultati Rizzo prodotti prima della rimozione del PoC esclusivamente come evidenza storica. Rizzo è escluso dalle proposte e dalle valutazioni future.
 
 La parte prestazionale è ancora preliminare. Gli screening A, B e C misurano configurazioni diverse con carichi closed-loop brevi. Non sostituiscono le curve open-loop, i cold start ripetuti e i run prolungati necessari per stimare la capacità produttiva.
 
@@ -25,13 +26,13 @@ Una richiesta contiene fino a 10 campi e fino a 50 parole per campo. Ogni campo 
 
 Il contratto comprende nove categorie: persona, email, telefono, codice fiscale, partita IVA, IBAN, carta di pagamento, carta d'identità italiana e patente italiana. La risposta non include testo estratto, span, score o dettagli del modello. Errori di input e indisponibilità tecnica restano separati dal verdetto di business.
 
-Rizzo e Horizon eseguono l'intera detection nel processo Node.js e non contengono Python nelle immagini. I due servizi condividono il package HTTP, il parser JSON con limite di 1 MiB, la validazione Zod e una coda FIFO bounded. Presidio mantiene il proprio runtime Python ed è sottoposto allo stesso contratto esterno.
+Horizon esegue l'intera detection nel processo Node.js e non contiene Python nell'immagine. Usa il package HTTP condiviso, il parser JSON con limite di 1 MiB, la validazione Zod e una coda FIFO bounded. Presidio mantiene il proprio runtime Python ed è sottoposto allo stesso contratto esterno.
 
 ## Metodo della valutazione funzionale
 
 Il golden `category-detection-1` contiene 142 casi autonomi nella forma `{id, text, expected}`. Provenance, policy annotate, span, offset, note di review e configurazioni di limite/memoria sono esclusi dal corpus.
 
-Per ogni caso il runner invia una sola richiesta HTTP a Rizzo, Horizon e Presidio con `allowedCategories: []`. Il confronto misura:
+Per ogni caso il runner storico ha inviato una sola richiesta HTTP ai motori allora presenti con `allowedCategories: []`. Il confronto misura:
 
 1. verdetto business `accepted`/`rejected` restituito via HTTP;
 2. uguaglianza del body completo `{verdict, findings}`;
@@ -45,11 +46,11 @@ Il golden contiene 99 casi da rifiutare e 43 da accettare. Il campione è di svi
 
 Positivo significa "rifiuto atteso". Un falso negativo è un testo accettato per errore; un falso positivo è un testo rifiutato per errore.
 
-| Motore | TP | FP | FN | TN | Accuratezza | Body esatti |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Horizon | 98 | 6 | 1 | 37 | **95,07%** | **122/142** |
-| Rizzo | 97 | 9 | 2 | 34 | **92,25%** | **113/142** |
-| Presidio | 79 | 8 | 20 | 35 | **80,28%** | **101/142** |
+| Motore   |  TP |  FP |  FN |  TN | Accuratezza | Body esatti |
+| -------- | --: | --: | --: | --: | ----------: | ----------: |
+| Horizon  |  98 |   6 |   1 |  37 |  **95,07%** | **122/142** |
+| Rizzo    |  97 |   9 |   2 |  34 |  **92,25%** | **113/142** |
+| Presidio |  79 |   8 |  20 |  35 |  **80,28%** | **101/142** |
 
 Horizon accetta per errore 1 caso sui 99 da rifiutare; Rizzo 2 e Presidio 20. Sui 43 casi da accettare, Horizon ne rifiuta 6, Rizzo 9 e Presidio 8. Il body esatto è un criterio più forte del verdetto: richiede le categorie corrette e nessun finding aggiuntivo.
 
@@ -57,17 +58,17 @@ Horizon accetta per errore 1 caso sui 99 da rifiutare; Rizzo 2 e Presidio 20. Su
 
 La sensibilità misura quanti positivi attesi vengono trovati. La precisione misura quante segnalazioni appartengono alla categoria attesa. L'unità è la presenza della categoria nel testo, non il numero di entità o lo span.
 
-| Categoria | Positivi | Rizzo sens. | Rizzo prec. | Horizon sens. | Horizon prec. | Presidio sens. | Presidio prec. |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Persona | 61 | 96,72% | 100% | 96,72% | 100% | 77,05% | 79,66% |
-| Email | 22 | 100% | 100% | 100% | 95,65% | 100% | 100% |
-| Telefono | 16 | 75% | 75% | 100% | 76,19% | 81,25% | 86,67% |
-| Codice fiscale | 14 | 100% | 82,35% | 100% | 100% | 100% | 100% |
-| Partita IVA | 6 | 83,33% | 55,56% | 100% | 85,71% | 50% | 75% |
-| IBAN | 8 | 100% | 33,33% | 100% | 88,89% | 62,50% | 100% |
-| Carta di credito | 14 | 100% | 77,78% | 100% | 63,64% | 64,29% | 100% |
-| Carta d'identità italiana | 4 | 75% | 100% | 75% | 100% | 100% | 100% |
-| Patente italiana | 5 | 80% | 100% | 80% | 100% | 60% | 100% |
+| Categoria                 | Positivi | Rizzo sens. | Rizzo prec. | Horizon sens. | Horizon prec. | Presidio sens. | Presidio prec. |
+| ------------------------- | -------: | ----------: | ----------: | ------------: | ------------: | -------------: | -------------: |
+| Persona                   |       61 |      96,72% |        100% |        96,72% |          100% |         77,05% |         79,66% |
+| Email                     |       22 |        100% |        100% |          100% |        95,65% |           100% |           100% |
+| Telefono                  |       16 |         75% |         75% |          100% |        76,19% |         81,25% |         86,67% |
+| Codice fiscale            |       14 |        100% |      82,35% |          100% |          100% |           100% |           100% |
+| Partita IVA               |        6 |      83,33% |      55,56% |          100% |        85,71% |            50% |            75% |
+| IBAN                      |        8 |        100% |      33,33% |          100% |        88,89% |         62,50% |           100% |
+| Carta di credito          |       14 |        100% |      77,78% |          100% |        63,64% |         64,29% |           100% |
+| Carta d'identità italiana |        4 |         75% |        100% |           75% |          100% |           100% |           100% |
+| Patente italiana          |        5 |         80% |        100% |           80% |          100% |            60% |           100% |
 
 I risultati evidenziano compromessi diversi. Horizon trova tutti i positivi per telefono, partita IVA, IBAN e carta di credito, con falsi positivi soprattutto su telefono e carte. Rizzo trova tutti gli IBAN ma aggiunge 16 falsi positivi nella categoria. Presidio mantiene precisione piena su diverse categorie strutturate, con minore sensibilità su persona, partita IVA, IBAN, carte e patente.
 
@@ -77,14 +78,14 @@ Il corpus conserva positivi, negativi, near-miss, checksum errati riconoscibili,
 
 Gli screening usano una replica limitata a 2 CPU e `4_000_000_000` byte di RAM. La quota CPU limita il tempo disponibile e non equivale al pinning di due core fisici.
 
-| Configurazione | Motore | Struttura | Risultato breve | Memoria osservata |
-| --- | --- | --- | --- | ---: |
-| Candidate A | Horizon | 1 processo, ORT 2/1, 1 richiesta attiva | 8,65 req/s; p90 267,3 ms | 2.304.770.048 B post-load |
-| Candidate A | Rizzo | 1 processo, ORT 2/1, 1 richiesta attiva | 6,84 req/s; p90 313,2 ms | 2.307.670.016 B post-load |
-| Candidate B | Horizon | 1 processo, ORT 1/1, 2 richieste attive | 5,12 req/s; p90 752,6 ms | 2.363.596.800 B, massimo campione |
-| Candidate B | Rizzo | 1 processo, ORT 1/1, 2 richieste attive | 5,02 req/s; p90 789,7 ms | 2.962.227.200 B, massimo campione |
-| Candidate C | Horizon | 2 processi, ORT 1/1 per processo | 6,78 req/s; p90 469,6 ms | 3.993.735.168 B al cold load |
-| Candidate C | Rizzo | 2 processi, ORT 1/1 per processo | caricamento non completato | OOM del cgroup |
+| Configurazione | Motore  | Struttura                               | Risultato breve            |                 Memoria osservata |
+| -------------- | ------- | --------------------------------------- | -------------------------- | --------------------------------: |
+| Candidate A    | Horizon | 1 processo, ORT 2/1, 1 richiesta attiva | 8,65 req/s; p90 267,3 ms   |         2.304.770.048 B post-load |
+| Candidate A    | Rizzo   | 1 processo, ORT 2/1, 1 richiesta attiva | 6,84 req/s; p90 313,2 ms   |         2.307.670.016 B post-load |
+| Candidate B    | Horizon | 1 processo, ORT 1/1, 2 richieste attive | 5,12 req/s; p90 752,6 ms   | 2.363.596.800 B, massimo campione |
+| Candidate B    | Rizzo   | 1 processo, ORT 1/1, 2 richieste attive | 5,02 req/s; p90 789,7 ms   | 2.962.227.200 B, massimo campione |
+| Candidate C    | Horizon | 2 processi, ORT 1/1 per processo        | 6,78 req/s; p90 469,6 ms   |      3.993.735.168 B al cold load |
+| Candidate C    | Rizzo   | 2 processi, ORT 1/1 per processo        | caricamento non completato |                    OOM del cgroup |
 
 Candidate A è lo screening seriale con il miglior throughput osservato per entrambi i motori. Candidate B supera il target p90 di 500 ms. Candidate C raggiunge quel target per Horizon nel singolo run, ma durante il cold start rimane a circa 6,3 MB dal limite; Rizzo non riesce a caricare due modelli nel cap.
 

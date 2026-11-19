@@ -1,0 +1,1982 @@
+{
+  "schemaVersion": 1,
+  "goldVersion": "category-detection-1",
+  "goldSha256": "fcd165520fdd53ba6e9335d7a174a4ab7cb9dfe4e754bd6c60b4cbb8e653cb73",
+  "engine": "bardsai-v2",
+  "model": "bardsai/eu-pii-anonimization-multilang-v2",
+  "modelRevision": "07a9a69b0d75c551f5f9450b290f864bfc7dfb51",
+  "runtime": "transformers.js-4.3.2-onnx-q8-cpu",
+  "imageId": "sha256:8b7c462f0a868726e5ebab32674f192cfbb5f036a2625589f509a46e49ebcb83",
+  "catalog": [
+    "PERSON",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER",
+    "IT_FISCAL_CODE",
+    "IT_VAT_CODE",
+    "IBAN_CODE",
+    "CREDIT_CARD",
+    "IT_IDENTITY_CARD",
+    "IT_DRIVER_LICENSE"
+  ],
+  "caseCount": 142,
+  "observations": [
+    {
+      "caseId": "rizzo-2266",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_IDENTITY_CARD",
+        "IT_DRIVER_LICENSE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_IDENTITY_CARD",
+        "IT_DRIVER_LICENSE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-2335",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-14989",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15085",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15127",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15224",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15261",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15265",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-15285",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "rizzo-26377",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-38",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-50",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-60",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-96",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-114",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-128",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-146",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-256",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-282",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-311",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-313",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-321",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-328",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-364",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-382",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-421",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-431",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-443",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-00",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-03",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-04",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-05",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-06",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-07",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "accepted",
+      "expectedCategories": [
+        "IT_IDENTITY_CARD"
+      ],
+      "observedCategories": [],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "targeted-08",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "observedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-09",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-10",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-11",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-12",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-13",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-14",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-15",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-16",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-17",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-18",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-19",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-20",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-21",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-22",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-23",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-24",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "targeted-24-2",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-fiscal-code-s01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-driver-license-s01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "observedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-phone-number-s01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-vat-code-s01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-iban-code-s01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-fiscal-code-s02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-identity-card-s02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_IDENTITY_CARD"
+      ],
+      "observedCategories": [
+        "IT_IDENTITY_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-iban-code-s02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-credit-card-s03",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-phone-number-s04",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-email-address-s05",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-person-s06",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-person-negative-01",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "legacy-person-negative-02",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-person-negative-03",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-email-address-negative-04",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-fiscal-code-negative-02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-identity-card-negative-03",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-driver-license-negative-05",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-phone-number-negative-04",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-vat-code-negative-03",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-iban-code-negative-02",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-iban-code-negative-04",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-credit-card-negative-03",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-credit-card-isolated",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-it-driver-license-isolated",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "observedCategories": [
+        "IT_DRIVER_LICENSE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "legacy-mixture-01",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "IT_FISCAL_CODE",
+        "IT_IDENTITY_CARD",
+        "IT_DRIVER_LICENSE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "IT_FISCAL_CODE",
+        "IT_IDENTITY_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "legacy-phone-vat-overlap",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PHONE_NUMBER",
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "PHONE_NUMBER",
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-5",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-17",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-61",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "accepted",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-77",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-93",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-127",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-138",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-141",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-151",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-154",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-165",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-177",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-180",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-184",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-198",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-225",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-238",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-248",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-274",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-289",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-294",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "IBAN_CODE"
+      ],
+      "observedCategories": [
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-340",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-353",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-355",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-360",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IBAN_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-365",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-374",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-390",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "gretel-392",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "accepted",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "gretel-439",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-50",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "CREDIT_CARD"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-57",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-65",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-70",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-83",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-90",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-95",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-106",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-119",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-137",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-142",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-150",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "CREDIT_CARD"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-154",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-172",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-176",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "EMAIL_ADDRESS",
+        "PHONE_NUMBER"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-3298",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3333",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "observedCategories": [
+        "PERSON",
+        "PHONE_NUMBER",
+        "IT_FISCAL_CODE"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3086",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3087",
+      "expectedVerdict": "rejected",
+      "observedVerdict": "rejected",
+      "expectedCategories": [
+        "PERSON"
+      ],
+      "observedCategories": [
+        "PERSON"
+      ],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3088",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3205",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3208",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3254",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "rejected",
+      "expectedCategories": [],
+      "observedCategories": [
+        "IT_VAT_CODE"
+      ],
+      "verdictCorrect": false,
+      "bodyExact": false
+    },
+    {
+      "caseId": "aliasit-3268",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3277",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3283",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3286",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3110",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3113",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    },
+    {
+      "caseId": "aliasit-3125",
+      "expectedVerdict": "accepted",
+      "observedVerdict": "accepted",
+      "expectedCategories": [],
+      "observedCategories": [],
+      "verdictCorrect": true,
+      "bodyExact": true
+    }
+  ],
+  "metrics": {
+    "summary": {
+      "cases": 142,
+      "verdictCorrect": 132,
+      "verdictIncorrect": 10,
+      "bodyMatch": 125,
+      "bodyMismatch": 17
+    },
+    "verdict": {
+      "n": 142,
+      "positive": 99,
+      "negative": 43,
+      "tp": 96,
+      "fp": 7,
+      "fn": 3,
+      "tn": 36,
+      "recall": 0.9696969696969697,
+      "precision": 0.9320388349514563,
+      "specificity": 0.8372093023255814,
+      "accuracy": 0.9295774647887324,
+      "balancedAccuracy": 0.9034531360112756,
+      "falseAcceptanceRate": 0.030303030303030304,
+      "falseRejectionRate": 0.16279069767441862
+    },
+    "categories": {
+      "PERSON": {
+        "n": 142,
+        "positive": 61,
+        "negative": 81,
+        "tp": 58,
+        "fp": 1,
+        "fn": 3,
+        "tn": 80,
+        "recall": 0.9508196721311475,
+        "precision": 0.9830508474576272,
+        "specificity": 0.9876543209876543,
+        "accuracy": 0.971830985915493,
+        "balancedAccuracy": 0.9692369965594009,
+        "falseAcceptanceRate": 0.04918032786885246,
+        "falseRejectionRate": 0.012345679012345678
+      },
+      "EMAIL_ADDRESS": {
+        "n": 142,
+        "positive": 22,
+        "negative": 120,
+        "tp": 22,
+        "fp": 0,
+        "fn": 0,
+        "tn": 120,
+        "recall": 1.0,
+        "precision": 1.0,
+        "specificity": 1.0,
+        "accuracy": 1.0,
+        "balancedAccuracy": 1.0,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.0
+      },
+      "PHONE_NUMBER": {
+        "n": 142,
+        "positive": 16,
+        "negative": 126,
+        "tp": 16,
+        "fp": 6,
+        "fn": 0,
+        "tn": 120,
+        "recall": 1.0,
+        "precision": 0.7272727272727273,
+        "specificity": 0.9523809523809523,
+        "accuracy": 0.9577464788732394,
+        "balancedAccuracy": 0.9761904761904762,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.047619047619047616
+      },
+      "IT_FISCAL_CODE": {
+        "n": 142,
+        "positive": 14,
+        "negative": 128,
+        "tp": 14,
+        "fp": 0,
+        "fn": 0,
+        "tn": 128,
+        "recall": 1.0,
+        "precision": 1.0,
+        "specificity": 1.0,
+        "accuracy": 1.0,
+        "balancedAccuracy": 1.0,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.0
+      },
+      "IT_VAT_CODE": {
+        "n": 142,
+        "positive": 6,
+        "negative": 136,
+        "tp": 6,
+        "fp": 1,
+        "fn": 0,
+        "tn": 135,
+        "recall": 1.0,
+        "precision": 0.8571428571428571,
+        "specificity": 0.9926470588235294,
+        "accuracy": 0.9929577464788732,
+        "balancedAccuracy": 0.9963235294117647,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.007352941176470588
+      },
+      "IBAN_CODE": {
+        "n": 142,
+        "positive": 8,
+        "negative": 134,
+        "tp": 8,
+        "fp": 1,
+        "fn": 0,
+        "tn": 133,
+        "recall": 1.0,
+        "precision": 0.8888888888888888,
+        "specificity": 0.9925373134328358,
+        "accuracy": 0.9929577464788732,
+        "balancedAccuracy": 0.9962686567164178,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.007462686567164179
+      },
+      "CREDIT_CARD": {
+        "n": 142,
+        "positive": 14,
+        "negative": 128,
+        "tp": 14,
+        "fp": 3,
+        "fn": 0,
+        "tn": 125,
+        "recall": 1.0,
+        "precision": 0.8235294117647058,
+        "specificity": 0.9765625,
+        "accuracy": 0.9788732394366197,
+        "balancedAccuracy": 0.98828125,
+        "falseAcceptanceRate": 0.0,
+        "falseRejectionRate": 0.0234375
+      },
+      "IT_IDENTITY_CARD": {
+        "n": 142,
+        "positive": 4,
+        "negative": 138,
+        "tp": 3,
+        "fp": 0,
+        "fn": 1,
+        "tn": 138,
+        "recall": 0.75,
+        "precision": 1.0,
+        "specificity": 1.0,
+        "accuracy": 0.9929577464788732,
+        "balancedAccuracy": 0.875,
+        "falseAcceptanceRate": 0.25,
+        "falseRejectionRate": 0.0
+      },
+      "IT_DRIVER_LICENSE": {
+        "n": 142,
+        "positive": 5,
+        "negative": 137,
+        "tp": 4,
+        "fp": 0,
+        "fn": 1,
+        "tn": 137,
+        "recall": 0.8,
+        "precision": 1.0,
+        "specificity": 1.0,
+        "accuracy": 0.9929577464788732,
+        "balancedAccuracy": 0.9,
+        "falseAcceptanceRate": 0.2,
+        "falseRejectionRate": 0.0
+      }
+    }
+  }
+}

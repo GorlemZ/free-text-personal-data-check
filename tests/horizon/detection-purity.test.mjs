@@ -6,14 +6,9 @@ import { fileURLToPath } from "node:url";
 import ts from "../../poc-horizon/node_modules/typescript/lib/typescript.js";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
-// Composition-selected entry points, including injected Rizzo collaborators.
+// Composition-selected Horizon entry point.
 // SDK adapters, HTTP/admission, startup and token budgets are intentionally outside this pure core.
-const roots = [
-  "poc-horizon/src/services/analysisService.ts",
-  "poc-rizzo/src/services/analysisService.ts",
-  "poc-rizzo/src/services/modelDetectionService.ts",
-  "poc-rizzo/src/recognizers/rules.ts",
-];
+const roots = ["poc-horizon/src/services/analysisService.ts"];
 const mutators = new Set([
   "add",
   "set",

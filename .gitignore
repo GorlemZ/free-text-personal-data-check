@@ -7,6 +7,8 @@ __pycache__/
 node_modules/
 poc-horizon/models/
 poc-horizon/dist/
+poc-bardsai/models/
+poc-bardsai/dist/
 poc-rizzo/**/models/
 poc-rizzo/**/*.log
 tests/evaluation/**/.downloads/

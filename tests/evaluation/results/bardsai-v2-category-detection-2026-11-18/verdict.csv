@@ -1,0 +1,2 @@
+engine,n,positive,negative,tp,fp,fn,tn,recall,precision,specificity,accuracy,balancedAccuracy,falseAcceptanceRate,falseRejectionRate
+bardsai-v2,142,99,43,96,7,3,36,0.9696969696969697,0.9320388349514563,0.8372093023255814,0.9295774647887324,0.9034531360112756,0.030303030303030304,0.16279069767441862

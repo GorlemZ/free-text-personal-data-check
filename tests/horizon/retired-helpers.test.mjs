@@ -27,19 +27,10 @@ test("retired rule helpers and decoder are absent from source and clean emit", (
       );
     }
   }
-  assert.equal(
-    existsSync(
-      new URL("../rizzo/fixtures/legacy-decoder.mjs", import.meta.url),
-    ),
-    false,
-  );
 });
 
 test("retired direct dependencies and obsolete p-limit admission are absent", () => {
-  for (const [engine, retired] of [
-    ["horizon", "libphonenumber-js"],
-    ["rizzo", "ibantools"],
-  ]) {
+  for (const [engine, retired] of [["horizon", "libphonenumber-js"]]) {
     const read = (file) =>
       JSON.parse(
         readFileSync(

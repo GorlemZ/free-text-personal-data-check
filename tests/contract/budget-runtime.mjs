@@ -2,16 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
-import { mkdtemp, writeFile, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 import { createServer } from "node:http";
 import { once } from "node:events";
 
-export function budgetHttpTests(engine) {
+export function budgetHttpTests() {
   test("real HTTP wiring counts special tokens, accepts exact budget and aborts late overflow without partial response", async (t) => {
     const require = createRequire(
-      new URL(`../../poc-${engine}/package.json`, import.meta.url),
+      new URL("../../poc-horizon/package.json", import.meta.url),
     );
     const { PreTrainedTokenizer, TokenClassificationPipeline, Tensor } =
       await import(
@@ -60,7 +57,7 @@ export function budgetHttpTests(engine) {
     };
     const config = {
       max_position_embeddings: 4,
-      id2label: { 0: "O", 1: engine === "horizon" ? "B-PERSON" : "B-FULLNAME" },
+      id2label: { 0: "O", 1: "B-PERSON" },
     };
     const tokenizer = new PreTrainedTokenizer(tokenizerJSON, {
       model_max_length: 4,
@@ -91,58 +88,31 @@ export function budgetHttpTests(engine) {
       },
       { config },
     );
-    const { transformersAdapterBuilder } = await import(
-      `../../poc-${engine}/dist/adapters/transformersAdapter.js`
-    );
-    const { analysisServiceBuilder } = await import(
-      `../../poc-${engine}/dist/services/analysisService.js`
-    );
-    const { createApp } = await import(`../../poc-${engine}/dist/app.js`);
-    const options =
-      engine === "horizon"
-        ? {
-            createPipeline: async () => {
-              loads.push("load");
-              return new TokenClassificationPipeline({
-                task: "token-classification",
-                model,
-                tokenizer,
-              });
-            },
-          }
-        : await (async () => {
-            const dir = await mkdtemp(join(tmpdir(), "budget-http-"));
-            t.after(() => rm(dir, { recursive: true, force: true }));
-            await writeFile(join(dir, "manifest.json"), '{"files":{}}');
-            await writeFile(join(dir, "config.json"), JSON.stringify(config));
-            await writeFile(
-              join(dir, "tokenizer.json"),
-              JSON.stringify(tokenizerJSON),
-            );
-            return {
-              directory: pathToFileURL(dir + "/"),
-              manifestPath: pathToFileURL(join(dir, "manifest.json")),
-              loadModel: async () => {
-                loads.push("load");
-                return model;
-              },
-            };
-          })();
+    const { transformersAdapterBuilder } =
+      await import("../../poc-horizon/dist/adapters/transformersAdapter.js");
+    const { analysisServiceBuilder } =
+      await import("../../poc-horizon/dist/services/analysisService.js");
+    const { createApp } = await import("../../poc-horizon/dist/app.js");
+    const options = {
+      createPipeline: async () => {
+        loads.push("load");
+        return new TokenClassificationPipeline({
+          task: "token-classification",
+          model,
+          tokenizer,
+        });
+      },
+    };
     const adapter = await transformersAdapterBuilder({
       ...options,
       tokenBudget: 3,
     });
     assert.equal(loads.length, 1);
     assert.equal(inputs.length, 0, "startup is not inference");
-    const analysisService =
-      engine === "horizon"
-        ? analysisServiceBuilder({ adapter, recognize: () => new Set() })
-        : analysisServiceBuilder({
-            modelDetectionService: (
-              await import("../../poc-rizzo/dist/services/modelDetectionService.js")
-            ).modelDetectionServiceBuilder({ infer: adapter.infer }),
-            ruleDetectionService: () => new Set(),
-          });
+    const analysisService = analysisServiceBuilder({
+      adapter,
+      recognize: () => new Set(),
+    });
     const server = createServer(
       createApp({ analysisService, ready: () => true, concurrency: 1 }),
     );

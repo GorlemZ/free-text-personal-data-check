@@ -1,0 +1,31 @@
+{
+  "name": "poc-bardsai-pii-check",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.29.3",
+  "scripts": {
+    "prebuild": "pnpm --filter @pagopa/detector-http build",
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\" && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check": "pnpm typecheck",
+    "prefetch": "node dist/scripts/prefetch.js",
+    "smoke": "pnpm build && node dist/scripts/smoke.js",
+    "start": "node dist/index.js",
+    "test": "pnpm build && node --test ../tests/bardsai/*.test.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.3.2",
+    "@pagopa/detector-http": "workspace:*",
+    "express": "4.20.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/express": "4.17.21",
+    "typescript": "5.9.3"
+  }
+}

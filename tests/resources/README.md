@@ -2,6 +2,8 @@
 
 Risultati pubblicati:
 
+- [BardsAI v2 — intra-op 1, 18 novembre 2026](results/bardsai-v2-closed-open-2026-11-18/report.md): screening closed-loop e open-loop a 2 CPU e 4 GB; plateau closed-loop osservato circa 8,7 risposte/s.
+- [BardsAI v2 — intra-op 2, 18 novembre 2026](results/bardsai-v2-intraop2-closed-open-2026-11-18/report.md): stessa configurazione con due thread intra-op; plateau closed-loop osservato circa 15,1 risposte/s. La configurazione applicativa pubblicata resta intra-op 1.
 - [Phase A — Candidate A, 16 novembre 2026](results/phase-a-candidate-a-2026-11-16/report.md): screening seriale preliminare di Horizon e Rizzo a 2 CPU e 4 GB; non è una misura di capacità produttiva sostenibile.
 - [Phase B — Candidate B, 16 novembre 2026](results/phase-b-candidate-b-2026-11-16/report.md): isolamento shared-session e screening preliminare a due client di Horizon e Rizzo a 2 CPU e 4 GB.
 - [Phase C — Candidate C, 16 novembre 2026](results/phase-c-candidate-c-2026-11-16/report.md): due processi/sessioni nello stesso cgroup; Horizon completa lo screening, Rizzo è esclusa per OOM al caricamento.

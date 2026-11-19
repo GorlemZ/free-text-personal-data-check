@@ -2,14 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 
-test("production adapters use static SDK imports without running pipeline at module import", async () => {
+test("production adapter uses a static SDK import without running pipeline at module import", async () => {
   for (const file of [
     new URL(
       "../../poc-horizon/src/adapters/transformersAdapter.ts",
-      import.meta.url,
-    ),
-    new URL(
-      "../../poc-rizzo/src/adapters/transformersAdapter.ts",
       import.meta.url,
     ),
   ]) {

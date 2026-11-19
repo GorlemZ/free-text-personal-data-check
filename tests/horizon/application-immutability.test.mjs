@@ -65,15 +65,6 @@ const boundaries = {
     "process.exitCode = 1",
     "process.exitCode = 1",
   ],
-  "poc-rizzo/src/index.ts": [
-    "process.exitCode = 1",
-    "process.exitCode = 0",
-    "process.exitCode = 1",
-    "process.exitCode = 1",
-  ],
-  "poc-rizzo/src/adapters/transformersAdapter.ts": [
-    "env.allowRemoteModels = false",
-  ],
 };
 test("application guard detects hidden const accumulators and mutable bindings", () => {
   for (const s of [
@@ -99,16 +90,15 @@ test("all runtime and CLI first-party sources: no application-owned mutable accu
         visit(resolve(dirname(file), spec.fileName.replace(/\.js$/, ".ts")));
     }
   }
-  for (const engine of ["horizon", "rizzo"])
-    for (const entry of ["index", "scripts/smoke", "scripts/prefetch"])
-      visit(resolve(root, `poc-${engine}/src/${entry}.ts`));
+  for (const entry of ["index", "scripts/smoke", "scripts/prefetch"])
+    visit(resolve(root, `poc-horizon/src/${entry}.ts`));
   const walk = (p) =>
     fs
       .readdirSync(p, { withFileTypes: true })
       .flatMap((e) =>
         e.isDirectory() ? walk(resolve(p, e.name)) : [resolve(p, e.name)],
       );
-  for (const engine of ["horizon", "rizzo"]) {
+  for (const engine of ["horizon"]) {
     assert.ok(
       !fs.existsSync(
         resolve(root, `poc-${engine}/src/validation/strictJson.ts`),

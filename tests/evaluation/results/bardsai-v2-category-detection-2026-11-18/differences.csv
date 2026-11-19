@@ -1,0 +1,18 @@
+caseId,expectedVerdict,observedVerdict,expectedCategories,observedCategories
+targeted-07,rejected,accepted,"[""IT_IDENTITY_CARD""]",[]
+legacy-person-negative-01,accepted,rejected,[],"[""PERSON""]"
+legacy-mixture-01,rejected,rejected,"[""PERSON"", ""EMAIL_ADDRESS"", ""IT_FISCAL_CODE"", ""IT_IDENTITY_CARD"", ""IT_DRIVER_LICENSE""]","[""PERSON"", ""EMAIL_ADDRESS"", ""IT_FISCAL_CODE"", ""IT_IDENTITY_CARD""]"
+gretel-5,rejected,rejected,"[""PERSON""]","[""PERSON"", ""PHONE_NUMBER""]"
+gretel-61,rejected,accepted,"[""PERSON""]",[]
+gretel-184,accepted,rejected,[],"[""PHONE_NUMBER""]"
+gretel-294,rejected,rejected,"[""PERSON"", ""IBAN_CODE""]","[""IBAN_CODE""]"
+gretel-360,rejected,rejected,"[""PERSON"", ""PHONE_NUMBER""]","[""PERSON"", ""PHONE_NUMBER"", ""IBAN_CODE""]"
+gretel-392,rejected,accepted,"[""PERSON""]",[]
+aliasit-57,accepted,rejected,[],"[""CREDIT_CARD""]"
+aliasit-83,accepted,rejected,[],"[""PHONE_NUMBER""]"
+aliasit-95,rejected,rejected,"[""PERSON""]","[""PERSON"", ""CREDIT_CARD""]"
+aliasit-106,accepted,rejected,[],"[""PHONE_NUMBER""]"
+aliasit-150,accepted,rejected,[],"[""CREDIT_CARD""]"
+aliasit-154,rejected,rejected,"[""PERSON""]","[""PERSON"", ""PHONE_NUMBER""]"
+aliasit-176,rejected,rejected,"[""PERSON"", ""EMAIL_ADDRESS""]","[""PERSON"", ""EMAIL_ADDRESS"", ""PHONE_NUMBER""]"
+aliasit-3254,accepted,rejected,[],"[""IT_VAT_CODE""]"

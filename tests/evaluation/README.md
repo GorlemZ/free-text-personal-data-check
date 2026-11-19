@@ -6,6 +6,8 @@
 
 ## Risultati pubblicati
 
+La valutazione sperimentale BardsAI v2 sullo stesso golden produce 132/142 verdetti corretti e 125/142 body esatti, con matrice TP/FP/FN/TN 96/7/3/36. Il [report BardsAI](results/bardsai-v2-category-detection-2026-11-18/report.md) e il [bundle sanificato](results/bardsai-v2-category-detection-2026-11-18/results.json) sono pubblicati separatamente dal confronto storico a tre motori.
+
 Il bundle corrente contiene 142 casi e 426 osservazioni complete. Positivo significa `rejected` atteso.
 
 | Motore | TP | FP | FN | TN | Verdetti corretti | Body esatti |
