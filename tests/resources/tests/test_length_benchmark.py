@@ -125,6 +125,37 @@ class LengthWorkloadTests(unittest.TestCase):
         self.assertEqual(list(summary), ['bardsai'])
         self.assertEqual(measure.call_args.kwargs, {'bands': ('B',)})
 
+    def test_cli_runs_only_A_B_C_in_order_for_all_four_engines(self):
+        import length_benchmark as benchmark
+        from unittest.mock import patch
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / 'length' / 'campaign'
+            with patch.object(benchmark, 'measure_engine', return_value={
+                    'complete': True, 'cleanup': True, 'stop_reason': None}) as measure:
+                result = benchmark.main(['--bands', 'A,B,C', '--count', '60',
+                                         '--output', str(output)])
+            summary = json.loads((output / 'summary.json').read_text())
+        self.assertEqual(result, 0)
+        self.assertEqual(set(summary), set(benchmark.run.ENGINES))
+        self.assertEqual([call.args[0] for call in measure.call_args_list],
+                         list(benchmark.run.ENGINES))
+        self.assertTrue(all(call.kwargs['bands'] == ('A', 'B', 'C')
+                            for call in measure.call_args_list))
+
+    def test_invalid_band_subset_is_rejected_before_output_creation(self):
+        import length_benchmark as benchmark
+        from tempfile import TemporaryDirectory
+        from unittest.mock import patch
+        with TemporaryDirectory() as directory:
+            for value in ('', 'A,A', 'A,E', 'B,'):
+                with self.subTest(value=value):
+                    output = Path(directory) / 'new-run'
+                    with patch.object(benchmark, 'measure_engine', side_effect=AssertionError('unexpected Docker dispatch')):
+                        with self.assertRaises(SystemExit):
+                            benchmark.main(['--bands', value, '--output', str(output)])
+                    self.assertFalse(output.exists())
+
     def test_collector_failure_still_cleans_owned_container_and_saves_partial(self):
         import length_benchmark as benchmark
         from unittest.mock import patch

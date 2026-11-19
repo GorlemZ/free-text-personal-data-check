@@ -6,14 +6,14 @@ I due runner sono **opt-in**: `python3 tests/run.py resources` usa soltanto serv
 
 ## Screening per lunghezza: `length_benchmark.py`
 
-Fasce A/B/C/D: **10/50/150/1000 caratteri ASCII**, tre casi deterministici per fascia, un campo per POST, tre warm-up e 60 richieste misurate. Client closed-loop: la richiesta successiva parte dopo la risposta precedente. Il modello è già caricato durante la misura. Senza `--band` il runner esegue A→B→C→D; `--band D` esegue soltanto D. `--engine bardsai` (o un altro motore) seleziona un solo PoC.
+Fasce A/B/C/D: **10/50/150/1000 caratteri ASCII**, tre casi deterministici per fascia, un campo per POST, tre warm-up e 60 richieste misurate. Client closed-loop: la richiesta successiva parte dopo la risposta precedente. Il modello è già caricato durante la misura. Senza selezione il runner esegue A→B→C→D; `--bands A,B,C` limita la run alle prime tre fasce, `--band D` alla sola D. `--engine bardsai` (o un altro motore) seleziona un solo PoC.
 
 ```sh
 python3 tests/resources/length_benchmark.py \
   --count 60 --output tests/resources/results/length/NUOVA_CAMPAGNA
 ```
 
-Ogni motore usa un container nuovo con modello già incluso, 1 CPU, 4 GiB, swap limitato come la RAM e budget nominale di 300 s; il preflight rifiuta container estranei attivi, espone solo una porta host loopback e il motore successivo parte dopo cleanup verificato. Il recupero d'emergenza può oltrepassare il budget e lasciare una run parziale. I tre motori ONNX usano intra/inter-op 1/1 e `ANALYZER_CONCURRENCY=1`; Presidio usa spaCy e OMP/BLAS=1, con serialità garantita dal client. La fascia D usa 50 parole sintetiche più lunghe per rispettare il limite HTTP di 50 parole: anche la tokenizzazione cambia rispetto ad A/B/C. Un run di una sola fascia ha uno stato iniziale diverso da una sequenza A→B→C→D. Il [report D](results/length-d-1cpu4g-60-comparison/report.md) è nell'[indice](results/README.md).
+Ogni motore usa un container nuovo con modello già incluso, 1 CPU, 4 GiB, swap limitato come la RAM e budget nominale di 300 s; il preflight rifiuta container estranei attivi, espone solo una porta host loopback e il motore successivo parte dopo cleanup verificato. Il recupero d'emergenza può oltrepassare il budget e lasciare una run parziale. I tre motori ONNX usano intra/inter-op 1/1 e `ANALYZER_CONCURRENCY=1`; Presidio usa spaCy e OMP/BLAS=1, con serialità garantita dal client. La fascia D usa 50 parole sintetiche più lunghe per rispettare il limite HTTP di 50 parole: anche la tokenizzazione cambia rispetto ad A/B/C. Un run di una sola fascia ha uno stato iniziale diverso da una sequenza A→B→C→D. I [report A/B/C e D](results/README.md) restano separati.
 
 Throughput = risposte HTTP 200 conformi / durata del ciclo, inclusi i controlli client; p50/p95 usano le sole risposte riuscite. CPU media: delta cgroup sul bracket di telemetria, incluso l'osservatore. RAM: massimo **campionato** di `memory.current` agli estremi e durante la fascia; `memory.peak`, quando disponibile, è cumulativo dall'avvio del container. Una fascia breve può non avere campioni durante i POST. Questo screening warm e seriale non misura accuratezza, cold-start, capacità a rate imposto o dimensionamento produttivo.
 

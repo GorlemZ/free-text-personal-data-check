@@ -1,0 +1,22 @@
+{
+  "bardsai": {
+    "cleanup": true,
+    "complete": true,
+    "stop_reason": null
+  },
+  "horizon": {
+    "cleanup": true,
+    "complete": true,
+    "stop_reason": null
+  },
+  "presidio": {
+    "cleanup": true,
+    "complete": true,
+    "stop_reason": null
+  },
+  "rizzo": {
+    "cleanup": true,
+    "complete": true,
+    "stop_reason": null
+  }
+}

@@ -265,11 +265,16 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--engine', action='append', choices=run.ENGINES)
-    parser.add_argument('--band', choices=tuple(LENGTHS), help='Run only one length band (default: A, B, C, D)')
+    band_options = parser.add_mutually_exclusive_group()
+    band_options.add_argument('--band', choices=tuple(LENGTHS), help='Run only one length band')
+    band_options.add_argument('--bands', help='Run an ordered subset, e.g. A,B,C (default: A,B,C,D)')
     parser.add_argument('--count', type=int, default=60)
     args = parser.parse_args(argv)
     if args.count < 6 or args.count > 300 or args.count % len(TOKENS):
         parser.error('--count must be a multiple of 3 between 6 and 300')
+    bands = tuple(args.bands.split(',')) if args.bands is not None else ((args.band,) if args.band else tuple(LENGTHS))
+    if not bands or len(set(bands)) != len(bands) or any(band not in LENGTHS for band in bands):
+        parser.error('--bands must contain unique, comma-separated bands from A,B,C,D')
     selected = tuple(dict.fromkeys(args.engine or run.ENGINES))
     args.output.mkdir(parents=True, exist_ok=False)
     summary = {}
@@ -277,8 +282,7 @@ def main(argv=None):
         output = args.output / engine
         output.mkdir()
         image = 'local/dpia-' + engine + ':multi-poc-current'
-        result = measure_engine(engine, image, args.count, output,
-                                bands=(args.band,) if args.band else tuple(LENGTHS))
+        result = measure_engine(engine, image, args.count, output, bands=bands)
         summary[engine] = dict(complete=result['complete'], cleanup=result['cleanup'],
                                stop_reason=result['stop_reason'])
         print(json.dumps({engine: summary[engine]}), flush=True)

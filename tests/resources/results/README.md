@@ -6,6 +6,7 @@ Indice dei bundle **pubblicati**. I receipt sono immutabili: un nuovo tentativo 
 
 | Campagna | Confronto / dati |
 |---|---|
+| A/B/C — 10/50/150 caratteri, nuova run su quattro PoC | [Report e receipt](length/abc-20261119-1cpu4g-60/report.md) |
 | D — 1000 caratteri, run isolate dei quattro motori | [Report](length-d-1cpu4g-60-comparison/report.md) · [Rizzo](length-d-1cpu4g-60-rizzo-first/rizzo/results.json) · [Horizon](length-d-1cpu4g-60-horizon-first/horizon/results.json) · [Presidio](length-d-1cpu4g-60-presidio-first/presidio/results.json) · [BardsAI](length-d-1cpu4g-60-bardsai-first/bardsai/results.json) |
 
 D usa parole più lunghe per rispettare il limite di 50 parole e modifica anche la tokenizzazione. Ogni motore parte in un container nuovo.
