@@ -1,0 +1,7 @@
+{
+  "bardsai": {
+    "cleanup": true,
+    "complete": true,
+    "stop_reason": null
+  }
+}

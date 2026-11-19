@@ -12,6 +12,117 @@ from test_telemetry import FRAME
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_oom_or_exited_final_state_cannot_complete_or_start_next_engine(self):
+        import run as r
+        import telemetry as t
+        from test_telemetry import FRAME
+        from unittest.mock import patch
+        for state, expected, early_reason in ((dict(Running=False, OOMKilled=True, ExitCode=137), 'container_oom_killed', None),
+                                (dict(Running=False, OOMKilled=False, ExitCode=0), 'container_exited', None),
+                                (dict(Running=False, OOMKilled=True, ExitCode=137), 'memory_guard', 'memory_guard')):
+            with self.subTest(state=expected, early_reason=early_reason):
+                fake = FakeDocker()
+                starts = []
+                def command(args, timeout):
+                    if args[0] == 'start':
+                        starts.append(args[-1])
+                    return fake(args, timeout)
+                class Docker(t.Docker):
+                    def preflight(self, images, cpus, memory, deadline):
+                        return {'images': {e: {'id': tag, 'cache_paths': []} for e, tag in images.items()}}
+                    def static_inventory(self, cid, configured, deadline):
+                        return {'paths': []}
+                    def post_inventory(self, cid, paths, deadline, *, collector_stopped):
+                        return {'paths': []}
+                class Collector:
+                    def __init__(self, cid, cpus):
+                        self.cid = cid
+                        self.samples = [t.parse_frame(FRAME.replace('1000\n', '4294967296\n'), time.monotonic(), cpus)]
+                    def guard(self):
+                        return early_reason
+                    def poll(self):
+                        pass
+                    def stop(self, deadline):
+                        fake.objects[self.cid]['State'].update(state)
+                        return True
+                def stage(*args, **kwargs):
+                    now = time.monotonic()
+                    return dict(concurrency=args[3], start=now, end=now, drain_end=now,
+                                observations=[], max_inflight=0, drained=True, stop_reason=None)
+                with patch.object(r, 'wait_ready', return_value=None), patch.object(r, 'run_stage', side_effect=stage):
+                    receipt = r.campaign(r.load_gold(r.ROOT / 'tests/evaluation/gold.json'),
+                        {e: 'sha256:' + '1' * 64 for e in r.ENGINES}, 2, 4 * 1024**3, 30,
+                        docker=Docker('fake', command=command), collector_factory=Collector,
+                        protocol=r.Protocol(idle=.02 if early_reason else 0, recovery=0, reserve=1))
+                self.assertFalse(receipt['complete'])
+                self.assertEqual(len(starts), 1)
+                self.assertEqual(receipt['engines'][r.ENGINES[0]]['stop_reason'], expected)
+                self.assertEqual(receipt['stop_reason'], 'engine_failed_no_next_engine')
+                self.assertEqual(receipt['engines'][r.ENGINES[0]]['state']['OOMKilled'], state['OOMKilled'])
+                self.assertEqual(fake.objects, {})
+
+    def test_complete_receipt_without_cgroup_proof_is_rejected_before_render(self):
+        import run as r
+        import tempfile
+        from typing import Any
+        receipt: dict[str, Any] = dict(schemaVersion=1, config={'cpus': 2, 'memory': 4294967296, 'engines': ['bardsai']},
+            cases=[dict(id='case-a', source='test', fields=1, characters=1, words=1)], order=['case-a'],
+            engines={'bardsai': dict(samples=[], stop_reason=None, coverage={'complete': True},
+                cleanup=True, collector_stopped=True,
+                effective_limits={'NanoCpus': 2000000000, 'Memory': 4294967296, 'MemorySwap': 4294967296},
+                state={'Running': True, 'OOMKilled': False, 'ExitCode': 0}, stages=[])},
+            complete=True, elapsed=1., incidents=[], cleanup={}, stop_reason=None)
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / 'invalid'
+            with self.assertRaisesRegex(ValueError, 'COMPLETE_CGROUP_LIMITS'):
+                r.render(receipt, target)
+            self.assertFalse(target.exists())
+            from test_telemetry import FRAME
+            import telemetry as t
+            receipt['engines']['bardsai']['samples'] = [t.parse_frame(
+                FRAME.replace('1000\n', '4294967296\n'), time.monotonic(), 2)]
+            with self.assertRaisesRegex(ValueError, 'COMPLETE_STAGE_COVERAGE'):
+                r.render(receipt, target)
+            self.assertFalse(target.exists())
+
+    def test_missing_cgroup_sample_never_completes_the_four_engine_protocol(self):
+        import run as r
+        import telemetry as t
+        from test_telemetry import FRAME
+        from unittest.mock import patch
+        class Docker(t.Docker):
+            def preflight(self, images, cpus, memory, deadline):
+                return {'images': {e: {'id': tag, 'cache_paths': []} for e, tag in images.items()}}
+            def static_inventory(self, cid, configured, deadline):
+                return {'paths': []}
+            def post_inventory(self, cid, paths, deadline, *, collector_stopped):
+                return {'paths': []}
+        class Collector:
+            def __init__(self, *args):
+                self.samples = [] if not missing_counter else [dict(t.parse_frame(
+                    FRAME.replace('1000\n', '4294967296\n'), time.monotonic(), 2), oom=None)]
+            def guard(self):
+                return None
+            def poll(self):
+                pass
+            def stop(self, deadline):
+                return True
+        def stage(*args, **kwargs):
+            now = time.monotonic()
+            return dict(concurrency=args[3], start=now, end=now, drain_end=now,
+                        observations=[], max_inflight=0, drained=True, stop_reason=None)
+        for missing_counter, expected in ((False, 'cgroup_limits_missing'), (True, 'telemetry_required_missing')):
+            with self.subTest(expected=expected):
+                fake = FakeDocker()
+                with patch.object(r, 'wait_ready', return_value=None), patch.object(r, 'run_stage', side_effect=stage):
+                    receipt = r.campaign(r.load_gold(r.ROOT / 'tests/evaluation/gold.json'),
+                        {e: 'sha256:' + '1' * 64 for e in r.ENGINES}, 2, 4 * 1024**3, 30,
+                        docker=Docker('fake', command=fake), collector_factory=Collector,
+                        protocol=r.Protocol(idle=0, recovery=0, reserve=1))
+                self.assertFalse(receipt['complete'])
+                self.assertEqual(fake.objects, {})
+                self.assertTrue(all(e['stop_reason'] == expected for e in receipt['engines'].values()))
+
     def test_unmeasured_load_is_null_but_measured_zero_is_zero(self):
         import run as r
         import tempfile
@@ -100,7 +211,8 @@ class ProtocolTests(unittest.TestCase):
             protocol=r.Protocol(reserve=1, socket_timeout=.1))
         self.assertEqual(len(starts), 1)
         self.assertFalse(receipt['complete'])
-        self.assertEqual(receipt['engines']['bardsai']['stop_reason'], 'memory_guard')
+        self.assertEqual(receipt['engines'][r.ENGINES[0]]['stop_reason'], 'memory_guard')
+        self.assertTrue(all(receipt['engines'][engine]['stop_reason'] == 'not_run' for engine in r.ENGINES[1:]))
 
     def test_report_offline_rerender_is_deterministic_and_validated(self):
         import run as r

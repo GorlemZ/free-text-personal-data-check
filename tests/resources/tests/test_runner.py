@@ -16,6 +16,34 @@ def harness():
 
 
 class Integration(unittest.TestCase):
+    def test_main_dispatches_four_images_and_hashes_validated_gold_bytes(self):
+        import contextlib
+        import hashlib
+        import io
+        from unittest.mock import patch
+        r = harness()
+        with tempfile.TemporaryDirectory() as tmp:
+            gold, output = Path(tmp) / 'gold.json', Path(tmp) / 'new-bundle'
+            original = (ROOT / 'tests/evaluation/gold.json').read_bytes()
+            gold.write_bytes(original)
+            def fake_campaign(cases, images, cpus, memory, budget):
+                self.assertEqual(list(images), list(r.ENGINES))
+                self.assertEqual((cpus, memory, budget), (2., 4 * 1024**3, 500.))
+                self.assertTrue(output.is_dir())
+                self.assertEqual(list(output.iterdir()), [])
+                gold.write_text('{"invalid":true}')
+                return dict(schemaVersion=1, config=dict(cpus=cpus, memory=memory, engines=list(images)),
+                            cases=r.case_metadata(cases), order=[c['id'] for c in cases],
+                            engines={}, incidents=[], cleanup={}, complete=False, elapsed=0.,
+                            stop_reason='preparation_or_run_failed')
+            args = ['--gold', str(gold), '--output', str(output), '--cpus', '2', '--memory', '4g',
+                    '--budget-seconds', '500'] + [item for engine in r.ENGINES for item in ('--image', engine + '=tag')]
+            with patch.object(r, 'campaign', side_effect=fake_campaign), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(r.main(args), 2)
+            saved = json.loads((output / 'results.json').read_text())
+            self.assertEqual(saved['gold_sha256'], hashlib.sha256(original).hexdigest())
+            self.assertEqual(saved['config']['engines'], list(r.ENGINES))
+
     def test_central_runner_selects_only_fake_suite(self):
         spec = importlib.util.spec_from_file_location('central_test_runner', ROOT / 'tests/run.py')
         module = importlib.util.module_from_spec(spec)
@@ -33,19 +61,45 @@ class Contracts(unittest.TestCase):
     def test_cli_strict_opt_in_and_memory_units(self):
         r = harness()
         self.assertTrue(hasattr(r, 'parse_args'), 'public CLI missing')
+        self.assertEqual(set(r.ENGINES), {'rizzo', 'horizon', 'presidio', 'bardsai'})
         import contextlib
         import io
-        args = ['--gold', 'gold.json', '--output', 'newdir', '--cpus', '2', '--memory', '4g', '--budget-seconds', '300']
+        args = ['--gold', 'gold.json', '--output', 'newdir', '--cpus', '2', '--memory', '4g', '--budget-seconds', '500']
         images = [value for e in r.ENGINES for value in ('--image', e + '=tag')]
         config = r.parse_args(args + images)
         self.assertEqual(config.memory, 4294967296)
         self.assertEqual(config.images, {e: 'tag' for e in r.ENGINES})
-        for bad in (args, args + images + ['--cpus', 'nan'], args + images + ['--budget-seconds', '301'],
+        for bad in (args, args + images + ['--cpus', 'nan'], args + images + ['--budget-seconds', '601'],
+                    args + images + ['--budget-seconds', '300'],
                     args + images + ['--image', 'bardsai=other'], args + images + ['--memory', '-1g']):
             with self.subTest(args=bad), contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 r.parse_args(bad)
         offline = r.parse_args(['--rerender', 'receipt.json', '--output', 'newdir'])
         self.assertIsNotNone(offline.rerender)
+
+    def test_single_engine_qualification_and_four_engine_budget(self):
+        import contextlib
+        import io
+        r = harness()
+        base = ['--gold', 'gold.json', '--output', 'newdir']
+        for engine in ('rizzo', 'horizon', 'presidio', 'bardsai'):
+            with self.subTest(engine=engine):
+                config = r.parse_args(base + ['--engine', engine, '--image', engine + '=tag'])
+                self.assertEqual(config.images, {engine: 'tag'})
+                self.assertEqual(config.engines, (engine,))
+        full = r.parse_args(base + [item for engine in r.ENGINES for item in ('--image', engine + '=tag')])
+        self.assertGreaterEqual(full.budget_seconds, 4 * r.Protocol().engine_seconds + r.Protocol().reserve)
+        schedule = r.Protocol()
+        planned = schedule.idle + schedule.warmup + 5 * schedule.window + schedule.recovery
+        self.assertGreaterEqual(schedule.engine_seconds,
+            planned + schedule.readiness + schedule.engine_cleanup + schedule.drain + 10,
+            'allow bounded time for startup, transitions and cleanup after readiness')
+        for invalid in (base + ['--engine', 'rizzo', '--image', 'horizon=tag'],
+                        base + ['--engine', 'rizzo', '--image', 'rizzo=tag', '--image', 'horizon=tag'],
+                        base + ['--engine', 'rizzo', '--engine', 'rizzo', '--image', 'rizzo=tag'],
+                        base + [item for engine in r.ENGINES for item in ('--image', engine + '=tag')] + ['--budget-seconds', '420']):
+            with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                r.parse_args(invalid)
 
     def test_gold_projection_literal_payload_and_common_order(self):
         self.assertTrue((ROOT / 'tests/resources/run.py').exists(), 'resource runner missing')
@@ -70,6 +124,30 @@ class Contracts(unittest.TestCase):
 
 
 class Capacity(unittest.TestCase):
+    def test_cross_engine_mix_is_a_per_level_gate_not_a_ranked_best_rate(self):
+        r = harness()
+        def metrics(mix):
+            return {'case_mix': mix, 'window_success': sum(mix.values())}
+        from typing import Any
+        by_engine: Any = {
+            'rizzo': [dict(phase='load', concurrency=1, drained=True, stop_reason=None, metrics=metrics({'a': 40, 'b': 40}))],
+            'horizon': [dict(phase='load', concurrency=1, drained=True, stop_reason=None, metrics=metrics({'a': 41, 'b': 39}))],
+            'presidio': [dict(phase='load', concurrency=1, drained=True, stop_reason=None, metrics=metrics({'a': 80}))],
+            'bardsai': [dict(phase='load', concurrency=1, drained=True, stop_reason=None, metrics=metrics({'a': 1}))],
+        }
+        pairs = {(x['left'], x['right']): x for x in r.cross_engine_mix(by_engine)}
+        self.assertEqual(pairs['rizzo', 'horizon']['status'], 'comparable_mix')
+        self.assertEqual(pairs['rizzo', 'presidio']['status'], 'different_mix')
+        self.assertEqual(pairs['rizzo', 'bardsai']['status'], 'insufficient_samples')
+        self.assertEqual(len(pairs), 6)
+        by_engine['horizon'][0].update(drained=False, stop_reason='server_drain_unknown')
+        self.assertEqual({(x['left'], x['right']): x for x in r.cross_engine_mix(by_engine)}
+                         ['rizzo', 'horizon']['status'], 'incomplete_stage')
+        by_engine['horizon'][0].update(drained=True, stop_reason=None)
+        by_engine['horizon'][0]['metrics']['http_error'] = 1
+        self.assertEqual({(x['left'], x['right']): x for x in r.cross_engine_mix(by_engine)}
+                         ['rizzo', 'horizon']['status'], 'incomplete_stage')
+
     def test_plateau_requires_comparable_mix_and_repeat(self):
         r = harness()
         self.assertTrue(hasattr(r, 'plateau'), 'capacity classification missing')

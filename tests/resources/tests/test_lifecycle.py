@@ -141,6 +141,30 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(fake.objects, {})
         self.assertTrue(all(0 < timeout <= 10 for _, timeout in fake.calls))
 
+    def test_explicit_serial_admission_is_attached_without_changing_bind(self):
+        import telemetry as t
+        for engine in ('rizzo', 'horizon', 'presidio', 'bardsai'):
+            with self.subTest(engine=engine):
+                fake = FakeDocker()
+                docker = t.Docker('serial-test', command=fake)
+                cid = docker.create(engine, 'sha256:' + '1' * 64, 2, 4294967296,
+                                    time.monotonic() + 10, env={'ANALYZER_CONCURRENCY': '1'})
+                args = fake.calls[0][0]
+                self.assertIn('ANALYZER_CONCURRENCY=1', args)
+                self.assertTrue(docker.cleanup(time.monotonic() + 5)[cid])
+
+    def test_each_engine_exposes_only_its_existing_container_bind_setting(self):
+        import telemetry as t
+        for engine in ('rizzo', 'horizon', 'presidio', 'bardsai'):
+            with self.subTest(engine=engine):
+                fake = FakeDocker()
+                docker = t.Docker('bind-test', command=fake)
+                cid = docker.create(engine, 'sha256:' + '1' * 64, 2, 4294967296, time.monotonic() + 10)
+                args = fake.calls[0][0]
+                self.assertEqual([args[i + 1] for i, value in enumerate(args[:-1]) if value == '-e'],
+                    ['BIND_HOST=0.0.0.0' if engine == 'rizzo' else 'ANALYZER_BIND_HOST=0.0.0.0'])
+                self.assertTrue(docker.cleanup(time.monotonic() + 5)[cid])
+
 
 if __name__ == '__main__':
     unittest.main()

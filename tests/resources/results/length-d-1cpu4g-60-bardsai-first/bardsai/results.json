@@ -1,0 +1,431 @@
+{
+  "active_client_requests": 1,
+  "cleanup": true,
+  "collector_stopped": true,
+  "complete": true,
+  "configured_env": {
+    "ANALYZER_CONCURRENCY": "1"
+  },
+  "cpus": 1,
+  "engine": "bardsai",
+  "final_state": {
+    "ExitCode": 0,
+    "OOMKilled": false,
+    "Running": true
+  },
+  "image_id": "sha256:2c011eb67e7cbc915f755e3827483c5b50efc23a815f3c416f1a4bbe0910cb43",
+  "image_tag": "local/dpia-bardsai:multi-poc-current",
+  "incidents": [],
+  "memory_bytes": 4294967296,
+  "memory_max_sampled": 921927680,
+  "onnx_threads": {
+    "inter_op": 1,
+    "intra_op": 1
+  },
+  "requests_per_band": 60,
+  "selected_bands": [
+    "D"
+  ],
+  "stages": {
+    "D": {
+      "complete": true,
+      "length": 1000,
+      "measurement": {
+        "cgroup_sample_count": 17,
+        "complete": true,
+        "completed": 60,
+        "container_lifetime_memory_peak_cgroup": 922300416,
+        "contract_error": 0,
+        "cpu_bracket_seconds": 19.7079746669624,
+        "cpu_cores_average": 0.9991214385417582,
+        "elapsed_seconds": 19.632835707860067,
+        "end_monotonic": 1261072.771021583,
+        "error_codes": {},
+        "http_error": 0,
+        "max_inflight": 1,
+        "memory_current_max_sampled": 961294336,
+        "memory_evidence": "in_window_samples",
+        "observations": [
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.30711837485432625,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3628006251528859,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2877813749946654,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.3025823750067502,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.5666451249271631,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.3407905001658946,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.29357408406212926,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.37304766685701907,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2887361659668386,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2805487911682576,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3822500000242144,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2871531250420958,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.29718466592021286,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3643811249639839,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.284719750052318,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2853403748013079,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.376377834007144,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2831291670445353,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28188070794567466,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.5394945000298321,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.3329066669102758,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2863664999604225,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3576004591304809,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.28432083292864263,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28697870788164437,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3556637081783265,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2865729171317071,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2799828751012683,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.36349941580556333,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.28356483299285173,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28457899997010827,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.35826833406463265,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.288213541964069,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2823554591741413,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3585189590230584,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2845657919533551,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.43122108397074044,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.40214550006203353,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2822935408912599,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28684812504798174,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3542375420220196,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.28265129099600017,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.281742500141263,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3701822080183774,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2858154170680791,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28468483383767307,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.35615445813164115,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.285972333047539,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.28258320898748934,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3593348329886794,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2873434170614928,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.29351333319209516,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.5152924591675401,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.3312170410063118,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.29039929108694196,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.36133883404545486,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2872454170137644,
+            "status": "success"
+          },
+          {
+            "caseId": "D-0",
+            "code": null,
+            "seconds": 0.2886968341190368,
+            "status": "success"
+          },
+          {
+            "caseId": "D-1",
+            "code": null,
+            "seconds": 0.3674090839922428,
+            "status": "success"
+          },
+          {
+            "caseId": "D-2",
+            "code": null,
+            "seconds": 0.2902822920586914,
+            "status": "success"
+          }
+        ],
+        "offered": 60,
+        "p50_seconds": 0.2902822920586914,
+        "p95_seconds": 0.43122108397074044,
+        "start_monotonic": 1261053.138185875,
+        "stop_reason": null,
+        "success": 60,
+        "throughput": 3.0561046245590906,
+        "timeout": 0,
+        "transport_error": 0
+      },
+      "warmup": {
+        "completed": 3,
+        "error_codes": {},
+        "stop_reason": null,
+        "success": 3
+      }
+    }
+  },
+  "stop_reason": null,
+  "telemetry_sample_count": 20,
+  "warmup_requests_per_band": 3
+}

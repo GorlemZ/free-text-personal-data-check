@@ -117,14 +117,25 @@ class Docker:
     def inspect(self, target, deadline, size=False):
         return json.loads(self.call(['inspect', *(['--size'] if size else []), target], deadline))[0]
 
-    def create(self, engine, image, cpus, memory, deadline):
+    def create(self, engine, image, cpus, memory, deadline, *, env=None):
+        if env is not None and (not isinstance(env, dict) or
+                any(key not in {'ANALYZER_CONCURRENCY', 'OMP_NUM_THREADS',
+                                'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'} or
+                    value != '1' for key, value in env.items())):
+            raise ValueError('UNSUPPORTED_CONTAINER_ENV')
         name = 'resource-stress-' + self.token + '-' + engine
         self.pending_names.add(name)  # A timed-out create may still have succeeded.
         args = ['create', '--pull=never', '--name', name, '--label', self.label + '=' + self.token,
                 '--cpus', str(cpus), '--memory', str(memory), '--memory-swap', str(memory),
                 '--restart=no', '-p', '127.0.0.1::8000']
-        if engine == 'bardsai':
+        if engine in ('bardsai', 'horizon', 'presidio'):
             args += ['-e', 'ANALYZER_BIND_HOST=0.0.0.0']
+        elif engine == 'rizzo':
+            args += ['-e', 'BIND_HOST=0.0.0.0']
+        else:
+            raise ValueError('ENGINE')
+        for key, value in sorted((env or {}).items()):
+            args += ['-e', key + '=' + value]
         cid = self.call([*args, image], deadline).strip()
         if not re.fullmatch(r'[0-9a-f]{64}', cid):
             raise ValueError('CONTAINER_ID')

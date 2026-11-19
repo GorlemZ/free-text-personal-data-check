@@ -9,18 +9,20 @@ import threading
 import time
 import hashlib
 import importlib.util
+import itertools
 import json
 from pathlib import Path
 import re
 from dataclasses import dataclass, asdict
 import uuid
 import csv
+from typing import Any
 import telemetry
 
 
 @dataclass(frozen=True)
 class Protocol:
-    engine_seconds: float = 95.
+    engine_seconds: float = 120.
     readiness: float = 20.
     idle: float = 5.
     warmup: float = 10.
@@ -36,7 +38,7 @@ ROOT = Path(__file__).resolve().parents[2]
 _spec = importlib.util.spec_from_file_location('resource_evaluation', ROOT / 'tests/evaluation/runner.py')
 evaluation = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(evaluation)
-ENGINES = ('bardsai',)
+ENGINES = ('rizzo', 'horizon', 'presidio', 'bardsai')
 
 
 def words(text):
@@ -47,8 +49,9 @@ def ordered_cases(cases):
     return sorted(cases, key=lambda c: hashlib.sha256(c['id'].encode()).hexdigest())
 
 
-def load_gold(path):
-    gold = json.loads(Path(path).read_text(encoding='utf-8'), object_pairs_hook=evaluation.unique_object)
+def load_gold(path, *, raw=None):
+    gold = json.loads((Path(path).read_bytes() if raw is None else raw).decode('utf-8'),
+                      object_pairs_hook=evaluation.unique_object)
     evaluation.validate_gold(gold)
     cases = []
     for case in gold['cases']:
@@ -299,6 +302,61 @@ def mix_distance(left, right):
     return .5 * sum(abs(left.get(k, 0) / a - right.get(k, 0) / b) for k in left.keys() | right.keys())
 
 
+def cross_engine_mix(by_engine):
+    """Classify shared case mix only at matched closed-loop client counts."""
+    levels = sorted({stage['concurrency'] for stages in by_engine.values() for stage in stages
+                     if stage['phase'] == 'load'})
+    rows = []
+    for concurrency in levels:
+        for left, right in itertools.combinations((engine for engine in ENGINES if engine in by_engine), 2):
+            left_stage = next((s for s in by_engine[left] if s['phase'] == 'load' and s['concurrency'] == concurrency), None)
+            right_stage = next((s for s in by_engine[right] if s['phase'] == 'load' and s['concurrency'] == concurrency), None)
+            a = left_stage['metrics'] if left_stage else None
+            b = right_stage['metrics'] if right_stage else None
+            distance = mix_distance(a['case_mix'], b['case_mix']) if a and b else None
+            def eligible(stage):
+                return (stage is not None and stage.get('drained') is True and stage.get('stop_reason') is None and
+                        not any(stage['metrics'].get(key, 0) for key in
+                                ('http_error', 'contract_error', 'transport_error', 'timeout', 'cancelled', 'pending')))
+            status = ('unmeasured' if a is None or b is None or distance is None else
+                      'incomplete_stage' if not eligible(left_stage) or not eligible(right_stage) else
+                      'insufficient_samples' if min(a['window_success'], b['window_success']) < 30 else
+                      'comparable_mix' if distance <= .1 + 1e-12 else 'different_mix')
+            rows.append(dict(concurrency=concurrency, left=left, right=right,
+                             left_success=a['window_success'] if a else None,
+                             right_success=b['window_success'] if b else None,
+                             case_mix_tv=distance, status=status))
+    return rows
+
+
+def cgroup_limits_status(sample, cpus, memory):
+    try:
+        quota, period = map(int, sample['cpu_max'].split())
+        observed_memory = sample['memory_max']
+        if type(observed_memory) is not int or period <= 0 or quota <= 0:
+            return 'cgroup_limits_missing'
+        return None if observed_memory == memory and math.isclose(quota / period, cpus, rel_tol=1e-6) else 'cgroup_limits_mismatch'
+    except (AttributeError, KeyError, TypeError, ValueError, ZeroDivisionError):
+        return 'cgroup_limits_missing'
+
+
+def oom_telemetry_status(sample):
+    if not all(type(sample.get(key)) is int and sample[key] >= 0 for key in
+               ('memory_current', 'oom', 'oom_kill')):
+        return 'telemetry_required_missing'
+    return 'oom_guard' if sample['oom'] or sample['oom_kill'] else None
+
+
+def final_state_status(state):
+    if not isinstance(state, dict) or type(state.get('OOMKilled')) is not bool:
+        return 'container_state_unavailable'
+    if state['OOMKilled']:
+        return 'container_oom_killed'
+    if type(state.get('Running')) is not bool or type(state.get('ExitCode')) is not int:
+        return 'container_state_unavailable'
+    return None if state['Running'] and state['ExitCode'] == 0 else 'container_exited'
+
+
 def plateau(stages):
     load = [s for s in stages if s['phase'] == 'load']
     repeats = [s for s in stages if s['phase'] == 'confirmation']
@@ -409,17 +467,20 @@ def transition_seconds(stage, invoked, returned):
 def campaign(cases, images, cpus, memory, budget, *, docker=None,
              collector_factory=telemetry.Collector, protocol=Protocol()):
     """Prepare stopped containers first; one timed engine at a time, always cleanup."""
+    selected = tuple(engine for engine in ENGINES if engine in images)
+    if not selected or set(images) != set(selected):
+        raise ValueError('ENGINES')
     docker = docker or telemetry.Docker(uuid.uuid4().hex[:16])
     metadata = case_metadata(cases)
-    receipt = dict(schemaVersion=1, config=dict(cpus=cpus, memory=memory, budget_seconds=budget,
-                   protocol=asdict(protocol)), cases=metadata, order=[c['id'] for c in cases],
+    receipt: dict[str, Any] = dict(schemaVersion=1, config=dict(cpus=cpus, memory=memory, budget_seconds=budget,
+                   protocol=asdict(protocol), engines=list(selected)), cases=metadata, order=[c['id'] for c in cases],
                    engines={}, incidents=[], cleanup={}, complete=False, elapsed=0., stop_reason=None)
     started = hard_end = None
     prepared = {}
     try:
         preflight_end = time.monotonic() + 180.
         receipt['preflight'] = docker.preflight(images, cpus, memory, preflight_end)
-        for engine in ENGINES:
+        for engine in selected:
             image = receipt['preflight']['images'][engine]
             cid = docker.create(engine, image['id'], cpus, memory, preflight_end)
             entry = dict(container=cid, image=image, static_disk=None, post_disk={'paths': None, 'reason': 'not_run'},
@@ -432,7 +493,9 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
         measurement_end = hard_end - protocol.reserve
         receipt['start'] = started
         receipt['deadline'] = hard_end
-        for engine in ENGINES:
+        for engine in selected:
+            if receipt['stop_reason']:
+                break
             if any('start' in e and not e['cleanup'] for e in receipt['engines'].values()):
                 receipt['stop_reason'] = 'cleanup_failed_no_next_engine'
                 break
@@ -440,13 +503,14 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
                 receipt['stop_reason'] = 'global_budget_exhausted'
                 break
             cid = prepared[engine]
-            entry = receipt['engines'][engine]
+            entry: dict[str, Any] = receipt['engines'][engine]
             engine_start = time.monotonic()
             engine_end = min(engine_start + protocol.engine_seconds, hard_end)
             traffic_end = min(engine_end - protocol.engine_cleanup, measurement_end)
             entry.update(start=engine_start, deadline=engine_end, stop_reason=None)
             collector = None
             stopped = False
+            final_state_reason = None
             try:
                 port = docker.start(cid, cpus, memory, traffic_end)
                 collector = collector_factory(cid, cpus)
@@ -461,12 +525,9 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
                         return reason
                     if collector.samples:
                         sample = collector.samples[-1]
-                        try:
-                            quota, period = map(int, sample['cpu_max'].split())
-                            if sample['memory_max'] != memory or not math.isclose(quota / period, cpus, rel_tol=1e-6):
-                                return 'cgroup_limits_mismatch'
-                        except (TypeError, ValueError, ZeroDivisionError):
-                            return 'cgroup_limits_missing'
+                        reason = cgroup_limits_status(sample, cpus, memory)
+                        if reason:
+                            return reason
                     now = time.monotonic()
                     if now >= next_state_check:
                         try:
@@ -530,6 +591,14 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
                     entry['collector_stopped'] = stopped
                     if not stopped:
                         entry['stop_reason'] = entry['stop_reason'] or 'collector_shutdown_failed'
+                    elif not collector.samples:
+                        entry['stop_reason'] = entry['stop_reason'] or 'cgroup_limits_missing'
+                    else:
+                        limits = next((reason for sample in collector.samples
+                                       if (reason := cgroup_limits_status(sample, cpus, memory))), None)
+                        telemetry_reason = next((reason for sample in collector.samples
+                                                 if (reason := oom_telemetry_status(sample))), None)
+                        entry['stop_reason'] = entry['stop_reason'] or limits or telemetry_reason
                 if stopped and entry['stop_reason'] is None:
                     paths = [p['path'] for p in entry['static_disk']['paths']]
                     entry['post_disk'] = docker.post_inventory(cid, paths, min(traffic_end, engine_end - .5), collector_stopped=True)
@@ -541,12 +610,19 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
                     entry['effective_limits'] = {key: info['HostConfig'].get(key) for key in ('NanoCpus', 'Memory', 'MemorySwap')}
                 except (RuntimeError, TimeoutError, ValueError):
                     entry['state'] = {'reason': 'state_unavailable'}
+                final_state_reason = final_state_status(entry['state'])
+                entry['stop_reason'] = entry['stop_reason'] or final_state_reason
                 cleanup = docker.cleanup(min(engine_end, hard_end), only=cid)
                 receipt['cleanup'].update(cleanup)
                 entry['cleanup'] = cleanup.get(cid, False)
                 entry['end'] = time.monotonic()
+                if final_state_reason is not None and entry['cleanup']:
+                    receipt['stop_reason'] = 'engine_failed_no_next_engine'
             if not entry['cleanup']:
                 receipt['stop_reason'] = 'cleanup_failed_no_next_engine'
+                break
+            if final_state_reason is not None:
+                receipt['stop_reason'] = 'engine_failed_no_next_engine'
                 break
     except KeyboardInterrupt:
         receipt['stop_reason'] = 'interrupted'
@@ -565,7 +641,7 @@ def campaign(cases, images, cpus, memory, budget, *, docker=None,
         receipt['elapsed'] = time.monotonic() - started if started else 0.
         if hard_end and time.monotonic() > hard_end:
             receipt['incidents'].append('deadline_overrun_cleanup')
-        receipt['complete'] = (not receipt['stop_reason'] and not receipt['incidents'] and len(receipt['engines']) == len(ENGINES) and
+        receipt['complete'] = (not receipt['stop_reason'] and not receipt['incidents'] and len(receipt['engines']) == len(selected) and
                                all(e['coverage']['complete'] and e['cleanup'] for e in receipt['engines'].values()))
     return receipt
 
@@ -583,7 +659,32 @@ def validate_receipt(receipt):
         require(all(type(case[k]) is int and case[k] >= 0 for k in ('fields', 'characters', 'words')), 'CASE_COUNTS')
     require(len(receipt['order']) == len(ids) and set(receipt['order']) == ids, 'ORDER')
     require(set(receipt['engines']) <= set(ENGINES), 'ENGINES')
+    if receipt['complete']:
+        require(receipt['stop_reason'] is None and not receipt['incidents'] and
+                set(receipt['engines']) == set(receipt['config']['engines']), 'COMPLETE_ENGINES')
     for engine in receipt['engines'].values():
+        if receipt['complete']:
+            limits = engine.get('effective_limits') or {}
+            require(engine['cleanup'] is True and engine['coverage']['complete'] is True and
+                    engine['stop_reason'] is None and final_state_status(engine.get('state')) is None and
+                    engine.get('collector_stopped') is True, 'COMPLETE_LIFECYCLE')
+            require(limits.get('NanoCpus') == round(receipt['config']['cpus'] * 1e9) and
+                    limits.get('Memory') == receipt['config']['memory'] and
+                    limits.get('MemorySwap') == receipt['config']['memory'], 'COMPLETE_DOCKER_LIMITS')
+            require(bool(engine['samples']) and all(cgroup_limits_status(sample, receipt['config']['cpus'],
+                    receipt['config']['memory']) is None for sample in engine['samples']), 'COMPLETE_CGROUP_LIMITS')
+            require(all(oom_telemetry_status(sample) is None for sample in engine['samples']),
+                    'COMPLETE_OOM_TELEMETRY')
+            executed = [(stage['phase'], stage['concurrency']) for stage in engine['stages']]
+            required = {('idle', 0), ('warmup', 1), ('load', 1), ('load', 2), ('load', 4),
+                        ('load', 8), ('recovery', 0)}
+            recorded = engine['coverage'].get('executed')
+            require(isinstance(recorded, list) and len(recorded) == len(executed) and
+                    all(isinstance(item, (list, tuple)) and len(item) == 2 and tuple(item) == expected
+                        for item, expected in zip(recorded, executed)) and required.issubset(executed) and
+                    any(stage['phase'] == 'confirmation' for stage in engine['stages']) and
+                    all(stage['drained'] is True and stage['stop_reason'] is None for stage in engine['stages']),
+                    'COMPLETE_STAGE_COVERAGE')
         previous_end = -math.inf
         for stage in engine['stages']:
             require(stage['phase'] in ('idle', 'warmup', 'load', 'confirmation', 'recovery'), 'PHASE')
@@ -621,7 +722,7 @@ def render(receipt, output, *, reserved=False):
     with (output / 'results.json').open('x', encoding='utf-8') as stream:
         json.dump(receipt, stream, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False)
         stream.write('\n')
-    rows, sample_rows, summaries = [], [], {}
+    rows, sample_rows, summaries, comparison_stages = [], [], {}, {}
     for name in ENGINES:
         if name not in receipt['engines']:
             continue
@@ -634,6 +735,7 @@ def render(receipt, output, *, reserved=False):
             rows.append(dict(engine=name, stage=index, phase=stage['phase'], concurrency=stage['concurrency'],
                              max_inflight=stage['max_inflight'], drained=stage['drained'], stop_reason=stage['stop_reason'],
                              **metrics, **{'sampled_' + k: v for k, v in resource_summary(selected).items()}))
+        comparison_stages[name] = stages
         for sample in engine['samples']:
             phase = next((s['phase'] for s in engine['stages'] if s['start'] <= sample['time'] < s['end']), 'readiness_transition_or_drain')
             sample_rows.append(dict(engine=name, phase=phase, **sample))
@@ -667,6 +769,13 @@ def render(receipt, output, *, reserved=False):
         report.append('| ' + ' | '.join(map(show, [name, best.get('throughput'), best.get('p95'), summary['max_clients'],
             summary['capacity']['status'], resources['memory_current'], resources['memory_peak'], resources['anon'], resources['file'],
             resources['cpu_cores'], resources['cpu_budget_percent']])) + ' |')
+    report += ['', '## Comparabilità del mix tra motori', '',
+               'I migliori tassi osservati sono descrittivi, non una classifica comparabile. La distanza TV confronta il mix dei soli successi nella finestra allo stesso numero di client; richiede almeno 30 successi per motore e TV <= 0.10. Un livello assente o un mix diverso lascia il confronto inconclusivo.', '',
+               '| client | motore A | motore B | successi A / B | distanza TV | stato |',
+               '|---:|---|---|---:|---:|---|']
+    for pair in cross_engine_mix(comparison_stages):
+        report.append('| ' + ' | '.join(map(show, [pair['concurrency'], pair['left'], pair['right'],
+            str(pair['left_success']) + ' / ' + str(pair['right_success']), pair['case_mix_tv'], pair['status']])) + ' |')
     for name, summary in summaries.items():
         engine = receipt['engines'][name]
         report += ['', '## ' + name, '',
@@ -693,7 +802,7 @@ def render(receipt, output, *, reserved=False):
     report += ['', '## Mix and interpretation', '',
         'Per-case/source completion mix and total fields/characters/words are in stages.csv. Only in-window compliant successes enter throughput/mix; drain belongs to the submitting stage. Success latency includes drain; window_p95 is used for plateau.',
         'Plateau: >=30 in-window successes in both windows, no errors, <=10% gain on doubled clients and increasing window p95; confirmation within +/-10%, total variation <=0.10 for both comparisons. These are exploratory diagnostics, not statistical proof or an SLA.',
-        'A single engine may cover only a prefix of the shared case order. HTTP clients are not simultaneous inference workers; BardsAI uses bounded admission around inference.',
+        'Different engines may cover different prefixes of the shared case order. HTTP clients are not simultaneous inference workers; inference scheduling differs by engine.',
         'Memory file includes shmem: do not add them. Do not add RSS or file cache to memory.current. Per-process PID/PPid/RSS and missing-field reasons are in samples.csv; RSS is not summed.',
         'memory.peak is since container startup when available; per-phase maxima are sampled at about 1 Hz, not exact peaks. CPU includes collector and other container processes; cores = delta usage_usec / delta cgroup monotonic microseconds, quota% = cores / assigned CPUs * 100.',
         'Static exports can warm VM page cache. Post du runs only after collector shutdown; image/model/cache bytes overlap, shared layers are not exclusive recoverable disk, builder cache is out of scope.',
@@ -715,15 +824,23 @@ def parse_args(argv=None):
     parser.add_argument('--gold', type=Path)
     parser.add_argument('--image', action='append', default=[], metavar='ENGINE=TAG_OR_ID',
                         help='Required per engine. Operator must verify source provenance before reuse.')
+    parser.add_argument('--engine', action='append', choices=ENGINES, metavar='ENGINE',
+                        help='Select engines for isolated qualification; default is all four.')
     parser.add_argument('--cpus', type=float, default=2.)
     parser.add_argument('--memory', default='4g')
-    parser.add_argument('--budget-seconds', type=float, default=300.)
+    parser.add_argument('--budget-seconds', type=float)
     parser.add_argument('--output', type=Path, required=True, help='New directory only; never overwrite')
     parser.add_argument('--rerender', type=Path, help='Offline receipt -> new bundle, without Docker/gold')
     args = parser.parse_args(argv)
+    selected = tuple(engine for engine in ENGINES if args.engine is None or engine in args.engine)
+    if args.engine and len(set(args.engine)) != len(args.engine):
+        parser.error('Each selected engine must be unique')
+    args.engines = selected
+    if args.budget_seconds is None:
+        args.budget_seconds = 20 + len(selected) * Protocol().engine_seconds
     match = re.fullmatch(r'([1-9][0-9]*)([kmg]?)', args.memory.lower())
-    if not match or not math.isfinite(args.cpus) or not 0 < args.cpus <= 256 or not 15 < args.budget_seconds <= 300:
-        parser.error('Require positive finite CPU, integer memory [k/m/g], and 15 < budget <= 300 seconds')
+    if not match or not math.isfinite(args.cpus) or not 0 < args.cpus <= 256 or not math.isfinite(args.budget_seconds) or not 15 < args.budget_seconds <= 600:
+        parser.error('Require positive finite CPU, integer memory [k/m/g], and 15 < budget <= 600 seconds')
     args.memory = int(match[1]) * 1024 ** ('', 'k', 'm', 'g').index(match[2])
     args.images = {}
     for value in args.image:
@@ -732,10 +849,12 @@ def parse_args(argv=None):
             parser.error('Each engine needs exactly one valid image reference')
         args.images[engine] = image
     if args.rerender:
-        if args.gold or args.image:
-            parser.error('--rerender cannot be combined with --gold or --image')
-    elif not args.gold or set(args.images) != set(ENGINES):
-        parser.error('--gold and --image for bardsai are required')
+        if args.gold or args.image or args.engine:
+            parser.error('--rerender cannot be combined with --gold, --image or --engine')
+    elif not args.gold or set(args.images) != set(selected):
+        parser.error('--gold and exactly one --image per selected engine are required')
+    elif args.budget_seconds < len(selected) * Protocol().engine_seconds + Protocol().reserve:
+        parser.error('Budget too short for the selected engines and cleanup reserve')
     return args
 
 
@@ -748,7 +867,8 @@ def main(argv=None):
         render(receipt, args.output)
         return 0
     # Validate inputs and reserve output before any remote side effect.
-    cases = load_gold(args.gold)
+    gold_bytes = args.gold.read_bytes()
+    cases = load_gold(args.gold, raw=gold_bytes)
     args.output.mkdir(parents=True, exist_ok=False)
     if shutil.disk_usage(args.output).free < 100 * 1024**2:
         raise ValueError('OUTPUT_DISK_HEADROOM')
@@ -762,7 +882,7 @@ def main(argv=None):
         old[sig] = signal.signal(sig, interrupt)
     try:
         receipt = campaign(cases, args.images, args.cpus, args.memory, args.budget_seconds)
-        receipt['gold_sha256'] = hashlib.sha256(args.gold.read_bytes()).hexdigest()
+        receipt['gold_sha256'] = hashlib.sha256(gold_bytes).hexdigest()
         render(receipt, args.output, reserved=True)
         print('complete' if receipt['complete'] else 'partial; inspect results.json for sanitized stop reasons')
         return 0 if receipt['complete'] else 2
