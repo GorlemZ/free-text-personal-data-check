@@ -55,7 +55,7 @@ Metriche per categoria:
 | IT_IDENTITY_CARD  |    75% |       100% |
 | IT_DRIVER_LICENSE |    80% |       100% |
 
-Il [bundle pubblicato](tests/evaluation/results/bardsai-v2-category-detection-2026-11-18/) conserva categorie e contatori senza testi, span o score.
+Il [bundle pubblicato](../../tests/evaluation/results/bardsai-v2-category-detection-2026-11-18/) conserva categorie e contatori senza testi, span o score.
 
 ## Memoria e performance
 

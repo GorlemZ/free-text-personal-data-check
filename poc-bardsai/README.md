@@ -6,4 +6,4 @@ Dal repository root: `pnpm install --frozen-lockfile`, `pnpm --filter poc-bardsa
 
 Il servizio non certifica lassenza di dati personali. Vedi [test](../tests/README.md) e [valutazione](../tests/evaluation/README.md).
 
-La [documentazione del servizio](docs/bardsai-service.md) descrive modello, decoder e configurazione.
+La [documentazione del servizio](docs/bardsai-service.md) descrive modello, decoder e configurazione. Il [rapporto tecnico storico](docs/technical-report.md) raccoglie valutazione e misure della prima versione.
